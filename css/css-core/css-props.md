@@ -3573,7 +3573,7 @@ transition-behavior: normal
 
 # vertical-align
 
-Позволяет вертикально выравнять inline или inline-block контент может использоваться в таблицах
+Позволяет вертикально выравнять inline или inline-block элемент (нужно применять к элементу, который нужно выровнять) может использоваться в таблицах
 
 ```scss
  {
@@ -3637,6 +3637,23 @@ transition-behavior: normal
   view-timeline-inset: 20% auto;
   view-timeline-inset: auto 200px;
   view-timeline-inset: 20% 200px;
+}
+```
+
+<!-- white-space ---------------------------------------------------------------------------------------------------------------------------->
+
+# white-space
+
+Свойство white-space управляет тем, как обрабатываются пробельные символы внутри элемента.
+
+```scss
+ {
+  white-space: normal; //Последовательности пробелов объединяются в один пробел.
+  white-space: nowrap; //не переносит строки (оборачивание текста) внутри текста.
+  white-space: pre; //Последовательности пробелов сохраняются так, как они указаны в источнике.
+  white-space: pre-wrap; //как и в pre + <br/>
+  white-space: pre-line; //только <br />
+  white-space: break-spaces;
 }
 ```
 

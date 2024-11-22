@@ -75,7 +75,7 @@ word-break разрыв строк и перенос:
 - [разделение слов при переносе](./css-props.md#hyphens)
 - [символ для разделения слова](./css-props.md/#hyphenate-character)
 - hyphenate-limit-chars (экс) для определения количества букв в переносе
-- white-space - управление пробельными при переносе
+- [white-space - управление пробельными при переносе и пробельными символами](./css-props.md#white-space)
 - white-space-collapse управляет тем, как сворачивается пустое пространство внутри элемента
 - [text-overflow при переполнении текстом строки overflow: hidden; white-space: nowrap](./css-props.md/#text-overflow)
 
