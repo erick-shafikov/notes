@@ -1065,7 +1065,10 @@ div {
 
 # break-after (break-before, break-inside)
 
-Применяется для определения разрыва страницы при печати
+Применяется для определения разрыва страницы при печати а также для сетки из колонок
+
+break-inside - управление разрывами внутри колонок
+break-before, break-inside - до и после
 
 ```scss
  {
@@ -1393,8 +1396,8 @@ h2 {
  {
   contain: none;
   contain: strict; // === contain: size layout paint style
-  contain: content; // === contain: layout paint style
-  contain: size; // размер элемента может быть вычислен изолировано
+  contain: content; // === contain: layout paint style блок независимый, невидимые не будет отрисовать
+  contain: size; // размер элемента может быть вычислен изолировано, работает в паре с contain-intrinsic-size
   contain: inline-size; // строчное
   contain: layout; // Внутренняя компоновка элемента изолирована от остальной части страницы
   contain: style; //Для свойств, которые могут влиять не только на элемент и его потомков, эффекты не выходят за пределы содержащего элемента
@@ -1530,9 +1533,9 @@ container = container-name + container-type
 
 ```scss
  {
-  content-visibility: visible;
-  content-visibility: hidden; // display: none
-  content-visibility: auto;
+  content-visibility: visible; //обычное отображение элемента
+  content-visibility: hidden; // не будет доступно для поиска, фокусировки
+  content-visibility: auto; //contain: content
 }
 ```
 
@@ -1768,8 +1771,8 @@ flex-basis: auto
 
 ```scss
  {
-  flex-direction: row; // сверху вниз, как в div
-  flex-direction: column; // справа на лево, то есть блоки будут идти справа на лево
+  flex-direction: row; // справа на лево, то есть блоки будут идти справа на лево
+  flex-direction: column; // сверху вниз, как div-ы
   flex-direction: row-reverse; // снизу вверх
   flex-direction: column-reverse;
   // общие значения

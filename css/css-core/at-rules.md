@@ -35,9 +35,9 @@
 ```scss
 // настройка для контейнера относительного которого будут производится измерения
 .container {
-  container-type: size | inline-size | normal;
-  //size - измеряет как как inline или блочный
-  //inline-size - как inline
+  container-type: size; //size - измеряет как как inline или блочный
+  container-type: inline-size; //inline-size - как inline
+  container-type: normal; //Отключает запросы на размеры контейнера
 }
 ```
 
@@ -63,7 +63,7 @@
 }
 ```
 
-для множественных контейнеров
+для множественных контейнеров, именованные контейнеры
 
 ```scss
 .post {
@@ -130,6 +130,8 @@ c помощью функции style можно ссылать на стиль 
     style(color: green) and style(background-color: transparent),
     style(--themeColor: blue) or style(--themeColor: purple) {
   /* <stylesheet> */
+
+  //--themeColor: blue - незарегистрированное пользовательское свойство
 }
 ```
 
@@ -259,7 +261,7 @@ c помощью функции style можно ссылать на стиль 
 свойства с !important будут проигнорированы
 
 ```scss
-@keyframes slidein {
+@keyframes slideIn {
   from {
     // 0%
     transform: translateX(0%);
@@ -664,6 +666,8 @@ window.CSS.registerProperty({
 
 # @supports
 
+Позволяет проверить поддержку свойства в браузере
+
 ```scss
 // проверка поддержки clip-path
 @supports ((clip-path: polygon(0 0)) or (webkit-clip-path: polygon(0 0))) {
@@ -671,6 +675,31 @@ window.CSS.registerProperty({
   clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
   height: 95vh;
 }
+```
+
+```scss
+// использование импорта относительно поддерживаемого свойства supports
+@import `/css/styles.css` supports(color: AccentColor);
+
+// отсутствие поддержки
+@supports not (property: value) {
+  CSS rules to apply
+}
+// тест нескольких
+@supports (property1: value) and (property2: value) {
+  CSS rules to apply
+}
+// тест одной из двух
+@supports (property1: value) or (property2: value) {
+  CSS rules to apply
+}
+```
+
+Дополнительные функции
+
+```scss
+// пример теста селектора также может быть и font-tech(), font-format() вместо selector()
+@import `/css/webkitShadowStyles.css` supports(selector(::-webkit-inner-spin-button));
 ```
 
 <!--  ---------------------------------------------------------------------------------------------------------------------------->

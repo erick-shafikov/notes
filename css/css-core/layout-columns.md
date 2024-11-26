@@ -1,8 +1,8 @@
 # Макет с несколькими столбцами. Свойство column
 
 - columns краткая запись для:
-- - column-count - количество колонок
-- - column-width - ширина колонки, если установить, то браузер сам высчитает сколько столбцов нужно
+- - column-count: 1 - количество колонок
+- - column-width: auto - ширина колонки, если установить, то браузер сам высчитает сколько столбцов нужно
 - [column-fill: auto | balance; позволяет определить заполнение колонок - автоматическое или с равной высотой](./css-props.md/#column-fill)
 - [column-gap определит расстояние между колонок](./css-props.md/#column-gap-flex-grid)
 - [column-rule = column-rule-width + column-rule-style + column-rule-color позволяет определить стилизацию колонок между столбцами](./css-props.md/#column-rule-multi-column)

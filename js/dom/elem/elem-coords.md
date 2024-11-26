@@ -109,7 +109,8 @@ document.body.style.overflow = ""; //включает ее обратно
 
 # Координаты
 
-при position: fixed – отсчет от верхнего левого угла окна clientX, clientY
+при position: fixed – отсчет от верхнего левого угла окна (window) clientX, clientY
+MouseEvent.clientX MouseEvent.clientY - указывают на положение курсора
 при position: absolute – отсчет от верхнего левого ула документа pageX, pageY
 
 при прокрутке clientY меняется pageY
