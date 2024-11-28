@@ -1650,7 +1650,7 @@ i::before {
   display: ruby-text-container;
 
   /* <display-box> values */
-  display: contents; //создаст псевдо-контейнер по своим дочерним элементам
+  display: contents; //создаст псевдо-контейнер по своим дочерним элементам (не будет доступен, но будет в dom)
   display: none; //удаляем из дерева
 
   /* <display-legacy> values */
@@ -1952,6 +1952,7 @@ span {
 
 ```scss
 .grid {
+  // grid ===
   grid-template-rows: none;
   grid-template-columns: none;
   grid-template-areas: none;
@@ -1967,7 +1968,7 @@ span {
 
   grid: none;
   grid: "a" 100px "b" 1fr;
-  grid: [linename1] "a" 100px [linename2];
+  grid: [line-name1] "a" 100px [line-name2];
   grid: "a" 200px "b" min-content;
   grid: "a" minmax(100px, max-content) "b" 20%;
   grid: 100px / 200px;
@@ -2004,7 +2005,7 @@ grid-auto-columns - длины элемента
   grid-auto-rows: auto;
   //поддерживает проценты, пиксели, функции min-max
   // для сетки с множеством колонок или строк (если перенесется более одной строки)
-  rid-auto-rows: min-content max-content auto;
+  grid-auto-rows: min-content max-content auto;
 }
 ```
 
@@ -2074,8 +2075,8 @@ grid-auto-columns - длины элемента
 ```scss
  {
   grid-template-columns: 100px 1fr;
-  grid-template-columns: [linename] 100px;
-  grid-template-columns: [linename1] 100px [linename2 linename3];
+  grid-template-columns: [line-name] 100px;
+  grid-template-columns: [line-name1] 100px [line-name2 line-name3];
   grid-template-columns: minmax(100px, 1fr);
   grid-template-columns: fit-content(40%);
   grid-template-columns: repeat(3, 200px);
@@ -2088,12 +2089,12 @@ grid-auto-columns - длины элемента
     minmax(100px, max-content)
     repeat(auto-fill, 200px) 20%;
   grid-template-columns:
-    [linename1] 100px [linename2]
-    repeat(auto-fit, [linename3 linename4] 300px)
+    [line-name1] 100px [line-name2]
+    repeat(auto-fit, [line-name3 line-name4] 300px)
     100px;
   grid-template-columns:
-    [linename1 linename2] 100px
-    repeat(auto-fit, [linename1] 300px) [linename3];
+    [line-name1 line-name2] 100px
+    repeat(auto-fit, [line-name1] 300px) [line-name3];
 }
 ```
 
@@ -3675,8 +3676,8 @@ transition-behavior: normal
 
   /* Keyword values */
   width: none;
-  width: max-content;
-  width: min-content;
+  width: max-content; //
+  width: min-content; //сожмет текстовой контент до размера самого большого слова, остальные перенесет
   width: fit-content;
   width: fit-content(20em);
   width: stretch;
