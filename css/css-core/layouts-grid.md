@@ -94,8 +94,8 @@
 
 ```scss
 .item {
-  grid-column: 2 / span 2;
-  grid-row: 1 / span 3;
+  grid-column: 2 / span 2;
+  grid-row: 1 / span 3;
 }
 ```
 
@@ -150,56 +150,6 @@
   ...
   <div class="item">9</div>
 </div>
-```
-
-## minmax
-
-Позволяет выбрать максимальное, а если значение меньше минимального позволяет выбрать минимальное. С использованием auto - выбрать все доступное пространство
-
-```scss
-.wrapper {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  // растянуть до самого высокого
-  grid-auto-rows: minmax(100px, auto);
-}
-```
-
-адаптивные методы с помощью minmax
-
-```html
-<div class="container">
-  <div class="item">1</div>
-  <div class="item">2</div>
-  <div class="item">3</div>
-  <div class="item">4</div>
-  <div class="item">5</div>
-  <div class="item">6</div>
-  <div class="item">7</div>
-</div>
-```
-
-```css
-.container {
-  background-color: #ccc;
-  padding: 1.5rem;
-  display: grid;
-  gap: 10px 15px;
-
-  grid-template-rows: 100px 200px;
-  /* для выпавших из строк - автоматическая высота*/
-  /* приделать footer к низу */
-  grid-template-rows: 100px minmax(500px, 1fr) 200px;
-  grid-auto-rows: minmax(100px, auto);
-  /* меняем порядок из колонок в ряды и наоборот */
-  /* grid-auto-flow: column; */
-}
-.item {
-  background-color: peru;
-  border-radius: 15px;
-  padding: 1rem;
-}
-
 ```
 
 ## auto-fill и auto-fit
@@ -278,6 +228,55 @@ auto-fill - позволяет задать повторяемые элемен�
 - [grid-auto-flow - определяет размещение элементов в неявной grid сетке grid-auto-flow](./css-props.md/#grid-auto-flow)
 - [grid-auto-rows и grid-auto-columns - определяет размер неявной сетки](./css-props.md/#grid-auto-rows-и-grid-auto-columns)
 
+# minmax
+
+Позволяет выбрать максимальное, а если значение меньше минимального позволяет выбрать минимальное. С использованием auto - выбрать все доступное пространство
+
+```scss
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  // растянуть до самого высокого
+  grid-auto-rows: minmax(100px, auto);
+}
+```
+
+адаптивные методы с помощью minmax
+
+```html
+<div class="container">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+  <div class="item">4</div>
+  <div class="item">5</div>
+  <div class="item">6</div>
+  <div class="item">7</div>
+</div>
+```
+
+```css
+.container {
+  background-color: #ccc;
+  padding: 1.5rem;
+  display: grid;
+  gap: 10px 15px;
+
+  grid-template-rows: 100px 200px;
+  /* для выпавших из строк - автоматическая высота*/
+  /* приделать footer к низу */
+  grid-template-rows: 100px minmax(500px, 1fr) 200px;
+  grid-auto-rows: minmax(100px, auto);
+  /* меняем порядок из колонок в ряды и наоборот */
+  /* grid-auto-flow: column; */
+}
+.item {
+  background-color: peru;
+  border-radius: 15px;
+  padding: 1rem;
+}
+```
+
 # grid-gap - промежутки между колонками и рядами
 
 - [короткая запись grid-gap = grid-row-gap + grid-column-gap](./css-props.md/#grid-gap)
@@ -346,44 +345,39 @@ auto-fill - позволяет задать повторяемые элемен�
     "sd sd sd main main main main main main"
     "sd sd sd  ft  ft   ft   ft   ft   ft";
 
-
   grid-template-columns: repeat(4, 1fr);
-  // включение опции по инициализации каждого grid-контейнера
-  // схема по занятым колонкам и рядам ... - пустое место  использование
-  grid-template-areas:
-        'header     header      header      header'
-        'article    article     ...         sidebar'
-        'footer     footer      footer      footer';   
+  // включение опции по инициализации каждого grid-контейнера
+  // схема по занятым колонкам и рядам ... - пустое место использование
+  grid-template-areas:
+    "header   header   header   header"
+    "article  article   ...     sidebar"
+    "footer   footer   footer   footer";
 }
 ```
 
 # grid-template = grid-template-areas + grid-template-rows + grid-template-columns
 
 ```scss
-
 .container {
-  grid-template:
-    "header     header      header      header"  50px // значения высоты grid-template-rows
-    "article    article     .           sidebar" auto // значения высоты grid-template-rows
-    "footer     footer      footer      footer"  50px // значения высоты grid-template-rows
+  grid-template: "header   header   header   header" 50px // значения высоты grid-template-rows
+    "article  article   .       sidebar" auto // значения высоты grid-template-rows
+    "footer   footer   footer   footer" 50px // значения высоты grid-template-rows
     /1fr 1fr 50px 1fr; //значения колонок grid-template-columns
 }
 .container > * {
-
 }
-.header { 
+.header {
   grid-area: header;
 }
 .article {
   grid-area: article;
 }
 .aside {
-  grid-area: aside
-  }
+  grid-area: aside;
+}
 .footer {
-  grid-area: footer
-  }
-
+  grid-area: footer;
+}
 ```
 
 # Выравнивание alignment
@@ -392,49 +386,61 @@ auto-fill - позволяет задать повторяемые элемен�
 
 Выравнивание на оси блока:
 
-- [align-self - выравнивание в элементе](./css-props.md/#align-self)
-- [align-items - выравнивает элементы оси блока](./css-props.md/#align-items-flex)
+- [align-self - выравнивание в контейнере](./css-props.md/#align-self)
+- [align-items - выравнивает элементы оси блока внутри элемента](./css-props.md/#align-items-flex)
 
 Выравнивание на оси ряда:
 
-- [justify-content - выравнивание элемент вдоль главной оси, внутри grid контейнера](./css-props.md#justify-content-flex)
 - [justify-items - выравнивает элементы вдоль главной оси, внутри своего контейнера](./css-props.md#justify-self-grid)
 - [justify-self - индивидуально расположение элемента](./css-props.md#justify-self-grid)
 
+Если сетка использует область, которая меньше чем контейнер
+
+- [justify-content - выравнивание элемент вдоль главной оси, внутри grid контейнера для оси inline](./css-props.md#justify-content-flex)
+- align-content - для оси блока
+
+Так же работаю методы с margin:auto
+
 ```css
-.container{
+.container {
   display: grid;
   gap: 10px 20px;
 
-/* -- для случая использования фракций вертикаль/горизонталь */
-justify-items: center;
-align-items: center;
-/* justify-items + align-items = place-items */
-place-items: end start;
-   
-/* если используем пиксели а не фракции*/
-/* justify-content: space-evenly;*/
-/* align-content: center; */
-/* justify-content + align-content = place-content */
-place-content: center space-evenly;
+  /* -- для случая использования фракций вертикаль/горизонталь */
+  justify-items: center;
+  align-items: center;
+  /* justify-items + align-items = place-items */
+  place-items: end start;
+
+  /* если используем пиксели а не фракции*/
+  /* justify-content: space-evenly;*/
+  /* align-content: center; */
+  /* justify-content + align-content = place-content */
+  place-content: center space-evenly;
 }
 .aside {
-  /*  для отдельного элемента*/
+  /* для отдельного элемента*/
   place-self: start end;
   background-color: maroon;
 }
 ```
 
-# Sub-grid (Firefox 71)
+# Sub-grid
 
 ```scss
-.box1 {
-  grid-column-start: 1;
-  grid-column-end: 4;
-  grid-row-start: 1;
-  grid-row-end: 3;
+// пример использования
+.grid {
   display: grid;
-  grid-template-columns: subgrid; //вложенная сетка будет использовать родительскую сетку
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(4, minmax(100px, auto));
+}
+
+.item {
+  display: grid;
+  grid-column: 2 / 7;
+  grid-row: 2 / 4;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
 }
 ```
 
@@ -454,7 +460,6 @@ grid сетку можно использовать для позиционир�
     <h2>Lorem</h2>
   </article>
   <aside>
-     
     <h3>Aside</h3>
     <blockquote>Nice quite</blockquote>
   </aside>
