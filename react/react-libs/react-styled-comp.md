@@ -2,7 +2,7 @@
 
 - !!! Создавать компоненты нужно только вне компонентов
 
-## пропсы
+# пропсы
 
 ```tsx
 const Button = styled.button<{ $primary?: boolean }>`
@@ -25,7 +25,7 @@ const PropsBox = styled.div<{ $background: string }>((props) => ({
 }));
 ```
 
-## темы
+# темы
 
 ```tsx
 import { ThemeProvider } from "styled-components";
@@ -66,7 +66,7 @@ declare module "styled-components" {
 }
 ```
 
-## Глобальные стили
+# Глобальные стили
 
 createGlobalStyle - позволяет создать обертку для глобальных стилей
 
@@ -93,7 +93,7 @@ export const App = () => {
 };
 ```
 
-## наследование стилей
+# наследование стилей
 
 ```tsx
 const Button = styled.button``;

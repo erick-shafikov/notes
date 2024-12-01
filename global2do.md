@@ -21,6 +21,7 @@
 - разбор на doc папки web-dev
 - - mui (в mui связать все компоненты с папкой v-17)
 - - tenStack query (4/5 v)
+- react-bootstrap (дойти до html элементов и css стилей)
 
   <!-- новые -->
 
