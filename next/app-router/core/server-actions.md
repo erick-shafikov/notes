@@ -8,7 +8,37 @@
 Поведение:
 
 - SA могут быть вызваны в action у формы
+
+```tsx
+"use server";
+export async function serverAction(formData: FromData) {
+  return {
+    // primitive only
+  };
+}
+```
+
+```tsx
+import { serverAction } from "./serverAction.ts";
+
+export const SomeComponent = () => {
+  // флаг для отслеживания загрузки
+  const { state, fromAction } = useFromStatus(serverAction, {
+    //initial state
+  });
+  return (
+    <form action={fromAction}>
+      {/* <form action={serverAction}> */}
+      <input />
+      <input />
+      <input />
+    </form>
+  );
+};
+```
+
 - форма будет подтверждена, даже если не была загружена на сервере ил не была произведена hydration после hydration форма не перезагрузится
+- - отслеживание загрузки useFromStatus
 - Могут быть вызваны в обработчиках событий или useEffect
 - Валидируются и кэшируются
 - Под капотом используют POST метод

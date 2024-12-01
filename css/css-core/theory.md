@@ -94,3 +94,43 @@ Object Oriented CSS Добавляются свойства как методы 
 - position
 - таблицы
 - многоколоночный
+
+# Вложенность
+
+Поддерживает комбинаторы
+
+```scss
+h2 {
+  color: tomato;
+  + p {
+    color: white;
+    background-color: black;
+  }
+}
+
+h2 {
+  color: tomato;
+  & + p {
+    color: white;
+    background-color: black;
+  }
+}
+.a {
+  /* styles for element with class="a" */
+  .b {
+    /* styles for element with class="b" which is a descendant of class="a" */
+  }
+  &.b {
+    /* styles for element with class="a b" */
+  }
+}
+
+.foo {
+  /* .foo styles */
+  .bar & {
+    /* .bar .foo styles */
+  }
+}
+```
+
+Можно вкладывать и медиа выражения

@@ -3,7 +3,7 @@
 Анимации делятся на два типа - дискретные и вычисляемые. Дискретные меняются на 50% времени
 CSS анимации легче и быстрее по сравнению с JS анимации
 
-## преобразование элемента (transform)
+# преобразование элемента (transform)
 
 [transform свойство по перемещению и масштабированию элементов](./css-props.md/#transform)
 
@@ -19,7 +19,7 @@ CSS анимации легче и быстрее по сравнению с JS 
 
 Свойство (есть только в safari) zoom: number | % для увеличения элементов, в отличает от transform вызывает перерасчет макета
 
-## Для настроек 3d анимаций:
+## Для настроек 3d преобразований:
 
 - [backface-visibility: visible | hidden позволяют скрыть заднюю грань элемента при 3d трансформаций](./css-props.md/#backface-visibility)
 - [perspective: px расстояние от z=0 это свойство, устанавливается первое]
@@ -97,17 +97,7 @@ CSS анимации легче и быстрее по сравнению с JS 
 }
 ```
 
-## добавление перехода (transition)
-
-- [transition укороченная запись для transition-property + transition-duration + transition-timing-function + transition-delay](./css-props.md/#transition)
-- - transition-delay - задержка перед анимацией, при отрицательных значений начнет проигрывать анимацию на величину значения
-- - transition-duration - время анимации
-- - transition-property какое свойство будет анимирован, их может быть несколько
-- - [transition-timing-function - временная функция](./css-props.md/#transition-timing-function)
-- - [transition-behavior - поведение для анимации, позволяет настроить дискретные анимации](./css-props.md#transition-behavior)
-- - - [content-visibility позволяет настроить плавные анимации лоя дискретных свойств](./css-props.md/#content-visibility)
-
-## создание анимации (keyframes)
+# @keyframes создание анимации
 
 ```scss
 //Создание анимации
@@ -141,9 +131,9 @@ CSS анимации легче и быстрее по сравнению с JS 
 - - [transition-behavior позволяет задать характер анимации позволяет запускать анимации для дискретных свойств](./css-props.md/#transition-behavior)
 - [@starting-style определяет стартовые значения анимируемых свойств, так как при монтировании в DOM, toggle классов возвращает к значению прописанному в селекторе](./at-rules.md/#starting-style)
 - временные функции анимации
-- - [!!!TODOMDN linear]
-- - [!!!TODOMDN cubic-bezier]
-- - [!!!TODOMDN step]
+- - [!!!TODO_MDN linear]
+- - [!!!TODO_MDN cubic-bezier]
+- - [!!!TODO_MDN step]
 
 - [@keyframes - создает шаги анимации, можно использовать проценты или ключевые слова from to](./at-rules.md#keyframes)
 
@@ -179,7 +169,23 @@ e.addEventListener("animationiteration", listener, false);
 e.className = "slidein";
 ```
 
-## Анимация движения по пути offset-path
+# transition - добавление перехода
+
+- [transition укороченная запись для transition-property + transition-duration + transition-timing-function + transition-delay](./css-props.md/#transition)
+- - transition-delay - задержка перед анимацией, при отрицательных значений начнет проигрывать анимацию на величину значения
+- - transition-duration - время анимации
+- - transition-property какое свойство будет анимирован, их может быть несколько
+- - [transition-timing-function - временная функция](./css-props.md/#transition-timing-function)
+- - [transition-behavior - поведение для анимации, позволяет настроить дискретные анимации](./css-props.md#transition-behavior)
+- - - [content-visibility позволяет настроить плавные анимации лоя дискретных свойств](./css-props.md/#content-visibility)
+
+При завершении перехода срабатывает
+
+```js
+el.addEventListener("transitionend", updateTransition, true);
+```
+
+# Анимация движения по пути offset-path
 
 Позволяет анимировать объект который следует по пути
 
@@ -210,7 +216,7 @@ e.className = "slidein";
 }
 ```
 
-## scroll-driven animations
+# scroll-driven animations
 
 Существует две шкалы прогресса - прокрутка шкалы прогресса (от 0% до 100%) и временная шкала прогресса в зависимости от видимости объекта
 
@@ -219,7 +225,7 @@ e.className = "slidein";
 - (нет в ff и safari)[scroll-timeline для определения именованной шкалы прокрутки, сокращенная запись для scroll-timeline-name + scroll-timeline-axis]
 - [scroll() Функция для отслеживания временной шкалы анонимной анимации зависящей от скролла](./functions.md/#scroll-scroll-driven-animation)
 
-### Анимация от вью порта
+## view-port animation
 
 именованная анимация scroll. scroll-timeline должен быть задан на родительском контейнере, а анимация должна применяться к дочернему. Что бы избежать это поведение, то на общего родителя можно определить timeline-scope: --container-timeline;
 

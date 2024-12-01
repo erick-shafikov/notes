@@ -69,6 +69,21 @@ border-block и border-inline свойства, которые полагают�
 - - [outline-width - ширина](./css-props.md/#outline-width)
 - - [outline-offset - отступ границы]()
 
+# z-index
+
+Порядок наложения без z-index:
+
+- Фон и границы корневого элемента.
+- Дочерние блоки в нормальном потоке в порядке размещения(в HTML порядке).
+- Дочерние позиционированные элементы, в порядке размещения (в HTML порядке).
+
+float:
+
+- Фон и границы корневого элемента
+- Дочерние не позиционированные элементы в порядке появления в HTML
+- Плавающие элементы
+- Элементы, позиционируемые потомками, в порядке появления в HTML
+
 # Направление письма
 
 Блочная модель так же предусматривает направление текста
@@ -110,18 +125,47 @@ border-block и border-inline свойства, которые полагают�
 Сделать скролл дискретным (при прокрутке привязывался к позиции)
 
 - [scroll-snap-type как строго привязывается прокрутка ](./css-props.md/#scroll-snap-type)
+- scroll-snap-align: center | start | end позволяет при прокрутки фиксировать позицию элемента
 - scroll-margin: px позволяет прокрутить в определенное место элемента с определенным margin, является сокращенной записью для scroll-margin-right + scroll-margin-bottom + scroll-margin-left, при нуле поместит элемент в середину
 - scroll-margin-inline = scroll-margin-inline-start + scroll-margin-inline-end
 - scroll-margin-block = scroll-margin-block-start + scroll-margin-block-end
 - scroll-padding: px позволяет прокрутить в определенное место при scroll-snap, коротка запись для группы scroll-padding-bottom + scroll-padding-left + scroll-padding-top + scroll-padding-right
 - scroll-padding-inline = scroll-padding-inline-start + scroll-padding-inline-end
 - scroll-padding-block = scroll-padding-block-start + scroll-padding-block-end
-- scroll-snap-align: center | start | end позволяет при прокрутки фиксировать позицию элемента
+
+свойства scroll-padding- и scroll-margin- могут помочь в ситуации когда заголовок остается в фиксированном месте
+
 - scroll-snap-stop: normal | always придает дискретность к прокрутке
 - overscroll-behavior: auto | contain | none - поведение при достижении конца скролла шорткат для:
 - - overscroll-behavior-x
 - - overscroll-behavior-y
 - - overscroll-behavior-block, overscroll-behavior-inline для поведения с учетом направленности текста
+
+```html
+<article class="scroller">
+  <section>
+    <h2>Section one</h2>
+  </section>
+  <section>
+    <h2>Section two</h2>
+  </section>
+  <section>
+    <h2>Section three</h2>
+  </section>
+</article>
+```
+
+```scss
+.scroller {
+  height: 300px;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+.scroller section {
+  scroll-snap-align: start;
+}
+```
 
 ::-webkit-scrollbar - псевдоэлементы группы scrollbar:
 

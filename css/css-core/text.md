@@ -79,6 +79,8 @@ word-break разрыв строк и перенос:
 - white-space-collapse управляет тем, как сворачивается пустое пространство внутри элемента
 - [text-overflow при переполнении текстом строки overflow: hidden; white-space: nowrap](./css-props.md/#text-overflow)
 
+Так же могут помочь символ `&shy` `<wbr>​`;
+
 Текст при выделении:
 
 - [user-select - настройка выделение текста](./css-props.md/#user-select)

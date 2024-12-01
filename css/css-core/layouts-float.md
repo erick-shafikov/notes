@@ -33,16 +33,61 @@
 
 !!!добавления margin а первому параграфу после не даст желаемого результата, margin нужно добавлять к float элементу
 
-Геометрические Формы:
+Геометрические Формы и их настройки:
 
 - shape-image-threshold: 0.2; позволяет настроить обтекание
 - shape-margin позволяет настроить отступ
-- shape-outside позволяет настроить фигуру по которой будет происходить обтекание, можно установить изображение
+- [shape-outside позволяет настроить фигуру по которой будет происходить обтекание, можно установить изображение](./css-props.md#shape-outside)
 - Можно настроить фигуру обтекания с помощью геометрических фигур и свойства clip-path, которое может принимать одно из значений:
 - - circle() - круг
 - - ellipse() - эллипс
 - - inset() - четырехугольник с возможностью настройки
 - - path(), polygon(), rect(), shape(), xywh() - для задачи более сложной фигуры
+
+```scss
+body {
+  font: 1.2em / 1.4 sans-serif;
+}
+
+img {
+  float: left;
+  shape-outside: circle(50%);
+}
+```
+
+Обрезка по изображению
+
+```scss
+body {
+  font: 1.2em / 1.5 sans-serif;
+}
+img {
+  float: left;
+  shape-outside: url(https://mdn.github.io/shared-assets/images/examples/star-shape.png);
+}
+```
+
+Обрезка по градиенту
+
+```scss
+body {
+  font: 1.2em / 1.5 sans-serif;
+}
+
+.box::before {
+  content: "";
+  float: left;
+  height: 250px;
+  width: 400px;
+  background-image: linear-gradient(
+    to bottom right,
+    rebeccapurple,
+    transparent
+  );
+  shape-outside: linear-gradient(to bottom right, rebeccapurple, transparent);
+  shape-image-threshold: 0.3;
+}
+```
 
 ## clearfix
 
@@ -65,8 +110,6 @@
 
 - вертикальное выравнивание
 - распределение пространства
-
-- [настройка обтекания вокруг изображения](./css-props.md#shape-outside)
 
 элемент float изымается из потока и крепится слева или справа, элемент который ниже расположится с противоположной стороны
 

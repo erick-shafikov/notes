@@ -125,25 +125,21 @@ section {
 
 ```scss
  {
-  //
-}
-```
-
-<!-- clamp() ---------------------------------------------------------------------------------------------------------------------------->
-
-# clamp()
-
-Определяет минимально, желательное и максимальное значение
-
-```scss
- {
-  width: clamp(10px, 4em, 80px);
+  // 110px
+  width: calc(10px + 100px);
+  // 10em
+  width: calc(2em * 5);
+  // в зависимости от ширины
+  width: calc(100% - 32px);
+  --predefined-width: 100%;
+  /* Output width: Depends on the container's width */
+  width: calc(var(--predefined-width) - calc(16px * 2));
 }
 ```
 
 <!-- counter()------------------------------------------------------------------------------------------------------------------------------>
 
-# counter()
+# counter() counter-reset() counter-increment()
 
 активирует запуск счетчика на элементах
 
@@ -174,6 +170,33 @@ section {
 </ol>
 ```
 
+Пример с глобальным счетчиком
+
+```scss
+body {
+  // Устанавливает значение счётчика, равным 0 переменная - section
+  counter-reset: section;
+}
+
+h3::before {
+  // Инкриминирует счётчик section = ++section
+  counter-increment: section;
+  // Отображает текущее значение счётчика counter - достает значение
+  content: "Секция " counter(section) ": ";
+}
+```
+
+```html
+<h3>Вступление</h3>
+<h3>Основная часть</h3>
+<h3>Заключение</h3>
+```
+
+Вывод
+Секция 1: Вступление
+Секция 2: Основная часть
+Секция 3: Заключение
+
 <!-- counters()------------------------------------------------------------------------------------------------------------------------------------>
 
 # counters()
@@ -189,6 +212,20 @@ ol {
 li::before {
   counter-increment: index;
   content: counters(index, ".", decimal) " ";
+}
+```
+
+```scss
+ol {
+  counter-reset: section; /* Создаёт новый счётчик для каждого тега <ol> */
+  list-style-type: none;
+}
+
+li::before {
+  counter-increment: section; /* Инкриминируется только счётчик текущего уровня вложенности */
+  // уже не counter
+  content: counters(section, ".") " "; /* Добавляем значения всех уровней вложенности, используя разделитель '.' */
+  /* Если необходима поддержка < IE8, необходимо убедиться, что после разделителя ('.') не стоит пробел */
 }
 ```
 
@@ -509,11 +546,22 @@ ol {
 - atan()
 - atan2()
 - cos()
+- clamp()
+- - Если значение, которое необходимо зафиксировать, меньше переданного минимального значения, функция вернет минимальное значение.
+- - Если значение, которое необходимо зафиксировать, больше переданного максимального значения, функция вернет максимальное значение.
+- - Если значение, которое необходимо зафиксировать, находится между переданными минимальным и максимальным значениями, функция вернет исходное значение, которое необходимо зафиксировать.
+
+```scss
+.clamp {
+  width: clamp(10px, 4em, 80px); //
+}
+```
+
 - exp()
 - hypot()
 - log()
-- max()
-- min()
+- max(first value, second value, third value, ...)
+- min(first value, second value, third value, ...)
 - minmax() - определяет диапазон больший или равный меньшему, но не больше максимального
 - mod()
 - rem()
@@ -564,7 +612,7 @@ drop-shadow()
   clip-path: circle(10% at 2rem 90%);
   // для создания эллипса
   clip-path: ellipse();
-  // определяет область
+  // определяет область round 50px - border радиус
   clip-path: inset(45px 50px 15px 0 round 50px);
   // определяет svg
   clip-path: path(
@@ -632,14 +680,57 @@ drop-shadow()
 
 # градиенты
 
-- conic-gradient() - создает круговой градиент
-- linear-gradient()
+## linear-gradient()
+
+linear-gradient() - создает линейный градиент
+
+```scss
+.simple-linear {
+  //двухцветные с плавным переходом
+  background: linear-gradient(blue, pink);
+  background: linear-gradient(#e66465, #9198e5);
+  // по умолчанию будут равно распределены
+  background: linear-gradient(red, yellow, blue, orange);
+  //распределение в неравных пропорциях
+  background: linear-gradient(to left, lime 28px, red 77%, cyan);
+  //конкретные промежутки
+  background: linear-gradient(
+    to left,
+    lime 25%,
+    red 25% 50%,
+    cyan 50% 75%,
+    yellow 75%
+  );
+  background: linear-gradient(to left, #333, #333 50%, #eee 75%, #333 75%);
+  // для резкого перехода проценты в сумме должны быть равны 100
+  background: linear-gradient(to bottom left, cyan 50%, palegoldenrod 50%);
+  // подсказка для перехода 10% займет blue
+  background: linear-gradient(blue, 10%, pink);
+}
+
+// поменять направление
+.horizontal-gradient {
+  background: linear-gradient(to right, blue, pink);
+  // диагональный
+  background: linear-gradient(to bottom right, blue, pink);
+  // использование углов
+  background: linear-gradient(70deg, blue, pink);
+  background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
+}
+```
+
+```scss
+// можно комбинировать с изображениями
+.layered-image {
+  background: linear-gradient(to right, transparent, mistyrose),
+    url("critters.png");
+}
+```
+
+Наслоение нескольких друг на друга
 
 ```scss
  {
-  background: linear-gradient(#e66465, #9198e5);
-  background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
-  background: linear-gradient(to left, #333, #333 50%, #eee 75%, #333 75%);
   background: linear-gradient(
       217deg,
       rgba(255, 0, 0, 0.8),
@@ -649,9 +740,79 @@ drop-shadow()
 }
 ```
 
-- radial-gradient()
+## radial-gradient()
+
+```scss
+// расположение центра
+.radial-gradient {
+  background: radial-gradient(at 0% 30%, red 10px, yellow 30%, #1e90ff 50%);
+}
+//размер определяется расстоянием от начальной точки (центра) до ближайшей стороны блока.
+.radial-ellipse-side {
+  background: radial-gradient(
+    ellipse closest-side,
+    red,
+    yellow 10%,
+    #1e90ff 50%,
+    beige
+  );
+  // устанавливает размер градиента значением расстояния от начальной точки до самого дальнего угла блока.
+  background: radial-gradient(
+    ellipse farthest-corner at 90% 90%,
+    red,
+    yellow 10%,
+    #1e90ff 50%,
+    beige
+  );
+  // по x - 25% от контейнера, по y -75%
+  background: radial-gradient(
+    circle closest-side at 25% 75%,
+    red,
+    yellow 10%,
+    #1e90ff 50%,
+    beige
+  );
+}
+```
+
+## conic-gradient()
+
+conic-gradient() - создает круговой градиент
+
+```scss
+.conic-gradient {
+  // смещение центра
+  background: conic-gradient(at 0% 30%, red 10%, yellow 30%, #1e90ff 50%);
+  // поворот поворота
+  background: conic-gradient(
+    from 45deg,
+    red,
+    orange,
+    yellow,
+    green,
+    blue,
+    purple
+  );
+}
+```
+
+## repeating-linear-gradient
+
+repeating-linear-gradient() - линии
+
+```scss
+.repeating-linear {
+  background: repeating-linear-gradient(
+    -45deg,
+    red,
+    red 5px,
+    blue 5px,
+    blue 10px
+  );
+}
+```
+
 - repeating-conic-gradient() - лучи из центра
-- repeating-linear-gradient() - линии
 - repeating-radial-gradient() - круги из центра
 
 # функции для свойства transform

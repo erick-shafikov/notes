@@ -475,6 +475,19 @@ import url("components-lib.css") layer(components);
 }
 ```
 
+```scss
+// для устройств ввода с мышью
+@media (hover: hover) { ... }
+// цветной экран
+@media (color) { ... }
+```
+
+для печати
+
+```html
+<link href="/path/to/print.css" media="print" rel="stylesheet" />
+```
+
 <!-- @namespace ---------------------------------------------------------------------------------------------------------------------------->
 
 # @namespace
