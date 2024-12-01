@@ -508,6 +508,25 @@ grid сетку можно использовать для позиционир�
 }
 ```
 
+# BP. центрирование с помощью grid
+
+```scss
+.container {
+  display: grid;
+  place-items: center;
+}
+```
+
+# BP. липкий footer
+
+```scss
+.wrapper {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+```
+
 # BP. grid размещение текста поверх картинки
 
 ```html
@@ -535,5 +554,96 @@ grid сетку можно использовать для позиционир�
   grid-row: 1 / -1;
   /* центрирование текста */
   align-self: center;
+}
+```
+
+# BP. Карточка
+
+```html
+<div class="media">
+  <div class="img">
+    <img
+      src="https://mdn.github.io/shared-assets/images/examples/balloons_square.jpg"
+      alt="Balloons"
+    />
+  </div>
+
+  <div class="content">
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula
+      vitae ligula sit amet maximus. Nunc auctor neque ipsum, ac porttitor elit
+      lobortis ac. Vivamus ultrices sodales tellus et aliquam. Pellentesque
+      porta sit amet nulla vitae luctus. Praesent quis risus id dolor venenatis
+      condimentum.
+    </p>
+  </div>
+  <div class="footer">An optional footer goes here.</div>
+</div>
+
+<div class="media">
+  <div class="img">
+    <img
+      src="https://mdn.github.io/shared-assets/images/examples/sharp-account_box-24px.svg"
+      width="80px"
+      alt="Account"
+    />
+  </div>
+  <div class="content">
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula
+      vitae ligula sit amet maximus. Nunc auctor neque ipsum, ac porttitor elit
+      lobortis ac. Vivamus ultrices sodales tellus et aliquam. Pellentesque
+      porta sit amet nulla vitae luctus. Praesent quis risus id dolor venenatis
+      condimentum.
+    </p>
+  </div>
+  <div class="footer"></div>
+</div>
+```
+
+```scss
+body {
+  font: 1.2em sans-serif;
+}
+
+img {
+  max-width: 100%;
+}
+
+p {
+  margin: 0 0 1em 0;
+}
+
+@media (min-width: 500px) {
+  .media {
+    display: grid;
+    //Если изображение больше, дорожка перестает расти на 200 пикселях
+    grid-template-columns: fit-content(200px) 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+      "image content"
+      "image footer";
+    grid-gap: 20px;
+    margin-bottom: 4em;
+  }
+
+  .media-flip {
+    grid-template-columns: 1fr fit-content(250px);
+    grid-template-areas:
+      "content image"
+      "footer image";
+  }
+
+  .img {
+    grid-area: image;
+  }
+
+  .content {
+    grid-area: content;
+  }
+
+  .footer {
+    grid-area: footer;
+  }
 }
 ```
