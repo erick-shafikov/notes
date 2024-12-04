@@ -2,11 +2,11 @@
 
 # Таблицы
 
-- [расположение элементов в таблице](./css-props.md#table-layout)
-- [расположение ячеек в таблице](./css-props.md#border-collapse-таблицы)
-- [расположение заголовка в таблице](./css-props.md#caption-side)
-- [расстояние между ячейками](./css-props.md/#border-spacing)
-- [показывать или нет пустые ячейки](./css-props.md/#empty-cells)
+- [table-layout - расположение элементов в таблице](./css-props.md#table-layout)
+- [border-collapse - расположение ячеек в таблице](./css-props.md#border-collapse-таблицы)
+- [caption-side - расположение заголовка в таблице](./css-props.md#caption-side)
+- [border-spacing - расстояние между ячейками](./css-props.md/#border-spacing)
+- [empty-cells - показывать или нет пустые ячейки](./css-props.md/#empty-cells)
 
 зебра
 

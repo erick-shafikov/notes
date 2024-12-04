@@ -237,6 +237,19 @@ title - отображает заголовок на странице
 
 Показывает отношение сайта и внешних ссылок
 
+Атрибуты:
+
+- as - требуется только rel="preload" или rel="prefetch" позволяет установить приоритет
+- crossorigin: anonymous, use-credentials
+- href - url ресурса
+- hreflang - язык
+- importance: auto, high, low используется только rel="preload" или rel="prefetch"
+- media - запрос для ресурса используется для внешних стилей
+- referrerpolicy - no-referrer, no-referrer-when-downgrade, origin, origin-when-cross-origin, unsafe-url
+- rel - определяет отношение ресурса и внешней ссылки
+- sizes - только для иконок, только при rel=icon
+- title - MIME тип
+
 ```html
 <!-- основные виды применения: -->
 <!-- добавление иконки -->
@@ -247,6 +260,7 @@ title - отображает заголовок на странице
   size="100x100"
 />
 <!-- Подключение стилей, которая позволяет подгружать условно media="screen and (max-width: 600px)" то есть для пк и mw=600-->
+<!-- также допускается внутри Body -->
 <link
   rel="stylesheet"
   href="my-css-file.css"
@@ -265,6 +279,7 @@ title - отображает заголовок на странице
 
 ```html
 <!-- добавление иконки для разных устройств -->
+<!-- size определяет размер иконки -->
 <link
   rel="apple-touch-icon-precomposed"
   sizes="144x144"
@@ -293,19 +308,6 @@ title - отображает заголовок на странице
   href="https://developer.mozilla.org/static/img/favicon32.png"
 />
 ```
-
-Атрибуты:
-
-- as - требуется только rel="preload" или rel="prefetch" позволяет установить приоритет
-- crossorigin: anonymous, use-credentials
-- href - url ресурса
-- hreflang - язык
-- importance: auto, high, low используется только rel="preload" или rel="prefetch"
-- media - запрос для ресурса используется для внешних стилей
-- referrerpolicy - no-referrer, no-referrer-when-downgrade, origin, origin-when-cross-origin, unsafe-url
-- rel - определяет отношение ресурса и внешней ссылки
-- sizes - только для иконок, только при rel=icon
-- title - MIME тип
 
 ## Отследить загрузку стилей
 
@@ -392,15 +394,20 @@ title - отображает заголовок на странице
 
 ```html
 <meta charset="utf-8" />
-<meta http-equiv="refresh" content="3;url=https://www.mozilla.org" />
 ```
 
 ## meta. Базовые теги
 
 ```html
+<!-- лучше в теге html использовать lang -->
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="content-language" content="no-cache" />
+<meta http-equiv="Content-Security-Policy" />
+<meta http-equiv="content-type" content="mime-type" />
 <meta http-equiv="Expires" content="0" />
 <meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="set-cookie" content="определяет куки для страницы" />
+<meta http-equiv="refresh" content="3;url=https://www.mozilla.org" />
 ```
 
 ```html
@@ -682,6 +689,8 @@ Apple Tags
 # noscript
 
 дочерние элементы этого тега будут отображаться есть нет поддержки js
+
+- находится в head
 
 <!-- script ------------------------------------------------------------------------------------------------------------------->
 

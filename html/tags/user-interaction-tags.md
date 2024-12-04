@@ -277,9 +277,9 @@ details[open] > summary::before {
 
 <!-- fieldset legend----------------------------------------------------------------------------------------------------------->
 
-# fieldset (block) legend
+# fieldset, legend (block)
 
-применяется для создания заголовка группы элементов формы, которая определяется с помощью тега fieldset. Группа элементов обозначается в браузере с помощью рамки, а текст, который располагается внутри контейнера legend, встраивается в эту рамку.
+fieldset применяется для создания заголовка группы элементов формы. Группа элементов обозначается в браузере с помощью рамки, а текст, который располагается внутри контейнера legend, встраивается в эту рамку.
 
 Атрибуты fieldset:
 
@@ -363,11 +363,13 @@ details[open] > summary::before {
 
 Атрибуты:
 
+- глобальные
 - accept - какие файлы может принимать input
 - - "audio/", "video/", "image/"", "image/png", ".png"
 - accesskey - управление фокусом
 - mozactionhint - определяет кнопку на моб телефонах go, done, next, search, и send
 - autocomplete: "off", "on" или какая-либо строка через пробел
+- autofocus
 - autosave - оставлять значение в строке, если type === search
 - checked - для radio и checkbox
 - disabled
@@ -396,11 +398,33 @@ details[open] > summary::before {
 - src - если type === img, То покажет placeholder
 - step - если type == numeric, datetime
 - tabindex
-- usemap
+- type:
+- - button - простая кнопка без определенного поведения
+- - checkbox - состояние может быть indeterminate - горизонтальная линия на чекбоксе
+- - color
+- - date
+- - datetime - минута секунда
+- - datetime-local
+- - email (есть псевдоклассы :valid, :invalid.),
+- - file
+- - hidden (элемент управления не отображается, но на сервер значение отправляется)
+- - image - кнопка отправки в виде изображения
+- - month
+- - number
+- - password
+- - radio
+- - range (min, max, value, step)
+- - reset (кнопка сброса)
+- - search - (разрывы строк автоматически удаляются)
+- - submit
+- - tel
+- - text
+- - time
+- - url (есть псевдоклассы :valid, :invalid)
+- - week
+- usemap - если часть map
 - value - изначальное значение
 - x-moz-errormessage - текст ошибки для Mozilla
-
-- type: text, button, checkbox, color, date, datetime, datetime-local, email (есть псевдоклассы :valid, :invalid.), file, hidden (элемент управления не отображается, но на сервер значение отправляется), image, month, number, password, radio, range (min, max, value, step), reset (кнопка сброса), search (разрывы строк автоматически удаляются), submit, tel, text, time, url (есть псевдоклассы :valid, :invalid.), week
 
 ## input type file
 
@@ -416,6 +440,7 @@ details[open] > summary::before {
 
 Атрибуты:
 
+- глобальные
 - for - id инпута
 - form - позволяет встроить в любом месте
 
@@ -427,6 +452,19 @@ details[open] > summary::before {
   ></label
 >
 ```
+
+<!-- menu ----------------------------------------------------------------------------------------------------------------------->
+
+# menu
+
+для отображающегося меню
+
+Атрибуты:
+
+- label
+- type:
+- - context: для нажатия пкм (не работает)
+- - toolbar - тогда тег menu должен быть внутри li
 
 <!-- meter ------------------------------------------------------------------------------------------------------------------->
 

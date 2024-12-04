@@ -142,17 +142,45 @@ function NavigatorExample() {
 
 Нужен для отображения другой страницы в контексте текущей
 
+Фреймы – разделяют окно браузера на отдельные области расположенные вплотную друг у другу, в каждый загружается отдельная веб страница. Позволяют открыть документ в одном фрейме по ссылке нажатой в совершенно в другом фрейме. поддерживают вложенную структуру
+
 атрибуты:
 
+- глобальные
+- allow - какие функции доступны для frame
+- - allow="fullscreen" - позволяет раскрыть frame на dtcm 'rhfy'
 - allowfullscreen - возможность открыть фрейм в полноэкранном режиме
 - frameborder - обозначить границу, значения 0 и 1, лучше использовать border
-- loading: eager, lazy
+- loading:
+- - eager - сразу ,
+- - lazy - пока не дойдет до места просмотра
 - name - для фокусировки
-- src
+- referrerpolicy:
+- - no-referrer - без заголовка Referer
+- - no-referrer-when-downgrade - Referer только по https
+- - origin - только на источник
+- - origin-when-cross-origin
+- - same-origin
+- - strict-origin
+- - strict-origin-when-cross-origin
+- - unsafe-url
 - width, height
 - sandbox - повышает настройки безопасности
+- - allow-downloads - позволяет загрузить файлы через тег а
+- - allow-forms - отправка форм
+- - allow-modals - позволяет показывать alert
+- - allow-orientation-lock
+- - allow-pointer-lock
+- - allow-popups - Window.open(), target="\_blank",
+- - allow-popups-to-escape-sandbox
+- - allow-presentation
+- - allow-same-origin - хранилище js
 - - allow-scripts
-- - allow-same-origin
+- - allow-top-navigation
+- - allow-top-navigation-by-user-activation
+- - allow-top-navigation-to-custom-protocols
+- src
+- srcdoc
 
 ```html
 <iframe
@@ -167,7 +195,37 @@ function NavigatorExample() {
 </iframe>
 ```
 
-Фреймы – разделяют окно браузера на отдельные области расположенные вплотную друг у другу, в каждый загружается отдельная веб страница. Позволяют открыть документ в одном фрейме по ссылке нажатой в совершенно в другом фрейме. поддерживают вложенную структуру
+- все frame-ы лежат в объекте window.frames
+- через contentWindow frame может получить доступ к window
+- window.parent - ссылка на родительское окно
+- Window.postMessage() - метод передачи сообщений
+
+## Изменение размеров
+
+для блокировки возможности изменения размера атрибут noresize
+
+для полос прокрутки – атрибут scrolling, который принимает два значения no или yes
+
+## Плавающие фреймы
+
+Создание плавающего фрейма
+
+и обязательный атрибут src
+
+```html
+<iframe>
+  <p><iframe src="hsb.html" width="300" height="120"></iframe></p>
+
+  для того чтобы загрузить документ по ссылке
+  <p>
+    <iframe src="model.html" name="color" width="100%" height="200"></iframe>
+  </p>
+</iframe>
+```
+
+<!-- frameset ---------------------------------------------------------------------------------------------------------------------->
+
+# frameset
 
 frame определяет свойство отдельного фрейма
 frameset заменяет элемент body на веб странице и формирует структуру фреймов (deprecated)
@@ -235,29 +293,6 @@ iframe создает плавающий фрейм, который находи
 >
 ```
 
-Изменение размеров
-
-для блокировки возможности измения размера атрибут noresize
-
-для полос прокрутки – атрибут scrolling, который принимает два значения no или yes
-
-## Плавающие фреймы
-
-Создание плавающего фрейма
-
-и обязательный атрибут src
-
-```html
-<iframe>
-  <p><iframe src="hsb.html" width="300" height="120"></iframe></p>
-
-  для того чтобы загрузить документ по ссылке
-  <p>
-    <iframe src="model.html" name="color" width="100%" height="200"></iframe>
-  </p>
-</iframe>
-```
-
 <!-- img ---------------------------------------------------------------------------------------------------------------------->
 
 # img (str)
@@ -269,12 +304,13 @@ iframe создает плавающий фрейм, который находи
 - - anonymous
 - - use-credentials
 - decoding - поведение декодирования:
+- - auto
 - - sync - синхронно с другим контентом
 - - async - параллельно, что бы уменьшить задержку с другим контентом
-- - auto
 - height - высота контейнера для изображения
 - importance - приоритет загрузки auto, low, high
-- ismap - карта ссылок
+- ismap - карта ссылок, если img является потомком a
+- intrinsicsize - игнорирование размера
 - loading: eager, lazy
 - referrerpolicy: no-referrer, no-referrer-when-downgrade, origin, origin-when-cross-origin, unsafe-url
 - sizes - медиа выражения и слот в каждой строке, соответствие с srcset по принципу самый первый, который больше. одна или несколько строк разделенные запятыми, состоящие из медиа запроса, размер источника
