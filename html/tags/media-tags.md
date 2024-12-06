@@ -443,12 +443,20 @@ iframe создает плавающий фрейм, который находи
 
 # picture (HTML5)
 
-Позволяет осуществить загрузку изображений с настройками
+Контейнер для одного или нескольких source Позволяет осуществить загрузку изображений с настройками
 
 атрибуты (для source):
 
 - media для медиа выражения
-- type
+
+```html
+<picture>
+  <source srcset="mdn-logo-wide.png" media="(min-width: 600px)" />
+  <img src="mdn-logo-narrow.png" alt="MDN" />
+</picture>
+```
+
+- type - MIME-тип данных, указанных в атрибуте srcset
 
 ```html
 <picture class="footer__logo">
@@ -482,6 +490,16 @@ iframe создает плавающий фрейм, который находи
 - srcset - набор изображений
 - type - MIME
 - media - для медиа выражение, работает только с picture
+
+```html
+<video controls>
+  <source src="foo.webm" type="video/webm" />
+  <source src="foo.ogg" type="video/ogg" />
+  <source src="foo.mov" type="video/quicktime" />
+  I'm sorry; your browser doesn't support HTML5 video.
+</video>
+```
+
 <!-- track ------------------------------------------------------------------------------------------------------------------->
 
 # track
@@ -489,15 +507,15 @@ iframe создает плавающий фрейм, который находи
 Встраиваемая дорожка в video и audio
 
 - default
-- kind:
-- - subtitles
-- - captions
-- - descriptions
+- kind - использование трека
+- - subtitles - переводы итд
+- - captions - описание
+- - descriptions -
 - - chapters
-- - metadata
-- label
+- - metadata - не видны пользователю
+- label - заголовок дорожки
 - src
-- srclang
+- srclang - язык
 
 ```html
 <video controls poster="/images/sample.gif">
@@ -527,16 +545,20 @@ iframe создает плавающий фрейм, который находи
 - autobuffer -
 - buffered -
 - controls - отображать элементы управления
+- crossorigin: anonymous | use-credentials
 - width="400" -
 - height="400" -
 - autoplay - автозапуск видео
 - loop - зацикленность
 - muted - воспроизвести без звука
 - poster - изображение до воспроизведения
+- played - диапазоны
 - preload принимает значения:
 - - none не буферизирует файл
 - - auto буферизирует медиафайл
 - - metadata буферирует только метаданные файла
+- poster
+- src
 
 ```html
 <video class="bg-video__content" autoplay muted loop>
