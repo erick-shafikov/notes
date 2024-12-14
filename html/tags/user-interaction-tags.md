@@ -399,23 +399,131 @@ fieldset применяется для создания заголовка гр�
 - step - если type == numeric, datetime
 - tabindex
 - type:
-- - button - простая кнопка без определенного поведения
+- - button - простая кнопка без определенного поведения (предпочтительней просто button)
+
+```html
+<!-- без value - пустая кнопка -->
+<input class="styled" type="button" value="Add to favorites" />
+```
+
 - - checkbox - состояние может быть indeterminate - горизонтальная линия на чекбоксе
+- - - Атрибуты:
+- - - - checked - значение по умолчание, не отвечает за текущее состояние
+
+```html
+<!-- если чб не нажат, то в форме значение checkboxName === on, если нажат то checkboxName === checkboxValue -->
+<input
+  type="checkbox"
+  id="checkboxName"
+  name="checkboxName"
+  value="checkboxValue"
+/>
+
+<!-- если в форме 2 чб с одинаковым именем, то на сервер отправится значение checkbox=value1&interest=value2 -->
+<input type="checkbox" id="coding" name="checkbox" value="value1" />
+<input type="checkbox" id="coding" name="checkbox" value="value2" />
+```
+
 - - color
-- - date
-- - datetime - минута секунда
-- - datetime-local
+- - date - календарь для даты
+- - - max - дата yyyy-MM-dd
+- - - min - дата yyyy-MM-dd
+- - - step
+
+```js
+// valueAsNumber
+var dateControl = document.querySelector('input[type="date"]');
+dateControl.value = "2017-06-01";
+console.log(dateControl.value); // prints "2017-06-01"
+console.log(dateControl.valueAsNumber); // prints 1496275200000, a JavaScript timestamp (ms)
+```
+
+- - datetime - дата + время (час:минута:секунда),
+- - datetime-local - с учетом настройки ос
+    данные отправляются partydate=2017-06-01T08:30
 - - email (есть псевдоклассы :valid, :invalid.),
+- - - multiple "me@example" "me@example.org""me@example.org,you@example.org" "me@example.org, you@example.org""me@example.org you@example.org, us@example.org"
+- - - size - количество символов в ширину
+
+```html
+<input type="email" size="40" list="defaultEmails" />
+
+<datalist id="defaultEmails">
+  <option value="jbond007@mi6.defence.gov.uk"></option>
+  <option value="jbourne@unknown.net"></option>
+  <option value="nfury@shield.org"></option>
+  <option value="tony@starkindustries.com"></option>
+  <option value="hulk@grrrrrrrr.arg"></option>
+</datalist>
+```
+
 - - file
+- - - value - путь к файлу
+- - - accept - типы обрабатываемых файлов accept="image/png, image/jpeg"или accept=".png, .jpg, .jpeg"
+- - - capture - работает только на моб устройствах:
+- - - - user - использовать камеру, микрофон обращенные к пользователю
+- - - - environment - использовать камеру, микрофон обращенные наружу
 - - hidden (элемент управления не отображается, но на сервер значение отправляется)
-- - image - кнопка отправки в виде изображения
-- - month
+- - image - кнопка отправки в виде изображения, атрибуты:
+- - - type
+- - - formaction - переопределит action родительской формы
+- - - formenctype:
+- - - - application/x-www-form-urlencoded:
+- - - - multipart/form-data: если type === file
+- - - - text/plain
+- - - formmethod - get, post
+- - - formtarget
+- - - height, width
+- - - src
+- - - usemap - если изображение часть map
+- - month - YYYY-MM
 - - number
 - - password
+- - - autocomplete: "on", "off", "current-password", "new-password"
 - - radio
+
+```html
+<fieldset>
+  <legend>Select a maintenance drone:</legend>
+
+  <div>
+    <!-- один и тот же name -->
+    <!-- value - обязательно, так как отправится on на сервер при подтверждении формы -->
+
+    <input type="radio" id="huey" name="drone" value="huey" checked />
+    <label for="huey">Huey</label>
+  </div>
+
+  <div>
+    <input type="radio" id="dewey" name="drone" value="dewey" />
+    <label for="dewey">Dewey</label>
+  </div>
+
+  <div>
+    <input type="radio" id="louie" name="drone" value="louie" />
+    <label for="louie">Louie</label>
+  </div>
+</fieldset>
+```
+
 - - range (min, max, value, step)
+- - - list - позволяет указать datalist со значениями
+- - - orient(только ff): horizontal | vertical расположение
+
+```scss
+// сделать вертикальным
+input[type="range"] {
+  -webkit-appearance: slider-vertical;
+}
+```
+
 - - reset (кнопка сброса)
-- - search - (разрывы строк автоматически удаляются)
+
+```html
+<input type="reset" value="Reset the form" />
+```
+
+- - search - разрывы строк автоматически удаляются, отличается от type text тем что на конце есть крестик
 - - submit
 - - tel
 - - text
@@ -426,13 +534,102 @@ fieldset применяется для создания заголовка гр�
 - value - изначальное значение
 - x-moz-errormessage - текст ошибки для Mozilla
 
-## input type file
+## input type file BP. C Карточками фотографий
 
-атрибуты:
+```html
+<form method="post" enctype="multipart/form-data">
+  <div>
+    <label for="image_uploads">Choose images to upload (PNG, JPG)</label>
+    <input
+      type="file"
+      id="image_uploads"
+      name="image_uploads"
+      accept=".jpg, .jpeg, .png"
+      multiple
+    />
+  </div>
+  <div class="preview">
+    <p>No files currently selected for upload</p>
+  </div>
+  <div>
+    <button>Submit</button>
+  </div>
+</form>
+```
 
-- capture - работает только на моб устройствах:
-- - user - использовать камеру, микрофон обращенные к пользователю
-- - environment - использовать камеру, микрофон обращенные наружу
+```js
+// получаем элементы
+var input = document.querySelector("input");
+var preview = document.querySelector(".preview");
+
+// скрываем input, по клику на label
+input.style.opacity = 0;
+
+input.addEventListener("change", updateImageDisplay);
+
+var fileTypes = ["image/jpeg", "image/pjpeg", "image/png"];
+
+function validFileType(file) {
+  for (var i = 0; i < fileTypes.length; i++) {
+    if (file.type === fileTypes[i]) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function returnFileSize(number) {
+  if (number < 1024) {
+    return number + "bytes";
+  } else if (number > 1024 && number < 1048576) {
+    return (number / 1024).toFixed(1) + "KB";
+  } else if (number > 1048576) {
+    return (number / 1048576).toFixed(1) + "MB";
+  }
+}
+
+function updateImageDisplay() {
+  while (preview.firstChild) {
+    preview.removeChild(preview.firstChild);
+  }
+
+  var curFiles = input.files;
+  if (curFiles.length === 0) {
+    var para = document.createElement("p");
+    para.textContent = "No files currently selected for upload";
+    preview.appendChild(para);
+  } else {
+    var list = document.createElement("ol");
+    preview.appendChild(list);
+    for (var i = 0; i < curFiles.length; i++) {
+      var listItem = document.createElement("li");
+      var para = document.createElement("p");
+      if (validFileType(curFiles[i])) {
+        para.textContent =
+          "File name " +
+          curFiles[i].name +
+          ", file size " +
+          returnFileSize(curFiles[i].size) +
+          ".";
+        var image = document.createElement("img");
+        image.src = window.URL.createObjectURL(curFiles[i]);
+
+        listItem.appendChild(image);
+        listItem.appendChild(para);
+      } else {
+        para.textContent =
+          "File name " +
+          curFiles[i].name +
+          ": Not a valid file type. Update your selection.";
+        listItem.appendChild(para);
+      }
+
+      list.appendChild(listItem);
+    }
+  }
+}
+```
 
 <!-- label ------------------------------------------------------------------------------------------------------------------->
 

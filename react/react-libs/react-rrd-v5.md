@@ -300,6 +300,44 @@ export async function loader({ params }) {
 
 # Хуки
 
+## useHistory
+
+Хук для работы с history api
+
+```jsx
+import { useHistory } from "react-router-dom";
+
+function HomeButton() {
+  let history = useHistory();
+
+  function handleClick() {
+    history.push("/home");
+  }
+
+  return (
+    <button type="button" onClick={handleClick}>
+      Go home
+    </button>
+  );
+}
+```
+
+history - объект с полями:
+
+- length - (number) количество записей в истории
+- action - (string) текущее действие
+- location - (object) Объект локации с полями:
+- - pathname - (string) URL
+- - search - (string) строка запроса
+- - hash - (string) URL hash
+- - state - (object) - состояние переданное в предыдущий вызов
+- push(path, [state]) - (function) добавит новую запись
+- replace(path, [state]) - (function) заменит текущую запись
+- go(n) - (function) назад на n шагов
+- goBack() - (function) к предыдущей
+- goForward() - (function) вперед по истории на один шаг
+- block(prompt) - (function) выключает навигацию
+
 ## useLocation()
 
 хук который предоставляет информацию о том, где мы находимся. Параметр state передается из хука useNavigate

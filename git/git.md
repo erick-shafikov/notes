@@ -1,16 +1,16 @@
 # основные команды git
 
-- **git init** – инициализировать проект
-- **git status** – получить информацию о проекте
-- **git commit -m "Complete Chapter 1“** – добавить изменения с пояснением (в настоящем времени)
-- **git add .** – добавить все изменения в директории проекта
-- **git log** – информация о проекте на текущий момент
-- **git diff chapter3.txt** – узнать об изменениях в файле
-- **git checkout chapter3.txt** – вернуть изменения, относительно последнего commit
-- **git remote add origin https://github.com/erick-shafikov/Story.git** - запустить проект на github
-- **git push -u origin master** – добавляем на мастер
-- **git rm --cached -r .** - удаляем файлы из промежуточного репозитория
-- **git clone https://....** – скопировать
+- git init – инициализировать проект
+- git status – получить информацию о проекте
+- git commit -m "Complete Chapter 1" – добавить изменения с пояснением (в настоящем времени)
+- git add . – добавить все изменения в директории проекта
+- git log – информация о проекте на текущий момент
+- git diff chapter3.txt – узнать об изменениях в файле
+- git checkout chapter3.txt – вернуть изменения, относительно последнего commit
+- git remote add origin https://github.com/erick-shafikov/Story.git - запустить проект на github
+- git push -u origin master – добавляем на мастер
+- git rm --cached -r . - удаляем файлы из промежуточного репозитория
+- git clone https://.... – скопировать
 
 # gitignore
 
@@ -22,17 +22,17 @@
 
 # branch
 
-- **git branch branch-name** – создание нового ответвления
-- **git branch** – просмотр направления master – ответвления, в консоли будет отображено:
-  ** \*branch-name** //звездочка в начел указывает на выбранное направление
+- git branch branch-name – создание нового ответвления
+- git branch – просмотр направления master – ответвления, в консоли будет отображено:
+  \*branch-name //звездочка в начел указывает на выбранное направление
   master //не выбран
-- **git checkout branch-name (commit)** – переключится на branch-name ответвление или коммит, если добавить названия файлов в конце, то откатятся файлы
-- **git checkout** –f branch-name – переключится на branch-name со сбросом изменений (-f === -force)
-- **git checkout** -f HEAD - удалить
-- **git stash** – переключится на branch со сбросом изменений
-- **git checkout master** – переходим на мастер-ветку
-- **git checkout branch-name** – возвращаемся
-- **git stash pop** – возвращаем все изменения на любую ветку
+- git checkout branch-name (commit) – переключится на branch-name ответвление или коммит, если добавить названия файлов в конце, то откатятся файлы
+- git checkout –f branch-name – переключится на branch-name со сбросом изменений (-f === -force)
+- git checkout -f HEAD - удалить
+- git stash – переключится на branch со сбросом изменений
+- git checkout master – переходим на мастер-ветку
+- git checkout branch-name – возвращаемся
+- git stash pop – возвращаем все изменения на любую ветку
 
 git checkout –f – удалить все изменения
 
@@ -49,8 +49,8 @@ git show @~~ == git show HEAD~~
 
 ## git merge
 
-- git merge <branch-name-to-merge> - если мы находимся на некоторой ветке, то она сольется с веткой branch-name-to-merge
-- git merge fe<branch-name-to-merge> -
+- git merge branch-name-to-merge - если мы находимся на некоторой ветке, то она сольется с веткой branch-name-to-merge
+- git merge febranch-name-to-merge -
 
 семантические конфликты – это конфликты, которые приводят к ошибкам
 

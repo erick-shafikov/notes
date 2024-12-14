@@ -1,5 +1,7 @@
 # ammonium string
 
+Проверить строку не является ли она аммонием
+
 ```js
 const isLetter = (char) => char.toLowerCase() === char.toUpperCase();
 

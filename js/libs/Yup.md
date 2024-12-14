@@ -6,10 +6,24 @@ const FormSchema = Yup.object({
   email: Yup.string()
     .email("Неверный формат электронной почты")
     .required("Обязательное поле"),
+  //валидация строк
+  simpleStringValue: Yup.string()
+    .trim()
+    .required("Обязательное поле")
+    .trim()
+    .min(8, "Требуется минимум 8 символов")
+    .max(36, "Не более 36 символов"),
+  // валидация номера телефона
   phone: Yup.string()
+    .required("Обязательное поле")
     .matches(/^((\+7|7|8)+([0-9]){10})$/, {
       message: "Указан недействительный номер",
-    })
+    }),
+  // валидация электронной почты
+  email: Yup.string()
+    .trim()
+    .email("Неверный формат электронной почты")
+    .required("Обязательное поле"),
   // сложная валидация---------------------------------------------------
   // не должны совпадать
   noEqualField: Yup.string()
@@ -25,8 +39,56 @@ const FormSchema = Yup.object({
   // тест строкового значения, как числового
   amount: Yup.string()
     .min(0)
-    .test('more than 1kk', 'Не более 1 млн.', (value = 0) => Number(value) <= 1000000)
-    .required('Обязательное поле'),
+    .test(
+      "more than 1kk",
+      "Не более 1 млн.",
+      (value = 0) => 0 >= Number(value) && Number(value) <= 1000000
+    )
+    .required("Обязательное поле"),
+  //валидация числовых значений через вложенные схемы в обход циклических зависимостей
+  amountTo: Yup.string().when("amountFrom", (amountFromValue, schema) => {
+    if (amountFromValue) {
+      return schema.test(
+        "amount-to-boundary",
+        "Не менее чем сумма(от)",
+        (amountToValue) => {
+          return amountToValue
+            ? Number(amountToValue) >= Number(amountFromValue)
+            : true;
+        }
+      );
+    }
+
+    return schema;
+  }),
+  // --------------------------------------------------------------------
+  //зависимые поля
+  controlFieldOne: Yup.string(),
+  controlFieldTwo: Yup.string(),
+  dependedField: Yup.object()
+    //если одно поле в качестве управления для все формы
+    .when("controlFieldOne", {
+      is: (controlFieldOne) => {}, //boolean
+      then: (schema) =>
+        schema.shape({
+          phone: Yup.string()
+            .required("Обязательное поле")
+            .matches(/^((\+7|7|8)+([0-9]){10})$/, {
+              message: "Указан недействительный номер",
+            }),
+        }), //схема на возврат
+    })
+    // два и более поля
+    .when(["controlFieldOne", "controlFieldTwo"], {
+      is: (controlFieldOne, controlFieldTwo) => {},
+      then: (schema) => schema.shape({}),
+    }),
+  // валидация объектов
+  // валидация массивов
+  expiredAt: Yup.array().when("isIndefinitely", {
+    is: false,
+    then: (schema) => schema.of(Yup.date()).required("Обязательное поле"),
+  }),
 });
 ```
 
@@ -55,72 +117,6 @@ const FormSchema = Yup.object().shape({
 });
 ```
 
-!!!TODO добавить к схеме выше
-
 ```js
-const Schema = Yup.object({
-  //валидация строк
-  simpleStringValue: Yup.string()
-    .trim()
-    .required("Обязательное поле")
-    .trim()
-    .min(8, "Требуется минимум 8 символов")
-    .max(36, "Не более 36 символов"),
-  // валидация номера телефона
-  phone: Yup.string()
-    .required("Обязательное поле")
-    .matches(/^((\+7|7|8)+([0-9]){10})$/, {
-      message: "Указан недействительный номер",
-    }),
-  // валидация электронной почты
-  email: Yup.string()
-    .trim()
-    .email("Неверный формат электронной почты")
-    .required("Обязательное поле"),
-
-  // --------------------------------------------------------------------
-  //зависимые поля
-  controlFieldOne: Yup.string(),
-  controlFieldTwo: Yup.string(),
-  dependedField: Yup.object()
-    //если одно поле в качестве управления
-    .when("controlFieldOne", {
-      is: (controlFieldOne) => {}, //boolean
-      then: (schema) =>
-        schema.shape({
-          phone: Yup.string()
-            .required("Обязательное поле")
-            .matches(/^((\+7|7|8)+([0-9]){10})$/, {
-              message: "Указан недействительный номер",
-            }),
-        }), //схема на возврат
-    })
-    // два и более поля
-    .when(["controlFieldOne", "controlFieldTwo"], {
-      is: (controlFieldOne, controlFieldTwo) => {},
-      then: (schema) => schema.shape({}),
-    }),
-  //валидация числовых значений через вложенные схемы в обход циклических зависимостей
-  amountTo: Yup.string().when("amountFrom", (amountFromValue, schema) => {
-    if (amountFromValue) {
-      return schema.test(
-        "amount-to-boundary",
-        "Не менее чем сумма(от)",
-        (amountToValue) => {
-          return amountToValue
-            ? Number(amountToValue) >= Number(amountFromValue)
-            : true;
-        }
-      );
-    }
-
-    return schema;
-  }),
-  // валидация объектов
-  // валидация массивов
-  expiredAt: Yup.array().when("isIndefinitely", {
-    is: false,
-    then: (schema) => schema.of(Yup.date()).required("Обязательное поле"),
-  }),
-});
+const Schema = Yup.object({});
 ```
