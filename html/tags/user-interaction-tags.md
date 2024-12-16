@@ -438,7 +438,7 @@ console.log(dateControl.value); // prints "2017-06-01"
 console.log(dateControl.valueAsNumber); // prints 1496275200000, a JavaScript timestamp (ms)
 ```
 
-- - datetime - дата + время (час:минута:секунда),
+- - datetime - дата + время (час:минута:секунда) 00:00:30.75,
 - - datetime-local - с учетом настройки ос
     данные отправляются partydate=2017-06-01T08:30
 - - email (есть псевдоклассы :valid, :invalid.),
@@ -463,7 +463,7 @@ console.log(dateControl.valueAsNumber); // prints 1496275200000, a JavaScript ti
 - - - height, width
 - - - src
 - - - usemap - если изображение часть map
-- - month - YYYY-MM
+- - month - YYYY-MM 1953-W01
 - - number
 - - password
 - - - autocomplete: "on", "off", "current-password", "new-password"

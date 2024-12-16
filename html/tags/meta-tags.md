@@ -372,6 +372,15 @@ Apple Tags
 <meta name="viewport" content="width = device-width" />
 <meta name="viewport" content="initial-scale = 1.0" />
 <meta name="viewport" content="initial-scale = 2.3, user-scalable = no" />
+<!-- 
+ width - ширина экрана - 
+ height- высота 
+ initial-scale - масштабирование
+ minimum-scale - ограничения масштабирования
+ maximum-scale
+ user-scalable- запрет на масштабирование при user-scalable=0
+ interactive-widget=resizes-visual | resizes-content | overlays-content отображение доп элементов (клавиатуры)
+-->
 <link rel="apple-touch-icon" href="touch-icon-iphone.png" />
 <link rel="apple-touch-icon" sizes="72x72" href="touch-icon-ipad.png" />
 <link rel="apple-touch-icon" sizes="114x114" href="touch-icon-iphone4.png" />
