@@ -221,7 +221,7 @@ details[open] > summary::before {
 
 <!-- dialog ----------------------------------------------------------------------------------------------------------------->
 
-# dialog (block) (block, HTML5)
+# dialog (block, HTML5)
 
 Элемент диалогового окна. Пример с окном выбора email. нельзя присваивать tabIndex
 Атрибуты:
@@ -444,19 +444,6 @@ console.log(dateControl.valueAsNumber); // prints 1496275200000, a JavaScript ti
 - - email (есть псевдоклассы :valid, :invalid.),
 - - - multiple "me@example" "me@example.org""me@example.org,you@example.org" "me@example.org, you@example.org""me@example.org you@example.org, us@example.org"
 - - - size - количество символов в ширину
-
-```html
-<input type="email" size="40" list="defaultEmails" />
-
-<datalist id="defaultEmails">
-  <option value="jbond007@mi6.defence.gov.uk"></option>
-  <option value="jbourne@unknown.net"></option>
-  <option value="nfury@shield.org"></option>
-  <option value="tony@starkindustries.com"></option>
-  <option value="hulk@grrrrrrrr.arg"></option>
-</datalist>
-```
-
 - - file
 - - - value - путь к файлу
 - - - accept - типы обрабатываемых файлов accept="image/png, image/jpeg"или accept=".png, .jpg, .jpeg"
@@ -524,12 +511,76 @@ input[type="range"] {
 ```
 
 - - search - разрывы строк автоматически удаляются, отличается от type text тем что на конце есть крестик
-- - submit
+- - submit - атрибуты:
+- - - value - текст на кнопке
+- - - action - url куда отправится запрос
+- - - formenctype:
+- - - - application/x-www-form-urlencoded - encodeURI() строка https://mozilla.org/?x=%D1%88%D0%B5%D0%BB%D0%BB%D1%8B"
+- - - - multipart/form-data - если есть input type file
+- - - - text/plain
+- - - method:
+- - - - get
+- - - - post
+- - - - dialog - закроет форму диалогово окна и не отправит данные
+- - - formnovalidate
+- - - formtarget
+- - - - \_self
+- - - - \_blank
+- - - - \_parent
+- - - - \_top
 - - tel
-- - text
-- - time
+- - text: атрибуты
+- - - list - id data-list для поставления опций
+
+```html
+<input type="email" size="40" list="defaultEmails" />
+
+<datalist id="defaultEmails">
+  <option value="jbond007@mi6.defence.gov.uk"></option>
+  <option value="jbourne@unknown.net"></option>
+  <option value="nfury@shield.org"></option>
+  <option value="tony@starkindustries.com"></option>
+  <option value="hulk@grrrrrrrr.arg"></option>
+</datalist>
+```
+
+- - - maxlength
+- - - minlength
+- - - pattern
+- - - placeholder
+- - - readonly
+- - - size
+- - - spellcheck: true | false | ''
+      :valid и :invalid псевдоэлементы
+
+- - time - форматы HH:mm или HH:mm:ss
+
+```html
+<label for="appt">Choose a time for your meeting:</label>
+<input type="time" id="appt" name="appt" min="09:00" max="18:00" required />
+```
+
+- - - datalist
+- - - max
+- - - min
+- - - step - в секундах
+
 - - url (есть псевдоклассы :valid, :invalid)
-- - week
+
+```html
+<!-- в данном случае список будет с лейблами и url -->
+<input id="myURL" name="myURL" type="url" list="defaultURLs" />
+
+<datalist id="defaultURLs">
+  <option value="https://developer.mozilla.org/" label="MDN Web Docs"></option>
+  <option value="http://www.google.com/" label="Google"></option>
+  <option value="http://www.microsoft.com/" label="Microsoft"></option>
+  <option value="https://www.mozilla.org/" label="Mozilla"></option>
+  <option value="http://w3.org/" label="W3C"></option>
+</datalist>
+```
+
+- - week - формат yyyy-Www
 - usemap - если часть map
 - value - изначальное значение
 - x-moz-errormessage - текст ошибки для Mozilla

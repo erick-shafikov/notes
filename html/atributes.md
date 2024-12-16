@@ -288,9 +288,9 @@
 
 <!-- itemid, itemprop ------------------------------------------------------------------------------------------------------------>
 
-# itemid (global)
+# itemid, itemscope, itemtype, itemref, itemtype (global)
 
-Представляет дополнительные данные, может быть указан, если есть itemscope и itemtype.
+Представляет дополнительные данные (микроданные), может быть указан, если есть itemscope и itemtype.
 
 ```html
 <dl
@@ -311,6 +311,32 @@
 - itemref - для непрямых потомков
 - itemscope - булев атрибут, который характеризует группу
 - itemtype - url которая введет на словарь
+
+```html
+<div itemscope itemtype="https://schema.org/SoftwareApplication">
+  <span itemprop="name">Angry Birds</span> - REQUIRES
+  <span itemprop="operatingSystem">ANDROID</span><br />
+  <link
+    itemprop="applicationCategory"
+    href="https://schema.org/SoftwareApplication"
+  />
+
+  <div
+    itemprop="aggregateRating"
+    itemscope
+    itemtype="https://schema.org/AggregateRating"
+  >
+    RATING:
+    <span itemprop="ratingValue">4.6</span> (
+    <span itemprop="ratingCount">8864</span> ratings )
+  </div>
+
+  <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+    Price: $<span itemprop="price">1.00</span>
+    <meta itemprop="priceCurrency" content="USD" />
+  </div>
+</div>
+```
 
 <!-- lang ------------------------------------------------------------------------------------------------------------>
 
@@ -392,7 +418,7 @@ Content-Security-Policy: script-src 'nonce-8IBTHwOdqNKAWeKl7plt8g=='
 
 # placeholder (input)
 
-Текст в поле ввода, в котором ничего не введено
+Текст в поле ввода, в котором ничего не введено, css псевдокласс - :placeholder-shown
 
 <!-- popover ------------------------------------------------------------------------------------------------------------>
 
@@ -453,7 +479,7 @@ Content-Security-Policy: script-src 'nonce-8IBTHwOdqNKAWeKl7plt8g=='
 
 # required (input)
 
-Определяет поле как обязательное для заполнения
+Определяет поле как обязательное для заполнения, css псевдоклассы - :required, :optional
 
 <!-- size ------------------------------------------------------------------------------------------------------------>
 
