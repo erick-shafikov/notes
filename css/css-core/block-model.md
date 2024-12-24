@@ -24,7 +24,7 @@
 - [height – высота содержимого](./css-props.md/#height)
   для того что бы задать размеры отталкиваясь от минимальных и максимальных значений
 - min-width, min-height, max-width, max-height – нужны для определения высоты контентных элементов, которые могут вывалиться
-  max-width переопределяет width,но min-width переопределяет max-width. Свойства с учетом письма:
+  max-width переопределяет width, но min-width переопределяет max-width. Свойства с учетом письма:
 - - max-block-size
 - - max-inline-size
 - - min-block-size
@@ -34,7 +34,7 @@
 
 - padding – отступ от контента до рамки, при заливке заливается и padding и контент
 - margin - внешние отступы, они могут быть автоматически добавлены к абзацам например, если задать margin ===0 то они схлопнуться
-- - margin-trim Только на ios позволяет обрезать margin
+- - margin-trim (Только на ios) - позволяет обрезать margin
 - [aspect-ratio позволяет настроить пропорции ширина/высота для контейнера](./css-props.md/#aspect-ratio)
 - оптимизационные значения contain-intrinsic-block-size, contain-intrinsic-height, contain-intrinsic-inline-size, contain-intrinsic-size, contain-intrinsic-width
 - inline-size - задает высоту или ширину блока в зависимости от написания
