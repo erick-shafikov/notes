@@ -1810,126 +1810,6 @@ flex-basis: auto
 
 Сокращенная запись для я font-style, font-variant, font-weight, font-stretch, font-size, line-height, и font-family
 
-```scss
-{
-  font-family: "Arial", "Helvetica"; //для форматирования шрифта, если на компьютере не установлен "Arial", то система попытается найти "Helvetica", serif и sans-serif – универсальные
-// https://fonts.google.com/ - для поиска шрифтов
-font-size: 36px; //- размер текста в пикселах, стандартный размер 16px
-font-size: 1em; //- размер относительно 16px (размер заглавной буквы M)
-font-size: 1rem; //- размер относительно базового элемента
-font-size: 100%; //- размер относительно 16px только в процентах
-font-size: "xx-small (9px)" | "x-small" | "xx-large (32px)"; //- размер
-// --------------------------------------------------------------------
-font-weight: "normal" | "bold" | "lighter" | "bolder" | 100-900 //– жирность шрифта
-font-style: "normal" | "oblique" | "italic" //– наклонение шрифта
-font-variant: //– типографические эффекты
-}
-
-```
-
-<!-- font-family---------------------------------------------------------------------------------------------------------------------------->
-
-# font-family
-
-Определяет приоритетность шрифта
-
-```scss
- {
-  // оба определения валидные
-  font-family: Gill Sans Extrabold, sans-serif;
-  font-family: "Goudy Bookletter 1911", sans-serif;
-
-  /* Только общие семейства */
-  font-family: serif; //со штрихами
-  font-family: sans-serif; //гладкие
-  font-family: monospace; //одинаковая ширина
-  font-family: cursive; //рукопись
-  font-family: fantasy; //декор-ые
-  font-family: system-ui; //из системы
-  font-family: emoji; //
-  font-family: math; //
-  font-family: fangsong; //китайский
-}
-```
-
-<!-- font-size  ---------------------------------------------------------------------------------------------------------------------------->
-
-# font-size
-
-Свойство для изменения размера
-
-```scss
- {
-  /* значения в <абсолютных размерах> */
-  font-size: xx-small;
-  font-size: x-small;
-  font-size: small;
-  font-size: medium;
-  font-size: large;
-  font-size: x-large;
-  font-size: xx-large;
-  /* значения в <относительных размерах> */
-  font-size: larger;
-  font-size: smaller;
-  font-size: 12px;
-  font-size: 0.8em;
-  font-size: 80%;
-}
-```
-
-Масштабирование с помощью font-size
-
-```scss
-body {
-  font-size: 62.5%; /* font-size 1em = 10px on default browser settings */
-}
-
-span {
-  font-size: 1.6em; /* 1.6em = 16px */
-}
-```
-
-<!-- font-style ---------------------------------------------------------------------------------------------------------------------------->
-
-# font-style
-
-Стили шрифтов
-
-```scss
- {
-  font-style: normal;
-  font-style: italic; //курсив
-  font-style: oblique; //курсив
-}
-```
-
-<!--font-weight  --------------------------------------------------------------------------------------------------------------------------->
-
-# font-weight
-
-Начертание шрифта
-
-```scss
- {
-  /font-weight: normal;
-  font-weight: bold;
-
-  /* Relative to the parent */
-  font-weight: lighter;
-  font-weight: bolder;
-
-  font-weight: 100;
-  font-weight: 200;
-  font-weight: 300;
-  font-weight: 400;
-  font-weight: 500;
-  font-weight: 600;
-  font-weight: 700;
-  font-weight: 800;
-  font-weight: 900;
-}
-```
-
 <!-- gap (flex, grid)------------------------------------------------------------------------------------------------------------------->
 
 # gap (flex, grid)
@@ -2341,30 +2221,6 @@ dd#string {
   // Overflow alignment (for positional alignment only)
   justify-self: safe center;
   justify-self: unsafe center;
-}
-```
-
-<!-- letter-spacing ---------------------------------------------------------------------------------------------------------------------->
-
-# letter-spacing
-
-расстояние между буквами
-
-```scss
- {
-  letter-spacing: "px", "%";
-}
-```
-
-<!-- line-height --------------------------------------------------------------------------------------------------------------------->
-
-# line-height
-
-расстояние между строками
-
-```scss
- {
-  line-height: "px", "%";
 }
 ```
 
@@ -2804,7 +2660,7 @@ overflow-block, overflow-inline - Для rtl
 ```scss
 .overflow {
   // При превышении размера контента используется свойство overflow
-  overflow: visible; //(по умолчанию) – не воспрепятствует налеганию текста друг на друга
+  overflow: visible; // не воспрепятствует налеганию текста друг на друга
   overflow: scroll; //добавляет полосы прокрутки
   overflow: auto; //полосы прокрутки появляются при необходимости
   overflow: hidden; //скрывает любое содержимое выходящее за рамки
@@ -3083,8 +2939,8 @@ place-self = align-self + justify-self
 
 ```scss
 .table-layout {
-  table-layout: "fixed"; //не будет адаптировать
-  table-layout: "auto"; //будет адаптировать таблицу под контент, а именно растягивать ячейки
+  table-layout: fixed; //не будет адаптировать
+  table-layout: auto; //будет адаптировать таблицу под контент, а именно растягивать ячейки
 }
 ```
 
@@ -3335,9 +3191,9 @@ text-emphasis-position. {
   text-transform: capitalize;
   text-transform: uppercase;
   text-transform: lowercase;
-  text-transform: full-width;
-  text-transform: full-size-kana;
-  text-transform: math-auto;
+  text-transform: full-width; //выравнивание нестандартных шрифтов
+  text-transform: full-size-kana; //ruby-текст аннотации
+  text-transform: math-auto; //математический курсив
 }
 ```
 
@@ -3698,18 +3554,6 @@ transition-behavior: normal
   word-break: break-all;
   word-break: keep-all;
   word-break: break-word;
-}
-```
-
-<!-- word-spacing ------------------------------------------------------------------------------------------------------------------------>
-
-# word-spacing
-
-расстояние между словами
-
-```scss
- {
-  word-spacing: "px", "%";
 }
 ```
 

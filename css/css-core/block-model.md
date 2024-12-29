@@ -33,7 +33,7 @@
 # Отступы и границы:
 
 - padding – отступ от контента до рамки, при заливке заливается и padding и контент
-- margin - внешние отступы, они могут быть автоматически добавлены к абзацам например, если задать margin ===0 то они схлопнуться
+- margin - внешние отступы, они могут быть автоматически добавлены к абзацам например, если задать margin ===0 то они схлопнуться. Если margin и padding заданы в процентах, то размеры будут взяты от inline-размера элемента
 - - margin-trim (Только на ios) - позволяет обрезать margin
 - [aspect-ratio позволяет настроить пропорции ширина/высота для контейнера](./css-props.md/#aspect-ratio)
 - оптимизационные значения contain-intrinsic-block-size, contain-intrinsic-height, contain-intrinsic-inline-size, contain-intrinsic-size, contain-intrinsic-width

@@ -3,7 +3,7 @@
 Улучшения по работе со шрифтами:
 
 - использовать woff2
-- предзагрузка
+- пред загрузка
 - фрагментация
 - использование font-display
 - локальное хранение шрифта
@@ -12,11 +12,94 @@
 
 https://fonts.google.com/ - для поиска шрифтов
 
-- [font = font-style + font-variant + font-weight + font-stretch + font-size + line-height + font-family свойства шрифта ](./css-props.md#font)
-- - [font-family список из шрифтов](./css-props.md/#font-family)
-- - [font-size размер шрифта](./css-props.md/#font-size)
-- - [font-style стиль начертания](./css-props.md/#font-style)
-- - [font-weight жирность](./css-props.md/#font-weight)
+- font = font-style + font-variant + font-weight + font-stretch + font-size + line-height + font-family свойства шрифта
+
+- - font-family список из шрифтов
+
+```scss
+ {
+  // оба определения валидные
+  font-family: Gill Sans Extrabold, sans-serif;
+  font-family: "Goudy Bookletter 1911", sans-serif;
+
+  /* Только общие семейства */
+  font-family: serif; //со штрихами
+  font-family: sans-serif; //гладкие
+  font-family: monospace; //одинаковая ширина
+  font-family: cursive; //рукопись
+  font-family: fantasy; //декор-ые
+  font-family: system-ui; //из системы
+  font-family: emoji; //
+  font-family: math; //
+  font-family: fangsong; //китайский
+}
+```
+
+- - font-size размер шрифта
+
+```scss
+.font-size {
+  /* значения в <абсолютных размерах> */
+  font-size: xx-small;
+  font-size: x-small;
+  font-size: small;
+  font-size: medium;
+  font-size: large;
+  font-size: x-large;
+  font-size: xx-large;
+  /* значения в <относительных размерах> */
+  font-size: larger;
+  font-size: smaller;
+  font-size: 12px;
+  font-size: 0.8em;
+  font-size: 80%;
+}
+```
+
+```scss
+body {
+  // Масштабирование с помощью font-size
+  font-size: 62.5%; /* font-size 1em = 10px on default browser settings */
+}
+
+span {
+  font-size: 1.6em; /* 1.6em = 16px */
+}
+```
+
+- - font-style стиль начертания
+
+```scss
+ {
+  font-style: normal;
+  font-style: italic; //курсив
+  font-style: oblique; //курсив
+}
+```
+
+- - font-weight жирность
+
+```scss
+ {
+  /font-weight: normal;
+  font-weight: bold;
+
+  /* Relative to the parent */
+  font-weight: lighter;
+  font-weight: bolder;
+
+  font-weight: 100;
+  font-weight: 200;
+  font-weight: 300;
+  font-weight: 400;
+  font-weight: 500;
+  font-weight: 600;
+  font-weight: 700;
+  font-weight: 800;
+  font-weight: 900;
+}
+```
+
 - - [возможность управлять шрифтами через js](../../js/web-api/font-face.md)
 - - расширенные настройки шрифтов:
 - - - font-feature-settings если шрифты имеют доп настройки
@@ -30,9 +113,30 @@ https://fonts.google.com/ - для поиска шрифтов
 - - - font-variant = font-variant-alternates + font-variant-caps + font-variant-east-asian + font-variant-emoji + font-variant-ligatures + font-variant-numeric + font-variant-position варианты написания разных шрифтов под разные языки если они предусмотрены шрифтом
 - - - font-variation-settings предоставляет низкоуровневый вариант управления шрифтом
 - [стиль строки]
-- - [word-spacing расстояние между словами](./css-props.md#word-spacing)
-- - [letter-spacing расстояние между буквами](./css-props.md#letter-spacing)
-- - [line-height расстояние между строками](./css-props.md#line-height)
+- - word-spacing расстояние между словами
+
+```scss
+ {
+  word-spacing: "px", "%";
+}
+```
+
+- - letter-spacing расстояние между буквами
+
+```scss
+ {
+  letter-spacing: "px", "%";
+}
+```
+
+- - line-height расстояние между строками
+
+```scss
+ {
+  line-height: "px", "%";
+}
+```
+
 - - line-break перенос китайского и японского
 - - text-align контроль расположения текста
 - - text-align-last как будет выравнен текст в последней строке или перед разрывом

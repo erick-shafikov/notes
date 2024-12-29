@@ -61,7 +61,9 @@ console.log(result);//20
 ## BP. Операторы ?? и || с потенциально числовыми значениями
 
 ```js
-const incorrect = { amount: smzReceipt?.amount / 100 ?? "" };
+// неправильно
+const incorrect = { amount: smzReceipt?.amount / 100 ?? "" }; //если smzReceipt?.amount / 100 === NaN то вернет NaN
+// правильно
 const correct = { amount: smzReceipt?.amount / 100 || "" }; //Так как если слева NaN
 ```
 
