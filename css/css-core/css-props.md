@@ -1175,16 +1175,6 @@ break-before, break-inside - до и после
 }
 ```
 
-<!-- color ------------------------------------------------------------------------------------------------------------------------------->
-
-# color
-
-```scss
- {
-  color: red; //цвет текста
-}
-```
-
 <!-- color-scheme ---------------------------------------------------------------------------------------------------------------------------->
 
 # color-scheme
@@ -1573,30 +1563,6 @@ i::before {
   <i>1</i>
   <i>100</i>
 </div>
-```
-
-<!-- cursor ------------------------------------------------------------------------------------------------------------------------------>
-
-# cursor
-
-Определяет тип курсора
-
-```scss
- {
-  // определенные системой их много полный список https://developer.mozilla.org/en-US/docs/Web/CSS/cursor
-  cursor: auto;
-  cursor: pointer;
-  cursor: help;
-  cursor: wait;
-  cursor: crosshair;
-  cursor: not-allowed;
-  cursor: zoom-in;
-  cursor: grab;
-  // пользовательский
-  cursor: url("hyper.cur"), auto;
-  // определение положения
-  cursor: url("hyper.cur") 0 0;
-}
 ```
 
 <!-- display-------------------------------------------------------------------------------------------------------------------------------->
@@ -2002,58 +1968,6 @@ grid-auto-columns - длины элемента
   height: auto;
   height: minmax(min-content, anchor-size(width));
   height: stretch;
-}
-```
-
-<!-- hyphens --------------------------------------------------------------------------------------------------------------------->
-
-# hyphens
-
-указывает, как следует переносить слова через дефис, когда текст переносится на несколько строк
-
-```scss
- {
-  hyphens: none;
-  hyphens: manual;
-  hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  -webkit-hyphens: auto;
-  //правильный разделитель слов (*)
-  hyphens: auto;
-}
-```
-
-<!-- hyphenate-character ------------------------------------------------------------------------------------------------------------------->
-
-# hyphenate-character
-
-```scss
-.hyphenate-character {
-  hyphenate-character: <string>;
-  hyphenate-character: auto;
-}
-```
-
-```html
-<dl>
-  <dt><code>hyphenate-character: "="</code></dt>
-  <dd id="string" lang="en">Superc&shy;alifragilisticexpialidocious</dd>
-  <dt><code>hyphenate-character is not set</code></dt>
-  <dd lang="en">Superc&shy;alifragilisticexpialidocious</dd>
-</dl>
-```
-
-```scss
-dd {
-  width: 90px;
-  border: 1px solid black;
-  hyphens: auto;
-}
-
-dd#string {
-  -webkit-hyphenate-character: "=";
-  hyphenate-character: "=";
 }
 ```
 
@@ -2669,20 +2583,6 @@ overflow-block, overflow-inline - Для rtl
 }
 ```
 
-<!-- overflow-wrap ---------------------------------------------------------------------------------------------------------------------------->
-
-# overflow-wrap
-
-разрыв сплошных строк при переносе
-
-```scss
- {
-  overflow-wrap: normal;
-  overflow-wrap: break-word; //мягкий разрыв предусматривается
-  overflow-wrap: anywhere; //мягкий разрыв не предусматривается
-}
-```
-
 <!-- padding  ------------------------------------------------------------------------------------------------------------------------------>
 
 # padding
@@ -2984,41 +2884,6 @@ CSS-свойство описывает, как линейное содержи�
 }
 ```
 
-<!-- text --------------------------------------------------------------------------------------------------------------------->
-
-# text-decoration
-
-Декорирование текста
-
-text-decoration = ext-decoration-color + text-decoration-line + text-decoration-style + text-decoration-thickness
-
-```scss
- {
-  //декорирование текста
-  text-decoration-line: underline | overline | line-through | blink; //где находится линия
-  text-decoration-style: solid | double | dotted | dashed | wavy; //цвет линии
-  text-decoration-line: underline overline; // может быть две
-  text-decoration-line: overline underline line-through;
-
-  // цвет знака ударения
-  text-emphasis-color: currentColor;
-}
-```
-
-<!-- text-decoration-color ----------------------------------------------------------------------------------------------------------------->
-
-# text-decoration-color
-
-Определяет цвет подчеркивания
-
-```scss
- {
-  // шорткат для text-decoration-line, text-decoration-style, ext-decoration-color
-  text-decoration: line-through red wavy;
-  text-decoration-color: red;
-}
-```
-
 <!-- text-decoration-skip ----------------------------------------------------------------------------------------------------------------->
 
 # text-decoration-skip
@@ -3028,188 +2893,6 @@ text-decoration = ext-decoration-color + text-decoration-line + text-decoration-
 ```scss
  {
   text-decoration-skip-ink: auto | none;
-}
-```
-
-<!-- text-decoration-thickness ------------------------------------------------------------------------------------------------------------->
-
-# text-decoration-thickness
-
-Ширина линии подчеркивания
-
-```scss
- {
-  text-decoration-thickness: 0.1em;
-  text-decoration-thickness: 3px;
-}
-```
-
-<!-- text-emphasis-------------------------------------------------------------------------------------------------------------------------->
-
-# text-emphasis
-
-Добавит элементы поверх текста
-
-text-emphasis = text-emphasis-position + text-emphasis-style + text-emphasis-color.
-
-```scss
- {
-  text-emphasis: "x";
-  text-emphasis: "点";
-  text-emphasis: "\25B2";
-  text-emphasis: "*" #555;
-  text-emphasis: "foo"; /* Should NOT use. It may be computed to or rendered as 'f' only */
-
-  /* Keywords value */
-  text-emphasis: filled;
-  text-emphasis: open;
-  text-emphasis: filled sesame;
-  text-emphasis: open sesame;
-
-  // возможные значения
-  //  dot | circle | double-circle | triangle | sesame
-
-  /* Keywords value combined with a color */
-  text-emphasis: filled sesame #555;
-}
-```
-
-<!-- text-emphasis-color ---------------------------------------------------------------------------------------------------------------------------->
-
-# text-emphasis-color
-
-Цвет элементов над буквами
-
-```scss
- {
-  text-emphasis-color: #555;
-  text-emphasis-color: blue;
-  text-emphasis-color: rgb(90 200 160 / 80%);
-}
-```
-
-<!-- text-emphasis-position  --------------------------------------------------------------------------------------------------------------->
-
-# text-emphasis-position
-
-расположение элементов над буквами
-
-```scss
-text-emphasis-position. {
-  text-emphasis-position: auto;
-
-  /* Keyword values */
-  text-emphasis-position: over;
-  text-emphasis-position: under;
-
-  text-emphasis-position: over right;
-  text-emphasis-position: over left;
-  text-emphasis-position: under right;
-  text-emphasis-position: under left;
-
-  text-emphasis-position: left over;
-  text-emphasis-position: right over;
-  text-emphasis-position: right under;
-  text-emphasis-position: left under;
-}
-```
-
-<!-- text-emphasis-style ------------------------------------------------------------------------------------------------------------------->
-
-# text-emphasis-style
-
-элемент для вставки
-
-```scss
-.text-emphasis-style {
-  text-emphasis-style: "x";
-  text-emphasis-style: "\25B2";
-  text-emphasis-style: "*";
-
-  /* Keyword values */
-  text-emphasis-style: filled;
-  text-emphasis-style: open;
-  text-emphasis-style: dot;
-  text-emphasis-style: circle;
-  text-emphasis-style: double-circle;
-  text-emphasis-style: triangle;
-  text-emphasis-style: filled sesame;
-  text-emphasis-style: open sesame;
-}
-```
-
-<!-- text-overflow ------------------------------------------------------------------------------------------------------------------------->
-
-# text-overflow
-
-```scss
- {
-  // обрежет текст
-  text-overflow: clip;
-  // поставит троеточие (два значения для rtl)
-  text-overflow: ellipsis ellipsis;
-  text-overflow: ellipsis " [..]";
-  text-overflow: ellipsis "[..] ";
-}
-```
-
-<!-- text-shadow ---------------------------------------------------------------------------------------------------------------------------->
-
-# text-shadow
-
-тень от текста
-
-```scss
- {
-  /* смещение-x | смещение-y | радиус-размытия | цвет */
-  text-shadow: 1px 1px 2px black;
-
-  /* цвет | смещение-x | смещение-y | радиус-размытия */
-  text-shadow: #fc0 1px 0 10px;
-
-  /* смещение-x | смещение-y | цвет */
-  text-shadow: 5px 5px #558abb;
-
-  /* цвет | смещение-x | смещение-y */
-  text-shadow: white 2px 5px;
-
-  /* смещение-x | смещение-y
-/* Используем значения по умолчанию для цвета и радиуса-размытия */
-  text-shadow: 5px 10px;
-}
-```
-
-<!-- text-transform ------------------------------------------------------------------------------------------------------------------------>
-
-# text-transform
-
-Преобразует текст
-
-```scss
- {
-  text-transform: none;
-  text-transform: capitalize;
-  text-transform: uppercase;
-  text-transform: lowercase;
-  text-transform: full-width; //выравнивание нестандартных шрифтов
-  text-transform: full-size-kana; //ruby-текст аннотации
-  text-transform: math-auto; //математический курсив
-}
-```
-
-<!-- text-wrap  ---------------------------------------------------------------------------------------------------------------------------->
-
-# text-wrap
-
-Контролирует перенос текста внутри блока
-
-```scss
-.text-wrap {
-  text-wrap: wrap; //обычный перенос при переполнение
-  text-wrap: nowrap; //отмена переноса
-  text-wrap: balance; //лучшее соотношение в плане длины строк
-  text-wrap: pretty; // более медленный алгоритм wrap
-  text-wrap: stable;
 }
 ```
 
@@ -3415,22 +3098,6 @@ transition-behavior: normal
 }
 ```
 
-<!-- user-select --------------------------------------------------------------------------------------------------------------------------->
-
-# user-select
-
-Отвечает за возможность выделять текст
-
-```scss
-.user-select {
-  user-select: none;
-  user-select: auto;
-  user-select: text;
-  user-select: contain;
-  user-select: all;
-}
-```
-
 <!-- vertical-align ------------------------------------------------------------------------------------------------------------------------>
 
 # vertical-align
@@ -3502,23 +3169,6 @@ transition-behavior: normal
 }
 ```
 
-<!-- white-space ---------------------------------------------------------------------------------------------------------------------------->
-
-# white-space
-
-Свойство white-space управляет тем, как обрабатываются пробельные символы внутри элемента.
-
-```scss
- {
-  white-space: normal; //Последовательности пробелов объединяются в один пробел.
-  white-space: nowrap; //не переносит строки (оборачивание текста) внутри текста.
-  white-space: pre; //Последовательности пробелов сохраняются так, как они указаны в источнике.
-  white-space: pre-wrap; //как и в pre + <br/>
-  white-space: pre-line; //только <br />
-  white-space: break-spaces;
-}
-```
-
 <!-- width --------------------------------------------------------------------------------------------------------------------------------->
 
 # width
@@ -3542,21 +3192,6 @@ transition-behavior: normal
 }
 ```
 
-<!--  word-break---------------------------------------------------------------------------------------------------------------------------->
-
-# word-break
-
-Где будет установлен перевод на новую строку
-
-```scss
-.word-break {
-  word-break: normal;
-  word-break: break-all;
-  word-break: keep-all;
-  word-break: break-word;
-}
-```
-
 <!-- word-wrap --------------------------------------------------------------------------------------------------------------------------->
 
 # word-break
@@ -3564,44 +3199,6 @@ transition-behavior: normal
 ```scss
  {
   word-wrap: "normal" | "break-word" | "inherit"; //перенос строки при переполнении
-}
-```
-
-<!-- writing-mode ---------------------------------------------------------------------------------------------------------------------------->
-
-# writing-mode
-
-Позволяет перевернуть блок с текстом текст
-
-```scss
- {
-  writing-mode: horizontal-tb; // поток - сверху вниз, предложения - слева направо
-  writing-mode: vertical-rl; // поток - справа налево, предложения - вертикально
-  writing-mode: vertical-lr; // поток - слева направо, предложения - вертикально
-}
-```
-
-<!-- webkit-background-clip ---------------------------------------------------------------------------------------------------------------------------->
-
-# webkit-background-clip
-
-Обрезка фона под текст
-
-```css
-.text-clip {
-  -webkit-background-clip: text;
-}
-```
-
-<!-- webkit-text-fill-color ---------------------------------------------------------------------------------------------------------------------------->
-
-# webkit-text-fill-color
-
-?Заливка текста
-
-```css
-.text-clip {
-  -webkit-text-fill-color: transparent;
 }
 ```
 
