@@ -1,16 +1,3 @@
-<!--  accent-color ------------------------------------------------------------------------------------------------------------------------------------>
-
-# accent-color
-
-определяет цвета интерфейсов взаимодействия с пользователем
-
-```scss
- {
-  //
-  accent-color: red;
-}
-```
-
 <!-- align-content (flex) --------------------------------------------------------------------------------------------------------------------->
 
 # align-content (flex)
@@ -341,7 +328,7 @@
 - - Анонимная временная шкала прогресса просмотра
 
 ```scss
- {
+.animation-timeline {
   animation-timeline: none;
   animation-timeline: auto;
 
@@ -359,23 +346,6 @@
   /* Multiple animations */
   animation-timeline: --progressBarTimeline, --carouselTimeline;
   animation-timeline: none, --slidingTimeline;
-}
-```
-
-<!-- appearance ---------------------------------------------------------------------------------------------------------------------------->
-
-# appearance
-
-Определяет внешний вид для элементов взаимодействия
-
-```scss
-.appearance {
-  appearance: none; //выключает стилизацию
-  appearance: auto; //значение предопределенные ОС
-  appearance: menulist-button; //auto
-  appearance: textfield; //auto
-  appearance: button;
-  appearance: checkbox;
 }
 ```
 
@@ -1529,42 +1499,6 @@ container = container-name + container-type
 
 Второе применение экономия ресурсов при рендеринге
 
-<!--  ------------------------------------------------------------------------------------------------------------------------------------>
-
-# counter-increment, counter-set, counter-reset,
-
-используется для увеличения значений в списке
-
-```scss
-// сброс счетчика
-div {
-  counter-reset: my-counter 100; //задает новое значение
-}
-div {
-  // объявляем счетчик и начальное значение по умолчанию ноль
-  counter-increment: my-counter -1;
-}
-div {
-  // объявляем счетчик и начальное значение по умолчанию ноль
-  counter-set: my-counter -1; //задает новое значение
-}
-i::before {
-  // запуск c помощью функции counter
-  content: counter(sevens);
-}
-```
-
--[функция counter()](./functions.md)
-
-список, который уменьшается на 1
-
-```html
-<div>
-  <i>1</i>
-  <i>100</i>
-</div>
-```
-
 <!-- display-------------------------------------------------------------------------------------------------------------------------------->
 
 # display
@@ -1769,12 +1703,6 @@ flex-basis: auto
   flex-wrap: wrap; //
 }
 ```
-
-<!-- font -------------------------------------------------------------------------------------------------------------------------------->
-
-# font
-
-Сокращенная запись для я font-style, font-variant, font-weight, font-stretch, font-size, line-height, и font-family
 
 <!-- gap (flex, grid)------------------------------------------------------------------------------------------------------------------->
 
@@ -2138,59 +2066,6 @@ grid-auto-columns - длины элемента
 }
 ```
 
-<!-- list --------------------------------------------------------------------------------------------------------------------->
-
-# list-style
-
-Сокращенная запись для list-style = list-style-image + list-style-position + list-style-type
-
-```scss
- {
-  //тип маркеров
-  list-style-type: disc;
-  list-style-type: circle;
-  list-style-type: square;
-  list-style-type: decimal;
-  list-style-type: georgian;
-  list-style-type: trad-chinese-informal;
-  list-style-type: kannada;
-  list-style-type: "-";
-  /* Identifier matching an @counter-style rule */
-  list-style-type: custom-counter-style;
-  list-style-type: none;
-  list-style-type: inherit;
-  list-style-type: initial;
-  list-style-type: revert;
-  list-style-type: revert-layer;
-  list-style-type: unset;
-
-  //где будет располагаться
-  list-style-position: inside; //::marker перед контентом
-  list-style-position: outside; //::marker внутри контента
-
-  //изображение
-  list-style-image: url(example.png);
-
-  // шорткат
-  list-style: square url(example.png) inside; // list-style-type list-style-image list-style-position
-}
-```
-
-<!-- list-style-image  --------------------------------------------------------------------------------------------------------------------->
-
-# list-style-image
-
-Позволяет добавить изображение в список в качестве разделителя
-
-```scss
- {
-  list-style-image: none;
-
-  /* <url> значения */
-  list-style-image: url("starsolid.gif");
-}
-```
-
 <!-- margin
   ---------------------------------------------------------------------------------------------------------------------------------->
 
@@ -2246,7 +2121,7 @@ mask = mask-clip + mask-composite + mask-image + mask-mode + mask-origin + mask-
 }
 ```
 
-<!--  ---------------------------------------------------------------------------------------------------------------------------->
+<!-- mask-image ---------------------------------------------------------------------------------------------------------------------------->
 
 # mask-image
 
@@ -2801,18 +2676,6 @@ place-self = align-self + justify-self
 }
 ```
 
-# shape-outside
-
-<!-- shape-outside --------------------------------------------------------------------------------------------------------------------------->
-
-Позволяет сделать обтекание во float по определенной фигуре
-
-```scss
- {
-  shape-outside: circle(50%);
-}
-```
-
 <!--scroll-timeline------------------------------------------------------------------------------------------------------------------------->
 
 # scroll-timeline
@@ -2841,58 +2704,6 @@ place-self = align-self + justify-self
 .table-layout {
   table-layout: fixed; //не будет адаптировать
   table-layout: auto; //будет адаптировать таблицу под контент, а именно растягивать ячейки
-}
-```
-
-<!-- text-align ---------------------------------------------------------------------------------------------------------------------------->
-
-# text-align
-
-CSS-свойство описывает, как линейное содержимое, наподобие текста, выравнивается в блоке его родительского элемента. text-align не контролирует выравнивание элементов самого блока, но только их линейное содержимое.
-
-```scss
-.text-align {
-  text-align: left;
-  text-align: right;
-  text-align: center;
-  text-align: justify;
-  text-align: start;
-  text-align: end;
-  text-align: match-parent; //c учетом direction
-  text-align: start end;
-  text-align: "."; // до символа
-  text-align: start ".";
-  text-align: "." end;
-}
-```
-
-<!-- text-align-last------------------------------------------------------------------------------------------------------------------------>
-
-# text-align-last
-
-ак выравнивается последняя строка в блоке или строка, идущая сразу перед принудительным разрывом строки.
-
-```scss
-.text-align-last {
-  text-align-last: auto;
-  text-align-last: start;
-  text-align-last: end;
-  text-align-last: left;
-  text-align-last: right;
-  text-align-last: center;
-  text-align-last: justify;
-}
-```
-
-<!-- text-decoration-skip ----------------------------------------------------------------------------------------------------------------->
-
-# text-decoration-skip
-
-при добавлении подчеркивания сделать сплошную линию, либо с прерыванием на буквы у,р,д
-
-```scss
- {
-  text-decoration-skip-ink: auto | none;
 }
 ```
 
@@ -3202,7 +3013,7 @@ transition-behavior: normal
 }
 ```
 
-<!--  ---------------------------------------------------------------------------------------------------------------------------->
+<!-- moz-свойства ---------------------------------------------------------------------------------------------------------------------------->
 
 # moz-свойства
 
@@ -3214,7 +3025,7 @@ transition-behavior: normal
 }
 ```
 
-<!--  ---------------------------------------------------------------------------------------------------------------------------->
+<!-- -webkit- свойства ---------------------------------------------------------------------------------------------------------------------------->
 
 # -webkit- свойства
 

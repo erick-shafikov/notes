@@ -37,7 +37,17 @@
 
 - shape-image-threshold: 0.2; позволяет настроить обтекание
 - shape-margin позволяет настроить отступ
-- [shape-outside позволяет настроить фигуру по которой будет происходить обтекание, можно установить изображение](./css-props.md#shape-outside)
+
+# shape-outside
+
+Позволяет сделать обтекание во float по определенной фигуре, можно установить изображение
+
+```scss
+.shape-outside {
+  shape-outside: circle(50%);
+}
+```
+
 - Можно настроить фигуру обтекания с помощью геометрических фигур и свойства clip-path, которое может принимать одно из значений:
 - - circle() - круг
 - - ellipse() - эллипс
@@ -61,6 +71,7 @@ img {
 body {
   font: 1.2em / 1.5 sans-serif;
 }
+
 img {
   float: left;
   shape-outside: url(https://mdn.github.io/shared-assets/images/examples/star-shape.png);
@@ -99,10 +110,19 @@ body {
   display: block;
 }
 
-// современное решение
+// современное решение очистки от обтекания
 
 .wrapper {
   display: flow-root;
+}
+```
+
+очистить float можно с помощью
+
+```scss
+// класс контейнера
+.wrapper {
+  overflow: auto;
 }
 ```
 
@@ -197,5 +217,21 @@ body {
       3 * ((100% - 3 * #{$gutter-horizontal}) / 4) + 2 * #{$gutter-horizontal}
     );
   }
+}
+```
+
+# PB. Первая заглавная буква
+
+```html
+<p class="has-dropcap">Carol McKinney Highsmith ...</p>
+```
+
+```scss
+.has-dropcap:first-letter {
+  font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+  float: left;
+  font-size: 6rem;
+  line-height: 0.65;
+  margin: 0.1em 0.1em 0.2em 0;
 }
 ```

@@ -12,6 +12,76 @@
 
 https://fonts.google.com/ - для поиска шрифтов
 
+# Добавление шрифтов на сайт:
+
+```html
+<link
+  href="http://fonts.googleapis.com/css?family=Open+Sans"
+  rel="stylesheet"
+  type="text/css"
+/>
+```
+
+# @font-face
+
+установка шрифтов с помощью
+
+```scss
+ {
+  font-family: 'Name of font'; //даем название шрифту
+  src: url(); //указываем место, где находится шрифт
+  src: local(); //указываем место, где находится шрифт на устройстве пользователя
+
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"), url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+  // использование локальных шрифтов
+  src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"),
+  // ------------------------------------------------------------------
+  font-display: auto;
+  font-display: block;
+  font-display: swap;
+  font-display: fallback;
+  font-display: optional;
+  // ------------------------------------------------------------------
+  font-stretch: ultra-condensed;
+  font-stretch: extra-condensed;
+  font-stretch: condensed;
+  font-stretch: semi-condensed;
+  font-stretch: normal;
+  font-stretch: semi-expanded;
+  font-stretch: expanded;
+  font-stretch: extra-expanded;
+  font-stretch: ultra-expanded;
+  font-stretch: 50%;
+  font-stretch: 100%;
+  font-stretch: 200%;
+  // ------------------------------------------------------------------
+  font-style: normal;
+  font-style: italic;
+  font-style: oblique;
+  font-style: oblique 30deg;
+  font-style: oblique 30deg 50deg;
+  // ------------------------------------------------------------------
+  font-weight: normal;
+  font-weight: bold;
+  font-weight: 400;
+  /* Multiple Values */
+  font-weight: normal bold;
+  font-weight: 300 500;
+}
+```
+
+использование
+
+```scss
+html {
+  font-family: "myFont", "Bitstream Vera Serif", serif;
+}
+```
+
 # font
 
 font = font-style + font-variant + font-weight + font-stretch + font-size + line-height + font-family свойства шрифта
@@ -24,7 +94,7 @@ font = font-style + font-variant + font-weight + font-stretch + font-size + line
  {
   // оба определения валидные
   font-family: Gill Sans Extrabold, sans-serif;
-  font-family: "Goudy Bookletter 1911", sans-serif;
+  font-family: "Goudy Bookletter 1911"//если название шрифта состоит из нескольких слов, то нужно заключать в кавычки
 
   /* Только общие семейства */
   font-family: serif; //со штрихами
@@ -39,9 +109,17 @@ font = font-style + font-variant + font-weight + font-stretch + font-size + line
 }
 ```
 
+Разновидности шрифтов по типам:
+
+- serif - с засечками
+- sans-serif - без засечек.
+- monospace - в которых все символы имеют одинаковую ширину, обычно используются в листингах кода.
+- cursive - имитирующие рукописный почерк, с плавными, соединенными штрихами.
+- fantasy - предназначенные для декоративных целей.
+
 ## font-size
 
-размер шрифта
+размер шрифта, стандартное значение у тега html - 16px
 
 ```scss
 .font-size {
@@ -108,7 +186,9 @@ span {
 }
 ```
 
-# [возможность управлять шрифтами через js](../../js/web-api/font-face.md)
+# font-face (js)
+
+[возможность управлять шрифтами через js](../../js/web-api/font-face.md)
 
 # расширенные настройки шрифтов:
 
@@ -116,7 +196,26 @@ span {
 
 если шрифты имеют доп настройки
 
+```scss
+.font-feature-settings {
+  font-feature-settings: "smcp";
+  font-feature-settings: "smcp" on;
+  font-feature-settings: "swsh" 2;
+  font-feature-settings: "smcp", "swsh" 2;
+}
+```
+
 ## font-kerning
+
+расстояние между буквами
+
+```scss
+.font-kerning {
+  font-kerning: auto;
+  font-kerning: normal;
+  font-kerning: none;
+}
+```
 
 если шрифты имеют доп настройки
 
@@ -144,13 +243,31 @@ font-synthesis = font-synthesis-weight + font-synthesis-style + font-synthesis-s
 
 ## font-variant
 
-font-variant = font-variant-alternates + font-variant-caps + font-variant-east-asian + font-variant-emoji + font-variant-ligatures + font-variant-numeric + font-variant-position варианты написания разных шрифтов под разные языки если они предусмотрены шрифтом
+font-variant = font-variant-alternates + font-variant-caps + font-variant-east-asian + font-variant-emoji + font-variant-ligatures + font-variant-numeric + font-variant-position
+
+варианты написания разных шрифтов под разные языки если они предусмотрены шрифтом
+
+## font-variant-alternates
+
+управляет использованием альтернативных глифов
+
+```scss
+.font-variant-alternate {
+  font-variant-alternates: stylistic(user-defined-ident);
+  font-variant-alternates: styleset(user-defined-ident);
+  font-variant-alternates: character-variant(user-defined-ident);
+  font-variant-alternates: swash(user-defined-ident);
+  font-variant-alternates: ornaments(user-defined-ident);
+  font-variant-alternates: annotation(user-defined-ident);
+  font-variant-alternates: swash(ident1) annotation(ident2);
+}
+```
 
 ## font-variation-settings
 
 предоставляет низкоуровневый вариант управления шрифтом
 
-- [стиль строки]
+- стиль строки
 - - word-spacing расстояние между словами
 
 ```scss
@@ -185,7 +302,49 @@ font-variant = font-variant-alternates + font-variant-caps + font-variant-east-a
 
 # text-align
 
-контроль расположения текста
+CSS-свойство описывает, как линейное содержимое, наподобие текста, выравнивается в блоке его родительского элемента. text-align не контролирует выравнивание элементов самого блока, но только их линейное содержимое.
+
+```scss
+.text-align {
+  text-align: left;
+  text-align: right;
+  text-align: center;
+  text-align: justify;
+  text-align: start;
+  text-align: end;
+  text-align: match-parent; //c учетом direction
+  text-align: start end;
+  text-align: "."; // до символа
+  text-align: start ".";
+  text-align: "." end;
+}
+```
+
+# text-align-last
+
+Как выравнивается последняя строка в блоке или строка, идущая сразу перед принудительным разрывом строки.
+
+```scss
+.text-align-last {
+  text-align-last: auto;
+  text-align-last: start;
+  text-align-last: end;
+  text-align-last: left;
+  text-align-last: right;
+  text-align-last: center;
+  text-align-last: justify;
+}
+```
+
+# text-decoration-skip
+
+при добавлении подчеркивания сделать сплошную линию, либо с прерыванием на буквы у,р,д
+
+```scss
+ {
+  text-decoration-skip-ink: auto | none;
+}
+```
 
 # text-align-last
 
@@ -364,8 +523,11 @@ text-emphasis-position. {
   text-shadow: white 2px 5px;
 
   /* смещение-x | смещение-y
-/* Используем значения по умолчанию для цвета и радиуса-размытия */
+  Используем значения по умолчанию для цвета и радиуса-размытия */
   text-shadow: 5px 10px;
+
+  //множественные тени
+  text-shadow: 1px 1px 1px red, 2px 2px 1px red;
 }
 ```
 
@@ -570,26 +732,6 @@ dd#string {
   writing-mode: horizontal-tb; // поток - сверху вниз, предложения - слева направо
   writing-mode: vertical-rl; // поток - справа налево, предложения - вертикально
   writing-mode: vertical-lr; // поток - слева направо, предложения - вертикально
-}
-```
-
-# Добавление шрифтов на сайт:
-
-```html
-<link
-  href="http://fonts.googleapis.com/css?family=Open+Sans"
-  rel="stylesheet"
-  type="text/css"
-/>
-```
-
-[установка шрифтов с помощью @font-face](./at-rules.md#font-face)
-
-использование
-
-```scss
-html {
-  font-family: "myFont", "Bitstream Vera Serif", serif;
 }
 ```
 

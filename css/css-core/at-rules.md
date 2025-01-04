@@ -160,60 +160,6 @@ c помощью функции style можно ссылать на стиль 
 }
 ```
 
-<!-- @font-face ------------------------------------------------------------------------------------------------------------------------------>
-
-# @font-face
-
-```scss
- {
-  font-family: 'Name of font'; //даем название шрифту
-  src: url(); //указываем место, где находится шрифт
-  src: local(); //указываем место, где находится шрифт на устройстве пользователя
-
-}
-
-@font-face {
-  font-family: "Open Sans";
-  src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"), url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
-  // использование локальных шрифтов
-  src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"),
-  // ------------------------------------------------------------------
-  font-display: auto;
-  font-display: block;
-  font-display: swap;
-  font-display: fallback;
-  font-display: optional;
-  // ------------------------------------------------------------------
-  font-stretch: ultra-condensed;
-  font-stretch: extra-condensed;
-  font-stretch: condensed;
-  font-stretch: semi-condensed;
-  font-stretch: normal;
-  font-stretch: semi-expanded;
-  font-stretch: expanded;
-  font-stretch: extra-expanded;
-  font-stretch: ultra-expanded;
-  font-stretch: 50%;
-  font-stretch: 100%;
-  font-stretch: 200%;
-  // ------------------------------------------------------------------
-  font-style: normal;
-  font-style: italic;
-  font-style: oblique;
-  font-style: oblique 30deg;
-  font-style: oblique 30deg 50deg;
-  // ------------------------------------------------------------------
-  font-weight: normal;
-  font-weight: bold;
-  font-weight: 400;
-  /* Multiple Values */
-  font-weight: normal bold;
-  font-weight: 300 500;
-}
-```
-
-<!--  ---------------------------------------------------------------------------------------------------------------------------->
-
 # @import
 
 Позволяет импортировать стили, должно быть на верху фала, кроме @charset
