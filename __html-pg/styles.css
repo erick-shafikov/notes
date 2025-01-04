@@ -1,3 +1,7 @@
+body {
+  margin: 0px;
+}
+
 .test {
   color: green;
   text-shadow: 1px 1px 1px black, 3px 3px 2px red;

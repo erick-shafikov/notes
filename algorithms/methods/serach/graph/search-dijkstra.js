@@ -1,19 +1,10 @@
+/* 
+        - 6 → a - 1 → 
+начало         ↑3     конец 
+        - 2 → b - 5 → 
+*/
+
 (function () {
-  // ------------------------------------------
-  const root = document.getElementById('root');
-
-  const img = document.createElement('img');
-  img.src = 'algorithms/dijkstra-graph.png';
-  img.style = 'display: block';
-
-  const h2 = document.createElement('h2');
-  h2.textContent = 'dijkstra algorithm';
-
-  root.insertAdjacentElement('afterend', img);
-  img.insertAdjacentElement('beforebegin', h2);
-
-  // ------------------------------------------
-
   // описание графа
   const graph = {};
   graph.start = {};
@@ -37,8 +28,8 @@
 
   //Таблица родителей для каждого из узлов
   const parents = {};
-  parents.a = 'start';
-  parents.b = 'start';
+  parents.a = "start";
+  parents.b = "start";
   parents.fin = null; //не знаем в начальное точке как добраться
 
   // обработанные
@@ -89,6 +80,6 @@
     node = findLowestCostNode(costs);
   }
 
-  console.log('Cost from the start to each node:');
+  console.log("Cost from the start to each node:");
   console.log(costs); // { a: 5, b: 2, fin: 6 }
 })();

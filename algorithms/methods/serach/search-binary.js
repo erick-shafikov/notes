@@ -30,28 +30,8 @@
     return null;
   }
 
-  function myB(list, item) {
-    let low = 0;
-    let hight = list.length - 1;
-
-    while (low < hight) {
-      let guessIndex = Math.floor((low + hight) / 2);
-      let guessElement = list[guessIndex];
-
-      if (guessElement === item) {
-        return guessIndex;
-      } else if (guessElement > item) {
-        hight = guessIndex;
-      } else {
-        low = guessIndex;
-      }
-    }
-
-    return null;
-  }
-
   const my_list = [1, 3, 5, 7, 9];
 
-  console.log(myB(my_list, 3)); // 1
-  console.log(myB(my_list, -1)); // null
+  console.log(binarySearch(my_list, 3)); // 1
+  console.log(binarySearch(my_list, -1)); // null
 })();

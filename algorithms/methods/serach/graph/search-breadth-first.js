@@ -1,9 +1,9 @@
 (function () {
   const graph = {};
-  graph.you = ['alice', 'bob', 'claire'];
-  graph.bob = ['anuj', 'peggy'];
-  graph.alice = ['peggy'];
-  graph.claire = ['thom', 'jonny'];
+  graph.you = ["alice", "bob", "claire"];
+  graph.bob = ["anuj", "peggy"];
+  graph.alice = ["peggy"];
+  graph.claire = ["thom", "jonny"];
   graph.anuj = [];
   graph.peggy = [];
   graph.thom = [];
@@ -14,7 +14,7 @@
    * @param {string} name строка - имя
    * @returns {boolean} Result of checking
    */
-  const personIsSeller = (name) => name[name.length - 1] === 'm';
+  const personIsSeller = (name) => name[name.length - 1] === "m";
 
   /**
    * Find a mango seller
@@ -47,24 +47,5 @@
     return false;
   };
 
-  const mySearch = (name) => {
-    let subTree = [...graph[name]];
-    const checkedPersons = [];
-
-    while (subTree.length) {
-      const potential = subTree.shift();
-
-      if (checkedPersons.indexOf(potential) === -1) {
-        if (personIsSeller(potential)) {
-          console.log(potential);
-          return true;
-        }
-        subTree = subTree.concat(graph[potential]);
-        checkedPersons.push(potential);
-      }
-    }
-    return false;
-  };
-
-  mySearch('you'); // thom is a mango seller!
+  search("you"); // thom is a mango seller!
 })();

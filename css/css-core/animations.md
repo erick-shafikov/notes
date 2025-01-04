@@ -3,13 +3,105 @@
 Анимации делятся на два типа - дискретные и вычисляемые. Дискретные меняются на 50% времени
 CSS анимации легче и быстрее по сравнению с JS анимации
 
-# преобразование элемента (transform)
+# transform - преобразование элемента
 
-[transform свойство по перемещению и масштабированию элементов](./css-props.md/#transform)
+Позволяет растягивать, поворачивать, масштабировать элемент
 
-- - [transform-box трансформация и рамки](./css-props.md/#transform-box)
-- - [transform-style для пространственных преобразований](./css-props.md/#transform-style)
-- - [transform-origin - относительно какой координаты будет применяться трансформация, начало координат](./css-props.md/#transform-origin)
+```scss
+.transform {
+  transform: none;
+
+  transform: matrix(1, 2, 3, 4, 5, 6);
+  transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+  transform: perspective(17px);
+  transform: rotate(0.5turn);
+  transform: rotate3d(1, 2, 3, 10deg);
+  transform: rotateX(10deg);
+  transform: rotateY(10deg);
+  transform: rotateZ(10deg);
+  transform: translate(12px, 50%);
+  transform: translate3d(12px, 50%, 3em);
+  transform: translateX(2em);
+  transform: translateY(3in);
+  transform: translateZ(2px);
+  transform: scale(2, 0.5);
+  transform: scale3d(2.5, 1.2, 0.3);
+  transform: scaleX(2);
+  transform: scaleY(0.5);
+  transform: scaleZ(0.3);
+  transform: skew(30deg, 20deg);
+  transform: skewX(30deg);
+  transform: skewY(1.07rad);
+
+  /* Мультифункциональные значения */
+  transform: translateX(10px) rotate(10deg) translateY(5px);
+  transform: perspective(500px) translate(10px, 0, 20px) rotateY(3deg);
+}
+```
+
+Если свойство имеет значение, отличное от none, будет создан контекст наложения. В этом случае, элемент будет действовать как содержащий блок для любых элементов position: fixed; или position: absolute; которые он содержит.
+
+Свойство неприменимо: неизменяемые инлайновые блоки, блоки таблица-колонка, и блоки таблица-колонка-группа
+
+# transform-box
+
+определяет к чему будет приниматься трансформация
+
+```scss
+.transform-box {
+  transform-box: content-box; //Поле содержимого
+  transform-box: border-box; //пограничный блок
+  transform-box: fill-box; //Ограничивающий блок
+  transform-box: stroke-box; //Ограничивающий контур штриха
+  transform-box: view-box; //Ближайший вьюпорт SVG
+}
+```
+
+## transform-style
+
+Позиционирование 3d элементов
+
+```scss
+.transform-style {
+  transform-style: preserve-3d; // Показывает, что дочерний элемент должен быть спозиционирован в 3D-пространстве.
+  transform-style: flat; // Показывает, что дочерний элемент лежит в той же плоскости, что и родительский.
+}
+```
+
+## transform-origin
+
+Относительно какой точки будет применяться трансформация, относительно какой координаты будет применяться трансформация, начало координат
+
+```scss
+ {
+  transform-origin: 2px;
+  transform-origin: bottom;
+
+  /* x-offset | y-offset */
+  transform-origin: 3cm 2px;
+
+  /* x-offset-keyword | y-offset */
+  transform-origin: left 2px;
+
+  /* x-offset-keyword | y-offset-keyword */
+  transform-origin: right top;
+
+  /* y-offset-keyword | x-offset-keyword */
+  transform-origin: top right;
+
+  /* x-offset | y-offset | z-offset */
+  transform-origin: 2px 30% 10px;
+
+  /* x-offset-keyword | y-offset | z-offset */
+  transform-origin: left 5px -3px;
+
+  /* x-offset-keyword | y-offset-keyword | z-offset */
+  transform-origin: right bottom 2cm;
+
+  /* y-offset-keyword | x-offset-keyword | z-offset */
+  transform-origin: bottom right 2cm;
+}
+```
 
 Функции которые используются с transform
 
@@ -19,11 +111,39 @@ CSS анимации легче и быстрее по сравнению с JS 
 
 Свойство (есть только в safari) zoom: number | % для увеличения элементов, в отличает от transform вызывает перерасчет макета
 
-## Для настроек 3d преобразований:
+# Для настроек 3d преобразований:
 
-- [backface-visibility: visible | hidden позволяют скрыть заднюю грань элемента при 3d трансформаций](./css-props.md/#backface-visibility)
-- [perspective: px расстояние от z=0 это свойство, устанавливается первое]
-- - [perspective-origin определяет позицию с который смотрит пользователь](./css-props.md/#perspective-origin)
+### backface-visibility
+
+будет видна или нет часть изображения в 3d, которая определена как задняя часть
+
+```scss
+.backface-visibility {
+  backface-visibility: visible;
+  backface-visibility: hidden;
+}
+```
+
+### perspective
+
+px расстояние от z=0 это свойство, устанавливается первое
+
+# perspective-origin
+
+определяет позицию с который смотрит пользователь
+
+```scss
+.perspective-origin {
+  perspective-origin: x-position;
+
+  /* Two-value syntax */
+  perspective-origin: x-position y-position;
+
+  /* When both x-position and y-position are keywords,
+   the following is also valid */
+  perspective-origin: y-position x-position;
+}
+```
 
 Пример с кубом в 3d
 
@@ -171,12 +291,93 @@ e.className = "slidein";
 
 # transition - добавление перехода
 
-- [transition укороченная запись для transition-property + transition-duration + transition-timing-function + transition-delay](./css-props.md/#transition)
+## transition
+
+transition - укороченная запись для transition-property, transition-duration, transition-timing-function, и transition-delay
+
+Значения по умолчанию:
+
+```scss
+.transition-default {
+  transition-delay: 0s;
+  transition-duration: 0s;
+  transition-property: all;
+  transition-timing-function: ease;
+  transition-behavior: normal;
+}
+```
+
+```scss
+.transition {
+  transition: margin-left 4s;
+  /* имя свойства | длительность | задержка */
+  transition: margin-left 4s 1s;
+  /* имя свойства | длительность | временная функция | задержка */
+  transition: margin-left 4s ease-in-out 1s;
+  /* Применить к 2 свойствам */
+  transition: margin-left 4s, color 1s;
+  /* Применить ко всем изменённым свойствам */
+  transition: all 0.5s ease-out;
+}
+```
+
+Объединение нескольких анимаций
+
+```css
+.elementToTransition {
+  /* что анимировать all – все элементы */
+  transition-property: background-color, border-color;
+  /* длительность анимации */
+  transition-duration: 1s 2s;
+  /* временная функция анимации */
+  transition-timing-function: cubic-bezier() ease;
+  /* Задержка анимации */
+  transition-delay: 2s 0.3s;
+  /* все вместе */
+  transition: background-color 1s as ease 2ms, border-color 2s ease;
+}
+```
+
+### transition-behavior
+
+Позволяет запускать анимацию на дискретных свойствах. Так как анимация будет до 50% и после. Исключение display:none и visibility:hidden
+
+```scss
+ {
+  transition-behavior: allow-discrete; //позволяется анимировать
+  transition-behavior: normal;
+}
+```
+
 - - transition-delay - задержка перед анимацией, при отрицательных значений начнет проигрывать анимацию на величину значения
 - - transition-duration - время анимации
 - - transition-property какое свойство будет анимирован, их может быть несколько
-- - [transition-timing-function - временная функция](./css-props.md/#transition-timing-function)
-- - [transition-behavior - поведение для анимации, позволяет настроить дискретные анимации](./css-props.md#transition-behavior)
+
+# transition-timing-function
+
+настройка временной функции
+
+```scss
+.transition-timing-function {
+  transition-timing-function: ease; //cubic-bezier(0.25, 0.1, 0.25, 1.0)
+  transition-timing-function: linear; //cubic-bezier(0.0, 0.0, 1.0, 1.0)
+  transition-timing-function: ease-in; //cubic-bezier(0.42, 0, 1.0, 1.0)
+  transition-timing-function: ease-out; //cubic-bezier(0, 0, 0.58, 1.0)
+  transition-timing-function: ease-in-out; //cubic-bezier(0.42, 0, 0.58, 1.0)
+  transition-timing-function: cubic-bezier(p1, p2, p3, p4);
+  // дискретные функции
+  transition-timing-function: steps(n, jump-start);
+  transition-timing-function: steps(n, jump-end);
+  transition-timing-function: steps(n, jump-none);
+  transition-timing-function: steps(n, jump-both);
+  transition-timing-function: steps(n, start);
+  transition-timing-function: steps(n, step-start); //jump-start.
+  transition-timing-function: steps(n, step-end); // jump-end.
+  transition-timing-function: step-start; //steps(1, jump-start)
+  transition-timing-function: step-end; // steps(1, jump-end)
+}
+```
+
 - - - [content-visibility позволяет настроить плавные анимации лоя дискретных свойств](./css-props.md/#content-visibility)
 
 При завершении перехода срабатывает
