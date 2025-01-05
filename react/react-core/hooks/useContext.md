@@ -132,12 +132,18 @@ function Page(props) {
 
 ```tsx
 import { ReactNode, createContext, useReducer } from "react";
+
 export const ItemContext = createContext({});
 export const ActionContext = createContext({});
+
 const reducer = () => {};
 const getInitialState = () => ({});
+
 const ItemsProvider = ({ children }: { children: ReactNode }) => {
   const [items, dispatch] = useReducer(reducer, getInitialState());
+
+  // коллбеки и значения обернуть в useMemo если используется просто состояние
+
   return (
     <ActionContext.Provider value={dispatch}>
       <ItemContext.Provider value={items}>{children}</ItemContext.Provider>
