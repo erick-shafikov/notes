@@ -268,7 +268,7 @@ Company/Service Meta Tags Apple Meta Tags
 
 ```html
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<meta content="yes" name="apple-touch-fullscreen" />
+<meta name="apple-touch-fullscreen" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=no" />
 <meta
@@ -374,11 +374,11 @@ Apple Tags
 <meta name="viewport" content="initial-scale = 2.3, user-scalable = no" />
 <!-- 
  width - ширина экрана - 
- height- высота 
+ height- высота для области просмотра
  initial-scale - масштабирование
  minimum-scale - ограничения масштабирования
- maximum-scale
- user-scalable- запрет на масштабирование при user-scalable=0
+ maximum-scale - максимальный уровень масштабирования
+ user-scalable- запрет на масштабирование при user-scalable=no
  interactive-widget=resizes-visual | resizes-content | overlays-content отображение доп элементов (клавиатуры)
 -->
 <link rel="apple-touch-icon" href="touch-icon-iphone.png" />

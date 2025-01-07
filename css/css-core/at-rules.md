@@ -198,48 +198,6 @@ c помощью функции style можно ссылать на стиль 
 }
 ```
 
-<!--@keyframes-------------------------------------------------------------------------------------------------------------------------------->
-
-# @keyframes
-
-Позволяет создать опорные точки анимации
-
-свойства с !important будут проигнорированы
-
-```scss
-@keyframes slideIn {
-  from {
-    // 0%
-    transform: translateX(0%);
-  }
-
-  to {
-    // 100%
-    transform: translateX(100%);
-  }
-}
-// в процентах
-@keyframes identifier {
-  0% {
-    top: 0;
-    left: 0;
-  }
-  30% {
-    top: 50px;
-  }
-  68%,
-  72% {
-    left: 50px;
-  }
-  100% {
-    top: 100px;
-    left: 100%;
-  }
-}
-```
-
-!important в keyframe будет игнорировано
-
 <!--  ---------------------------------------------------------------------------------------------------------------------------->
 
 # @layer
@@ -355,11 +313,11 @@ import url("components-lib.css") layer(components);
 }
 // для промежутков
 @media (min-width: 30em) and (max-width: 50em) {
-  /* … */
+  //
 }
 // более сокращенный вариант
 @media (30em <= width <= 50em) {
-  /* … */
+  //
 }
 
 // может ли пользоваться наведением
@@ -475,64 +433,6 @@ svg|a {
 
 Управление может происходить с помощью псевдоклассов :blank, :first, :left, :right
 
-<!-- @position-try (якоря) ----------------------------------------------------------------------------------------------------------------------->
-
-# @position-try (якоря)
-
-Позволяет расположить якорь. Нет в сафари и в ff
-
-```html
-<div class="anchor">⚓︎</div>
-
-<div class="infobox">
-  <p>This is an information box.</p>
-</div>
-```
-
-```scss
-.anchor {
-  anchor-name: --myAnchor;
-  position: absolute;
-  top: 100px;
-  left: 350px;
-}
-
-@position-try --custom-left {
-  inset-area: left;
-  width: 100px;
-  margin: 0 10px 0 0;
-}
-
-@position-try --custom-bottom {
-  top: anchor(bottom);
-  justify-self: anchor-center;
-  margin: 10px 0 0 0;
-  inset-area: none;
-}
-
-@position-try --custom-right {
-  left: calc(anchor(right) + 10px);
-  align-self: anchor-center;
-  width: 100px;
-  inset-area: none;
-}
-
-@position-try --custom-bottom-right {
-  inset-area: bottom right;
-  margin: 10px 0 0 10px;
-}
-
-.infobox {
-  position: fixed;
-  position-anchor: --myAnchor;
-  inset-area: top;
-  width: 200px;
-  margin: 0 0 10px 0;
-  position-try-fallbacks: --custom-left, --custom-bottom, --custom-right,
-    --custom-bottom-right;
-}
-```
-
 <!-- @property  ------------------------------------------------------------------------------------------------------------------------------------>
 
 # @property
@@ -608,18 +508,6 @@ window.CSS.registerProperty({
 ```
 
 Может использоваться вместе с псевдо классом scope
-
-<!-- @starting-style  ---------------------------------------------------------------------------------------------------------------------->
-
-# @starting-style
-
-Позволяет определить стили для начальных стадий анимации (полезно при display: none)
-
-```scss
-@starting-style {
-  //стили
-}
-```
 
 <!-- @supports ------------------------------------------------------------------------------------------------------------------------------->
 

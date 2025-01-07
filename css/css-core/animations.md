@@ -43,6 +43,8 @@ CSS анимации легче и быстрее по сравнению с JS 
 
 Свойство неприменимо: неизменяемые инлайновые блоки, блоки таблица-колонка, и блоки таблица-колонка-группа
 
+!!! transform: translate Наслаиваются при анимированен одного свойства
+
 # transform-box
 
 определяет к чему будет приниматься трансформация
@@ -128,7 +130,7 @@ CSS анимации легче и быстрее по сравнению с JS 
 
 px расстояние от z=0 это свойство, устанавливается первое
 
-# perspective-origin
+### perspective-origin
 
 определяет позицию с который смотрит пользователь
 
@@ -145,7 +147,7 @@ px расстояние от z=0 это свойство, устанавлива
 }
 ```
 
-Пример с кубом в 3d
+### BP. Пример с кубом в 3d
 
 ```html
 <!-- контейнер Определяет контейнер div, кубический div и общую грань -->
@@ -217,7 +219,45 @@ px расстояние от z=0 это свойство, устанавлива
 }
 ```
 
-# @keyframes создание анимации
+# @keyframes создание анимации (animation-name)
+
+Позволяет создать опорные точки анимации
+
+свойства с !important будут проигнорированы
+
+```scss
+@keyframes slideIn {
+  from {
+    // 0%
+    transform: translateX(0%);
+  }
+
+  to {
+    // 100%
+    transform: translateX(100%);
+  }
+}
+// в процентах
+@keyframes identifier {
+  0% {
+    top: 0;
+    left: 0;
+  }
+  30% {
+    top: 50px;
+  }
+  68%,
+  72% {
+    left: 50px;
+  }
+  100% {
+    top: 100px;
+    left: 100%;
+  }
+}
+```
+
+!important в keyframe будет игнорировано
 
 ```scss
 //Создание анимации
@@ -237,27 +277,202 @@ px расстояние от z=0 это свойство, устанавлива
 }
 ```
 
-- [свойство animation = animation-name + animation-duration + animation-timing-function + animation-delay + animation-iteration-count + animation-direction + animation-fill-mode + animation-play-state](./css-props.md/#animation)
-- - [animation-name имя анимации](./css-props.md#animation-name)
-- - [animation-composition свойство для смешивания двух анимаций](./css-props.md/#animation-composition)
-- - [animation-delay задержка анимации](./css-props.md#animation-delay)
-- - [animation-direction направленность анимации](./css-props.md#animation-direction)
-- - [animation-duration длительность анимации](./css-props.md#animation-duration)
-- - [animation-fill-mode применение начальных и конечных стилей к анимации что бы при окончании анимации применялись конечные стили без сброса стилей к изначальным](./css-props.md#animation-fill-mode)
-- - [animation-iteration-count количество повторов анимации](./css-props.md#animation-iteration-count)
-- - [animation-play-state воспроизведение и остановка](./css-props.md#animation-play-state)
-- - [animation-timing-function временная кривая для анимации](./css-props.md#animation-timing-function)
-- свойства transition
-- - [transition-behavior позволяет задать характер анимации позволяет запускать анимации для дискретных свойств](./css-props.md/#transition-behavior)
-- [@starting-style определяет стартовые значения анимируемых свойств, так как при монтировании в DOM, toggle классов возвращает к значению прописанному в селекторе](./at-rules.md/#starting-style)
-- временные функции анимации
-- - [!!!TODO_MDN linear]
-- - [!!!TODO_MDN cubic-bezier]
-- - [!!!TODO_MDN step]
+## animation
 
-- [@keyframes - создает шаги анимации, можно использовать проценты или ключевые слова from to](./at-rules.md#keyframes)
+это сокращенная запись для animation-name + animation-duration + animation-timing-function + animation-delay + animation-iteration-count + animation-direction + animation-fill-mode + animation-play-state
 
-!!! transform: translate Наслаиваются при анимированен одного свойства
+```scss
+ {
+  /* @keyframes duration | timing-function | delay |
+   iteration-count | direction | fill-mode | play-state | name */
+  animation: 3s ease-in 1s infinite reverse both running slidein;
+}
+```
+
+## animation-name
+
+в первую очередь задаем имя анимации
+
+```scss
+ {
+  animation-name: test_05; //-specific, sliding-vertically
+}
+```
+
+## animation-composition
+
+Позволяет применять несколько анимации, полезно когда применяем два раза transform etc
+
+```scss
+ {
+  animation-composition: replace; //будут перезаписываться анимации одного свойства
+  animation-composition: add; // add и accumulate применяются по разному
+  animation-composition: accumulate;
+}
+```
+
+```scss
+.square {
+  height: 100px;
+  width: 100px;
+  background-color: gold;
+  //применяем две анимации move и bounce
+  animation: 2s ease-in-out infinite alternate move, 0.3s ease-in-out infinite
+      alternate bounce;
+  // по умолчанию
+  // animation-composition: replace;
+  // смешаются 2 анимации
+  animation-composition: add;
+  // смешаются 2 анимации как и add
+  // animation-composition: accumulate;
+}
+
+@keyframes move {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(100vw - 140px));
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100px);
+  }
+}
+```
+
+## animation-delay
+
+Время задержки перед стартом. При указании неправильных значений, не применится
+
+```scss
+ {
+  //
+  animation-delay: 1s; //через секунду
+  animation-delay: -1s; //при указании отрицательных значений, анимация будет проигрываться с того времени анимации, которая указана с отрицательным значением
+}
+```
+
+## animation-direction
+
+```scss
+ {
+  /* Одиночная анимация */
+  animation-direction: normal; //после проигрыша анимации - позиция сбросится
+  animation-direction: reverse; //проигрыш задом наперед
+  animation-direction: alternate; // в первом цикле normal, во втором reverse
+  animation-direction: alternate-reverse; //противоположно alternate
+
+  /* Несколько анимаций */
+  animation-direction: normal, reverse;
+  animation-direction: alternate, reverse, normal;
+
+  /* Глобальные значения */
+  animation-direction: inherit;
+  animation-direction: initial;
+  animation-direction: unset;
+}
+```
+
+## animation-duration
+
+Продолжительность анимации
+
+```scss
+ {
+  animation-duration: 1s; //отрицательное и нулевое значение будет проигнорировано
+}
+```
+
+## animation-fill-mode
+
+как нужно применять стили к объекту анимации до и после проигрыша
+
+применение начальных и конечных стилей к анимации что бы при окончании анимации применялись конечные стили без сброса стилей к изначальным
+
+```scss
+ {
+  /* Ключевые слова */
+  animation-fill-mode: none; //стили не будут применены до и после
+  animation-fill-mode: forwards; // 100% или to в зависимости
+  animation-fill-mode: backwards;
+  animation-fill-mode: both;
+
+  /* Несколько значений могут быть заданы через запятую. */
+  /* Каждое значение соответствует для анимации в animation-name. */
+  animation-fill-mode: none, backwards;
+  animation-fill-mode: both, forwards, none;
+}
+```
+
+## animation-iteration-count
+
+```scss
+ {
+  animation-iteration-count: infinite; //анимация будет проигрываться бесконечно
+  animation-iteration-count: 3; //3 раза
+  animation-iteration-count: 2.5; //2 с половиной раза
+}
+```
+
+## animation-play-state
+
+Состояние анимации - пауза или проигрыш, если запустить анимацию после паузы она начнется с того места, где остановилась. Позволяет управлять анимацией из скрипта
+
+```scss
+ {
+  animation-play-state: running; //
+  animation-play-state: paused; //
+}
+```
+
+## animation-timing-function
+
+Вид временного преобразования
+
+```scss
+ {
+  animation-timing-function: ease;
+  animation-timing-function: ease-in;
+  animation-timing-function: ease-out;
+  animation-timing-function: ease-in-out;
+  animation-timing-function: linear;
+  animation-timing-function: step-start;
+  animation-timing-function: step-end;
+
+  // С помощью функций
+  animation-timing-function: cubic-bezier(0.1, 0.7, 1, 0.1);
+  animation-timing-function: steps(4, end);
+
+  // С помощью функций шагов
+  animation-timing-function: steps(4, jump-start);
+  animation-timing-function: steps(10, jump-end);
+  animation-timing-function: steps(20, jump-none);
+  animation-timing-function: steps(5, jump-both);
+  animation-timing-function: steps(6, start);
+  animation-timing-function: steps(8, end);
+
+  animation-timing-function: ease, step-start, cubic-bezier(0.1, 0.7, 1, 0.1);
+}
+```
+
+# @starting-style
+
+Позволяет определить стили для начальных стадий анимации (полезно при display: none)
+
+определяет стартовые значения анимируемых свойств, так как при монтировании в DOM, toggle классов возвращает к значению прописанному в селекторе
+
+```scss
+@starting-style {
+  //стили
+}
+```
 
 ```scss
 p {
@@ -338,7 +553,7 @@ transition - укороченная запись для transition-property, tra
 }
 ```
 
-### transition-behavior
+## transition-behavior
 
 Позволяет запускать анимацию на дискретных свойствах. Так как анимация будет до 50% и после. Исключение display:none и visibility:hidden
 
@@ -349,11 +564,19 @@ transition - укороченная запись для transition-property, tra
 }
 ```
 
-- - transition-delay - задержка перед анимацией, при отрицательных значений начнет проигрывать анимацию на величину значения
-- - transition-duration - время анимации
-- - transition-property какое свойство будет анимирован, их может быть несколько
+## transition-delay
 
-# transition-timing-function
+задержка перед анимацией, при отрицательных значений начнет проигрывать анимацию на величину значения
+
+## transition-duration
+
+время анимации
+
+## transition-property
+
+какое свойство будет анимирован, их может быть несколько
+
+## transition-timing-function
 
 настройка временной функции
 
@@ -417,16 +640,16 @@ el.addEventListener("transitionend", updateTransition, true);
 }
 ```
 
-# scroll-driven animations
+# scroll-driven animations (нет в ff и safari)
 
 Существует две шкалы прогресса - прокрутка шкалы прогресса (от 0% до 100%) и временная шкала прогресса в зависимости от видимости объекта
 
-- (нет в ff и safari)[animation-timeline свойство определяет временную шкалу для анимации](./css-props.md/#animation-timeline)
-- (нет в ff и safari)[animation-range позволяет управлять срабатыванием анимации](./css-props.md/#animation-range--animation-range-start--animation-range-end)
-- (нет в ff и safari)[scroll-timeline для определения именованной шкалы прокрутки, сокращенная запись для scroll-timeline-name + scroll-timeline-axis]
+- [animation-timeline свойство определяет временную шкалу для анимации](./css-props.md/#animation-timeline)
+- [animation-range позволяет управлять срабатыванием анимации](./css-props.md/#animation-range--animation-range-start--animation-range-end)
+- [scroll-timeline для определения именованной шкалы прокрутки, сокращенная запись для scroll-timeline-name + scroll-timeline-axis]
 - [scroll() Функция для отслеживания временной шкалы анонимной анимации зависящей от скролла](./functions.md/#scroll-scroll-driven-animation)
 
-## view-port animation
+# view-port animation
 
 именованная анимация scroll. scroll-timeline должен быть задан на родительском контейнере, а анимация должна применяться к дочернему. Что бы избежать это поведение, то на общего родителя можно определить timeline-scope: --container-timeline;
 
@@ -507,11 +730,11 @@ timeline-scope - позволяет определить область види
 }
 ```
 
-### Анимация от вью порта, при попадании в поле зрения
+# Анимация от вью порта, при попадании в поле зрения
 
 Анимация, которая основывается на попадании элемента в область видимости
 
-- [(нет в ff и safari)view-timeline = view-timeline-name + view-timeline-axis](./css-props.md/#view-timeline--view-timeline-name--view-timeline-axis)
+- [view-timeline = view-timeline-name + view-timeline-axis](./css-props.md/#view-timeline--view-timeline-name--view-timeline-axis)
 - [view-transition-name: nameOfTViewTransition | none позволяет отключить/включить ]
 
 ```html

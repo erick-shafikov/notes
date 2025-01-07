@@ -2,10 +2,17 @@ body {
   margin: 0px;
 }
 
-.test {
-  color: green;
-  text-shadow: 1px 1px 1px black, 3px 3px 2px red;
-  font-size: 120px;
-  text-align: justify;
-  background-color: orange;
+/* .test {
+} */
+
+.anchor {
+  anchor-name: --myAnchor;
+}
+
+.infoBox {
+  position-anchor: --myAnchor;
+  position: absolute;
+  left: anchor(10%);
+  top: anchor(120%);
+  margin-left: 10px;
 }
