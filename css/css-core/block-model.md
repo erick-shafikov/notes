@@ -9,7 +9,60 @@
 - inline formatting context
 - flex formatting context
 
--[display - определяет блочность/строчность элемента](./css-props.md/#display)
+## display
+
+определяет блочность/строчность элемента
+
+```scss
+.display {
+  display: block;
+  display: inline;
+  display: run-in; //Если соседний элемент определён как display: run-in, тогда бокс является блоковым боксом, run-in бокс становится первым строковым (inline) боксом блокового бокса, который следует за ним.
+
+  display: flow;
+  display: flow-root; //устанавливает новый
+  display: table;
+  display: flex;
+  display: grid;
+  display: ruby; //модель форматирования Ruby
+
+  display: block flow;
+  display: inline table;
+  display: flex run-in;
+
+  // списковые
+  display: list-item;
+  display: list-item block;
+  display: list-item inline;
+  display: list-item flow;
+  display: list-item flow-root;
+  display: list-item block flow;
+  display: list-item block flow-root;
+  display: flow list-item block;
+
+  // табличные
+  display: table-row-group;
+  display: table-header-group;
+  display: table-footer-group;
+  display: table-row;
+  display: table-cell;
+  display: table-column-group;
+  display: table-column;
+  display: table-caption;
+  display: ruby-base;
+  display: ruby-text;
+  display: ruby-base-container;
+  display: ruby-text-container;
+
+  display: contents; //создаст псевдо-контейнер по своим дочерним элементам (не будет доступен, но будет в dom)
+  display: none; //удаляем из дерева
+
+  display: inline-block;
+  display: inline-table;
+  display: inline-flex;
+  display: inline-grid;
+}
+```
 
 - блочные боксы – прямоугольные области на странице, начинаются с новой строки, занимают всю доступную ширину, к ним применимы свойства width, height, элементы вокруг будет отодвинуты. Нужны для формирования структуры страницы. Занимает 100% ширины и высоту по содержимому. Если даже задать двум блоками идущим подряд ширину в 40% то они все равно расположатся друг под другом
 - Строчные боксы – фрагменты текста span, a, strong, em, time у них нет переноса строки, ширина и высота зависят от содержимого, размеры задать нельзя за исключением элементов area и img. Не будут начинаться с новой строки, width, height недоступны, отступы не будут отодвигать другие элементы. Высота определяется по самому высокому элементу
@@ -17,12 +70,97 @@
 
 # свойства блочной модели
 
-## Размеры:
+# Размеры:
 
-- [box-sizing - позволяет управлять размерами контейнера](./css-props.md/#box-sizing)
-- [width – ширина содержимого](./css-props.md/#width)
-- [height – высота содержимого](./css-props.md/#height)
-  для того что бы задать размеры отталкиваясь от минимальных и максимальных значений
+## box-sizing
+
+определяет как вычисляется величина контейнера.
+
+- если задать ширину и высоту элементу, она будет применена для контента без учета рамок и отступа от рамок
+
+```scss
+ {
+  //размеры буз учета рамок, стандартное поведение при отступах и рамках реальная ширина будет больше
+  box-sizing: content-box;
+  //будет учитывать размеры отступов
+  box-sizing: content-box;
+  //ужмется по контейнеру
+  box-sizing: border-box;
+}
+```
+
+```scss
+div {
+  width: 160px;
+  height: 80px;
+  padding: 20px;
+  border: 8px solid red;
+}
+
+.content-box {
+  box-sizing: content-box;
+  /* Total width: 160px + (2 * 20px) + (2 * 8px) = 216px
+     Total height: 80px + (2 * 20px) + (2 * 8px) = 136px
+     Content box width: 160px
+     Content box height: 80px */
+}
+
+.border-box {
+  box-sizing: border-box;
+  /* Total width: 160px
+     Total height: 80px
+     Content box width: 160px - (2 * 20px) - (2 * 8px) = 104px
+     Content box height: 80px - (2 * 20px) - (2 * 8px) = 24px */
+}
+```
+
+## width
+
+```scss
+ {
+  // Ширина - фиксированная величина.
+  width: 3.5em;
+  width: anchor-size(width);
+  width: calc(anchor-size(--myAnchor self-block, 250px) + 2em);
+
+  width: 75%; // Ширина в процентах - размер относительно ширины родительского блока.
+
+  width: none;
+  width: max-content; //сожмет текстовой контент до размера самого МАЛЕНЬКОГО слова, остальные перенесет
+  width: min-content; //сожмет текстовой контент до размера самого БОЛЬШОГО слова, остальные перенесет
+  width: fit-content; //поле будет использовать доступное пространство, но не более max-content
+  width: fit-content(20em); // min(maximum size, max(minimum size, argument))
+}
+```
+
+## height
+
+```scss
+ {
+  // если в процентах, то от контейнера
+  height: 120px;
+  height: 10em;
+  height: 100vh;
+  height: anchor-size(height);
+  height: anchor-size(--myAnchor self-block, 250px);
+  height: clamp(200px, anchor-size(width));
+
+  /* <percentage> value */
+  height: 75%;
+
+  /* Keyword values */
+  height: max-content;
+  height: min-content;
+  height: fit-content;
+  height: fit-content(20em);
+  height: auto;
+  height: minmax(min-content, anchor-size(width));
+  height: stretch;
+}
+```
+
+для того что бы задать размеры отталкиваясь от минимальных и максимальных значений
+
 - min-width, min-height, max-width, max-height – нужны для определения высоты контентных элементов, которые могут вывалиться
   max-width переопределяет width, но min-width переопределяет max-width. Свойства с учетом письма:
 - - max-block-size
@@ -30,32 +168,254 @@
 - - min-block-size
 - - min-inline-size
 
+## aspect-ratio
+
+позволяет настроить пропорции контейнера
+
+```scss
+.aspect-ratio {
+  aspect-ratio: 1 / 1;
+  aspect-ratio: 1;
+
+  /* fallback to 'auto' for replaced elements */
+  aspect-ratio: auto 3/4;
+  aspect-ratio: 9/6 auto;
+}
+```
+
+## оптимизационные intrinsic значения
+
+оптимизационные значения contain-intrinsic-block-size, contain-intrinsic-height, contain-intrinsic-inline-size, contain-intrinsic-size, contain-intrinsic-width
+
+## inline-size
+
+задает высоту или ширину блока в зависимости от написания
+
+Если ширина не задана, общая ширина равна доступному месту в родителе при схлопывании – суммируется margin, берется максимальный.
+
 # Отступы и границы:
 
-- padding – отступ от контента до рамки, при заливке заливается и padding и контент
-- margin - внешние отступы, они могут быть автоматически добавлены к абзацам например, если задать margin ===0 то они схлопнуться. Если margin и padding заданы в процентах, то размеры будут взяты от inline-размера элемента
-- - margin-trim (Только на ios) - позволяет обрезать margin
-- [aspect-ratio позволяет настроить пропорции ширина/высота для контейнера](./css-props.md/#aspect-ratio)
-- оптимизационные значения contain-intrinsic-block-size, contain-intrinsic-height, contain-intrinsic-inline-size, contain-intrinsic-size, contain-intrinsic-width
-- inline-size - задает высоту или ширину блока в зависимости от написания
-  Если ширина не задана, общая ширина равна доступному месту в родителе при схлопывании – суммируется margin, берется максимальный.
-- visibility: visible | hidden | collapse не выкидывает элемент из дерева элементов, не меняет разметку
-- z-index: number - позволяет выдвинуть элемент из контекста для позиционированного элемента (отличного от static) отрицательные значения понижают приоритет
+## padding
 
-- [определить стиль для всех 4х границ сразу](./css-props.md#border)
-- - [предопределенные стили для border](./css-props.md#border-style-border-bottom-style-border-left-style-border-right-style-border-top-style)
-- - [ширина границы](./css-props.md#border-width-border-bottom-width-border-left-width-border-right-width-border-top-width)
-- - [цвет границы](./css-props.md/#border-left-color-border-right-color-border-top-color)
-- - [сокращенная запись для одной из границ для нескольких ее свойств](./css-props.md#border-bottom-border-left-border-right-border-top)
-- [border-image короткая запись для свойств](./css-props.md/#border-image)
-- - [border-image-outset позволяет настроить расстояние от рамки до контента](./css-props.md/#border-image-outset)
-- - [border-image-repeat растяжение картинки](./css-props.md/#border-image-repeat)
-- - [border-image-slice настройка повтора картинки с помощью нарезания ее и повторения](./css-props.md/#border-image-slice)
-- - [border-image-source установка источника изображения](./css-props.md/#border-image-source)
-- - [border-image-width установка ширины границы](./css-props.md/#border-image-width)
-- [border-radius закругление рамок](./css-props.md/#border-radius-border-bottom-left-radius-border-bottom-right-radius-border-top-left-radius-border-top-right-radius-border-top-right-radius)
-- [box-shadow тени от контейнера](./css-props.md/#box-shadow)
-- [box-decoration-break определяет поведение декорирования рамок, при переносе]()
+отступ от контента до рамки, при заливке заливается и padding и контент
+
+приставки block и inline Добавляют возможность контролировать направление текста
+
+## margin
+
+внешние отступы, они могут быть автоматически добавлены к абзацам например, если задать margin ===0 то они схлопнуться. Если margin и padding заданы в процентах, то размеры будут взяты от inline-размера элемента
+
+приставки block и inline Добавляют возможность контролировать направление текста
+
+```scss
+ {
+  margin: auto; // Прием позволяет отдать под отступ все доступное пространство
+}
+```
+
+### margin-trim (ios)
+
+позволяет обрезать margin
+
+## border
+
+определит стиль для всех четырех границ сокращенная запись [border-width](#border-width) + [border-style](#border-style) + [border-color](#border-color)
+
+приставки block и inline Добавляют возможность контролировать направление текста
+
+```scss
+ {
+  border: 4mm ridge rgba(211, 220, 50, 0.6);
+}
+```
+
+### border-trbl,
+
+border-top border-left, border-right, border-top
+
+сокращенная запись для определения стиля, ширины и стиля границы
+
+```scss
+ {
+  border-bottom: 4mm ridge rgba(211, 220, 50, 0.6);
+}
+```
+
+### border-style
+
+border-bottom-style, border-left-style, border-right-style, border-top-style
+
+предопределенные стили для border
+
+```scss
+ {
+  border-bottom-style: none;
+  border-bottom-style: hidden; // скрыть
+  border-bottom-style: dotted; // в точку
+  border-bottom-style: dashed; // в черточку
+  border-bottom-style: solid; // сплошной
+  border-bottom-style: double; // двойной
+  border-bottom-style: groove; // двойной
+  border-bottom-style: ridge; // светлый
+  border-bottom-style: inset; // без заливки
+  border-bottom-style: outset; // с заливкой
+  // коротка запись t+r+b+l
+  border-style: dashed groove none dotted;
+}
+```
+
+<!--border-width  -------------------------------------------------------------------------------------------------------------------------->
+
+### border-width
+
+так же можно определить отдельно border-bottom-width, border-left-width, border-right-width, border-top-width
+
+```scss
+ {
+  // текстовые обозначения
+  border-bottom-width: thin;
+  border-bottom-width: medium;
+  border-bottom-width: thick;
+
+  // в абсолютных значения
+  border-bottom-width: 10em;
+  border-bottom-width: 3vmax;
+  border-bottom-width: 6px;
+  //сокращенная запись
+
+  border-width: 0 4px 8px 12px;
+}
+```
+
+### border-color
+
+так же можно определить отдельно border-left-color-border-right-color-border-top-color
+
+```scss
+ {
+  border-left-color: red;
+  border-left-color: #ffbb00;
+  border-left-color: rgb(255 0 0);
+  border-left-color: hsl(100deg 50% 25% / 75%);
+  border-left-color: currentcolor;
+  border-left-color: transparent;
+  //короткая запись
+  border-color: red yellow green transparent;
+}
+```
+
+### border-image
+
+Короткая запись для border свойств
+
+[border-image-outset](#border-image-outset)+ [border-image-repeat](#border-image-repeat) + [border-image-slice](#border-image-slice) + [border-image-source](#border-image-source) + [border-image-width](#border-width)
+
+```scss
+ {
+  border-image: repeating-linear-gradient(30deg, #4d9f0c, #9198e5, #4d9f0c 20px)
+    60; //
+  border-image: url("/images/border.png") 27 23 / 50px 30px / 1rem round space;
+}
+```
+
+#### border-image-outset
+
+отступ
+
+```scss
+{
+  // от всех границ
+  border-image-outset: 1red
+  // top | right | bottom | left
+  border-image-outset: 7px 12px 14px 5px;
+}
+```
+
+#### border-image-repeat
+
+Позволяет растянуть картинку границы
+
+```scss
+ {
+  border-image-repeat: stretch; //растяжение изображения
+  border-image-repeat: repeat; //повтор
+  border-image-repeat: round; //повтор
+  border-image-repeat: space; //повтор
+  // для нескольких границ
+  border-image-repeat: round stretch;
+}
+```
+
+#### border-image-slice
+
+позволяет нарезать на количество кусков картинку и заполнить рамки
+
+```scss
+ {
+  border-image-slice: 30; //позволяет распределить изображение
+  border-image-slice: 30 fill; //fill - заполнит внутреннюю область
+}
+```
+
+#### border-image-source
+
+источник изображения
+
+```scss
+ {
+  border-image-source: url("/media/examples/border-stars.png"); //внутренние ресурсы
+  border-image-source: repeating-linear-gradient(
+    45deg,
+    transparent,
+    #4d9f0c 20px
+  ); //градиент
+  border-image-source: none;
+}
+```
+
+#### border-image-width
+
+```scss
+ {
+  border-image-width: 30px; // в пикселях
+  border-image-width: 15px 40px; //для нескольких границ
+  border-image-width: 20% 8%; //в процентном соотношении
+}
+```
+
+### border-radius
+
+так же border-bottom-left-radius, border-bottom-right-radius, border-top-left-radius, border-top-right-radius, border-top-right-radius
+
+```scss
+ {
+  border-bottom-right-radius: 3px;
+
+  border-bottom-right-radius: 20%; //закругление на 1/5 часть края
+  border-bottom-right-radius: 20% 10%; //20% от горизонтали и 10% от вертикали
+  border-bottom-right-radius: 0.5em 1em;
+
+  // сокращенная запись
+  border-radius: 10px;
+  /* top-left-and-bottom-right | top-right-and-bottom-left */
+  border-radius: 10px 5%;
+  /* top-left | top-right-and-bottom-left | bottom-right */
+  border-radius: 2px 4px 2px;
+  /* top-left | top-right | bottom-right | bottom-left */
+  border-radius: 1px 0 3px 4px;
+  /* The syntax of the second radius allows one to four values */
+  /* (first radius values) / radius */
+  border-radius: 10px / 20px;
+  /* (first radius values) / top-left-and-bottom-right | top-right-and-bottom-left */
+  border-radius: 10px 5% / 20px 30px;
+  /* (first radius values) / top-left | top-right-and-bottom-left | bottom-right */
+  border-radius: 10px 5px 2em / 20px 25px 30%;
+  /* (first radius values) / top-left | top-right | bottom-right | bottom-left */
+  border-radius: 10px 5% / 20px 25em 30px 35em;
+}
+```
+
+# border-block и border-inline
 
 border-block и border-inline свойства, которые полагаются на направление текста:
 
@@ -63,13 +423,125 @@ border-block и border-inline свойства, которые полагают�
 - Свойства для левой и правой: border-inline-end-color, border-inline-start-color, border-block-start-style, border-inline-end-style, border-inline-start-style, border-inline-end-width, border-inline-start-width
 - Закругления: border-start-start-radius, border-start-end-radius, border-end-start-radius, border-end-end-radius
 
-- [outline - стилизация внешней рамки, которая может наезжать на соседние элементы и не влияет на определение блочной модели состоит из:](./css-props.md/#outline)
-- - [outline-color - цвет обводки](./css-props.md/#outline-color)
-- - [outline-style - стиль границы обводки](./css-props.md/#outline-style)
-- - [outline-width - ширина](./css-props.md/#outline-width)
-- - [outline-offset - отступ границы]()
+# visibility
+
+visible | hidden | collapse не выкидывает элемент из дерева элементов, не меняет разметку
+
+# box-shadow
+
+Добавит тень от контейнера
+
+Параметры:
+
+- значение по горизонтали
+- смещение по вертикали
+- размытие тени
+- цвет тени
+
+```scss
+.single-shadow {
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.7);
+}
+```
+
+Множественное значение для теней
+
+```scss
+.multiple-shadow {
+  box-shadow: 1px 1px 1px black, 2px 2px 1px black, 3px 3px 1px red, 4px 4px 1px
+      red, 5px 5px 1px black, 6px 6px 1px black;
+}
+```
+
+## Значение inset
+
+inset - добавляет внутреннюю тень
+
+```scss
+button:active {
+  box-shadow: inset 2px 2px 1px black, inset 2px 3px 5px rgba(0, 0, 0, 0.3),
+    inset -2px -3px 5px rgba(255, 255, 255, 0.5);
+}
+```
+
+# box-decoration-break
+
+определяет поведение декорирования рамок, при переносе
+
+```scss
+ {
+  // при переносе рамка будет разрываться на все строки
+  -webkit-box-decoration-break: slice;
+  box-decoration-break: slice;
+  // при переносе рамка будет оборачивать контент каждой строки
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+```
+
+# outline - обводка
+
+стилизация внешней рамки, которая может наезжать на соседние элементы и не влияет на определение блочной модели
+
+Свойство обводки контента outline = outline-color + outline-style + outline-width
+outline-offset
+
+```scss
+ {
+  outline: 8px ridge rgba(170, 50, 220, 0.6);
+}
+```
+
+## outline-color
+
+```scss
+ {
+  outline-color: red;
+}
+```
+
+## outline-style
+
+стиль внешней обводки
+
+```scss
+ {
+  outline-style: auto;
+  outline-style: none;
+  outline-style: dotted;
+  outline-style: dashed;
+  outline-style: solid;
+  outline-style: double;
+  outline-style: groove;
+  outline-style: ridge;
+  outline-style: inset;
+  outline-style: outset;
+}
+```
+
+## outline-width
+
+ширина внешней обводки
+
+```scss
+ {
+  // предопределенные стили
+  outline-width: thin;
+  outline-width: medium;
+  outline-width: thick;
+  // пользовательские
+  outline-width: 1px;
+  outline-width: 0.1em;
+}
+```
+
+## outline-offset
+
+отступ границы
 
 # z-index
+
+number - позволяет выдвинуть элемент из контекста для позиционированного элемента (отличного от static) отрицательные значения понижают приоритет
 
 Порядок наложения без z-index:
 
@@ -111,72 +583,6 @@ float:
 - - - overflow-inline
 - [overflow-x горизонтальный](./css-props.md#overflow)
 - [overflow-y вертикальный скролл](./css-props.md#overflow)
-
-# переполнение контента и скролл
-
-Поведение при скролле:
-
-- scroll-behavior: auto | smooth для поведения прокрутки
-- (нет в Safari) scrollbar-width auto | thin | none;
-- (нет в Safari)[scrollbar-color цвет scrollbar ](./css-props.md/#scrollbar-color)
-- (нет в Safari) scrollbar-gutter: auto | stable | oth-edges - ;
-- (нет в Safari) overflow-anchor: auto | none определяет поведения прокрутки, при добавлении элементов
-
-Сделать скролл дискретным (при прокрутке привязывался к позиции)
-
-- [scroll-snap-type как строго привязывается прокрутка ](./css-props.md/#scroll-snap-type)
-- scroll-snap-align: center | start | end позволяет при прокрутки фиксировать позицию элемента
-- scroll-margin: px позволяет прокрутить в определенное место элемента с определенным margin, является сокращенной записью для scroll-margin-right + scroll-margin-bottom + scroll-margin-left, при нуле поместит элемент в середину
-- scroll-margin-inline = scroll-margin-inline-start + scroll-margin-inline-end
-- scroll-margin-block = scroll-margin-block-start + scroll-margin-block-end
-- scroll-padding: px позволяет прокрутить в определенное место при scroll-snap, коротка запись для группы scroll-padding-bottom + scroll-padding-left + scroll-padding-top + scroll-padding-right
-- scroll-padding-inline = scroll-padding-inline-start + scroll-padding-inline-end
-- scroll-padding-block = scroll-padding-block-start + scroll-padding-block-end
-
-свойства scroll-padding- и scroll-margin- могут помочь в ситуации когда заголовок остается в фиксированном месте
-
-- scroll-snap-stop: normal | always придает дискретность к прокрутке
-- overscroll-behavior: auto | contain | none - поведение при достижении конца скролла шорткат для:
-- - overscroll-behavior-x
-- - overscroll-behavior-y
-- - overscroll-behavior-block, overscroll-behavior-inline для поведения с учетом направленности текста
-
-```html
-<article class="scroller">
-  <section>
-    <h2>Section one</h2>
-  </section>
-  <section>
-    <h2>Section two</h2>
-  </section>
-  <section>
-    <h2>Section three</h2>
-  </section>
-</article>
-```
-
-```scss
-.scroller {
-  height: 300px;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-}
-
-.scroller section {
-  scroll-snap-align: start;
-}
-```
-
-::-webkit-scrollbar - псевдоэлементы группы scrollbar:
-
-- ::-webkit-scrollbar-button
-- ::-webkit-scrollbar:horizontal{}
-- ::-webkit-scrollbar-thumb
-- ::-webkit-scrollbar-track
-- ::-webkit-scrollbar-track-piece
-- ::-webkit-scrollbar:vertical{}
-- ::-webkit-scrollbar-corner
-- ::-webkit-resizer
 
 ## BP. Центрирование с помощью блочной модели (margin)
 

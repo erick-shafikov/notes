@@ -9,6 +9,7 @@
 - - - css (learnJS)
 - - - [от поисковой строки до стадии reflow-repaint описание процессов/протоколов](./comp-science/networking.md)
 - - - drag&drop
+- - - [раздел "how to" на w3c](https://www.w3schools.com/howto/default.asp)
 - развертывание фронт приложений
     <!-- tg -->
 - разбор статей с хабр
