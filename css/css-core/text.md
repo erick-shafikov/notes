@@ -756,23 +756,7 @@ dd#string {
 
 Определяет тип курсора
 
-```scss
- {
-  // определенные системой их много полный список https://developer.mozilla.org/en-US/docs/Web/CSS/cursor
-  cursor: auto;
-  cursor: pointer;
-  cursor: help;
-  cursor: wait;
-  cursor: crosshair;
-  cursor: not-allowed;
-  cursor: zoom-in;
-  cursor: grab;
-  // пользовательский
-  cursor: url("hyper.cur"), auto;
-  // определение положения
-  cursor: url("hyper.cur") 0 0;
-}
-```
+[cursor](./user-elements.md#cursor)
 
 # BP. Масштабирование всего проекта c помощью font-size
 

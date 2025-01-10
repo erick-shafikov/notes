@@ -241,19 +241,6 @@ break-before, break-inside - до и после
 }
 ```
 
-<!-- caret-color
- ------------------------------------------------------------------------------------------------------------------------------------------->
-
-# caret-color
-
-```scss
- {
-  caret-color: red; //определенный цвет
-  caret-color: auto; //обычно current-color
-  caret-color: transparent; //невидимая
-}
-```
-
 <!-- clip-path ------------------------------------------------------------------------------------------------------------------->
 
 # clip-path
@@ -1432,29 +1419,6 @@ place-self = align-self + justify-self
 }
 ```
 
-<!-- pointer-events ------------------------------------------------------------------------------------------------------------------------>
-
-# pointer-events
-
-Определяет цель для курсора
-
-```scss
- {
-  pointer-events: auto;
-  pointer-events: none;
-  // для svg
-  pointer-events: visiblePainted;
-  pointer-events: visibleFill;
-  pointer-events: visibleStroke;
-  pointer-events: visible;
-  pointer-events: painted;
-  pointer-events: fill;
-  pointer-events: stroke;
-  pointer-events: bounding-box;
-  pointer-events: all;
-}
-```
-
 <!-- position -------------------------------------------------------------------------------------------------------------------------------->
 
 # position
@@ -1479,23 +1443,6 @@ place-self = align-self + justify-self
 ```scss
  {
   row-gap: 20px;
-}
-```
-
-<!-- resize -------------------------------------------------------------------------------------------------------------------------------->
-
-# resize (-safari)
-
-Позволяет растягивать элемент
-
-```scss
- {
-  resize: none; //отключает растягивание
-  resize: both; //тянуть можно во все стороны
-  resize: horizontal;
-  resize: vertical;
-  resize: block; // в зависимости от writing-mode и direction
-  resize: inline; // в зависимости от writing-mode и direction
 }
 ```
 

@@ -68,8 +68,6 @@
 - Строчные боксы – фрагменты текста span, a, strong, em, time у них нет переноса строки, ширина и высота зависят от содержимого, размеры задать нельзя за исключением элементов area и img. Не будут начинаться с новой строки, width, height недоступны, отступы не будут отодвигать другие элементы. Высота определяется по самому высокому элементу
 - можно менять блочность/строчность через display
 
-# свойства блочной модели
-
 # Размеры:
 
 ## box-sizing
@@ -182,10 +180,6 @@ div {
   aspect-ratio: 9/6 auto;
 }
 ```
-
-## оптимизационные intrinsic значения
-
-оптимизационные значения contain-intrinsic-block-size, contain-intrinsic-height, contain-intrinsic-inline-size, contain-intrinsic-size, contain-intrinsic-width
 
 ## inline-size
 
