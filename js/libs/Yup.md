@@ -1,9 +1,14 @@
+# Валидация простых полей
+
+[регулярные выражения](../js-core/regexp/regex-examples.md)
+
 ```ts
-const FormSchema = Yup.object({
+const Schema = Yup.object({
   // простая валидация --------------------------------------------------
   // валидация текстового поля
   stringField: Yup.string().required("Обязательное поле"),
   email: Yup.string()
+    .trim()
     .email("Неверный формат электронной почты")
     .required("Обязательное поле"),
   //валидация строк
@@ -19,24 +24,19 @@ const FormSchema = Yup.object({
     .matches(/^((\+7|7|8)+([0-9]){10})$/, {
       message: "Указан недействительный номер",
     }),
-  // валидация электронной почты
-  email: Yup.string()
-    .trim()
-    .email("Неверный формат электронной почты")
-    .required("Обязательное поле"),
-  // сложная валидация---------------------------------------------------
-  // не должны совпадать
-  noEqualField: Yup.string()
-    .notOneOf(
-      [Yup.ref("PossibleEqualField")],
-      "Старый и новый пароли не должны совпадать"
-    )
-    .required("Обязательное поле"),
-  //должны совпадать
-  equalField: Yup.string()
-    .oneOf([Yup.ref("otherEqualField")], "Пароли не совпадают")
-    .required("Обязательное поле"),
-  // тест строкового значения, как числового
+  // валидация электронной ИНН
+  inn: Yup.string().test({
+    name: "inn-code-test",
+    test: (innToValidate) => !innToValidate || validateInn(innToValidate),
+    message: "Проверьте, пожалуйста ИНН",
+  }),
+});
+```
+
+## тест строкового значения, как числового
+
+```js
+const Schema = Yup.object({
   amount: Yup.string()
     .min(0)
     .test(
@@ -45,7 +45,62 @@ const FormSchema = Yup.object({
       (value = 0) => 0 >= Number(value) && Number(value) <= 1000000
     )
     .required("Обязательное поле"),
-  //валидация числовых значений через вложенные схемы в обход циклических зависимостей
+});
+```
+
+## Валидация инлайн даты
+
+Если есть текстовый ввод значения с маской
+
+```js
+const Schema = Yup.object({
+  issueDate: Yup.date()
+    .nullable()
+    .notRequired()
+    .transform((_, originalValue) => {
+      if (originalValue) {
+        const transformedDate = transformDate(
+          originalValue,
+          "DD/MM/YYYY",
+          "MM/DD/YYYY"
+        );
+
+        return isNaN(transformedDate) ? new Date() : transformedDate;
+      }
+    })
+    .typeError("Неверный формат даты")
+    // или мин
+    .max(formatDateTime(new Date(), "dd.MM.yyyy"), "Введите верную дату"),
+});
+```
+
+# Зависимые проверки
+
+## два поля не должны совпадать
+
+```js
+const Schema = Yup.object({
+  noEqualField: Yup.string()
+    .notOneOf(
+      [Yup.ref("PossibleEqualField")],
+      "Старый и новый пароли не должны совпадать"
+    )
+    .required("Обязательное поле"),
+});
+```
+
+## два поля должны совпадать
+
+```js
+const Schema = Yup.object({
+  equalField: Yup.string()
+    .oneOf([Yup.ref("otherEqualField")], "Пароли не совпадают")
+    .required("Обязательное поле"),
+});
+```
+
+```js
+const Schema = Yup.object({
   amountTo: Yup.string().when("amountFrom", (amountFromValue, schema) => {
     if (amountFromValue) {
       return schema.test(
@@ -61,8 +116,13 @@ const FormSchema = Yup.object({
 
     return schema;
   }),
-  // --------------------------------------------------------------------
-  //зависимые поля
+});
+```
+
+## зависимые поля (одно)
+
+```js
+const Schema = Yup.object({
   controlFieldOne: Yup.string(),
   controlFieldTwo: Yup.string(),
   dependedField: Yup.object()
@@ -77,7 +137,17 @@ const FormSchema = Yup.object({
               message: "Указан недействительный номер",
             }),
         }), //схема на возврат
-    })
+    }),
+});
+```
+
+## зависимые поля (два и более)
+
+```js
+const Schema = Yup.object({
+  controlFieldOne: Yup.string(),
+  controlFieldTwo: Yup.string(),
+  dependedField: Yup.object()
     // два и более поля
     .when(["controlFieldOne", "controlFieldTwo"], {
       is: (controlFieldOne, controlFieldTwo) => {},
@@ -109,7 +179,7 @@ const __validationUtil__YupBuilder = ([__field1__, __field2__]: any) => {
 };
 
 // общая схема валидации формы
-const FormSchema = Yup.object().shape({
+const Schema = Yup.object().shape({
   __dependedField__: Yup.string().when(
     ["__field1__", "__field2__"], // (2 аргумента)
     __validationUtil__YupBuilder
@@ -117,6 +187,65 @@ const FormSchema = Yup.object().shape({
 });
 ```
 
+# Валидация вложенных объектов
+
 ```js
-const Schema = Yup.object({});
+const Schema = Yup.schema({
+  client: Yup.object({
+    fullName: Yup.string(),
+    phone: Yup.string(),
+    passport: Yup.string(),
+  }),
+});
+```
+
+# Валидация массива
+
+```js
+const Schema = Yup.object({
+  // если есть вложенные зависимые поля
+  products: Yup.array().when("measurementUnit", (measurementUnit, schema) =>
+    schema
+      .of(
+        Yup.object().shape({
+          name: Yup.string().trim(),
+          weightTare: Yup.string()
+            .trim()
+            // вложенное внутренние поле
+            .when("weightBrutto", (weightBrutto) => {
+              const parsedWeightBrutto = Number(weightBrutto);
+
+              if (parsedWeightBrutto) {
+                return Yup.number()
+                  .max(
+                    parsedWeightBrutto,
+                    "Значение должно быть не больше веса брутто"
+                  )
+                  .required("Обязательное поле");
+              }
+
+              return Yup.string().trim();
+            }),
+          //ссылка на внешнее значение
+          weightNetto: Yup.string().when("name", (name) => {
+            if (name) {
+              return measurementUnit === MEASUREMENT_UNIT_PIECE
+                ? Yup.number()
+                    .integer(
+                      'При выборе единцы измерения "шт", данное поле должно быть целым числом'
+                    )
+                    .required("Обязательное поле")
+                : Yup.string().trim().required("Обязательное поле");
+            }
+          }),
+          type: Yup.string().when("name", (name) => {
+            return name
+              ? Yup.string().trim().required("Обязательное поле")
+              : Yup.string().trim();
+          }),
+        })
+      )
+      .min(1, "Обязательно поле")
+  ),
+});
 ```

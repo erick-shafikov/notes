@@ -1,5 +1,3 @@
-# Анимации и трансформации элементов
-
 Анимации делятся на два типа - дискретные и вычисляемые. Дискретные меняются на 50% времени
 CSS анимации легче и быстрее по сравнению с JS анимации
 
@@ -45,7 +43,7 @@ CSS анимации легче и быстрее по сравнению с JS 
 
 !!! transform: translate Наслаиваются при анимированен одного свойства
 
-# transform-box
+## transform-box
 
 определяет к чему будет приниматься трансформация
 
@@ -613,13 +611,119 @@ el.addEventListener("transitionend", updateTransition, true);
 
 Позволяет анимировать объект который следует по пути
 
-- [свойство offset позволяет определить траекторию](./css-props.md/#offset)
-- [расположение элемента относительно прямой движения](./css-props.md/#offset-anchor)
-- [offset-distance: px | % стартовая точка где будет находится элемент]
-- [offset-path = offset-distance + offset-rotate + offset-anchor](./css-props.md/#offset-path)
-- [offset-position смещение относительно начала]
-- [offset-rotate вращение элемента относительно себя]
-- [ray функция для вращения](./functions.md#ray)
+## offset
+
+позволяет определить траекторию
+
+```scss
+ {
+  offset: 10px 30px;
+
+  /* Offset path */
+  offset: ray(45deg closest-side);
+  offset: path("M 100 100 L 300 100 L 200 300 z");
+  offset: url(arc.svg);
+
+  /* Offset path with distance and/or rotation */
+  offset: url(circle.svg) 100px;
+  offset: url(circle.svg) 40%;
+  offset: url(circle.svg) 30deg;
+  offset: url(circle.svg) 50px 20deg;
+
+  /* Including offset anchor */
+  offset: ray(45deg closest-side) / 40px 20px;
+  offset: url(arc.svg) 2cm / 0.5cm 3cm;
+  offset: url(arc.svg) 30deg / 50px 100px;
+}
+```
+
+## offset-anchor
+
+Позволяет определить где будет находится элемент относительно прямой при движение по линии [offset](./css-props.md/#offset)
+
+```scss
+ {
+  offset-anchor: top;
+  offset-anchor: bottom;
+  offset-anchor: left;
+  offset-anchor: right;
+  offset-anchor: center;
+  offset-anchor: auto;
+
+  /* <percentage> values */
+  offset-anchor: 25% 75%;
+
+  /* <length> values */
+  offset-anchor: 0 0;
+  offset-anchor: 1cm 2cm;
+  offset-anchor: 10ch 8em;
+
+  /* Edge offsets values */
+  offset-anchor: bottom 10px right 20px;
+  offset-anchor: right 3em bottom 10px;
+}
+```
+
+## offset-distance
+
+px | % стартовая точка где будет находится элемент
+
+## offset-path
+
+offset-distance + offset-rotate + offset-anchor
+
+Позволяет задать путь движения
+
+```scss
+ {
+  offset-path: ray(45deg closest-side contain);
+  offset-path: ray(contain 150deg at center center);
+  offset-path: ray(45deg);
+
+  /* URL */
+  offset-path: url(#myCircle);
+
+  /* Basic shape */
+  offset-path: circle(50% at 25% 25%);
+  offset-path: ellipse(50% 50% at 25% 25%);
+  offset-path: inset(50% 50% 50% 50%);
+  offset-path: polygon(30% 0%, 70% 0%, 100% 50%, 30% 100%, 0% 70%, 0% 30%);
+  offset-path: path(
+    "M 0,200 Q 200,200 260,80 Q 290,20 400,0 Q 300,100 400,200"
+  );
+  offset-path: rect(5px 5px 160px 145px round 20%);
+  offset-path: xywh(0 5px 100% 75% round 15% 0);
+
+  /* Coordinate box */
+  offset-path: content-box;
+  offset-path: padding-box;
+  offset-path: border-box;
+  offset-path: fill-box;
+  offset-path: stroke-box;
+  offset-path: view-box;
+}
+```
+
+## offset-position
+
+смещение относительно начала
+
+## offset-rotate вращение элемента относительно себя
+
+## ray()
+
+Отклонение от оси при создании анимации по clip-path
+
+```scss
+/* all parameters specified */
+offset-path: ray(50deg closest-corner contain at 100px 20px);
+
+/* two parameters specified, order does not matter */
+offset-path: ray(contain 200deg);
+
+/* only one parameter specified */
+offset-path: ray(45deg);
+```
 
 ```scss
 #motion-demo {
@@ -644,12 +748,168 @@ el.addEventListener("transitionend", updateTransition, true);
 
 Существует две шкалы прогресса - прокрутка шкалы прогресса (от 0% до 100%) и временная шкала прогресса в зависимости от видимости объекта
 
-- [animation-timeline свойство определяет временную шкалу для анимации](./css-props.md/#animation-timeline)
-- [animation-range позволяет управлять срабатыванием анимации](./css-props.md/#animation-range--animation-range-start--animation-range-end)
-- [scroll-timeline для определения именованной шкалы прокрутки, сокращенная запись для scroll-timeline-name + scroll-timeline-axis]
-- [scroll() Функция для отслеживания временной шкалы анонимной анимации зависящей от скролла](./functions.md/#scroll-scroll-driven-animation)
+## animation-timeline (scroll-driven-animation)
 
-# view-port animation
+Следующие типы временных шкал могут быть установлены с помощью animation-timeline:
+
+- ременная шкала документа по умолчанию, со старта открытия страницы
+- Временная шкала прогресса прокрутки, в свою очередь они делятся на:
+- - Именованная временная шкала прогресса прокрутки заданная с помощью scroll-timeline
+- - анонимная задается с помощью функции scroll()
+- Временная шкала прогресса просмотра (видимость элемента) делится на
+- - Именованная временная шкала прогресса view-timeline
+- - Анонимная временная шкала прогресса просмотра
+
+```scss
+.animation-timeline {
+  animation-timeline: none;
+  animation-timeline: auto;
+
+  /* Single animation named timeline */
+  animation-timeline: --timeline_name;
+
+  /* Single animation anonymous scroll progress timeline */
+  animation-timeline: scroll();
+  animation-timeline: scroll(scroller axis);
+
+  /* Single animation anonymous view progress timeline */
+  animation-timeline: view();
+  animation-timeline: view(axis inset);
+
+  /* Multiple animations */
+  animation-timeline: --progressBarTimeline, --carouselTimeline;
+  animation-timeline: none, --slidingTimeline;
+}
+```
+
+## animation-range = animation-range-start + animation-range-end
+
+Позволяет определить настройки срабатывания анимации, относительно начала и конце шкалы
+
+```scss
+ {
+  /* single keyword or length percentage value */
+  animation-range: normal; /* Equivalent to normal normal */
+  animation-range: 20%; /* Equivalent to 20% normal */
+  animation-range: 100px; /* Equivalent to 100px normal */
+
+  /* single named timeline range value */
+  animation-range: cover; /* Представляет полный диапазон именованной временной шкалы 0% - начал входить*/
+  animation-range: contain; /* элемент полностью входит*/
+  animation-range: cover 20%; /* Equivalent to cover 20% cover 100% */
+  animation-range: contain 100px; /* Equivalent to contain 100px cover 100% */
+
+  /* two values for range start and end */
+  animation-range: normal 25%;
+  animation-range: 25% normal;
+  animation-range: 25% 50%;
+  animation-range: entry exit; /* exit - начал выходить */
+  animation-range: cover cover 200px; /* Equivalent to cover 0% cover 200px */
+  animation-range: entry 10% exit; /* entry - начал входить */
+  animation-range: 10% exit 90%;
+  animation-range: entry 10% 90%;
+  // entry-crossing - пересек
+  // exit-crossing вышел
+}
+```
+
+## scroll-timeline
+
+для определения именованной шкалы прокрутки, сокращенная запись для scroll-timeline-name + scroll-timeline-axis
+
+```scss
+ {
+  //scroll-timeline-name  scroll-timeline-axis
+  scroll-timeline: --custom_name_for_timeline block;
+  scroll-timeline: --custom_name_for_timeline inline;
+  scroll-timeline: --custom_name_for_timeline y;
+  scroll-timeline: --custom_name_for_timeline x;
+  scroll-timeline: none block;
+  scroll-timeline: none inline;
+  scroll-timeline: none y;
+  scroll-timeline: none x;
+}
+```
+
+## функция scroll()
+
+Функция для отслеживания временной шкалы анонимной анимации зависящей от скролла
+
+```scss
+ {
+  animation-timeline: scroll();
+
+  /* Values for selecting the scroller element */
+  animation-timeline: scroll(nearest); /* Default */
+  animation-timeline: scroll(root);
+  animation-timeline: scroll(self);
+
+  /* Values for selecting the axis */
+  animation-timeline: scroll(block); /* Default */
+  animation-timeline: scroll(inline);
+  animation-timeline: scroll(y);
+  animation-timeline: scroll(x);
+
+  /* Examples that specify scroller and axis */
+  animation-timeline: scroll(block nearest); /* Default */
+  animation-timeline: scroll(inline root);
+  animation-timeline: scroll(x self);
+}
+```
+
+## view()
+
+Функция для отслеживания временной шкалы анонимной анимации зависящей от видимости элемента от скролла
+
+```scss
+.view-function {
+  /* Function with no parameters set */
+  animation-timeline: view();
+
+  /* Values for selecting the axis */
+  animation-timeline: view(block); /* Default */
+  animation-timeline: view(inline);
+  animation-timeline: view(y);
+  animation-timeline: view(x);
+
+  /* Values for the inset */
+  animation-timeline: view(auto); /* Default */
+  animation-timeline: view(20%);
+  animation-timeline: view(200px);
+  animation-timeline: view(20% 40%);
+  animation-timeline: view(20% 200px);
+  animation-timeline: view(100px 200px);
+  animation-timeline: view(auto 200px);
+
+  /* Examples that specify axis and inset */
+  animation-timeline: view(block auto); /* Default */
+  animation-timeline: view(inline 20%);
+  animation-timeline: view(x 200px auto);
+}
+```
+
+## view-timeline-inset
+
+Корректирует срабатывание анимации относительно скролла
+
+Если значение положительное, положение начала/конца анимации будет перемещено внутри области прокрутки на указанную длину или процент.
+Если значение отрицательное, то позиция начала/конца анимации будет перемещена за пределы области прокрутки на указанную длину или процент, т. е. анимация начнется до того, как появится в области прокрутки, или закончится после того, как анимация покинет область прокрутки.
+
+```scss
+.view-timeline-inset {
+  //* Single value */
+  view-timeline-inset: auto;
+  view-timeline-inset: 200px;
+  view-timeline-inset: 20%;
+
+  /* Two values */
+  view-timeline-inset: 20% auto;
+  view-timeline-inset: auto 200px;
+  view-timeline-inset: 20% 200px;
+}
+```
+
+# view-port animation при попадании в поле зрения (-ff, -safari)
 
 именованная анимация scroll. scroll-timeline должен быть задан на родительском контейнере, а анимация должна применяться к дочернему. Что бы избежать это поведение, то на общего родителя можно определить timeline-scope: --container-timeline;
 
@@ -730,12 +990,45 @@ timeline-scope - позволяет определить область види
 }
 ```
 
-# Анимация от вью порта, при попадании в поле зрения
-
 Анимация, которая основывается на попадании элемента в область видимости
 
-- [view-timeline = view-timeline-name + view-timeline-axis](./css-props.md/#view-timeline--view-timeline-name--view-timeline-axis)
-- [view-transition-name: nameOfTViewTransition | none позволяет отключить/включить ]
+# @view-transition (-ff, -safari)
+
+```scss
+@view-transition {
+  navigation: auto;
+  navigation: none; // Документ не будет подвергнут переходу вида.
+}
+```
+
+## view-timeline
+
+view-timeline-name + view-timeline-axis
+
+Определяет временную шкалу для анимации от видимости элемента
+
+```scss
+ {
+  view-timeline: --custom_name_for_timeline block;
+  view-timeline: --custom_name_for_timeline inline;
+  view-timeline: --custom_name_for_timeline y;
+  view-timeline: --custom_name_for_timeline x;
+  view-timeline: none block;
+  view-timeline: none inline;
+  view-timeline: none y;
+  view-timeline: none x;
+
+  //view-timeline-name значения
+  view-timeline-name: none;
+  view-timeline-name: --custom_name_for_timeline;
+
+  //view-timeline-axis значения
+  view-timeline-axis: block;
+  view-timeline-axis: inline;
+  view-timeline-axis: y;
+  view-timeline-axis: x;
+}
+```
 
 ```html
 <!-- контейнер 1.1[3]-->
@@ -855,11 +1148,7 @@ animateElement.addEventListener("transitioned", function () {
 });
 ```
 
-## view transitions
-
-определяет свойство View Transition API (!!!TODO)
-
-## оптимизация will-change
+# оптимизация will-change
 
 Возможность уведомить браузер о том, что что-то изменится на странице
 

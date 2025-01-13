@@ -409,7 +409,7 @@ border-bottom-style, border-left-style, border-right-style, border-top-style
 }
 ```
 
-# border-block и border-inline
+### border-block и border-inline
 
 border-block и border-inline свойства, которые полагаются на направление текста:
 
@@ -550,33 +550,31 @@ float:
 - Плавающие элементы
 - Элементы, позиционируемые потомками, в порядке появления в HTML
 
-# Направление письма
-
-Блочная модель так же предусматривает направление текста
-
-- [writing-mode](./css-props.md/#writing-mode)
-- [свойство direction которое принимает два значения ltr и rtl]
-- [text-orientation позволяет распределить символы в вертикальном направлении]
-- [block-size позволяет задать высоту и ширину с учетом направленности письма](./css-props.md/#block-size)
-- inset - позволяет определить top|bottom или right|left в зависимости от rtl
-- - inset-block - позволяет определить top|bottom или right|left в зависимости от rtl более точные свойства для управление расположением:
-- - - inset-block-end
-- - - inset-block-start
-- - inset-inline аналогично и inset-block только представляет горизонтальную ориентацию
-- - - inset-inline-end
-- - - inset-inline-start
-- [text-combine-upright учет чисел при написании в иероглифах all - все числа будут упакованы в размер одного символа]
-
 # Вытекание за контейнер
 
 Возникает, при том условии, когда размер одного или группы элементов в сумме больше размера контейнера. одно из свойств блочной модели регулируется с помощью свойства overflow:
 
-- [overflow - если контент больше чем контейнер](./css-props.md#overflow)
+## overflow
+
+overflow-block, overflow-inline - Для rtl
+
+```scss
+.overflow {
+  // При превышении размера контента используется свойство overflow
+  overflow: visible; // не воспрепятствует налеганию текста друг на друга
+  overflow: scroll; //добавляет полосы прокрутки
+  overflow: auto; //полосы прокрутки появляются при необходимости
+  overflow: hidden; //скрывает любое содержимое выходящее за рамки
+  overflow-y: scroll; // скролл по вертикали
+  overflow-x: scroll; // скролл по горизонтали
+}
+```
+
 - - свойство в зависимости от направленности письма:
 - - - overflow-block
 - - - overflow-inline
-- [overflow-x горизонтальный](./css-props.md#overflow)
-- [overflow-y вертикальный скролл](./css-props.md#overflow)
+- overflow-x горизонтальный
+- overflow-y вертикальный скролл
 
 ## BP. Центрирование с помощью блочной модели (margin)
 

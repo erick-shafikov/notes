@@ -90,98 +90,6 @@ section {
 }
 ```
 
-<!-- counter()------------------------------------------------------------------------------------------------------------------------------>
-
-# counter() counter-reset() counter-increment()
-
-активирует запуск счетчика на элементах
-
-```scss
-.double-list {
-  counter-reset: count -1;
-}
-
-.double-list li {
-  counter-increment: count 2;
-}
-
-.double-list li::marker {
-  content: counter(count, decimal) ") ";
-}
-```
-
-создаст список с 1-3-5-7-9
-
-```html
-<p>Best Dynamic Duos in Sports:</p>
-<ol class="double-list">
-  <li>Simone Biles + Jonathan Owens</li>
-  <li>Serena Williams + Venus Williams</li>
-  <li>Aaron Judge + Giancarlo Stanton</li>
-  <li>LeBron James + Dwyane Wade</li>
-  <li>Xavi Hernandez + Andres Iniesta</li>
-</ol>
-```
-
-Пример с глобальным счетчиком
-
-```scss
-body {
-  // Устанавливает значение счётчика, равным 0 переменная - section
-  counter-reset: section;
-}
-
-h3::before {
-  // Инкриминирует счётчик section = ++section
-  counter-increment: section;
-  // Отображает текущее значение счётчика counter - достает значение
-  content: "Секция " counter(section) ": ";
-}
-```
-
-```html
-<h3>Вступление</h3>
-<h3>Основная часть</h3>
-<h3>Заключение</h3>
-```
-
-Вывод
-Секция 1: Вступление
-Секция 2: Основная часть
-Секция 3: Заключение
-
-<!-- counters()------------------------------------------------------------------------------------------------------------------------------------>
-
-# counters()
-
-для вложенных списков
-
-```scss
-ol {
-  counter-reset: index;
-  list-style-type: none;
-}
-
-li::before {
-  counter-increment: index;
-  content: counters(index, ".", decimal) " ";
-}
-```
-
-```scss
-ol {
-  counter-reset: section; /* Создаёт новый счётчик для каждого тега <ol> */
-  list-style-type: none;
-}
-
-li::before {
-  counter-increment: section; /* Инкриминируется только счётчик текущего уровня вложенности */
-  // уже не counter
-  content: counters(section, ".") " "; /* Добавляем значения всех уровней вложенности, используя разделитель '.' */
-  /* Если необходима поддержка < IE8, необходимо убедиться, что после разделителя ('.') не стоит пробел */
-}
-```
-
 <!-- fit-content()  ------------------------------------------------------------------------------------------------------------------------>
 
 # fit-content()
@@ -325,23 +233,6 @@ li:nth-of-type(3n + 1) {
 
 дял создания нового шрифта на основе двух других
 
-<!--  ---------------------------------------------------------------------------------------------------------------------------->
-
-# ray()
-
-Отклонение от оси при создании анимации по clip-path
-
-```scss
-/* all parameters specified */
-offset-path: ray(50deg closest-corner contain at 100px 20px);
-
-/* two parameters specified, order does not matter */
-offset-path: ray(contain 200deg);
-
-/* only one parameter specified */
-offset-path: ray(45deg);
-```
-
 <!-- repeat()  ----------------------------------------------------------------------------------------------------------------------------->
 
 # repeat()
@@ -351,34 +242,6 @@ offset-path: ray(45deg);
 ```scss
  {
   grid-template-columns: repeat(2, 60px);
-}
-```
-
-<!-- scroll() (scroll-driven animation) ---------------------------------------------------------------------------------------------------->
-
-# scroll() (scroll-driven animation)
-
-Функция для отслеживания временной шкалы анонимной анимации зависящей от скролла
-
-```scss
- {
-  animation-timeline: scroll();
-
-  /* Values for selecting the scroller element */
-  animation-timeline: scroll(nearest); /* Default */
-  animation-timeline: scroll(root);
-  animation-timeline: scroll(self);
-
-  /* Values for selecting the axis */
-  animation-timeline: scroll(block); /* Default */
-  animation-timeline: scroll(inline);
-  animation-timeline: scroll(y);
-  animation-timeline: scroll(x);
-
-  /* Examples that specify scroller and axis */
-  animation-timeline: scroll(block nearest); /* Default */
-  animation-timeline: scroll(inline root);
-  animation-timeline: scroll(x self);
 }
 ```
 
@@ -430,7 +293,7 @@ ol {
   content: url(star.svg) url(star.svg) url(star.svg) url(star.svg) url(star.svg);
 
   /* at-rules */
-  @document url("https://www.example.com/")
+  @document url('https://www.example.com/')
   {
     /* … */
   }
@@ -451,38 +314,5 @@ ol {
       blue
     ); /* header-color не существует, поэтому используется blue */
   }
-}
-```
-
-<!-- view() ---------------------------------------------------------------------------------------------------------------------------->
-
-# view()
-
-Функция для отслеживания временной шкалы анонимной анимации зависящей от видимости элемента от скролла
-
-```scss
-.view-function {
-  /* Function with no parameters set */
-  animation-timeline: view();
-
-  /* Values for selecting the axis */
-  animation-timeline: view(block); /* Default */
-  animation-timeline: view(inline);
-  animation-timeline: view(y);
-  animation-timeline: view(x);
-
-  /* Values for the inset */
-  animation-timeline: view(auto); /* Default */
-  animation-timeline: view(20%);
-  animation-timeline: view(200px);
-  animation-timeline: view(20% 40%);
-  animation-timeline: view(20% 200px);
-  animation-timeline: view(100px 200px);
-  animation-timeline: view(auto 200px);
-
-  /* Examples that specify axis and inset */
-  animation-timeline: view(block auto); /* Default */
-  animation-timeline: view(inline 20%);
-  animation-timeline: view(x 200px auto);
 }
 ```

@@ -1,3 +1,5 @@
+!!!жизненный цикл перенести в эту папку
+
 # Композиция
 
 проп children используется для компонентов, в которых содержимое неопределенно до рендеринга
@@ -5,38 +7,40 @@
 ```jsx
 function Dialog(props) {
   return (
-    <FancyBorder color="blue">
+    <>
       <h1 className="Dialog-title">{props.title}</h1>
       <p className="Dialog-message">{props.message}</p>
       {props.children}
-    </FancyBorder>
+    </>
   );
 }
 
 class SignUpDialog extends React.Component {
- constructor(props) {
- super(props);
- this.handleChange = this.handleChange.bind(this);
- this.handleSignUp = this.handleSignUp.bind(this);
- this.state = {login: ''};
- }
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.state = { login: "" };
+  }
 
-handleChange(e) {
- this.setState({login: e.target.value});
- }
- handleSignUp() {
- alert(`Добро пожаловать на борт, ${this.state.login}!`);
- }}
- render() {
- return (
-  <Dialog title="Программа исследования Марса" message="Как к вам обращаться?">
-<input value={this.state.login}
-onChange={this.handleChange} />
-<button onClick={this.handleSignUp}>
-</button>
-</Dialog>
- );}
-
+  handleChange(e) {
+    this.setState({ login: e.target.value });
+  }
+  handleSignUp() {
+    alert(`Добро пожаловать на борт, ${this.state.login}!`);
+  }
+  render() {
+    return (
+      <Dialog
+        title="Программа исследования Марса"
+        message="Как к вам обращаться?"
+      >
+        <input value={this.state.login} onChange={this.handleChange} />
+        <button onClick={this.handleSignUp}>Кнопка</button>
+      </Dialog>
+    );
+  }
+}
 ```
 
 # conditional rendering
@@ -166,24 +170,35 @@ function Toolbar() {
 }
 
 class ThemedButton extends React.Component {
-  static contextType = ThemeContext1;
-  render() {
-  //отправляем второй (2.2)
-  //       context: {this.context.color}
-    return (
-    <div _style={{backgroundColor:`${this.context.color}`, height:100, color:'yellow'}}>
-      <ThemeContext2.ProviderValue="blue">
-      <Button/>
-      </ThemeContext2.Provider>
-    </div>);
-  }
+  static contextType = ThemeContext1;
+  render() {
+    //отправляем второй (2.2)
+    //       context: {this.context.color}
+    return (
+      <div
+        _style={{
+          backgroundColor: `${this.context.color}`,
+          height: 100,
+          color: "yellow",
+        }}
+      >
+        <ThemeContext2.ProviderValue value="blue">
+          <Button />
+        </ThemeContext2.ProviderValue>
+      </div>
+    );
+  }
 }
-class Button extends React.Component{
-  static contextType = ThemeContext2; //(3) идет в паре с (4)
-  render(){
-    return <button _style={{backgroundColor:`${this.context}`}}>{this.context}</button> //(5) достаем значение контекста
-  }}
-
+class Button extends React.Component {
+  static contextType = ThemeContext2; //(3) идет в паре с (4)
+  render() {
+    return (
+      <button _style={{ backgroundColor: `${this.context}` }}>
+        {this.context}
+      </button>
+    ); //(5) достаем значение контекста
+  }
+}
 ```
 
 # Events handler
@@ -347,11 +362,8 @@ class FlavorForm extends React.Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
-          {" "}
-          Выберите ваш любимый вкус: <select
-            value={this.state.value}
-            onChange={this.handleChange}
-          >
+          Выберите ваш любимый вкус:{" "}
+          <select value={this.state.value} onChange={this.handleChange}>
             <option value="grapefruit">Грейпфрут</option>
             <option value="lime">Лайм</option>
             <option value="coconut">Кокос</option>
@@ -423,9 +435,12 @@ Welcome.defaultProps = {
 Компонент с рендер-проп берёт функцию, которая возвращает React-элемент, и вызывает её вместо реализации собственного рендера.
 
 ```jsx
-<DataProvider render={(data) => <h1>Привет, {data.target}</h1>} />;
+<DataProvider render={(data) => <h1>Привет, {data.target}</h1>} />
+```
 
-// приложение, которое отслеживает положение мыши
+приложение, которое отслеживает положение мыши
+
+```jsx
 class MouseTracker extends React.Component {
   constructor(props) {
     super(props);
@@ -441,11 +456,10 @@ class MouseTracker extends React.Component {
   render() {
     return (
       <div _style={{ height: "100vh" }} onMouseMove={this.handleMouseMove}>
-                <h1>Перемещайте курсор мыши!</h1>       {" "}
+        <h1>Перемещайте курсор мыши!</h1>
         <p>
           Текущее положение курсора мыши: ({this.state.x}, {this.state.y})
-        </p>
-             {" "}
+        </p>     {" "}
       </div>
     );
   }
@@ -472,7 +486,7 @@ class Mouse extends React.Component {
         {/*но как можно отрендерить что-то, кроме <p>?*/}
         <p>
           Текущее положение курсора мыши: ({this.state.x}, {this.state.y})
-        </p>     {" "}
+        </p>
       </div>
     );
   }
@@ -775,7 +789,7 @@ function tryConvert(temperature, convert) {
   if (Number.isNaN(input)) {
     return "";
   }
-  const output = convert(input); // задействуем коллбэк
+  const output = convert(input); // задействуем коллбек
   const rounded = Math.round(output * 1000) / 1000;
   return rounded.toString();
 }

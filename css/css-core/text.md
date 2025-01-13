@@ -1,18 +1,4 @@
-<!-- Текстовый контент: текст и ссылки ---------------------------------------------------------------------------------------------------------------------------------->
-
-# Улучшения по работе со шрифтами:
-
-- использовать woff2
-- пред загрузка
-- фрагментация
-- использование font-display
-- локальное хранение шрифта
-
-# Текстовый контент: текст и ссылки
-
-https://fonts.google.com/ - для поиска шрифтов
-
-# Добавление шрифтов на сайт:
+# добавление шрифтов на сайт:
 
 ```html
 <link
@@ -22,7 +8,7 @@ https://fonts.google.com/ - для поиска шрифтов
 />
 ```
 
-# @font-face
+## @font-face
 
 установка шрифтов с помощью
 
@@ -82,40 +68,88 @@ html {
 }
 ```
 
-# font
+# font:
 
-font = font-style + font-variant + font-weight + font-stretch + font-size + line-height + font-family свойства шрифта
+font = font-style + font-variant + font-weight + font-stretch + font-size + line-height + font-family
 
-## font-family
+## font-style
 
-список из шрифтов
+стиль начертания
 
 ```scss
  {
-  // оба определения валидные
-  font-family: Gill Sans Extrabold, sans-serif;
-  font-family: "Goudy Bookletter 1911"//если название шрифта состоит из нескольких слов, то нужно заключать в кавычки
-
-  /* Только общие семейства */
-  font-family: serif; //со штрихами
-  font-family: sans-serif; //гладкие
-  font-family: monospace; //одинаковая ширина
-  font-family: cursive; //рукопись
-  font-family: fantasy; //декор-ые
-  font-family: system-ui; //из системы
-  font-family: emoji; //
-  font-family: math; //
-  font-family: fangsong; //китайский
+  font-style: normal;
+  font-style: italic; //курсив
+  font-style: oblique; //курсив
 }
 ```
 
-Разновидности шрифтов по типам:
+## font-variant:
 
-- serif - с засечками
-- sans-serif - без засечек.
-- monospace - в которых все символы имеют одинаковую ширину, обычно используются в листингах кода.
-- cursive - имитирующие рукописный почерк, с плавными, соединенными штрихами.
-- fantasy - предназначенные для декоративных целей.
+font-variant-alternates + font-variant-caps + font-variant-east-asian + font-variant-emoji + font-variant-ligatures + font-variant-numeric + font-variant-position
+
+варианты написания разных шрифтов под разные языки если они предусмотрены шрифтом
+
+### font-variant-alternates
+
+управляет использованием альтернативных глифов
+
+```scss
+.font-variant-alternate {
+  font-variant-alternates: stylistic(user-defined-ident);
+  font-variant-alternates: styleset(user-defined-ident);
+  font-variant-alternates: character-variant(user-defined-ident);
+  font-variant-alternates: swash(user-defined-ident);
+  font-variant-alternates: ornaments(user-defined-ident);
+  font-variant-alternates: annotation(user-defined-ident);
+  font-variant-alternates: swash(ident1) annotation(ident2);
+}
+```
+
+## font-weight жирность
+
+```scss
+ {
+  /font-weight: normal;
+  font-weight: bold;
+
+  /* Relative to the parent */
+  font-weight: lighter;
+  font-weight: bolder;
+
+  font-weight: 100;
+  font-weight: 200;
+  font-weight: 300;
+  font-weight: 400;
+  font-weight: 500;
+  font-weight: 600;
+  font-weight: 700;
+  font-weight: 800;
+  font-weight: 900;
+}
+```
+
+## font-stretch
+
+растягивает шрифт
+
+```scss
+.font-stretch {
+  font-stretch: normal;
+  font-stretch: ultra-condensed; //62.5%
+  font-stretch: extra-condensed;
+  font-stretch: condensed;
+  font-stretch: semi-condensed;
+  font-stretch: semi-expanded;
+  font-stretch: expanded;
+  font-stretch: extra-expanded;
+  font-stretch: ultra-expanded; //200%
+
+  font-stretch: 50%;
+  font-stretch: 100%;
+  font-stretch: 200%;
+}
+```
 
 ## font-size
 
@@ -151,46 +185,48 @@ span {
 }
 ```
 
-## font-style
+## line-height
 
-стиль начертания
-
-```scss
- {
-  font-style: normal;
-  font-style: italic; //курсив
-  font-style: oblique; //курсив
-}
-```
-
-## font-weight жирность
+расстояние между строками
 
 ```scss
  {
-  /font-weight: normal;
-  font-weight: bold;
-
-  /* Relative to the parent */
-  font-weight: lighter;
-  font-weight: bolder;
-
-  font-weight: 100;
-  font-weight: 200;
-  font-weight: 300;
-  font-weight: 400;
-  font-weight: 500;
-  font-weight: 600;
-  font-weight: 700;
-  font-weight: 800;
-  font-weight: 900;
+  line-height: "px", "%";
 }
 ```
 
-# font-face (js)
+## font-family
 
-[возможность управлять шрифтами через js](../../js/web-api/font-face.md)
+список из шрифтов
 
-# расширенные настройки шрифтов:
+```scss
+ {
+  // оба определения валидные
+  font-family: Gill Sans Extrabold, sans-serif;
+  font-family: "Goudy Bookletter 1911"//если название шрифта состоит из нескольких слов, то нужно заключать в кавычки
+
+  /* Только общие семейства */
+  font-family: serif; //со штрихами
+  font-family: sans-serif; //гладкие
+  font-family: monospace; //одинаковая ширина
+  font-family: cursive; //рукопись
+  font-family: fantasy; //декор-ые
+  font-family: system-ui; //из системы
+  font-family: emoji; //
+  font-family: math; //
+  font-family: fangsong; //китайский
+}
+```
+
+Разновидности шрифтов по типам:
+
+- serif - с засечками
+- sans-serif - без засечек.
+- monospace - в которых все символы имеют одинаковую ширину, обычно используются в листингах кода.
+- cursive - имитирующие рукописный почерк, с плавными, соединенными штрихами.
+- fantasy - предназначенные для декоративных целей.
+
+## -----------------------------------------------------
 
 ## font-feature-settings
 
@@ -217,11 +253,13 @@ span {
 }
 ```
 
-если шрифты имеют доп настройки
+## font-language-override (-chrome, -safari, -ff)
+
+переопределение очертания для других языков
 
 ## font-optical-sizing
 
-font-optical-sizing: none | auto оптимизация
+значения: none | auto - оптимизация
 
 ## font-palette
 
@@ -231,44 +269,39 @@ font-optical-sizing: none | auto оптимизация
 
 позволяет регулировать lowercase и uppercase
 
-## font-stretch
+```scss
+ {
+  font-size-adjust: none;
 
-растягивает шрифт
+  font-size-adjust: 0.5;
+  font-size-adjust: from-font;
+
+  font-size-adjust: ex-height 0.5;
+  font-size-adjust: ch-width from-font;
+}
+```
 
 ## font-synthesis
 
 font-synthesis = font-synthesis-weight + font-synthesis-style + font-synthesis-small-caps + font-synthesis-position
 
-## font-synthesis-small-caps
+## font-variant:
 
-## font-variant
+font-variant-alternates
+font-variant-caps
+font-variant-east-asian
+font-variant-emoji
+font-variant-ligatures
+font-variant-numeric
+font-variant-position
 
-font-variant = font-variant-alternates + font-variant-caps + font-variant-east-asian + font-variant-emoji + font-variant-ligatures + font-variant-numeric + font-variant-position
+## font-face (js)
 
-варианты написания разных шрифтов под разные языки если они предусмотрены шрифтом
+[возможность управлять шрифтами через js](../../js/web-api/font-face.md)
 
-## font-variant-alternates
+# настройки расстояния
 
-управляет использованием альтернативных глифов
-
-```scss
-.font-variant-alternate {
-  font-variant-alternates: stylistic(user-defined-ident);
-  font-variant-alternates: styleset(user-defined-ident);
-  font-variant-alternates: character-variant(user-defined-ident);
-  font-variant-alternates: swash(user-defined-ident);
-  font-variant-alternates: ornaments(user-defined-ident);
-  font-variant-alternates: annotation(user-defined-ident);
-  font-variant-alternates: swash(ident1) annotation(ident2);
-}
-```
-
-## font-variation-settings
-
-предоставляет низкоуровневый вариант управления шрифтом
-
-- стиль строки
-- - word-spacing расстояние между словами
+## word-spacing
 
 ```scss
  {
@@ -276,7 +309,7 @@ font-variant = font-variant-alternates + font-variant-caps + font-variant-east-a
 }
 ```
 
-# letter-spacing
+## letter-spacing
 
 расстояние между буквами
 
@@ -286,21 +319,38 @@ font-variant = font-variant-alternates + font-variant-caps + font-variant-east-a
 }
 ```
 
-# line-height
+## tab-size
 
-расстояние между строками
+размер символа табуляции
+
+## text-indent
+
+определяет размер отступа (пустого места) перед строкой в текстовом блоке.
+
+## white-space
+
+Свойство white-space управляет тем, как обрабатываются пробельные символы внутри элемента.
 
 ```scss
  {
-  line-height: "px", "%";
+  white-space: normal; //Последовательности пробелов объединяются в один пробел.
+  white-space: nowrap; //не переносит строки (оборачивание текста) внутри текста.
+  white-space: pre; //Последовательности пробелов сохраняются так, как они указаны в источнике.
+  white-space: pre-wrap; //как и в pre + <br/>
+  white-space: pre-line; //только <br />
+  white-space: break-spaces;
 }
 ```
 
-# line-break
+## white-space-collapse
 
-перенос китайского и японского
+управляет тем, как сворачивается пустое пространство внутри элемента
 
-# text-align
+<!--  -->
+
+# расположение текста в контейнере
+
+## text-align
 
 CSS-свойство описывает, как линейное содержимое, наподобие текста, выравнивается в блоке его родительского элемента. text-align не контролирует выравнивание элементов самого блока, но только их линейное содержимое.
 
@@ -320,41 +370,11 @@ CSS-свойство описывает, как линейное содержи�
 }
 ```
 
-# text-align-last
+<!-- настройка разрыва строк ----------------------------------------------------------------------------------------------------------------->
 
-Как выравнивается последняя строка в блоке или строка, идущая сразу перед принудительным разрывом строки.
+# декорирование текста
 
-```scss
-.text-align-last {
-  text-align-last: auto;
-  text-align-last: start;
-  text-align-last: end;
-  text-align-last: left;
-  text-align-last: right;
-  text-align-last: center;
-  text-align-last: justify;
-}
-```
-
-# text-decoration-skip
-
-при добавлении подчеркивания сделать сплошную линию, либо с прерыванием на буквы у,р,д
-
-```scss
- {
-  text-decoration-skip-ink: auto | none;
-}
-```
-
-# text-align-last
-
-как будет выравнен текст в последней строке или перед разрывом
-
-# tab-size
-
-размер символа табуляции
-
-# color
+## color
 
 цвет текста
 
@@ -364,21 +384,16 @@ CSS-свойство описывает, как линейное содержи�
 }
 ```
 
-# text-indent
-
-определяет размер отступа (пустого места) перед строкой в текстовом блоке.
-
-# text-decoration
-
-text-decoration = text-decoration-line + text-decoration-color + text-decoration-style + text-decoration-thickness
+## text-decoration:
 
 свойства text-decoration = text-decoration-line + text-decoration-color + text-decoration-style + text-decoration-thickness, декорирование подчеркивания текста
+
+### text-decoration-line
 
 ```scss
  {
   //декорирование текста
   text-decoration-line: underline | overline | line-through | blink; //где находится линия
-  text-decoration-style: solid | double | dotted | dashed | wavy; //цвет линии
   text-decoration-line: underline overline; // может быть две
   text-decoration-line: overline underline line-through;
 
@@ -387,7 +402,7 @@ text-decoration = text-decoration-line + text-decoration-color + text-decoration
 }
 ```
 
-## text-decoration-color
+### text-decoration-color
 
 цвет подчеркивания
 
@@ -399,23 +414,15 @@ text-decoration = text-decoration-line + text-decoration-color + text-decoration
 }
 ```
 
-## text-underline-offset
+### text-decoration-style
 
-text-underline-offset: px - позволяет определить расстояния от линии декоратора до текста
+```scss
+.text-decoration-style {
+  text-decoration-style: solid | double | dotted | dashed | wavy;
+} //цвет линии
+```
 
-## text-underline-position
-
-text-underline-position: auto | under - позволяет определить линия подчеркивания будет находит внизу всех элементов
-
-## text-decoration-skip
-
-подчеркивание и буквы у,д, р с хвостом внизу
-
-## text-decoration-skip-ink
-
-text-decoration-skip-ink: none | auto | all - наложение линии подчеркивания на буквы с нижней частью
-
-## text-decoration-thickness
+### text-decoration-thickness
 
 ширина линии подчеркивания
 
@@ -426,7 +433,27 @@ text-decoration-skip-ink: none | auto | all - наложение линии по
 }
 ```
 
-# text-emphasis
+### более тонкие настройки:
+
+#### text-underline-offset
+
+text-underline-offset: px - позволяет определить расстояния от линии декоратора до текста
+
+#### text-underline-position
+
+text-underline-position: auto | under - позволяет определить линия подчеркивания будет находит внизу всех элементов
+
+#### text-decoration-skip
+
+при добавлении подчеркивания сделать сплошную линию, либо с прерыванием на буквы у,р,д
+
+```scss
+ {
+  text-decoration-skip-ink: auto | none;
+}
+```
+
+## text-emphasis:
 
 Добавит элементы поверх текста, text-emphasis = text-emphasis-position + text-emphasis-style + text-emphasis-color.
 
@@ -452,7 +479,7 @@ text-decoration-skip-ink: none | auto | all - наложение линии по
 }
 ```
 
-## text-emphasis-color - цвет элементов поверх текста
+### text-emphasis-color - цвет элементов поверх текста
 
 ```scss
  {
@@ -462,7 +489,7 @@ text-decoration-skip-ink: none | auto | all - наложение линии по
 }
 ```
 
-## text-emphasis-position расположение элементов поверх текста
+### text-emphasis-position расположение элементов поверх текста
 
 ```scss
 text-emphasis-position. {
@@ -484,7 +511,7 @@ text-emphasis-position. {
 }
 ```
 
-## text-emphasis-style элемент вставки
+### text-emphasis-style элемент вставки
 
 ```scss
 .text-emphasis-style {
@@ -504,7 +531,7 @@ text-emphasis-position. {
 }
 ```
 
-# text-shadow
+## text-shadow
 
 тень от текста
 
@@ -531,7 +558,7 @@ text-emphasis-position. {
 }
 ```
 
-# text-transform
+## text-transform
 
 преобразует написание текста upper/lower-case и др
 
@@ -547,33 +574,29 @@ text-emphasis-position. {
 }
 ```
 
-# initial-letter
+## initial-letter
 
 initial-letter: number (экспериментальное) стилизация первой буквы
 
-# Текст, который залит фоном:
+## user-select
 
-## text-clip
+Отвечает за возможность выделять текст
 
-обрезка фона под текст
-
-```css
-.text-clip {
-  -webkit-background-clip: text;
+```scss
+.user-select {
+  user-select: none;
+  user-select: auto;
+  user-select: text;
+  user-select: contain;
+  user-select: all;
 }
 ```
 
-## text-clip
+<!-- Разрыв и перенос ------------------------------------------------------------------------------------------------------------------------>
 
-Заливка текста
+# разрыв и перенос
 
-```css
-.text-clip {
-  -webkit-text-fill-color: transparent;
-}
-```
-
-# word-break
+## word-break
 
 Где будет установлен перевод на новую строку
 
@@ -586,7 +609,7 @@ initial-letter: number (экспериментальное) стилизация
 }
 ```
 
-# text-wrap
+## text-wrap
 
 перенос слов
 
@@ -600,12 +623,9 @@ initial-letter: number (экспериментальное) стилизация
 }
 ```
 
-- - менее поддерживаемые свойство - text-wrap-mode, text-wrap-style
-- [стилизация q quotes: "„" "“" "‚" "‘"; принимает закрывающие и открывающие кавычки]
+менее поддерживаемые свойство - text-wrap-mode, text-wrap-style
 
-word-break разрыв строк и перенос:
-
-# overflow-wrap
+## overflow-wrap
 
 разрыв сплошных строк при переносе
 
@@ -617,7 +637,7 @@ word-break разрыв строк и перенос:
 }
 ```
 
-# hyphens
+## hyphens
 
 указывает, как следует переносить слова через дефис, когда текст переносится на несколько строк
 
@@ -634,7 +654,7 @@ word-break разрыв строк и перенос:
 }
 ```
 
-# hyphenate-character
+## hyphenate-character
 
 ```scss
 .hyphenate-character {
@@ -665,30 +685,11 @@ dd#string {
 }
 ```
 
-# hyphenate-limit-chars
+## hyphenate-limit-chars
 
 (экс) для определения количества букв в переносе
 
-# white-space
-
-Свойство white-space управляет тем, как обрабатываются пробельные символы внутри элемента.
-
-```scss
- {
-  white-space: normal; //Последовательности пробелов объединяются в один пробел.
-  white-space: nowrap; //не переносит строки (оборачивание текста) внутри текста.
-  white-space: pre; //Последовательности пробелов сохраняются так, как они указаны в источнике.
-  white-space: pre-wrap; //как и в pre + <br/>
-  white-space: pre-line; //только <br />
-  white-space: break-spaces;
-}
-```
-
-## white-space-collapse
-
-управляет тем, как сворачивается пустое пространство внутри элемента
-
-# text-overflow
+## text-overflow
 
 при переполнении текстом строки overflow: hidden; white-space: nowrap
 
@@ -705,35 +706,102 @@ dd#string {
 
 Так же могут помочь символ `&shy` `<wbr>​`;
 
-Текст при выделении:
+## text-align-last
 
-# user-select
-
-Отвечает за возможность выделять текст
+Как выравнивается последняя строка в блоке или строка, идущая сразу перед принудительным разрывом строки.
 
 ```scss
-.user-select {
-  user-select: none;
-  user-select: auto;
-  user-select: text;
-  user-select: contain;
-  user-select: all;
+.text-align-last {
+  text-align-last: auto;
+  text-align-last: start;
+  text-align-last: end;
+  text-align-last: left;
+  text-align-last: right;
+  text-align-last: center;
+  text-align-last: justify;
 }
 ```
 
-Направление письма:
+<!-- Направление письма ---------------------------------------------------------------------------------------------------------------------->
 
-# writing-mode
+# направление письма
 
-изменить направление текста
+Блочная модель так же предусматривает направление текста
+
+## writing-mode
+
+устанавливает горизонтальное или вертикальное положение текста также как и направление блока
 
 ```scss
- {
+.writing-mode {
   writing-mode: horizontal-tb; // поток - сверху вниз, предложения - слева направо
   writing-mode: vertical-rl; // поток - справа налево, предложения - вертикально
   writing-mode: vertical-lr; // поток - слева направо, предложения - вертикально
 }
 ```
+
+## direction
+
+принимает два значения ltr и rtl
+
+## text-orientation
+
+позволяет распределить символы в вертикальном и горизонтальном направлениях
+
+```scss
+.text-orientation {
+  text-orientation: mixed;
+  text-orientation: upright;
+  text-orientation: sideways-right;
+  text-orientation: sideways;
+  text-orientation: use-glyph-orientation;
+}
+```
+
+## block-size
+
+Свойство позволяет записать height и width в одно свойство с учетом режима письма writing-mode.
+
+```scss
+.block-size {
+  block-size: 300px;
+  block-size: 25em;
+
+  block-size: 75%;
+
+  block-size: 25em border-box;
+  block-size: 75% content-box;
+  block-size: max-content;
+  block-size: min-content;
+  block-size: available;
+  block-size: fit-content;
+  block-size: auto;
+}
+```
+
+## inset
+
+позволяет определить top|bottom или right|left в зависимости от rtl
+
+### inset-block
+
+позволяет определить top|bottom или right|left в зависимости от rtl более точные свойства для управление расположением:
+
+- - - inset-block-end
+- - - inset-block-start
+- - inset-inline аналогично и inset-block только представляет горизонтальную ориентацию
+- - - inset-inline-end
+- - - inset-inline-start
+
+## text-combine-upright
+
+учет чисел при написании в иероглифах all - все числа будут упакованы в размер одного символа
+
+## line-break
+
+перенос китайского и японского
+
+<!-- ссылки ---------------------------------------------------------------------------------------------------------------------------------->
 
 # ссылки
 
@@ -746,19 +814,23 @@ dd#string {
 
 Для стилизации используются:
 
-# color
+## color
 
 цвет ссылки
 
 стилизация курсора
 
-# cursor
+## cursor
 
 Определяет тип курсора
 
 [cursor](./user-elements.md#cursor)
 
-# BP. Масштабирование всего проекта c помощью font-size
+<!-- BPs ------------------------------------------------------------------------------------------------------------------------------------->
+
+# BPs
+
+## BP. Масштабирование всего проекта c помощью font-size
 
 ```css
 html {
@@ -774,7 +846,7 @@ body {
 }
 ```
 
-# BP. иконка в конец ссылки
+## BP. иконка в конец ссылки
 
 ```scss
 a[href*="http"] {
@@ -786,7 +858,7 @@ a[href*="http"] {
 }
 ```
 
-# BP. ссылки кнопки
+## BP. ссылки кнопки
 
 ```scss
 a {
@@ -819,3 +891,24 @@ a:active {
   color: white;
 }
 ```
+
+## BP. Текст, который залит фоном:
+
+обрезка фона под текст
+
+```css
+.text-clip {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+```
+
+## BP. Улучшения по работе со шрифтами:
+
+- использовать woff2
+- пред загрузка
+- фрагментация
+- использование font-display
+- локальное хранение шрифта
+
+https://fonts.google.com/ - для поиска шрифтов

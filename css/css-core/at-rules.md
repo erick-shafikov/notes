@@ -26,140 +26,6 @@
 }
 ```
 
-<!-- @container ------------------------------------------------------------------------------------------------------------------------------>
-
-# @container
-
-Позволяет настроить медиа запросы относительно элемента, а не vp. Задает контекст ограничения
-
-```scss
-// настройка для контейнера относительного которого будут производится измерения
-.container {
-  container-type: size; //size - измеряет как как inline или блочный
-  container-type: inline-size; //inline-size - как inline
-  container-type: normal; //Отключает запросы на размеры контейнера
-}
-```
-
-```html
-<!-- контейнер -->
-<div class="post">
-  <div class="card">
-    <h2>Card title</h2>
-    <p>Card content</p>
-  </div>
-</div>
-```
-
-```scss
-.post {
-  container-type: inline-size;
-}
-// контент .card и h2 будет изменять font-size при min-width: 700px
-@container (min-width: 700px) {
-  .card h2 {
-    font-size: 2em;
-  }
-}
-```
-
-для множественных контейнеров, именованные контейнеры
-
-```scss
-.post {
-  container-type: inline-size;
-  // название контейнера
-  container-name: sidebar;
-  // сокращенное свойство
-  container: sidebar / inline-size;
-}
-// использование
-@container sidebar (min-width: 700px) {
-  .card {
-    font-size: 2em;
-  }
-}
-```
-
-доступны новые единицы измерения
-
-- cqw: 1% от ширины контейнера
-- cqh: 1% от высоты
-- cqi: 1% от inline размера
-- cqb: 1% от блочного размера
-- cqmin: минимум от cqi и cqb
-- cqmax: максимум от cqi и cqb
-
-```scss
-// использование
-@container (min-width: 700px) {
-  .card h2 {
-    font-size: max(1.5em, 1.23em + 2cqi);
-  }
-}
-```
-
-Доступные свойства для условия: aspect-ratio, block-size, height, inline-size, orientation, width
-
-вложенные
-
-```scss
-@container summary (min-width: 400px) {
-  @container (min-width: 800px) {
-    /* <stylesheet> */
-  }
-}
-```
-
-## Container style queries
-
-c помощью функции style можно ссылать на стиль контейнера
-
-```scss
-@container style(<style-feature>),
-    not style(<style-feature>),
-    style(<style-feature>) and style(<style-feature>),
-    style(<style-feature>) or style(<style-feature>) {
-  /* <stylesheet> */
-}
-
-// пример
-
-@container style(--themeBackground),
-    not style(background-color: red),
-    style(color: green) and style(background-color: transparent),
-    style(--themeColor: blue) or style(--themeColor: purple) {
-  /* <stylesheet> */
-
-  //--themeColor: blue - незарегистрированное пользовательское свойство
-}
-```
-
-<!-- @counter-style ------------------------------------------------------------------------------------------------------------------------>
-
-# @counter-style
-
-```scss
-@counter-style symbols-example {
-  system: cyclic | numeric | ....; //https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style/system
-  symbols: A "1" "\24B7"D E; //ряд символов на повторение
-  additive-symbols: 1000 M, 900 CM, 500 D, 400 CD, 100 C, 90 XC, 50 L, 40 XL,
-  symbols: url(gold-medal.svg) url(silver-medal.svg) url(bronze-medal.svg); //могут быть и изображения
-    10 X, 9 IX, 5 V, 4 IV, 1 I; //позволяет задать ряд с системой исчисления
-  negative: "--"; // задать элементы, если они начинаются с отрицательного индекса атрибут start < 0
-  prefix: "»";
-  suffix: "";
-  range: 2 4, 7 9; //на какие по счету элементы будет применяться
-  pad: 3 "0";
-  speak-as: auto |...;
-  fallback: lower-alpha; //альтернативный
-}
-
-.items {
-  list-style: symbols-example;
-}
-```
-
 # @import
 
 Позволяет импортировать стили, должно быть на верху фала, кроме @charset
@@ -198,7 +64,7 @@ c помощью функции style можно ссылать на стиль 
 }
 ```
 
-<!--  ---------------------------------------------------------------------------------------------------------------------------->
+<!-- layer ----------------------------------------------------------------------------------------------------------------------------------->
 
 # @layer
 
@@ -303,9 +169,7 @@ import url("components-lib.css") layer(components);
 - width, height, aspect-ratio, orientation, resolution, scan, grid, update-frequency, overflow-block, overflow-inline, color, color-index, display-mode, monochrome, inverted-colors, pointer, hover, any-pointer, any-hover, scripting, device-width, device-height, device-aspect-ratio, -webkit-device-pixel-ratio, -webkit-transform-3d, -webkit-transform-2d, -webkit-transition, -webkit-animation
 
 ```scss
-// доп функции --------------------------------------------------------
-// and
-//для конкретного значения
+//and
 @media screen and (width: 600px) {
 }
 // для максимальных и минимальных значений
@@ -356,6 +220,7 @@ import url("components-lib.css") layer(components);
 
 ```scss
 @media (prefers-color-scheme: dark | light) {
+  //
 }
 ```
 
@@ -495,7 +360,7 @@ window.CSS.registerProperty({
 }
 ```
 
-<!--  ---------------------------------------------------------------------------------------------------------------------------->
+<!-- @scope ---------------------------------------------------------------------------------------------------------------------------------->
 
 # @scope
 
@@ -547,17 +412,4 @@ window.CSS.registerProperty({
 ```scss
 // пример теста селектора также может быть и font-tech(), font-format() вместо selector()
 @import `/css/webkitShadowStyles.css` supports(selector(::-webkit-inner-spin-button));
-```
-
-<!--  ---------------------------------------------------------------------------------------------------------------------------->
-
-# @view-transition
-
-Нет в ff и сафари
-
-```scss
-@view-transition {
-  navigation: auto;
-  navigation: none; // Документ не будет подвергнут переходу вида.
-}
 ```

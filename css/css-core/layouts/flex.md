@@ -1,7 +1,5 @@
 <!-- Сетки. Flex ----------------------------------------------------------------------------------------------------------------------------->
 
-# Сетки. Flex
-
 Позволяет управлять потоком в одном направлении пространства. Устанавливаем родителю. Сам блок не генерирует контейнеры, только дочерние элементы
 
 ```scss
@@ -23,31 +21,164 @@
 
 Настройка контейнера:
 
-- [позволяет настроить поток во flex контейнере](./css-props.md#flex-direction)
-- [За возможность переноса во второй ряд отвечает flex-wrap по умолчанию nowrap](./css-props.md#flex-wrap)
-- [flex-direction + flex-wrap = flex-flow](./css-props.md#flex-flow)
-- [за минимальный размер элемента в строке отвечает flex-basis, если не задан box-sizing](./css-props.md#flex-basis)
+# flex-direction
 
-Размеры флекс-элементов рассчитываются как в блочной модели, работает box-sizing, ужимаются по содержимому, не работает float, внешние отступы не схлопываются и не выпадают. Элементы изначально выстроятся по содержимому, некоторые будут вытянуты
+позволяет настроить поток во flex контейнере
 
-!!!margin важнее выравнивания
-!!!флексы ни чего не знают про форматирование
+```scss
+ {
+  flex-direction: row; // справа на лево, то есть блоки будут идти справа на лево
+  flex-direction: column; // сверху вниз, как div-ы
+  flex-direction: row-reverse; // снизу вверх
+  flex-direction: column-reverse;
+  // общие значения
+  flex-direction: inherit;
+  flex-direction: initial;
+  flex-direction: revert;
+  flex-direction: revert-layer;
+  flex-direction: unset;
+}
+```
 
-Настройка расположения элементов по осям:
+# flex-wrap
 
-- [выравнивание по главной оси justify-content](./css-props.md#justify-content-flex)
-- [Выравнивание по поперечной оси align-items](./css-props.md#align-items-flex)
-- - [короткая запись для align-content + justify-content = place-content](./css-props.md/#place-items)
-- - [lace-items = align-items + justify-items]
-- - [короткая запись для align-self + justify-self = place-self](./css-props.md/#place-self-grid-flex)
+За возможность переноса во второй ряд отвечает flex-wrap по умолчанию nowrap
 
-## Настройка расположения контента, при переполнении (flex-wrap: wrap):
+```scss
+ {
+  flex-wrap: wrap; //
+}
+```
 
-- [распределят пространство, при переносе контента align-content](./css-props.md#align-content-flex)
+## flex-flow
+
+    позволяет задать в одной строчке задать flex-direction + flex-wrap
+
+```scss
+ {
+  flex-flow: row wrap;
+}
+```
+
+# Выравнивание
+
+## justify-content (flex, grid)
+
+выравнивание по главной оси justify-content
+
+```scss
+.flex {
+  justify-content: center; // Выравнивание элементов по центру
+  justify-content: start; // Выравнивание элементов в начале в отличие от flex-start отчет идет от направления письма
+  justify-content: end; // Выравнивание элементов в конце
+  justify-content: flex-start; // Выравнивание флекс-элементов с начала
+  justify-content: flex-end; // Выравнивание флекс-элементов с конца
+  justify-content: left; // Выравнивание элементов по левому краю
+  justify-content: right; // Выравнивание элементов по правому краю
+
+  // Выравнивание относительно осевой линии
+  justify-content: baseline;
+  justify-content: first baseline;
+  justify-content: last baseline;
+
+  // Распределённое выравнивание
+  justify-content: space-between; // Равномерно распределяет все элементы по ширине flex-блока. Первый элемент вначале, последний в конце
+  justify-content: space-around; // Равномерно распределяет все элементы по ширине flex-блока. Все элементы имеют полноразмерное пространство с обоих концов
+  justify-content: space-evenly; // Равномерно распределяет все элементы по ширине flex-блока. Все элементы имеют равное пространство вокруг
+  justify-content: stretch; // Равномерно распределяет все элементы по ширине flex-блока. Все элементы имеют "авто-размер", чтобы соответствовать контейнеру
+  // Выравнивание при переполнении
+  justify-content: safe center;
+  justify-content: unsafe center;
+}
+```
+
+## align-items (flex, grid)
+
+Выравнивание по поперечной оси
+
+```scss
+.flex {
+  /* высота по умолчанию  */
+  align-items: stretch;
+  /*по верхнему краю (к верху) */
+  align-items: start;
+  /*по нижнему краю (к низу) */
+  align-items: end;
+  /*отцентрирует */
+  align-items: center;
+  /* выравнивает текст внутри элементов */
+  align-items: baseline;
+}
+```
+
+## place-items (grid, flex)
+
+короткая запись place-items = align-items + justify-items
+
+```scss
+ {
+  place-items: end center;
+}
+```
+
+## place-self (grid, flex)
+
+place-self = align-self + justify-self
+
+```scss
+ {
+  place-self: stretch center;
+}
+```
+
+# Настройка расположения контента, при переполнении (flex-wrap: wrap):
+
+## align-content (flex)
+
+распределят пространство, при переносе контента align-content
+
+```scss
+.align-content {
+  align-content: flex-start;
+  align-content: flex-end;
+  align-content: center;
+  align-content: space-between;
+  align-content: space-around;
+  align-content: stretch;
+}
+```
 
 если у родителя задать height: auto, то align-content не имеет влияния. У родителя нужна фиксированная высота, которая задала бы пустое пространство. При переполнении, создается новый flex-контейнер
 
-# flex-props
+# flex:
+
+flex-grow свойство задается может задаваться тремя значениями:
+
+- flex-grow по умолчанию 0
+- flex-shrink по умолчанию 1
+- flex-basis по умолчанию auto
+- По умолчанию – flex: 0 1 auto
+- flex: auto === flex: 1 1 auto - пространство распределится равномерно, но больший займет больше места
+- flex: 1 === flex: 1 1 0 - все элементы одинаковой ширины
+
+```scss
+// шорткат для flex-grow + flex-shrink + flex-basis
+ {
+  flex: 1 1 200px;
+}
+```
+
+```scss
+// Запрет на расширение и сжатие flex-элемента
+.box > * {
+  flex: 0 0 33.3333%;
+}
+
+// все одного размер невзирая на их собственный размер
+.class {
+  flex: 1 1 0;
+}
+```
 
 Свойства flex для управления положительным и отрицательным свободным пространством. Отрицательное при переполнении
 
@@ -63,6 +194,28 @@ flex-grow: 1 (займет 33% от flex-контейнера если три э
 Коэффициент сжатия. При значении nowrap, свойство начинает работать, когда на flex-элемент не остается пространства, определяет с какой скоростью готов отдавать от собственной ширины. Если это значение 0, то в ширине изменяться не будет, работает как жесткий min-width. Предел min-content
 
 ## flex-basis (flex-element)
+
+Устанавливает минимальное значение размера flex-элемента, если не задан box-sizing? если оно не установлено блочной моделью.
+
+Разница между flex-basis 0 и 0% в том что, во втором случает элемент ужмется до своих минимальных размеров внутреннего контента
+
+```scss
+ {
+  flex-basis: auto; // значение по умолчанию
+  flex-basis: fill;
+  flex-basis: max-content;
+  flex-basis: min-content;
+  flex-basis: fit-content;
+  flex-basis: content; // определяет размер на основе содержимого
+  flex-basis: 0; // определяет пропорционально с другими элементами
+  flex-basis: 100px; // если в px то определяет минимальный размер контейнера
+}
+```
+
+Размеры флекс-элементов рассчитываются как в блочной модели, работает box-sizing, ужимаются по содержимому, не работает float, внешние отступы не схлопываются и не выпадают. Элементы изначально выстроятся по содержимому, некоторые будут вытянуты
+
+!!!margin важнее выравнивания
+!!!флексы ни чего не знают про форматирование
 
 По умолчанию auto, определяет базовую ширину(flex-direction: row) или высоту (flex-direction: column), размер flex-элемента до растягивания и сжимания, изменяется при уменьшении VP (не измениться при flex-shrink = 0), элемент не может быть больше этого размера, работает как min-width, но при flex-direction: column будет определять высоту элемента. Изначально === width, по умолчанию === max-content
 
@@ -90,40 +243,37 @@ flex-grow: 1 (займет 33% от flex-контейнера если три э
 }
 ```
 
-## flex (flex-element)
-
-flex-grow свойство задается может задаваться тремя значениями:
-
-- flex-grow по умолчанию 0
-- flex-shrink по умолчанию 1
-- flex-basis по умолчанию auto
-- По умолчанию – flex: 0 1 auto
-- flex: auto === flex: 1 1 auto - пространство распределится равномерно, но больший займет больше места
-- flex: 1 === flex: 1 1 0 - все элементы одинаковой ширины
-
-```scss
-// Запрет на расширение и сжатие flex-элемента
-.box > * {
-  flex: 0 0 33.3333%;
-}
-
-// все одного размер невзирая на их собственный размер
-.class {
-  flex: 1 1 0;
-}
-```
-
-## flex-gaps (flex-container)
+# gap:
 
 Позволяет настроить расстояния между flex-элементами
 
-- [gap расстояние между элементами](./css-props.md/#gap)
-- - [row-gap расстояние между элементами по главной оси](./css-props.md/#row-gap-flex-grid)
-- - [column-gap расстояние по перпендикулярной оси](./css-props.md/#column-gap-flex-grid)
+сокращенная запись gap = row-gap + column-gap
+
+gap расстояние между элементами
+
+```scss
+ {
+  gap: 10px 20px;
+}
+```
+
+### row-gap (flex, grid)
+
+расстояние по горизонтали
+
+```scss
+ {
+  row-gap: 20px;
+}
+```
+
+### column-gap
+
+расстояние по перпендикулярной оси
 
 visibility: collapse позволяет управлять сокрытием элемента, но оставляет за ним пространство для распределение flex элементов, разница между visibility: hidden - элемент удаляется, при visibility: collapse нет
 
-## order (flex-element)
+# order (flex-element)
 
 Позволяет поменять порядок элементов, при отрицательных значениях будет находится в самом начале
 
@@ -153,9 +303,11 @@ visibility: collapse позволяет управлять сокрытием э
 }
 ```
 
-## visibility: collapse
+# visibility: collapse
 
 Позволяет оставить распорку во flex-контейнере, элемент не отображается, но учитывается в сетке
+
+# BPs:
 
 ## PB. Footer
 
@@ -216,7 +368,7 @@ visibility: collapse позволяет управлять сокрытием э
 }
 ```
 
-# BP. липкий footer
+## BP. липкий footer
 
 ```scss
 .wrapper {
@@ -235,7 +387,7 @@ visibility: collapse позволяет управлять сокрытием э
 }
 ```
 
-# BP. хлебные крошки
+## BP. хлебные крошки
 
 ```scss
 .breadcrumb ul {

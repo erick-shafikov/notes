@@ -214,13 +214,19 @@
 }
 ```
 
-# background-blend-mode
+## background-blend-mode
 
 Определяет как будут смешиваться наслаиваемые цвета и изображения
 
+как background-image будет смешиваться с вышележащими слоями
+
+правило смешивания наслаивающих изображений и фонов https://developer.mozilla.org/en-US/docs/Web/CSS/blend-mode
+
+Значений всего 16
+
 ```scss
  {
-  background-blend-mode: darken | luminosity...;
+  background-blend-mode: darken, luminosity;
 }
 ```
 

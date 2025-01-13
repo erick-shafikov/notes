@@ -132,8 +132,26 @@ textarea {
 
 # Поведение на разных носителях
 
-- [page-break-before](./css-props.md/#page-break-before-page-break-after-page-break-inside)
-- [widows определяет какое количество линий должно быть в начале страницы]
+## page-break-before, page-break-after, page-break-inside
+
+Устанавливает разрывы для печати на странице до или после элемента
+
+```scss
+ {
+  page-break-before: auto;
+  page-break-before: always;
+  page-break-before: avoid;
+  page-break-before: left;
+  page-break-before: right;
+  page-break-before: recto;
+  page-break-before: verso;
+}
+```
+
+## widows
+
+определяет какое количество линий должно быть в начале страницы
+
 - [touch-action позволяет управлять поведением элемента на тач скрине при увеличении]
 
 ```scss

@@ -42,6 +42,21 @@
 }
 ```
 
+# inset-block
+
+```scss
+ {
+  inset-block-start: 3px | 1rem | anchor(end) | calc(
+      anchor(--myAnchor 50%) + 5px
+    )
+    | 10%
+    // расположит элемент якоря, аналогично inset-block-end ,inset-inline-start, inset-inline-end
+;
+  inset-block: 10px 20px; // определяет начальные и конечные смещения логического блока элемента, аналогично inset-inline
+  inset: ; // inset-block-start + inset-block-end + inset-inline-start + inset-inline-end
+}
+```
+
 # inset-area (где относительно якоря)
 
 Нестабильное свойство. Позволяет позиционировать якорь
@@ -127,11 +142,11 @@
 }
 ```
 
-# position-try
+# position-try:
 
 position-try-order + position-try-fallbacks
 
-# position-try-order
+## position-try-order
 
 для позиционирования
 
@@ -145,7 +160,7 @@ position-try-order + position-try-fallbacks
 }
 ```
 
-# position-try-fallbacks
+## position-try-fallbacks
 
 резервные позиции для размещения
 
