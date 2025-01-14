@@ -124,31 +124,101 @@ function Page(props) {
 }
 ```
 
-![context](/assets/react/react-context.png)
+# BPs:
 
 ## BP. Множественный контекст
 
 Можно создать reducer для состояния и создать два контекста, в один передавать состояния, в другой функцию reducer. Так как передать в value в Provider можно только один аргумент, если мы передадим объект, то этот объект будет вызывать новы рендер.
 
-```tsx
-import { ReactNode, createContext, useReducer } from "react";
+```jsx
+import React, {
+  useMemo,
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+} from "react";
 
-export const ItemContext = createContext({});
-export const ActionContext = createContext({});
+// ----------------------------------------------------------------------
+// создаем контекст для состояния
+const __Entity__CreateStateContext = createContext(null);
 
-const reducer = () => {};
-const getInitialState = () => ({});
+if (process.env.NODE_ENV !== "production") {
+  __Entity__CreateStateContext.displayName = "__Entity__CreateStateContext";
+}
+// создаем контекст для сеттеров состояния
+const __Entity__CreateActionsContext = createContext(null);
 
-const ItemsProvider = ({ children }: { children: ReactNode }) => {
-  const [items, dispatch] = useReducer(reducer, getInitialState());
+if (process.env.NODE_ENV !== "production") {
+  __Entity__CreateActionsContext.displayName = "__Entity__CreateActionsContext";
+}
 
-  // коллбеки и значения обернуть в useMemo если используется просто состояние
+// ----------------------------------------------------------------------
+
+export const __Entity__CreateProvider = (props) => {
+  const { children } = props;
+
+  //для примера два состояния
+  const [state_1, setState_1] = useState();
+  const [state_2, setState_2] = useState();
+
+  //коллбеки на изменения состояния
+  const set__Entity__State_1 = useCallback((step) => {
+    setState_1(step);
+  }, []);
+
+  const set__Entity__state_2 = useCallback((steps) => {
+    setState_2(steps);
+  }, []);
+
+  //мемоизированное состояние
+  const state = useMemo(() => {
+    return {
+      __entity__State_1: state_1,
+      __entity__State_2: state_2,
+    };
+  }, [state_1, state_2]);
+  //мемоизированные коллбеки
+  const actions = useMemo(() => {
+    return {
+      set__Entity__state_1,
+      set__Entity__tate_2,
+    };
+  }, []);
 
   return (
-    <ActionContext.Provider value={dispatch}>
-      <ItemContext.Provider value={items}>{children}</ItemContext.Provider>
-    </ActionContext.Provider>
+    <PayoutsCreateStateContext.Provider value={state}>
+      <PayoutsCreateActionsContext.Provider value={actions}>
+        {children}
+      </PayoutsCreateActionsContext.Provider>
+    </PayoutsCreateStateContext.Provider>
   );
+};
+
+// ----------------------------------------------------------------------
+// хук для получения
+export const usePayoutsCreateStateContext = () => {
+  const stateContext = useContext(__Entity__CreateStateContext);
+
+  if (!stateContext) {
+    throw new Error(
+      "usePayoutsCreateStateContext must be used inside a PayoutsCreateStateContext"
+    );
+  }
+
+  return stateContext;
+};
+
+export const usePayoutsCreateActionsContext = () => {
+  const actionsContext = useContext(__Entity__CreateActionsContext);
+
+  if (!actionsContext) {
+    throw new Error(
+      "usePayoutsCreateActionsContext must be used inside a PayoutsCreateActionsContext."
+    );
+  }
+
+  return actionsContext;
 };
 ```
 

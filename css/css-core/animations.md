@@ -145,6 +145,27 @@ px расстояние от z=0 это свойство, устанавлива
 }
 ```
 
+### rotate
+
+Позволяет вращать 3-d объект
+
+```scss
+.rotate {
+  //* Angle value */
+  rotate: 90deg;
+  rotate: 0.25turn;
+  rotate: 1.57rad;
+
+  /* x, y, or z axis name plus angle */
+  rotate: x 90deg;
+  rotate: y 0.25turn;
+  rotate: z 1.57rad;
+
+  /* Vector plus angle value */
+  rotate: 1 1 1 90deg;
+}
+```
+
 ### BP. Пример с кубом в 3d
 
 ```html

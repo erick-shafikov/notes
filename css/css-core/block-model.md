@@ -477,8 +477,7 @@ button:active {
 
 стилизация внешней рамки, которая может наезжать на соседние элементы и не влияет на определение блочной модели
 
-Свойство обводки контента outline = outline-color + outline-style + outline-width
-outline-offset
+Свойство обводки контента outline = outline-color + outline-style + outline-width + outline-offset
 
 ```scss
  {
@@ -531,7 +530,14 @@ outline-offset
 
 ## outline-offset
 
-отступ границы
+отступ от обводки внешней границы
+
+```scss
+ {
+  outline-offset: 4px;
+  outline-offset: 0.6rem;
+}
+```
 
 # z-index
 

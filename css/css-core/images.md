@@ -232,19 +232,203 @@
 
 # Маски clip-path:
 
-- [использование свойства clip-path](./css-props#clip-path)
-- - [clip-rule: nonzero | evenodd настрой выбора пикселей для вычета]
+## clip-path
 
-mask - краткая запись следующих свойств нужная для маскирования изображения:
+```scss
+.clip-path {
+  clip-path: none;
 
-- - [mask-clip определяет область применения маски](./css-props.md#mask-clip)
-- - [mask-image определяет url маски](./css-props.md/#mask-image)
-- - [mask-mode: alpha | luminance | match-source]
-- - [mask-origin определяет расположение начала](./css-props.md/#mask-origin)
-- - [mask-position: 25% 75% позиция top/left ]
-- - [mask-repeat степень повторения](./css-props.md/#mask-repeat)
-- - [mask-size размер](./css-props.md/#mask-size)
-- - [mask-type: luminance | alpha тип маски ]
+  /* Значения <clip-source> */
+  clip-path: url(resources.svg#c1);
+
+  /* Значения <geometry-box> */
+  clip-path: margin-box;
+  clip-path: border-box;
+  clip-path: padding-box;
+  clip-path: content-box;
+  clip-path: fill-box;
+  clip-path: stroke-box;
+  clip-path: view-box;
+
+  /* Значения <basic-shape> */
+  clip-path: inset(100px 50px); //Определяет внутренний прямоугольник.
+  clip-path: circle(
+    50px at 0 100px
+  ); //Определяет окружность, используя радиус и расположение.
+  clip-path: ellipse(
+    50px 60px at 0 10% 20%
+  ); //Определяет эллипс, используя два радиуса и расположение
+  clip-path: polygon(
+    50% 0%,
+    100% 50%,
+    50% 100%,
+    0% 50%
+  ); // Определяет многоугольник, используя стиль заполнения фигуры и набор вершин.
+  clip-path: path(
+    "M0.5,1 C0.5,1,0,0.7,0,0.3 A0.25,0.25,1,1,1,0.5,0.3 A0.25,0.25,1,1,1,1,0.3 C1,0.7,0.5,1,0.5,1 Z"
+  ); //Определяет фигуру, используя объявление SVG фигуры и правило заполнения
+
+  /* Комбинация значений границ и формы блока */
+  clip-path: padding-box circle(50px at 0 100px);
+}
+```
+
+```scss
+.polygon {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 50%,
+    0 100%
+  ); //- обрезает картинку по координатам, относительно изображение
+}
+```
+
+## clip-rule
+
+nonzero | evenodd настрой выбора пикселей для вычета
+
+# mask
+
+mask = mask-clip + mask-composite + mask-image + mask-mode + mask-origin + mask-position + mask-repeat + mask-size
+
+краткая запись следующих свойств нужная для маскирования изображения:
+
+## mask-clip
+
+mask-clip определяет область применения маски
+
+определяет область применения маски
+
+```scss
+ {
+  mask-clip: content-box;
+  mask-clip: padding-box;
+  mask-clip: border-box;
+  mask-clip: fill-box;
+  mask-clip: stroke-box;
+  mask-clip: view-box;
+
+  /* Keyword values */
+  mask-clip: no-clip;
+
+  /* Non-standard keyword values */
+  -webkit-mask-clip: border;
+  -webkit-mask-clip: padding;
+  -webkit-mask-clip: content;
+  -webkit-mask-clip: text;
+
+  /* Multiple values */
+  mask-clip: padding-box, no-clip;
+  mask-clip: view-box, fill-box, border-box;
+}
+```
+
+## mask-image
+
+ресурс для маски
+
+```scss
+ {
+  mask-image: url(masks.svg#mask1);
+
+  /* <image> values */
+  mask-image: linear-gradient(rgb(0 0 0 / 100%), transparent);
+  mask-image: image(url(mask.png), skyblue);
+
+  /* Multiple values */
+  mask-image: image(url(mask.png), skyblue), linear-gradient(rgb(0 0 0 / 100%), transparent);
+}
+```
+
+## mask-mode
+
+alpha | luminance | match-source
+
+## mask-origin
+
+определяет расположение начала
+
+```scss
+ {
+  mask-origin: content-box; // Положение указывается относительно границы поля.
+  mask-origin: padding-box; //Положение указывается относительно ограничивающей рамки объекта.
+  mask-origin: border-box; //Положение указывается относительно ограничивающей рамки штриха.
+  mask-origin: fill-box; //Использует ближайший вьюпорт SVG
+  mask-origin: stroke-box; //
+  mask-origin: view-box;
+
+  /* Multiple values */
+  mask-origin: padding-box, content-box;
+  mask-origin: view-box, fill-box, border-box;
+
+  /* Non-standard keyword values */
+  -webkit-mask-origin: content; //content-box
+  -webkit-mask-origin: padding; //padding-box.
+  -webkit-mask-origin: border; //border-box.
+}
+```
+
+## mask-position
+
+25% 75% позиция top/left
+
+## mask-repeat
+
+Определение повторение маски
+
+```scss
+ {
+  mask-repeat: repeat-x;
+  mask-repeat: repeat-y;
+  mask-repeat: repeat;
+  mask-repeat: space;
+  mask-repeat: round;
+  mask-repeat: no-repeat;
+
+  /* Two-value syntax: horizontal | vertical */
+  mask-repeat: repeat space;
+  mask-repeat: repeat repeat;
+  mask-repeat: round space;
+  mask-repeat: no-repeat round;
+}
+```
+
+## mask-size
+
+Размер маски
+
+```scss
+ {
+  /* Keywords syntax */
+  mask-size: cover;
+  mask-size: contain;
+
+  /* One-value syntax */
+  /* the width of the image (height set to 'auto') */
+  mask-size: 50%;
+  mask-size: 3em;
+  mask-size: 12px;
+  mask-size: auto;
+
+  /* Two-value syntax */
+  /* first value: width of the image, second value: height */
+  mask-size: 50% auto;
+  mask-size: 3em 25%;
+  mask-size: auto 6px;
+  mask-size: auto auto;
+
+  /* Multiple values */
+  /* Do not confuse this with mask-size: auto auto */
+  mask-size: auto, auto;
+  mask-size: 50%, 25%, 25%;
+  mask-size: 6px, auto, contain;
+}
+```
+
+## mask-type
+
+luminance | alpha тип маски
 
 mask-border (экспериментальное) краткая запись следующих свойств позволяет создать маску для границ:
 
@@ -257,15 +441,141 @@ mask-border (экспериментальное) краткая запись с�
 
 # Фильтры
 
-- [использование свойства filter](./css-props#filter)
-- [функции для свойства filter](./functions.md/#filter-функции)
-- [использование фильтра, который будет применяться к контенту, который находится поверх background-color или image](./css-props.md/#backdrop-filter)
-- [для упаковки тега img в контейнер](./css-props.md#object-fit)
-- [расположение изображения в контейнере object-position](./css-props.md/#object-position)
-- [тени](./css-props.md#box-shadow)
-- Текст, который залит фоном:
-- - [обрезка фона под текст](./css-props.md#webkit-background-clip)
-- - [заливка](./css-props.md#webkit-text-fill-color)
+## filter
+
+Добавляет фильтры на изображения
+
+```scss
+{
+  filter: url(resources.svg);
+  filter: blur(5px);
+  filter: brightness(0.4);
+  filter: contrast(200%);
+  filter: drop-shadow(16px 16px 20px blue);
+  filter: grayscale(50%);
+  filter: hue-rotate(90deg);
+  filter: invert(75%);
+  filter: opacity(25%);
+  filter: saturate(30%);
+  filter: sepia(60%);
+  // fill – заливка
+  fill: currentColor; заливка цветом
+}
+```
+
+```scss
+img {
+}
+
+.blur {
+  filter: blur(10px);
+}
+```
+
+```html
+<div class="box"><img src="balloons.jpg" alt="balloons" class="blur" /></div>
+```
+
+Фильтр можно добавить к объектам, то есть к самой тени
+
+```scss
+p {
+  border: 5px dashed red;
+}
+
+.filter {
+  filter: drop-shadow(5px 5px 1px rgb(0 0 0 / 70%));
+}
+
+.box-shadow {
+  box-shadow: 5px 5px 1px rgb(0 0 0 / 70%);
+}
+```
+
+- [функции для свойства filter](./functions/filters-func.md)
+
+## backdrop-filter
+
+позволяет применить фильтр к контенту, который находится поверх контейнера с background-color или background-image
+использование фильтра, который будет применяться к контенту, который находится поверх background-color или image
+
+```scss
+ {
+  backdrop-filter: none;
+
+  /* фильтр URL в SVG */
+  backdrop-filter: url(commonfilters.svg#filter);
+
+  /* значения <filter-function> */
+  backdrop-filter: blur(2px);
+  backdrop-filter: brightness(60%);
+  backdrop-filter: contrast(40%);
+  backdrop-filter: drop-shadow(4px 4px 10px blue);
+  backdrop-filter: grayscale(30%);
+  backdrop-filter: hue-rotate(120deg);
+  backdrop-filter: invert(70%);
+  backdrop-filter: opacity(20%);
+  backdrop-filter: sepia(90%);
+  backdrop-filter: saturate(80%);
+
+  /* Несколько фильтров */
+  backdrop-filter: url(filters.svg#filter) blur(4px) saturate(150%);
+}
+```
+
+Пример контента с изображением, фон которого будет размыт
+
+```scss
+// контент фон которого будет размыт
+.box {
+  background-color: rgba(255, 255, 255, 0.3);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+// изображение
+img {
+  background-image: url("anemones.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+```
+
+# object-fit
+
+Позволяет тегу img определить размеры относительно контейнера
+
+```scss
+.object-fit {
+  object-fit: fill; //заполняет весь контейнер, меняя свои пропорции
+  object-fit: contain; //растянет под контейнер, но оставит пропорции
+  object-fit: cover; //оставит пропорции, но поместит в контейнер часть изображения
+  object-fit: none; //подстроится под изображение
+  object-fit: scale-down; //выберет меньший между none и contain
+}
+```
+
+# object-position
+
+расположит изображение в контейнере
+
+```scss
+ {
+  object-position: center top;
+  object-position: 100px 50px;
+}
+```
+
+- [тени](./block-model.md#box-shadow)
 
 # image-свойства
 
@@ -277,13 +587,149 @@ mask-border (экспериментальное) краткая запись с�
 
 Градиенты могут быть использованы, там где используются изображения.
 
-[gradient() - что бы создать функцию ](./functions.md#градиенты)
+## linear-gradient()
+
+linear-gradient() - создает линейный градиент
+
+```scss
+.simple-linear {
+  //двухцветные с плавным переходом
+  background: linear-gradient(blue, pink);
+  background: linear-gradient(#e66465, #9198e5);
+  // по умолчанию будут равно распределены
+  background: linear-gradient(red, yellow, blue, orange);
+  //распределение в неравных пропорциях
+  background: linear-gradient(to left, lime 28px, red 77%, cyan);
+  //конкретные промежутки
+  background: linear-gradient(
+    to left,
+    lime 25%,
+    red 25% 50%,
+    cyan 50% 75%,
+    yellow 75%
+  );
+  background: linear-gradient(to left, #333, #333 50%, #eee 75%, #333 75%);
+  // для резкого перехода проценты в сумме должны быть равны 100
+  background: linear-gradient(to bottom left, cyan 50%, palegoldenrod 50%);
+  // подсказка для перехода 10% займет blue
+  background: linear-gradient(blue, 10%, pink);
+}
+
+// поменять направление
+.horizontal-gradient {
+  background: linear-gradient(to right, blue, pink);
+  // диагональный
+  background: linear-gradient(to bottom right, blue, pink);
+  // использование углов
+  background: linear-gradient(70deg, blue, pink);
+  background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
+}
+```
+
+```scss
+// можно комбинировать с изображениями
+.layered-image {
+  background: linear-gradient(to right, transparent, mistyrose),
+    url("critters.png");
+}
+```
+
+Наслоение нескольких друг на друга
+
+```scss
+ {
+  background: linear-gradient(
+      217deg,
+      rgba(255, 0, 0, 0.8),
+      rgba(255, 0, 0, 0) 70.71%
+    ), linear-gradient(127deg, rgba(0, 255, 0, 0.8), rgba(0, 255, 0, 0) 70.71%),
+    linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%);
+}
+```
+
+## radial-gradient()
+
+```scss
+// расположение центра
+.radial-gradient {
+  background: radial-gradient(at 0% 30%, red 10px, yellow 30%, #1e90ff 50%);
+}
+//размер определяется расстоянием от начальной точки (центра) до ближайшей стороны блока.
+.radial-ellipse-side {
+  background: radial-gradient(
+    ellipse closest-side,
+    red,
+    yellow 10%,
+    #1e90ff 50%,
+    beige
+  );
+  // устанавливает размер градиента значением расстояния от начальной точки до самого дальнего угла блока.
+  background: radial-gradient(
+    ellipse farthest-corner at 90% 90%,
+    red,
+    yellow 10%,
+    #1e90ff 50%,
+    beige
+  );
+  // по x - 25% от контейнера, по y -75%
+  background: radial-gradient(
+    circle closest-side at 25% 75%,
+    red,
+    yellow 10%,
+    #1e90ff 50%,
+    beige
+  );
+}
+```
+
+## conic-gradient()
+
+conic-gradient() - создает круговой градиент
+
+```scss
+.conic-gradient {
+  // смещение центра
+  background: conic-gradient(at 0% 30%, red 10%, yellow 30%, #1e90ff 50%);
+  // поворот поворота
+  background: conic-gradient(
+    from 45deg,
+    red,
+    orange,
+    yellow,
+    green,
+    blue,
+    purple
+  );
+}
+```
+
+## repeating-linear-gradient
+
+repeating-linear-gradient() - линии
+
+```scss
+.repeating-linear {
+  background: repeating-linear-gradient(
+    -45deg,
+    red,
+    red 5px,
+    blue 5px,
+    blue 10px
+  );
+}
+```
+
+## repeating-conic-gradient()
+
+лучи из центра
+
+## repeating-radial-gradient() - круги из центра
 
 - при создании должно быть указано как минимум два цвета
 
-## BP
+# BP
 
-### BP. Дефолтный стиль для img
+## BP. Дефолтный стиль для img
 
 !!! При работе с изображениями
 
@@ -295,7 +741,7 @@ mask-border (экспериментальное) краткая запись с�
 }
 ```
 
-### BP. Центрирование изображения
+## BP. Центрирование изображения
 
 ```css
 img {

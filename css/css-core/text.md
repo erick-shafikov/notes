@@ -370,6 +370,43 @@ CSS-свойство описывает, как линейное содержи�
 }
 ```
 
+## alignment-baseline (-ff)
+
+Свойство CSS определяет определенную базовую линию, используемую для выравнивания текста блока и содержимого на уровне строки. Выравнивание базовой линии — это отношение между базовыми линиями нескольких объектов выравнивания в контексте выравнивания
+
+```scss
+.alignment-baseline {
+  alignment-baseline: alphabetic;
+  alignment-baseline: central;
+  alignment-baseline: ideographic;
+  alignment-baseline: mathematical;
+  alignment-baseline: middle;
+  alignment-baseline: text-bottom;
+  alignment-baseline: text-top;
+
+  /* Mapped values */
+  alignment-baseline: text-before-edge; /* text-top */
+  alignment-baseline: text-after-edge; /* text-bottom */
+}
+```
+
+## dominant-baseline
+
+Свойство CSS определяет определенную базовую линию, используемую для выравнивания текста и содержимого на уровне строки в блоке.
+
+```scss
+.dominant-baseline {
+  dominant-baseline: alphabetic;
+  dominant-baseline: central;
+  dominant-baseline: hanging;
+  dominant-baseline: ideographic;
+  dominant-baseline: mathematical;
+  dominant-baseline: middle;
+  dominant-baseline: text-bottom;
+  dominant-baseline: text-top;
+}
+```
+
 <!-- настройка разрыва строк ----------------------------------------------------------------------------------------------------------------->
 
 # декорирование текста

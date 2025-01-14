@@ -114,3 +114,56 @@ span[data-descr]:hover::after {
   <span data-descr="не понимать буквально">взглянуть</span>.
 </p>
 ```
+
+<!-- content ------------------------------------------------------------------------------------------------------------------------------->
+
+# content
+
+заменяет элемент сгенерированным значением
+
+```scss
+.elem:after {
+  content: normal;
+  content: none;
+
+  /* Значение <url>  */
+  content: url("http://www.example.com/test.png");
+
+  /* Значение <image>  */
+  content: linear-gradient(#e66465, #9198e5);
+
+  /* Указанные ниже значения могут быть применены только к сгенерированному контенту с использованием ::before и ::after */
+
+  /* Значение <string>  */
+  content: "prefix";
+
+  /* Значения <counter> */
+  content: counter(chapter_counter);
+  content: counters(section_counter, ".");
+
+  /* Значение attr() связано со значением атрибута HTML */
+  content: attr(value string);
+
+  /* Значения <quote> */
+  content: open-quote;
+  content: close-quote;
+  content: no-open-quote;
+  content: no-close-quote;
+
+  /* Несколько значений могут использоваться вместе */
+  content: open-quote chapter_counter;
+}
+```
+
+Пример с возможность заменить
+
+```scss
+#replaced {
+  content: url("mdn.svg");
+}
+
+#replaced::after {
+  /* не будет отображаться, если замена элемента поддерживается */
+  content: " (" attr(id) ")";
+}
+```

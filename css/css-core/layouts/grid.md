@@ -32,15 +32,11 @@
   grid: 100px / 200px;
   grid: minmax(400px, min-content) / repeat(auto-fill, 50px);
 
-  /* <'grid-template-rows'> /
-   [ auto-flow && dense? ] <'grid-auto-columns'>? values */
   grid: 200px / auto-flow;
   grid: 30% / auto-flow dense;
   grid: repeat(3, [line1 line2 line3] 200px) / auto-flow 300px;
   grid: [line1] minmax(20em, max-content) / auto-flow dense 40%;
 
-  /* [ auto-flow && dense? ] <'grid-auto-rows'>? /
-   <'grid-template-columns'> values */
   grid: auto-flow / 200px;
   grid: auto-flow dense / 30%;
   grid: auto-flow 300px / repeat(3, [line1 line2 line3] 200px);
@@ -615,7 +611,9 @@ auto-fill - позволяет задать повторяемые элемен�
 }
 ```
 
-## justify-item (grid)
+## justify-items (grid)
+
+определяет атрибут по умолчанию justify-self
 
 игнорируется в таблицах, flex и grid сетках
 
