@@ -632,7 +632,9 @@ el.addEventListener("transitionend", updateTransition, true);
 
 Позволяет анимировать объект который следует по пути
 
-## offset
+## offset:
+
+offset = offset-anchor + offset-distance + offset-path + offset-position + offset-rotate
 
 позволяет определить траекторию
 
@@ -658,9 +660,9 @@ el.addEventListener("transitionend", updateTransition, true);
 }
 ```
 
-## offset-anchor
+### offset-anchor
 
-Позволяет определить где будет находится элемент относительно прямой при движение по линии [offset](./css-props.md/#offset)
+Позволяет определить где будет находится элемент относительно прямой при движение по линии
 
 ```scss
  {
@@ -685,13 +687,13 @@ el.addEventListener("transitionend", updateTransition, true);
 }
 ```
 
-## offset-distance
+### offset-distance
 
 px | % стартовая точка где будет находится элемент
 
-## offset-path
+### offset-path:
 
-offset-distance + offset-rotate + offset-anchor
+offset-distance + offset-rotate + and offset-anchor
 
 Позволяет задать путь движения
 
@@ -729,7 +731,9 @@ offset-distance + offset-rotate + offset-anchor
 
 смещение относительно начала
 
-## offset-rotate вращение элемента относительно себя
+## offset-rotate
+
+вращение элемента относительно себя
 
 ## ray()
 

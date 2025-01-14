@@ -795,27 +795,6 @@ dd#string {
 }
 ```
 
-## block-size
-
-Свойство позволяет записать height и width в одно свойство с учетом режима письма writing-mode.
-
-```scss
-.block-size {
-  block-size: 300px;
-  block-size: 25em;
-
-  block-size: 75%;
-
-  block-size: 25em border-box;
-  block-size: 75% content-box;
-  block-size: max-content;
-  block-size: min-content;
-  block-size: available;
-  block-size: fit-content;
-  block-size: auto;
-}
-```
-
 ## inset
 
 позволяет определить top|bottom или right|left в зависимости от rtl

@@ -1,16 +1,23 @@
-Списки имеют предустановленные стили
+Списки имеют предустановленные стили. При создания списка у элюентов li display: list-item
 
-При создания списка у элюентов li display: list-item
-
-# line-height
-
-[для расстояния между li](./text.md#line-height)
-
-# list-style:
+# настройка элемента list-style:
 
 для стилизации маркеров списка
 
 Сокращенная запись для list-style = list-style-image + list-style-position + list-style-type
+
+## list-style-image
+
+Позволяет добавить изображение в список в качестве разделителя
+
+```scss
+ {
+  list-style-image: none;
+  list-style-image: url("star-solid.gif");
+}
+```
+
+## list-style-type
 
 ```scss
  {
@@ -44,24 +51,11 @@
 }
 ```
 
-## list-style-image
-
-Позволяет добавить изображение в список в качестве разделителя
-
-```scss
- {
-  list-style-image: none;
-
-  /* <url> значения */
-  list-style-image: url("starsolid.gif");
-}
-```
-
 ## list-style-position
 
 inside | outside - расположение маркера внутри отступа или вне отступа
 
-# @counter-style
+## @counter-style
 
 изменение маркеров @counter-style позволяет определить отображение
 
@@ -100,41 +94,93 @@ inside | outside - расположение маркера внутри отст
 }
 ```
 
-# counter-increment, counter-set, counter-reset,
+# Управление нумерацией списка
 
-используется для увеличения значений в списке
+## counter-increment,
 
 ```scss
-// сброс счетчика
-div {
-  counter-reset: my-counter 100; //задает новое значение
-}
-div {
-  // объявляем счетчик и начальное значение по умолчанию ноль
+.counter-increment {
+  counter-increment: my-counter;
+
+  // уменьшить на 1
   counter-increment: my-counter -1;
+
+  // увеличить "counter1" на 1 и уменьшить "counter2" на 4
+  counter-increment: counter1 counter2 -4;
+
+  // chapter - без изменений, section + 2, page + 1
+  counter-increment: chapter 0 section 2 page;
+
+  // не изменять
+  counter-increment: none;
 }
+```
+
+Использование:
+
+В примере будет отсчет от 100 до нуля по -7
+
+```html
+<div>
+  <i></i><i></i><i></i><i></i><i></i><i></i><i></i> <i></i><i></i><i></i><i></i
+  ><i></i><i></i><i></i> <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+  <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+</div>
+```
+
+```scss
 div {
-  // объявляем счетчик и начальное значение по умолчанию ноль
-  counter-set: my-counter -1; //задает новое значение
+  // сброс в 100 счетчика sevens
+  counter-reset: sevens 100;
+}
+i {
+  // задаем последовательность
+  counter-increment: sevens -7;
+}
+i:first-of-type {
+  // отключаем у первого
+  counter-increment: none;
 }
 i::before {
-  // запуск c помощью функции counter
+  // указываем что счетчик стоит перед
   content: counter(sevens);
 }
 ```
 
--[функция counter()](./functions.md)
+## counter-reset
 
-список, который уменьшается на 1
+Сбросить или перевернуть список
 
-```html
-<div>
-  <i>1</i>
-  <i>100</i>
-</div>
+```scss
+.counter-reset {
+  counter-reset: my-counter;
+
+  // сбросить и установить на значение -3
+  counter-reset: my-counter -3;
+
+  // перевернуть
+  counter-reset: reversed(my-counter);
+
+  // перевернуть и начать с -1
+  counter-reset: reversed(my-counter) -1;
+
+  // настройки для нескольких
+  counter-reset: reversed(pages) 10 items 1 reversed(sections) 4;
+}
 ```
 
-# counter() counter-reset() counter-increment()
+## counter-set
+
+Установить конкретное значение элементу списка
+
+```scss
+div {
+  counter-set: my-counter;
+  counter-set: my-counter -1;
+  counter-set: counter1 1 counter2 4;
+  counter-set: none;
+}
+```
 
 активирует запуск счетчика на элементах
 
@@ -191,6 +237,19 @@ h3::before {
 Секция 1: Вступление
 Секция 2: Основная часть
 Секция 3: Заключение
+
+список, который уменьшается на 1
+
+```html
+<div>
+  <i>1</i>
+  <i>100</i>
+</div>
+```
+
+# line-height
+
+[для расстояния между li](./text.md#line-height)
 
 # counters()
 

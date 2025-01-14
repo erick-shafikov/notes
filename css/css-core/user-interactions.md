@@ -139,15 +139,15 @@ cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), /* …, */ url(cursor_n.cur) 5
 
 Поведение при скролле:
 
-# scroll-behavior
+## scroll-behavior
 
 auto | smooth для поведения прокрутки
 
-# scrollbar-width (-safari)
+## scrollbar-width (-safari)
 
 auto | thin | none;
 
-# scrollbar-color (-safari)
+## scrollbar-color (-safari)
 
 Цвет полосы прокрутки
 
@@ -158,17 +158,17 @@ auto | thin | none;
 }
 ```
 
-# scrollbar-gutter (-safari)
+## scrollbar-gutter (-safari)
 
 auto | stable | oth-edges
 
-# overflow-anchor (нет в safari)
+## overflow-anchor (-safari)
 
 auto | none определяет поведения прокрутки, при добавлении элементов
 
 Сделать скролл дискретным (при прокрутке привязывался к позиции)
 
-# scroll-snap-type
+## scroll-snap-type
 
 определяет строгость привязки
 
@@ -186,18 +186,42 @@ auto | none определяет поведения прокрутки, при �
 }
 ```
 
-- scroll-snap-align: center | start | end позволяет при прокрутки фиксировать позицию элемента
-- scroll-margin: px позволяет прокрутить в определенное место элемента с определенным margin, является сокращенной записью для scroll-margin-right + scroll-margin-bottom + scroll-margin-left, при нуле поместит элемент в середину
-- scroll-margin-inline = scroll-margin-inline-start + scroll-margin-inline-end
-- scroll-margin-block = scroll-margin-block-start + scroll-margin-block-end
-- scroll-padding: px позволяет прокрутить в определенное место при scroll-snap, коротка запись для группы scroll-padding-bottom + scroll-padding-left + scroll-padding-top + scroll-padding-right
-- scroll-padding-inline = scroll-padding-inline-start + scroll-padding-inline-end
-- scroll-padding-block = scroll-padding-block-start + scroll-padding-block-end
+## scroll-snap-align
 
-свойства scroll-padding- и scroll-margin- могут помочь в ситуации когда заголовок остается в фиксированном месте
+center | start | end позволяет при прокрутки фиксировать позицию элемента
 
-- scroll-snap-stop: normal | always придает дискретность к прокрутке
-- overscroll-behavior: auto | contain | none - поведение при достижении конца скролла шорткат для:
+## scroll-margin
+
+px позволяет прокрутить в определенное место элемента с определенным margin, является сокращенной записью для scroll-margin-right + scroll-margin-bottom + scroll-margin-left, при нуле поместит элемент в середину
+
+### scroll-margin-inline:
+
+scroll-margin-inline-start + scroll-margin-inline-end
+
+###scroll-margin-block
+
+scroll-margin-block-start + scroll-margin-block-end
+
+## scroll-padding:
+
+px позволяет прокрутить в определенное место при scroll-snap, коротка запись для группы scroll-padding-bottom + scroll-padding-left + scroll-padding-top + scroll-padding-right
+
+### scroll-padding-inline
+
+scroll-padding-inline-start + scroll-padding-inline-end
+
+### scroll-padding-block
+
+scroll-padding-block-start + scroll-padding-block-end
+
+## scroll-snap-stop
+
+normal | always придает дискретность к прокрутке
+
+## overscroll-behavior
+
+auto | contain | none - поведение при достижении конца скролла шорткат для:
+
 - - overscroll-behavior-x
 - - overscroll-behavior-y
 - - overscroll-behavior-block, overscroll-behavior-inline для поведения с учетом направленности текста
@@ -228,7 +252,7 @@ auto | none определяет поведения прокрутки, при �
 }
 ```
 
-::-webkit-scrollbar - псевдоэлементы группы scrollbar:
+## ::-webkit-scrollbar - псевдоэлементы группы scrollbar:
 
 ```scss
  {
