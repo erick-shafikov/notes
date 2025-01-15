@@ -59,6 +59,10 @@
 }
 ```
 
+# vertical-align
+
+[](./position.md#vertical-align)
+
 зебра
 
 ```scss

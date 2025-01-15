@@ -30,21 +30,35 @@
 }
 ```
 
-# top-right-bottom-left
+## top-right-bottom-left
 
 Значения для top? left, right, bottom - любые от пикселей до rem
 
 Позиционирование для position:absolute | relative | sticky. Если заданы height: auto | 100% то будут учитываться оба
 
-## Выравнивание элементов
+## inset (trbl c учетом rtl)
+
+позволяет определить top, bottom, right, left в зависимости от rtl
+
+### inset-block и inset-inline
+
+позволяет определить top|bottom или right|left в зависимости от rtl более точные свойства для управление расположением:
+
+- - - inset-block-end
+- - - inset-block-start
+- - inset-inline аналогично и inset-block только представляет горизонтальную ориентацию
+- - - inset-inline-end
+- - - inset-inline-start
+
+# Выравнивание элементов
 
 выравнивание происходит по двум осям inline - main, block - cross, выравнивание по главной: justify-items,justify-self, justify-content. По поперечной: align-items, align-self, align-content. Выделяют контейнер выравнивания, элемент выравнивания, запасное выравнивание
 Типы выравнивания: Positional alignment (выравнивание положения - start, end, center, left...), Baseline alignment (исходное выравнивание baseline, first baseline, last baseline), Distributed alignment (распределённое выравнивание stretch, space-between, space-around, space-evenly)
 
-- [основой для выравнивания могут служить сетки](#сетки-flex)
-- [свойство justify-items которое позволяет выравнивать элементы в обычном блоке](./css-props.md/#justify-item)
+- основой для выравнивания могут служить сетки
+- свойство justify-items которое позволяет выравнивать элементы в обычном блоке
 
-### vertical-align
+## vertical-align
 
 Позволяет вертикально выравнять inline или inline-block элемент (нужно применять к элементу, который нужно выровнять) может использоваться в таблицах
 

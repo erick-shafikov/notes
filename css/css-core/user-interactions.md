@@ -1,4 +1,6 @@
-# accent-color
+# Поля ввода
+
+## accent-color
 
 определяет цвета интерфейсов взаимодействия с пользователем
 
@@ -10,7 +12,7 @@
 
 - - А именно: input type="checkbox", input type="radio", input type="range", progress
 
-# appearance
+## appearance
 
 Определяет внешний вид для элементов взаимодействия
 
@@ -25,7 +27,7 @@
 }
 ```
 
-# caret-color
+## caret-color
 
 определяет свойство указателя
 
@@ -37,7 +39,9 @@
 }
 ```
 
-# cursor
+# Курсор
+
+## cursor
 
 определение вида курсора, при наводки на элемент
 
@@ -92,7 +96,7 @@ cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), /* …, */ url(cursor_n.cur) 5
   progress;
 ```
 
-# pointer-events
+## pointer-events
 
 Определяет цель для курсора
 позволяет указать, что может быть целью курсора
@@ -137,17 +141,15 @@ cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), /* …, */ url(cursor_n.cur) 5
 
 # скролл
 
+## Внешний вид полоски скролла
+
 Поведение при скролле:
 
-## scroll-behavior
-
-auto | smooth для поведения прокрутки
-
-## scrollbar-width (-safari)
+### scrollbar-width (-safari)
 
 auto | thin | none;
 
-## scrollbar-color (-safari)
+### scrollbar-color (-safari)
 
 Цвет полосы прокрутки
 
@@ -158,15 +160,23 @@ auto | thin | none;
 }
 ```
 
-## scrollbar-gutter (-safari)
+### scrollbar-gutter
 
-auto | stable | oth-edges
+```scss
+.scrollbar-gutter {
+  scrollbar-gutter: auto;
+  scrollbar-gutter: stable; // отступ есть по обе стороны
+  scrollbar-gutter: both-edges;
+}
+```
 
-## overflow-anchor (-safari)
+## Поведение прокрутки
 
-auto | none определяет поведения прокрутки, при добавлении элементов
+### scroll-behavior
 
-Сделать скролл дискретным (при прокрутке привязывался к позиции)
+auto | smooth для поведения прокрутки
+
+auto | stable | oth-edges stable -
 
 ## scroll-snap-type
 
@@ -202,9 +212,10 @@ scroll-margin-inline-start + scroll-margin-inline-end
 
 scroll-margin-block-start + scroll-margin-block-end
 
-## scroll-padding:
+### scroll-padding:
 
-px позволяет прокрутить в определенное место при scroll-snap, коротка запись для группы scroll-padding-bottom + scroll-padding-left + scroll-padding-top + scroll-padding-right
+px позволяет прокрутить в определенное место при scroll-snap,
+scroll-padding = scroll-padding-bottom + scroll-padding-left + scroll-padding-top + scroll-padding-right
 
 ### scroll-padding-inline
 
@@ -214,11 +225,11 @@ scroll-padding-inline-start + scroll-padding-inline-end
 
 scroll-padding-block-start + scroll-padding-block-end
 
-## scroll-snap-stop
+### scroll-snap-stop
 
 normal | always придает дискретность к прокрутке
 
-## overscroll-behavior
+### overscroll-behavior
 
 auto | contain | none - поведение при достижении конца скролла шорткат для:
 
@@ -251,6 +262,12 @@ auto | contain | none - поведение при достижении конц�
   scroll-snap-align: start;
 }
 ```
+
+### overflow-anchor (-safari)
+
+auto | none определяет поведения прокрутки, при добавлении элементов
+
+Сделать скролл дискретным (при прокрутке привязывался к позиции)
 
 ## ::-webkit-scrollbar - псевдоэлементы группы scrollbar:
 
