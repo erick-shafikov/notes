@@ -94,6 +94,20 @@ inside | outside - расположение маркера внутри отст
 }
 ```
 
+# -moz-image-region
+
+Позволяет обрезать иконку списка по фигуре
+
+```scss
+.moz-image-region {
+  -moz-image-region: auto;
+  list-style-image: url("chrome://example/skin/example.png");
+  -moz-image-region: rect(0, 8px, 4px, 4px);
+}
+```
+
+<!-- Управление нумерацией списка ------------------------------------------------------------------------------------------------------------>
+
 # Управление нумерацией списка
 
 ## counter-increment,

@@ -1,7 +1,5 @@
 <!-- Блочная модель --------------------------------------------------------------------------------------------------------------->
 
-# Блочная модель
-
 Элемент может быть блочным или строчным. Поток - это расположение элементов в документе. Что бы выкинуть элемент из потока из контекста форматирования - float, position: absolute, корневой элемент (html)
 Контексты форматирования:
 
@@ -9,7 +7,7 @@
 - inline formatting context
 - flex formatting context
 
-## display
+# display
 
 определяет блочность/строчность элемента
 
@@ -186,6 +184,18 @@ div {
 задает высоту или ширину блока в зависимости от написания
 
 Если ширина не задана, общая ширина равна доступному месту в родителе при схлопывании – суммируется margin, берется максимальный.
+
+## -moz-float-edge (-)
+
+```scss
+ {
+  // учет рамок при вычислении высоты/ширины
+  -moz-float-edge: content-box;
+  -moz-float-edge: margin-box;
+}
+```
+
+<!-- Отступы и границы ----------------------------------------------------------------------------------------------------------------------->
 
 # Отступы и границы:
 
@@ -377,6 +387,18 @@ border-bottom-style, border-left-style, border-right-style, border-top-style
 }
 ```
 
+### -webkit-border-before
+
+Рамка на верху элемента, сигнатура такая же как и у обычного border
+
+webkit-border-before = -webkit-border-before-color + -webkit-border-before-style + -webkit-border-before-width
+
+```scss
+.webkit-border-before {
+  -webkit-border-before: 5px dashed blue;
+}
+```
+
 ### border-radius
 
 так же border-bottom-left-radius, border-bottom-right-radius, border-top-left-radius, border-top-right-radius, border-top-right-radius
@@ -455,6 +477,23 @@ button:active {
     inset -2px -3px 5px rgba(255, 255, 255, 0.5);
 }
 ```
+
+## mask-border:
+
+краткая запись следующих свойств позволяет создать маску для границ:
+
+- - mask-border-mode: luminance | alpha использование яркости или альфа-значения в качестве маски
+- - mask-border-outset: 7px 12px 14px 5px; отступы
+- - mask-border-repeat: stretch | repeat | round | space применение
+- - mask-border-slice: 7 12 14 5
+- - mask-border-source: url(image.jpg); источник
+- - mask-border-width: 5% 2em 10% auto; размеры
+
+### -webkit-mask-box-image
+
+webkit-mask-box-image = -webkit-mask-box-image-source + -webkit-mask-box-image-outset + -webkit-mask-box-image-repeat
+
+альтернатива для mask-border
 
 ## box-decoration-break
 
@@ -537,6 +576,28 @@ button:active {
 }
 ```
 
+### -webkit-box-reflect
+
+Позволяет добавить отражение элемента
+
+```scss
+.webkit-box-reflect {
+  // где отразить
+  -webkit-box-reflect: above;
+  -webkit-box-reflect: below;
+  -webkit-box-reflect: left;
+  -webkit-box-reflect: right;
+
+  // расстояние
+  -webkit-box-reflect: below 10px;
+
+  // маска
+  -webkit-box-reflect: below 0 linear-gradient(transparent, white);
+}
+```
+
+<!-- Вытекание за контейнер, скрытие и наложение --------------------------------------------------------------------------------------------->
+
 # Вытекание за контейнер, скрытие и наложение
 
 Возникает, при том условии, когда размер одного или группы элементов в сумме больше размера контейнера. одно из свойств блочной модели регулируется с помощью свойства overflow:
@@ -570,6 +631,13 @@ overflow-block, overflow-inline - Для rtl
 ### -webkit-line-clamp (safari)
 
 сколько строк будет обрезано
+
+```scss
+.webkit-line-clamp {
+  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 10;
+}
+```
 
 ## visibility
 

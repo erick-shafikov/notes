@@ -62,6 +62,12 @@
 
 # Выравнивание
 
+выравнивание происходит по двум осям inline - main, block - cross, выравнивание по главной: justify-items,justify-self, justify-content. По поперечной: align-items, align-self, align-content. Выделяют контейнер выравнивания, элемент выравнивания, запасное выравнивание
+Типы выравнивания: Positional alignment (выравнивание положения - start, end, center, left...), Baseline alignment (исходное выравнивание baseline, first baseline, last baseline), Distributed alignment (распределённое выравнивание stretch, space-between, space-around, space-evenly)
+
+- основой для выравнивания могут служить сетки
+- свойство justify-items которое позволяет выравнивать элементы в обычном блоке
+
 ## justify-content (flex, grid)
 
 выравнивание по главной оси justify-content
@@ -131,20 +137,36 @@ place-self = align-self + justify-self
 }
 ```
 
-# Настройка расположения контента, при переполнении (flex-wrap: wrap):
-
 ## align-content (flex)
 
-распределят пространство, при переносе контента align-content
+распределят пространство, при переносе контента при переполнении (flex-wrap: wrap) по горизонтальной оси
 
 ```scss
 .align-content {
-  align-content: flex-start;
-  align-content: flex-end;
-  align-content: center;
-  align-content: space-between;
-  align-content: space-around;
-  align-content: stretch;
+  // align-content не принимает значения left и right
+  align-content: center; // Расположить элементы вокруг центра
+  align-content: start; // Расположить элементы в начале
+  align-content: end; // Расположить элементы в конце
+  align-content: flex-start; // Расположить элементы flex в начале
+  align-content: flex-end; // Расположить элементы flex в конце
+
+  // Нормальное выравнивание
+  align-content: normal;
+
+  // Выравнивание по базовой линии
+  align-content: baseline;
+  align-content: first baseline;
+  align-content: last baseline;
+
+  // Распределённое выравнивание
+  align-content: space-between; // Распределить элементы равномерно Первый элемент находится на одном уровне с началом, последней - совпадает с концом
+  align-content: space-around; // Распределить элементы равномерно Элементы имеют половинное пространство на каждом конце
+  align-content: space-evenly; // Распределить элементы равномерно Элементы имеют одинаковое пространство вокруг них
+  align-content: stretch; // Распределить элементы равномерно Растянуть 'auto'-размерные элементы, чтобы заполнить контейнер
+
+  // Выравнивание переполнения (overflow)
+  align-content: safe center;
+  align-content: unsafe center;
 }
 ```
 

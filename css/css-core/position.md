@@ -52,12 +52,6 @@
 
 # Выравнивание элементов
 
-выравнивание происходит по двум осям inline - main, block - cross, выравнивание по главной: justify-items,justify-self, justify-content. По поперечной: align-items, align-self, align-content. Выделяют контейнер выравнивания, элемент выравнивания, запасное выравнивание
-Типы выравнивания: Positional alignment (выравнивание положения - start, end, center, left...), Baseline alignment (исходное выравнивание baseline, first baseline, last baseline), Distributed alignment (распределённое выравнивание stretch, space-between, space-around, space-evenly)
-
-- основой для выравнивания могут служить сетки
-- свойство justify-items которое позволяет выравнивать элементы в обычном блоке
-
 ## vertical-align
 
 Позволяет вертикально выравнять inline или inline-block элемент (нужно применять к элементу, который нужно выровнять) может использоваться в таблицах

@@ -1,6 +1,7 @@
 # front-end:
 
 <!-- notes -->
+<!-- notes-work заполнять параллельно с задачами -->
 
 - mdn
 - - второй круг mdn css
@@ -10,29 +11,22 @@
 - - - [от поисковой строки до стадии reflow-repaint описание процессов/протоколов](./comp-science/networking.md)
 - - - drag&drop
 - - - [раздел "how to" на w3c](https://www.w3schools.com/howto/default.asp)
-- - react native doc
 - развертывание фронт приложений
-
-<!-- work-notes -->
-
-- разобрать work-notes react merchant (все компоненты + логика)
-- - методы добавления статики в react, добавление шрифта и цвета в react-strap (на примере panel merchant)
-- разобрать work-notes react-admin (все компоненты + логика)
-- разобрать work-notes react-native (все компоненты + логика)
-- - разобрать doc react-native
-- - gorhom bs дока
 
 <!-- web-dev -->
 
 - разбор на doc папки web-dev (все что есть с докой - разобрать)
 - - mui (в mui связать все компоненты с папкой v-17)
 - - tenStack query (4/5 v)
+- - gorhom bs дока
+- - разобрать doc react-native
 - react-bootstrap (дойти до html элементов и css стилей)
     <!-- tg -->
 - разбор статей с хабр
 - разбор компонентов с анимацией (code pen)
+  <!-- watch-->
 
-  <!-- новые -->
+    <!-- новые -->
 
 - tailwind
 - MOBX
@@ -44,7 +38,7 @@
 - canvas (WYT) Минин, доделать
 - GSAP (WD)
 - ThreeJS (WD)
-- Framer Motion (Непомнящий)
+- Framer Motion
 
 # back-end
 
@@ -59,6 +53,6 @@ DOC
 
 DOC
 
-- курсы яндекса
+- курс яндекса
 - Грокаем алгоритмы
 - Leetcode

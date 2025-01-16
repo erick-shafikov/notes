@@ -423,6 +423,20 @@ CSS-свойство описывает, как линейное содержи�
 }
 ```
 
+можно использовать свойство -webkit-text-fill-color
+
+## -webkit-text-stroke
+
+webkit-text-stroke = -webkit-text-stroke-width and -webkit-text-stroke-color.
+
+цвет обводки
+
+```scss
+.webkit-text-stroke {
+  -webkit-text-stroke: 2px red;
+}
+```
+
 ## text-decoration (низ):
 
 свойства text-decoration = text-decoration-line + text-decoration-color + text-decoration-style + text-decoration-thickness, декорирование подчеркивания текста
@@ -732,7 +746,7 @@ dd#string {
 
 ```scss
  {
-  // обрежет текст
+  // просто обрежет текст
   text-overflow: clip;
   // поставит троеточие (два значения для rtl)
   text-overflow: ellipsis ellipsis;
@@ -822,11 +836,26 @@ dd#string {
 
 стилизация курсора
 
+## -webkit-tap-highlight-color
+
+цвет подсветки ссылки
+
 ## cursor
 
 Определяет тип курсора
 
 [cursor](./user-elements.md#cursor)
+
+## -webkit-touch-callout
+
+Позволяет управлять изображением ссылки при нажатии на нне на сенсорных устройствах (будет или нет отображать доп информацию)
+
+```scss
+.webkit-touch-callout {
+  -webkit-touch-callout: default;
+  -webkit-touch-callout: none;
+}
+```
 
 <!-- BPs ------------------------------------------------------------------------------------------------------------------------------------->
 

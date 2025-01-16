@@ -6,8 +6,6 @@
 - адаптивные изображения
 - использование cdn
 
-# Графика и изображения
-
 Использования изображения как фон:
 
 # background
@@ -290,9 +288,13 @@ nonzero | evenodd настрой выбора пикселей для вычет
 
 # mask
 
+краткая запись следующих свойств нужная для маскирования изображения:
+
 mask = mask-clip + mask-composite + mask-image + mask-mode + mask-origin + mask-position + mask-repeat + mask-size
 
-краткая запись следующих свойств нужная для маскирования изображения:
+### -webkit-mask-composite
+
+альтернатива mask-composite, так же как и -webkit-mask-position-x, -webkit-mask-position-yNon-standard, -webkit-mask-repeat-xNon-standard, -webkit-mask-repeat-yNon-standard
 
 ## mask-clip
 
@@ -430,15 +432,6 @@ alpha | luminance | match-source
 
 luminance | alpha тип маски
 
-mask-border (экспериментальное) краткая запись следующих свойств позволяет создать маску для границ:
-
-- - mask-border-mode: luminance | alpha использование яркости или альфа-значения в качестве маски
-- - mask-border-outset: 7px 12px 14px 5px; отступы
-- - mask-border-repeat: stretch | repeat | round | space применение
-- - mask-border-slice: 7 12 14 5
-- - mask-border-source: url(image.jpg); источник
-- - mask-border-width: 5% 2em 10% auto; размеры
-
 # Фильтры
 
 ## filter
@@ -575,13 +568,24 @@ img {
 }
 ```
 
-- [тени](./block-model.md#box-shadow)
+- [тени](./block-model.md#box-shamask-border-modedow)
 
 # image-свойства
 
 - image-orientation: none | from-image позволяет клиенту автоматически перевернуть изображение
 - image-rendering: auto | crisp-edges | pixelated позволяет сгладить края при возникновении пикселей в изображении
 - image-resolution (экспериментальное) управление качеством
+
+# -moz-force-broken-image-icon (-)
+
+отображать или нет у изображений, которые не удалось загрузить иконку картинки, у которых есть alt атрибут
+
+```scss
+.moz-force-broken-image-icon {
+  moz-force-broken-image-icon: 0; //нет
+  moz-force-broken-image-icon: 1; //да
+}
+```
 
 # Градиенты
 

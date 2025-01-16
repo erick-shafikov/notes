@@ -1,4 +1,125 @@
-# Worker
+# Worker()
+
+```js
+var myWorker = new Worker(aURL, {
+  type: "classic",
+  credentials: "omit",
+  _name: "",
+});
+```
+
+# Методы
+
+## postMessage()
+
+```js
+worker.postMessage(
+  message, //пересылаемы данные
+  [transfer]
+);
+```
+
+## terminate()
+
+Завершает работу
+
+```js
+var myWorker = new ChromeWorker(self.path + "myWorker.js");
+
+function handleMessageFromWorker(msg) {
+  console.log("входящее сообщение от работника:", msg);
+  switch (msg.data.aTopic) {
+    case "do_sendMainArrBuff":
+      sendMainArrBuff(msg.data.aBuf);
+      break;
+    default:
+      throw "свойство aTopic отсутствует в сообщении ChromeWorker";
+  }
+}
+
+myWorker.addEventListener("message", handleMessageFromWorker);
+
+// Создание и отправка буфера
+var arrBuf = new ArrayBuffer(8);
+console.info("arrBuf.byteLength, ДО передачи:", arrBuf.byteLength);
+
+myWorker.postMessage(
+  {
+    aTopic: "do_sendWorkerArrBuff",
+    aBuf: arrBuf, // буфер который передаётся 3 строками ниже
+  },
+  [
+    arrBuf, // буфер созданный на строке 9
+  ]
+);
+
+console.info("arrBuf.byteLength, ПОСЛЕ передачи:", arrBuf.byteLength);
+```
+
+```js
+// worker.js
+self.onmessage = function (msg) {
+  switch (msg.data.aTopic) {
+    case "do_sendWorkerArrBuff":
+      sendWorkerArrBuff(msg.data.aBuf);
+      break;
+    default:
+      throw "свойство aTopic отсутствует в сообщении ChromeWorker";
+  }
+};
+
+function sendWorkerArrBuff(aBuf) {
+  console.info(
+    "от рабочего, ДО отправки обратно, aBuf.byteLength:",
+    aBuf.byteLength
+  );
+
+  self.postMessage({ aTopic: "do_sendMainArrBuff", aBuf: aBuf }, [aBuf]);
+
+  console.info(
+    "от рабочего, ПОСЛЕ отправки обратно, aBuf.byteLength:",
+    aBuf.byteLength
+  );
+}
+```
+
+# События
+
+## error
+
+```js
+addEventListener("error", (event) => {});
+
+onerror = (event) => {};
+```
+
+## message
+
+```js
+var myWorker = new Worker("worker.js");
+
+first.onchange = function () {
+  myWorker.postMessage([first.value, second.value]);
+  console.log("Сообщение, отправленное в worker-объект");
+};
+
+myWorker.onmessage = function (e) {
+  result.textContent = e.data;
+  console.log("Сообщение полученное из worker-объекта");
+};
+```
+
+## messageerror
+
+```js
+addEventListener("messageerror", (event) => {});
+
+messageerror = (event) => {};
+```
+
+# BPs.
+
+## PB. пример
 
 Позволяет запустить задачу в фоновом режиме
 
