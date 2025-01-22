@@ -28,6 +28,7 @@ const {
 } = useQuery({
   queryKey, // unknown[] массив ключей
   queryFn, //queryFn: (context: QueryFunctionContext) => Promise<TData> функция запроса, которая должна возвращать промис
+  // --------------------------------------------------------------------
   cacheTime, // number | Infinity время хранения данных в кеше
   enabled, // enabled: boolean активна ли функция запроса
   networkMode, //'online' | 'always' | 'offlineFirst режим работы при состоянии сети

@@ -64,9 +64,10 @@ import "./Button.css";
  * A simple button component.
  *
  * @component
- * @param {Object} props - The component accepts text and onClick as props
- * @param {string} props.text - The text to be display on the button
- * @param {function} props.onClick - The click event handler.
+ * @param {{
+ *   text: string;
+ *   onClick: function;
+ * }} props
  * @returns {JSX.Element} The rendered button component.
  *
  * @example

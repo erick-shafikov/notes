@@ -409,6 +409,35 @@ CSS-свойство описывает, как линейное содержи�
 }
 ```
 
+## alignment-baseline
+
+Выравнивание текста в сетках и svg (-ff)
+
+```scss
+.alignment-baseline {
+  alignment-baseline: baseline;
+
+  /* Keyword values */
+  alignment-baseline: alphabetic;
+  alignment-baseline: central;
+  alignment-baseline: ideographic;
+  alignment-baseline: mathematical;
+  alignment-baseline: middle;
+  alignment-baseline: text-bottom;
+  alignment-baseline: text-top;
+
+  /* Mapped values */
+  alignment-baseline: text-before-edge; /* text-top */
+  alignment-baseline: text-after-edge; /* text-bottom */
+
+  /* Deprecated values  */
+  alignment-baseline: auto;
+  alignment-baseline: before-edge;
+  alignment-baseline: after-edge;
+  alignment-baseline: hanging;
+}
+```
+
 <!-- настройка разрыва строк ----------------------------------------------------------------------------------------------------------------->
 
 # декорирование текста
