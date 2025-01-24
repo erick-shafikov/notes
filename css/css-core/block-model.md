@@ -173,7 +173,7 @@ div {
   aspect-ratio: 1 / 1;
   aspect-ratio: 1;
 
-  /* fallback to 'auto' for replaced elements */
+  /* второе значение - запасное, если допустим изображение не загрузилось */
   aspect-ratio: auto 3/4;
   aspect-ratio: 9/6 auto;
 }
@@ -228,7 +228,7 @@ div {
 приставки block и inline Добавляют возможность контролировать направление текста
 
 ```scss
- {
+.border {
   border: 4mm ridge rgba(211, 220, 50, 0.6);
 }
 ```
@@ -240,10 +240,18 @@ border-top border-left, border-right, border-top
 сокращенная запись для определения стиля, ширины и стиля границы
 
 ```scss
- {
+.border-bottom {
   border-bottom: 4mm ridge rgba(211, 220, 50, 0.6);
 }
 ```
+
+### border-block и border-inline
+
+border-block и border-inline свойства, которые полагаются на направление текста:
+
+- Свойства для верхних и нижних границ: border-block-end-color, border-block-start-color, border-block-end-style, border-block-end-width, border-block-start-width
+- Свойства для левой и правой: border-inline-end-color, border-inline-start-color, border-block-start-style, border-inline-end-style, border-inline-start-style, border-inline-end-width, border-inline-start-width
+- Закругления: border-start-start-radius, border-start-end-radius, border-end-start-radius, border-end-end-radius
 
 ### border-style
 
@@ -252,7 +260,7 @@ border-bottom-style, border-left-style, border-right-style, border-top-style
 предопределенные стили для border
 
 ```scss
- {
+.border-bottom-style {
   border-bottom-style: none;
   border-bottom-style: hidden; // скрыть
   border-bottom-style: dotted; // в точку
@@ -275,7 +283,7 @@ border-bottom-style, border-left-style, border-right-style, border-top-style
 так же можно определить отдельно border-bottom-width, border-left-width, border-right-width, border-top-width
 
 ```scss
- {
+.border-width {
   // текстовые обозначения
   border-bottom-width: thin;
   border-bottom-width: medium;
@@ -296,7 +304,7 @@ border-bottom-style, border-left-style, border-right-style, border-top-style
 так же можно определить отдельно border-left-color-border-right-color-border-top-color
 
 ```scss
- {
+.border-color {
   border-left-color: red;
   border-left-color: #ffbb00;
   border-left-color: rgb(255 0 0);
@@ -315,7 +323,7 @@ border-bottom-style, border-left-style, border-right-style, border-top-style
 [border-image-outset](#border-image-outset)+ [border-image-repeat](#border-image-repeat) + [border-image-slice](#border-image-slice) + [border-image-source](#border-image-source) + [border-image-width](#border-width)
 
 ```scss
- {
+.border-image {
   border-image: repeating-linear-gradient(30deg, #4d9f0c, #9198e5, #4d9f0c 20px)
     60; //
   border-image: url("/images/border.png") 27 23 / 50px 30px / 1rem round space;
@@ -431,14 +439,6 @@ webkit-border-before = -webkit-border-before-color + -webkit-border-before-style
 }
 ```
 
-### border-block и border-inline
-
-border-block и border-inline свойства, которые полагаются на направление текста:
-
-- Свойства для верхних и нижних границ: border-block-end-color, border-block-start-color, border-block-end-style, border-block-end-width, border-block-start-width
-- Свойства для левой и правой: border-inline-end-color, border-inline-start-color, border-block-start-style, border-inline-end-style, border-inline-start-style, border-inline-end-width, border-inline-start-width
-- Закругления: border-start-start-radius, border-start-end-radius, border-end-start-radius, border-end-end-radius
-
 # Декорирование блока
 
 ## box-shadow
@@ -495,7 +495,7 @@ webkit-mask-box-image = -webkit-mask-box-image-source + -webkit-mask-box-image-o
 
 альтернатива для mask-border
 
-## box-decoration-break
+## box-decoration-break (-safari)
 
 определяет поведение декорирования рамок, при переносе
 

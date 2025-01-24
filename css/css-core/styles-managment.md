@@ -123,8 +123,20 @@ textarea {
   margin: 0;
 }
 
-textarea {
+textarea {anchor-name
   overflow: auto;
+}
+```
+
+## all
+
+Позволяет сбросит все свойства кроме direction и unicode-bidi
+
+```scss
+.all {
+  all: initial;
+  all: inherit;
+  all: unset;
 }
 ```
 

@@ -356,13 +356,25 @@ transition - укороченная запись для transition-property, tra
 
 # animation
 
+Тип анимаций, которые идут в паре с keyframe
+
 это сокращенная запись для animation-name + animation-duration + animation-timing-function + animation-delay + animation-iteration-count + animation-direction + animation-fill-mode + animation-play-state
 
 ```scss
- {
+.animation {
   /* @keyframes duration | timing-function | delay |
    iteration-count | direction | fill-mode | play-state | name */
   animation: 3s ease-in 1s infinite reverse both running slidein;
+  // начальные значения
+  animation-name: none;
+  animation-duration: 0s;
+  animation-timing-function: ease;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  animation-play-state: running;
+  animation-timeline: auto;
 }
 ```
 
@@ -378,13 +390,18 @@ transition - укороченная запись для transition-property, tra
 
 ## animation-composition
 
-Позволяет применять несколько анимации, полезно когда применяем два раза transform etc
+Позволяет применять несколько анимации на один элемент
 
 ```scss
- {
+.animation-composition {
   animation-composition: replace; //будут перезаписываться анимации одного свойства
-  animation-composition: add; // add и accumulate применяются по разному
-  animation-composition: accumulate;
+  animation-composition: add; // Применяется сумма изменений
+  animation-composition: accumulate; // Применяется сумма изменений
+
+  //множественное применение
+  animation-composition: replace, add;
+  animation-composition: add, accumulate;
+  animation-composition: replace, add, accumulate;
 }
 ```
 

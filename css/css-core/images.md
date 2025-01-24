@@ -10,7 +10,7 @@
 
 # background
 
-это короткая запись для background-attachment + background-clip + background-color + background-image + background-origin + background-position + background-repeat + background-size
+это короткая запись для background-clip + background-color + background-image + background-origin + background-position + background-repeat + background-size + background-attachment
 
 ```scss
  {
@@ -166,12 +166,12 @@
 ## background-repeat
 
 ```scss
- {
+.background-repeat {
   background-repeat: repeat; // по умолчанию повтор включен
   background-repeat: repeat-x; // repeat no-repeat
   background-repeat: repeat-y; // no-repeat repeat
   background-repeat: space; // будет заполнено не обрезая изображения
-  background-repeat: round; //
+  background-repeat: round; // по рамке
   background-repeat: no-repeat; // отключить повтор
 
   // варианты повтора изображения можно задавать для вертикальной и горизонтальной осей
@@ -187,7 +187,7 @@
 Управление размером изображения
 
 ```scss
- {
+.background-size {
   background-size: cover; // cover - растянет изображение по всему блоку сохраняя пропорции, но обрежет при надобности
   background-size: contain; //  contain - растянет по всем блоку но изменит пропорции
 
@@ -211,6 +211,8 @@
   background-size: 6px, auto, contain;
 }
 ```
+
+## -------------------------------------------------------
 
 ## background-blend-mode
 

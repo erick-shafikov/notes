@@ -22,10 +22,25 @@
 .appearance {
   appearance: none; //выключает стилизацию
   appearance: auto; //значение предопределенные ОС
-  appearance: menulist-button; //auto
+  appearance: button; //auto
   appearance: textfield; //auto
-  appearance: button;
+  appearance: searchfield;
+  appearance: textarea;
+  appearance: push-button;
+  appearance: button-bevel;
+  appearance: slider-horizontal;
   appearance: checkbox;
+  appearance: radio;
+  appearance: square-button;
+  appearance: menulist;
+  appearance: menulist-button;
+  appearance: listbox;
+  appearance: meter;
+  appearance: progress-bar;
+
+  /* Частичный список доступных значений в Gecko */
+  -moz-appearance: scrollbarbutton-up;
+  -moz-appearance: button-bevel;
 }
 ```
 
