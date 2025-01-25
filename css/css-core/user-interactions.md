@@ -44,6 +44,17 @@
 }
 ```
 
+## field-sizing (-ff -s)
+
+Размер элемента по контенту или нет
+
+```scss
+.field-sizing {
+  field-sizing: content; //размер будет по длине строки ввода
+  field-sizing: fixed; //фиксированный
+}
+```
+
 ## caret-color
 
 определяет свойство указателя

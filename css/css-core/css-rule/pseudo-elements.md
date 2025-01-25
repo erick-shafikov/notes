@@ -144,7 +144,7 @@ span[data-descr]:hover::after {
   /* Значение attr() связано со значением атрибута HTML */
   content: attr(value string);
 
-  /* Значения <quote> */
+  /* Значения кавычек */
   content: open-quote;
   content: close-quote;
   content: no-open-quote;

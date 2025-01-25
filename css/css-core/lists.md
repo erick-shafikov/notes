@@ -110,7 +110,9 @@ inside | outside - расположение маркера внутри отст
 
 # Управление нумерацией списка
 
-## counter-increment,
+## counter-increment
+
+Правило изменения счетчика
 
 ```scss
 .counter-increment {
