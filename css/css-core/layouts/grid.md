@@ -73,7 +73,10 @@ grid-template-areas + grid-template-rows + grid-template-columns
 }
 ```
 
-## grid-template-rows и grid-template-columns
+### grid-template-rows и grid-template-columns
+
+grid-template-rows - определяет имена и размеры рядов
+grid-template-columns - определяет имена и размер колонок
 
 ```scss
  {
@@ -184,6 +187,51 @@ grid-auto-columns - длины элемента
 }
 ```
 
+все возможные значения
+
+```scss
+.grid-auto-columns {
+  grid-auto-columns/*rows*/: 100px;
+  grid-auto-columns/*rows*/: 20cm;
+  grid-auto-columns/*rows*/: 50vmax;
+
+  /* <percentage> values */
+  grid-auto-columns/*rows*/: 10%;
+  grid-auto-columns/*rows*/: 33.3%;
+
+  /* <flex> values */
+  grid-auto-columns/*rows*/: 0.5fr;
+  grid-auto-columns/*rows*/: 3fr;
+
+  /* minmax() values */
+  grid-auto-columns/*rows*/: minmax(100px, auto);
+  grid-auto-columns/*rows*/: minmax(max-content, 2fr);
+  grid-auto-columns/*rows*/: minmax(20%, 80vmax);
+
+  /* fit-content() values === min(max-content, max(auto, argument)) */
+  grid-auto-columns/*rows*/: fit-content(400px);
+  grid-auto-columns/*rows*/: fit-content(5cm);
+  grid-auto-columns/*rows*/: fit-content(20%);
+
+  /* multiple track-size values */
+  grid-auto-columns/*rows*/: min-content max-content auto;
+  grid-auto-columns/*rows*/: 100px 150px 390px;
+  grid-auto-columns/*rows*/: 10% 33.3%;
+  grid-auto-columns/*rows*/: 0.5fr 3fr 1fr;
+  grid-auto-columns/*rows*/: minmax(100px, auto) minmax(max-content, 2fr) minmax(20%, 80vmax);
+  grid-auto-columns/*rows*/: 100px minmax(100px, auto) 10% 0.5fr fit-content(
+      400px
+    );
+
+  /* Global values */
+  grid-auto-columns/*rows*/: inherit;
+  grid-auto-columns/*rows*/: initial;
+  grid-auto-columns/*rows*/: revert;
+  grid-auto-columns/*rows*/: revert-layer;
+  grid-auto-columns/*rows*/: unset;
+}
+```
+
 Для автоматического определения высоты в строках неявной сетки
 
 ```scss
@@ -195,9 +243,9 @@ grid-auto-columns - длины элемента
 }
 ```
 
-## grid-template-areas - области
+## grid-template-areas
 
-Пример простой сетки
+именованные области. Пример простой сетки
 
 ```html
 <div class="wrapper">
@@ -414,8 +462,6 @@ auto-fill - позволяет задать повторяемые элемен�
 <!-- Свойства grid-элементов ----------------------------------------------------------------------------------------------------------------->
 
 # Свойства grid-элементов
-
-## grid-column-start, grid-column-end, grid-row-start, grid-row-end, grid-column, grid-row, grid-area (grid-element)
 
 Эта группа свойств позволяет управлять расположением элементов внутри сутки, при создании сетки непосредственно внутри каждого элемента.
 

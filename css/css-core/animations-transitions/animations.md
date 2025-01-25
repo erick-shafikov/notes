@@ -556,6 +556,41 @@ transition - укороченная запись для transition-property, tra
 }
 ```
 
+## interpolate-size (-ff -safari)
+
+Позволяет интерполировать процентные значения ширины и высоты в пиксели
+
+```scss
+.interpolate-size {
+  interpolate-size: allow-keywords;
+  interpolate-size: numeric-only;
+}
+```
+
+Пример
+
+```scss
+:root {
+  // наследуется
+  interpolate-size: allow-keywords;
+}
+```
+
+```scss
+section {
+  height: 2.5rem;
+  overflow: hidden;
+  // позволит плавно анимировать
+  // без этого свойства анимация не проигрывается
+  transition: height ease 1s;
+}
+
+section:hover,
+section:focus {
+  height: max-content;
+}
+```
+
 ## @keyframes
 
 Позволяет создать опорные точки анимации

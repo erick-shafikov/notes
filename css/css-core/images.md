@@ -572,11 +572,17 @@ img {
 
 - [тени](./block-model.md#box-shamask-border-modedow)
 
-# image-свойства
+# image-свойства:
 
-- image-orientation: none | from-image позволяет клиенту автоматически перевернуть изображение
-- image-rendering: auto | crisp-edges | pixelated позволяет сгладить края при возникновении пикселей в изображении
-- image-resolution (экспериментальное) управление качеством
+## image-orientation
+
+none | from-image позволяет клиенту автоматически перевернуть изображение
+
+## image-rendering
+
+auto | crisp-edges | pixelated позволяет сгладить края при возникновении пикселей в изображении
+
+## image-resolution (-) управление качеством
 
 # -moz-force-broken-image-icon (-)
 

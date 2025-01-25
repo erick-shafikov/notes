@@ -13,11 +13,10 @@
 установка шрифтов с помощью
 
 ```scss
- {
+ html{
   font-family: 'Name of font'; //даем название шрифту
   src: url(); //указываем место, где находится шрифт
   src: local(); //указываем место, где находится шрифт на устройстве пользователя
-
 }
 
 @font-face {
@@ -31,19 +30,7 @@
   font-display: swap;
   font-display: fallback;
   font-display: optional;
-  // ------------------------------------------------------------------
-  font-stretch: ultra-condensed;
-  font-stretch: extra-condensed;
-  font-stretch: condensed;
-  font-stretch: semi-condensed;
-  font-stretch: normal;
-  font-stretch: semi-expanded;
-  font-stretch: expanded;
-  font-stretch: extra-expanded;
-  font-stretch: ultra-expanded;
-  font-stretch: 50%;
-  font-stretch: 100%;
-  font-stretch: 200%;
+
   // ------------------------------------------------------------------
   font-style: normal;
   font-style: italic;
@@ -68,6 +55,12 @@ html {
 }
 ```
 
+## font-face (js)
+
+[возможность управлять шрифтами через js](../../js/web-api/font-face.md)
+
+<!-- font ------------------------------------------------------------------------------------------------------------------------------------>
+
 # font:
 
 font = font-style + font-variant + font-weight + font-stretch + font-size + line-height + font-family
@@ -77,7 +70,7 @@ font = font-style + font-variant + font-weight + font-stretch + font-size + line
 стиль начертания
 
 ```scss
- {
+.font-style {
   font-style: normal;
   font-style: italic; //курсив
   font-style: oblique; //курсив
@@ -106,10 +99,12 @@ font-variant-alternates + font-variant-caps + font-variant-east-asian + font-var
 }
 ```
 
-## font-weight жирность
+## font-weight
+
+жирность
 
 ```scss
- {
+.font-weight {
   /font-weight: normal;
   font-weight: bold;
 
@@ -136,14 +131,14 @@ font-variant-alternates + font-variant-caps + font-variant-east-asian + font-var
 ```scss
 .font-stretch {
   font-stretch: normal;
-  font-stretch: ultra-condensed; //62.5%
+  font-stretch: ultra-condensed; //все значения от 62.5%
   font-stretch: extra-condensed;
   font-stretch: condensed;
   font-stretch: semi-condensed;
   font-stretch: semi-expanded;
   font-stretch: expanded;
   font-stretch: extra-expanded;
-  font-stretch: ultra-expanded; //200%
+  font-stretch: ultra-expanded; //до 200%
 
   font-stretch: 50%;
   font-stretch: 100%;
@@ -187,7 +182,7 @@ span {
 
 ## line-height
 
-расстояние между строками
+расстояние между строками или минимальное расстояние между блокам и в блоке
 
 ```scss
  {
@@ -195,12 +190,12 @@ span {
 }
 ```
 
-## font-family
+# font-family
 
-список из шрифтов
+список из шрифтов, которые предустановлены либо определены [@font-face](#font-face)
 
 ```scss
- {
+ .font-family{
   // оба определения валидные
   font-family: Gill Sans Extrabold, sans-serif;
   font-family: "Goudy Bookletter 1911"//если название шрифта состоит из нескольких слов, то нужно заключать в кавычки
@@ -218,6 +213,14 @@ span {
 }
 ```
 
+```scss
+// перечисление нескольких не через запятую
+.font-family {
+  font-family: Gill Sans Extrabold, sans-serif;
+  font-family: "Goudy Bookletter 1911", sans-serif;
+}
+```
+
 Разновидности шрифтов по типам:
 
 - serif - с засечками
@@ -225,79 +228,6 @@ span {
 - monospace - в которых все символы имеют одинаковую ширину, обычно используются в листингах кода.
 - cursive - имитирующие рукописный почерк, с плавными, соединенными штрихами.
 - fantasy - предназначенные для декоративных целей.
-
-## -----------------------------------------------------
-
-## font-feature-settings
-
-если шрифты имеют доп настройки
-
-```scss
-.font-feature-settings {
-  font-feature-settings: "smcp";
-  font-feature-settings: "smcp" on;
-  font-feature-settings: "swsh" 2;
-  font-feature-settings: "smcp", "swsh" 2;
-}
-```
-
-## font-kerning
-
-расстояние между буквами
-
-```scss
-.font-kerning {
-  font-kerning: auto;
-  font-kerning: normal;
-  font-kerning: none;
-}
-```
-
-## font-language-override (-chrome, -safari, -ff)
-
-переопределение очертания для других языков
-
-## font-optical-sizing
-
-значения: none | auto - оптимизация
-
-## font-palette
-
-для взаимодействия с цветами
-
-## font-size-adjust
-
-позволяет регулировать lowercase и uppercase
-
-```scss
- {
-  font-size-adjust: none;
-
-  font-size-adjust: 0.5;
-  font-size-adjust: from-font;
-
-  font-size-adjust: ex-height 0.5;
-  font-size-adjust: ch-width from-font;
-}
-```
-
-## font-synthesis
-
-font-synthesis = font-synthesis-weight + font-synthesis-style + font-synthesis-small-caps + font-synthesis-position
-
-## font-variant:
-
-font-variant-alternates
-font-variant-caps
-font-variant-east-asian
-font-variant-emoji
-font-variant-ligatures
-font-variant-numeric
-font-variant-position
-
-## font-face (js)
-
-[возможность управлять шрифтами через js](../../js/web-api/font-face.md)
 
 # настройки расстояния
 
@@ -346,7 +276,93 @@ font-variant-position
 
 управляет тем, как сворачивается пустое пространство внутри элемента
 
-<!--  -->
+## font-kerning
+
+расстояние между буквами
+
+```scss
+.font-kerning {
+  font-kerning: auto;
+  font-kerning: normal;
+  font-kerning: none;
+}
+```
+
+<!-- расширенные настройки начертания шрифтов ------------------------------------------------------------------------------------------------>
+
+# расширенные настройки начертания шрифтов
+
+## font-feature-settings
+
+если шрифты имеют доп настройки (черточка в нуле итд)
+
+```scss
+.font-feature-settings {
+  font-feature-settings: "smcp";
+  font-feature-settings: "smcp" on;
+  font-feature-settings: "swsh" 2;
+  font-feature-settings: "smcp", "swsh" 2;
+}
+```
+
+## font-language-override (-chrome, -safari, -ff)
+
+переопределение очертания для других языков
+
+```scss
+.font-language-override {
+  font-language-override: "ENG"; /* Use English glyphs */
+  font-language-override: "TRK"; /* Use Turkish glyphs */
+}
+```
+
+## font-optical-sizing
+
+значения: none | auto - оптимизация глифов
+
+## font-synthesis
+
+Позволяет указать можно ли синтезировать жирно и прочее начертание
+
+font-synthesis = font-synthesis-weight + font-synthesis-style + font-synthesis-small-caps + font-synthesis-position
+
+```scss
+.font-synthesis {
+  font-synthesis: none;
+  font-synthesis: weight; //Указывает, что отсутствующий жирный шрифт может быть синтезирован браузером при необходимости.
+  font-synthesis: style; // Указывает, что курсивный шрифт может быть синтезирован браузером при необходимости.
+  font-synthesis: position; //при необходимости подстрочный и надстрочный шрифт может быть синтезирован браузером при использовании
+  font-synthesis: small-caps; //Указывает, что при необходимости браузер может синтезировать шрифт с малыми заглавными буквами.
+  font-synthesis: style small-caps weight position; // property values can be in
+}
+```
+
+далее ниже по два значения для каждого свойства
+
+```scss
+.font-synthesis {
+  font-synthesis-style: auto; //можно, если нет и браузер попробует синтезировать
+  font-synthesis-style: none; // нельзя
+}
+```
+
+### font-synthesis-weight
+
+может ли браузер синтезировать полужирное начертание
+
+### font-synthesis-style
+
+позволяет указать, может ли браузер синтезировать наклонный вариант
+
+### font-synthesis-small-caps
+
+позволяет указать, может ли браузер синтезировать шрифт с малыми капителями, если он отсутствует в семействе шрифтов
+
+### font-synthesis-position (ff)
+
+может ли браузер синтезировать подстрочные и надстрочные шрифты «position», если они отсутствуют в семействе шрифтов,
+
+<!-- расположение текста в контейнере ---------------------------------------------------->
 
 # расположение текста в контейнере
 
@@ -453,6 +469,10 @@ CSS-свойство описывает, как линейное содержи�
 ```
 
 можно использовать свойство -webkit-text-fill-color
+
+## font-palette
+
+для взаимодействия с цветами в цветных шрифтах
 
 ## -webkit-text-stroke
 
@@ -656,7 +676,16 @@ text-emphasis-position. {
 
 ## initial-letter
 
-initial-letter: number (экспериментальное) стилизация первой буквы
+размер и глубину для опущенных, приподнятых и утопленных начальных букв.
+
+```scss
+.initial-letter {
+  initial-letter: normal;
+  initial-letter: 3; //насколько шире
+  initial-letter: 3 2; //на сколько шире на сколько вниз уходит
+/
+}
+```
 
 ## user-select
 
@@ -669,6 +698,22 @@ initial-letter: number (экспериментальное) стилизация
   user-select: text;
   user-select: contain;
   user-select: all;
+}
+```
+
+## font-size-adjust
+
+позволяет регулировать lowercase и uppercase
+
+```scss
+.font-size-adjus {
+  font-size-adjust: none;
+
+  font-size-adjust: 0.5;
+  font-size-adjust: from-font;
+
+  font-size-adjust: ex-height 0.5;
+  font-size-adjust: ch-width from-font;
 }
 ```
 
@@ -723,9 +768,9 @@ initial-letter: number (экспериментальное) стилизация
 
 ```scss
  {
-  hyphens: none;
-  hyphens: manual;
-  hyphens: auto;
+  hyphens: none; //Слова не разрываются при переносе строки, даже если внутри слов указаны точки разрыва
+  hyphens: manual; //Слова разрываются при переносе строки только там, где символы внутри слов указывают точки разрыва
+  hyphens: auto; //Браузер может автоматически разбивать слова в соответствующих точках переноса, следуя любым правилам, которые он выбирает
   -moz-hyphens: auto;
   -ms-hyphens: auto;
   -webkit-hyphens: auto;
@@ -735,6 +780,8 @@ initial-letter: number (экспериментальное) стилизация
 ```
 
 ## hyphenate-character
+
+задает символ (или строку), используемый в конце строки перед переносом
 
 ```scss
 .hyphenate-character {
@@ -765,9 +812,27 @@ dd#string {
 }
 ```
 
-## hyphenate-limit-chars
+## hyphenate-limit-chars (-ff -safari)
 
-(экс) для определения количества букв в переносе
+определяет минимальную длину слова, позволяющую переносить слова, а также минимальное количество символов до и после дефиса
+
+```scss
+.hyphenate-limit-chars {
+  hyphenate-limit-chars: 10 4 4;
+  hyphenate-limit-chars: 10 4;
+  hyphenate-limit-chars: 10;
+
+  /* Keyword values */
+  hyphenate-limit-chars: auto auto auto;
+  hyphenate-limit-chars: auto auto;
+  hyphenate-limit-chars: auto;
+
+  /* Mix of numeric and keyword values */
+  hyphenate-limit-chars: 10 auto 4;
+  hyphenate-limit-chars: 10 auto;
+  hyphenate-limit-chars: auto 3;
+}
+```
 
 ## text-overflow
 
@@ -883,6 +948,30 @@ dd#string {
 .webkit-touch-callout {
   -webkit-touch-callout: default;
   -webkit-touch-callout: none;
+}
+```
+
+# настройка математических формул
+
+## math-depth
+
+описывает понятие глубины для каждого элемента математической формулы относительно контейнера верхнего уровня этой формулы
+
+```scss
+.math-depth {
+  math-depth: add(2);
+  math-depth: add(-2);
+}
+```
+
+## math-style
+
+Как отображать формулы компактно или нет
+
+```scss
+.math-style {
+  math-style: normal;
+  math-style: compact;
 }
 ```
 
