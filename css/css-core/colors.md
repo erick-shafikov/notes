@@ -25,6 +25,13 @@ auto | none позволяет включить и выключить измен
 
 ```scss
 .print-color-adjust {
+  print-color-adjust: economy; //Пользовательскому агенту разрешено вносить изменения в элемент
+  print-color-adjust: exact;
+}
+```
+
+```scss
+.print-color-adjust {
   print-color-adjust: economy; //Пользовательскому агенту разрешено вносить изменения в элемент, которые он считает целесообразными и разумными
   print-color-adjust: exact;
 }

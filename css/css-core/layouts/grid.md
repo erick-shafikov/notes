@@ -635,25 +635,25 @@ auto-fill - позволяет задать повторяемые элемен�
 
 Так же работают методы с margin:auto
 
-```css
+```scss
 .container {
   display: grid;
   gap: 10px 20px;
 
-  /* -- для случая использования фракций вертикаль/горизонталь */
+  //для случая использования фракций вертикаль/горизонталь
   justify-items: center;
   align-items: center;
-  /* justify-items + align-items = place-items */
+  // justify-items + align-items = place-items
   place-items: end start;
 
-  /* если используем пиксели а не фракции*/
-  /* justify-content: space-evenly;*/
-  /* align-content: center; */
-  /* justify-content + align-content = place-content */
+  // если используем пиксели а не фракции
+  // justify-content: space-evenly;
+  // align-content: center;
+  // place-content = justify-content + align-content
   place-content: center space-evenly;
 }
 .aside {
-  /* для отдельного элемента*/
+  // для отдельного элемента
   place-self: start end;
   background-color: maroon;
 }

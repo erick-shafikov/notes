@@ -100,7 +100,7 @@
 }
 ```
 
-# position-anchor (относительно какого якоря)
+# position-anchor (-ff -safari)
 
 Ограниченная доступность. Определяет имя якоря элемента. Актуально только для позиционированных элементов
 
@@ -111,7 +111,7 @@
 }
 ```
 
-# position-area (где относительно якоря)
+# position-area (где относительно якоря) (-ff -safari)
 
 размещение якоря, альтернатива для функции anchor()
 
@@ -148,20 +148,6 @@
 
 position-try-order + position-try-fallbacks
 
-## position-try-order
-
-для позиционирования
-
-```scss
-.position-try-order {
-  position-try-order: normal;
-  position-try-order: most-height;
-  position-try-order: most-width;
-  position-try-order: most-block-size;
-  position-try-order: most-inline-size;
-}
-```
-
 ## position-try-fallbacks
 
 резервные позиции для размещения
@@ -185,9 +171,23 @@ position-try-order + position-try-fallbacks
 }
 ```
 
+## position-try-order
+
+для позиционирования якоря более тонкие настройки
+
+```scss
+.position-try-order {
+  position-try-order: normal;
+  position-try-order: most-height; //придаст содержащему элемент блоку максимальную высоту.
+  position-try-order: most-width; //придаст содержащему элемент блоку максимальную ширину
+  position-try-order: most-block-size; //придаст содержащему элемент блоку наибольший размер в направлении блока
+  position-try-order: most-inline-size; //придаст содержащему блоку элемента наибольший размер в строчном направлении
+}
+```
+
 # position-visibility
 
-отвечает за отражение
+позволяет условно скрывать элемент, позиционируемый как якорь, в зависимости, например, от того, выходит ли он за пределы содержащего его элемента или области просмотра
 
 # @position-try
 
@@ -321,4 +321,42 @@ output {
   left: anchor(right);
   bottom: anchor(top);
 }
+```
+
+# BPs:
+
+# BP. input type range
+
+Ползунок с отображающимся значение
+
+```html
+<label for="slider">Change the value:</label>
+<input type="range" min="0" max="100" value="25" id="slider" />
+<output>25</output>
+```
+
+```scss
+//имя для ползунка
+input::-webkit-slider-thumb {
+  anchor-name: --thumb;
+}
+
+output {
+  //соединяем
+  position-anchor: --thumb;
+  //обязательно спозиционировать
+  position: absolute;
+  left: anchor(right);
+  bottom: anchor(top);
+}
+```
+
+```js
+// обработка js
+const input = document.querySelector("input");
+const output = document.querySelector("output");
+
+input.addEventListener("input", (event) => {
+  output.innerText = `${input.value}`;
+});
 ```
