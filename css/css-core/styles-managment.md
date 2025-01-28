@@ -196,10 +196,28 @@ break-before, break-inside - до и после
 
 определяет какое количество линий должно быть в начале страницы
 
-- [touch-action позволяет управлять поведением элемента на тач скрине при увеличении]
+```scss
+.widows {
+  widows: 2;
+  widows: 3;
+}
+```
+
+## touch-action
+
+позволяет управлять поведением элемента на тач скрине при увеличении
 
 ```scss
- {
-  //
+.touch-action {
+  touch-action: auto;
+  touch-action: none;
+  touch-action: pan-x;
+  touch-action: pan-left;
+  touch-action: pan-right;
+  touch-action: pan-y;
+  touch-action: pan-up;
+  touch-action: pan-down;
+  touch-action: pinch-zoom;
+  touch-action: manipulation;
 }
 ```

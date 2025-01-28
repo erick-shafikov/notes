@@ -223,6 +223,8 @@ auto | thin | none;
 
 ### scrollbar-gutter
 
+Оставлять или нет место для прокрутки если даже прокрутки нет
+
 ```scss
 .scrollbar-gutter {
   scrollbar-gutter: auto;
@@ -236,8 +238,6 @@ auto | thin | none;
 ### scroll-behavior
 
 auto | smooth для поведения прокрутки
-
-auto | stable | oth-edges stable -
 
 ## scroll-snap-type
 
@@ -263,7 +263,7 @@ center | start | end позволяет при прокрутки фиксиро
 
 ## scroll-margin
 
-px позволяет прокрутить в определенное место элемента с определенным margin, является сокращенной записью для scroll-margin-right + scroll-margin-bottom + scroll-margin-left, при нуле поместит элемент в середину
+px - позволяет прокрутить в определенное место элемента с определенным margin, является сокращенной записью для scroll-margin-right + scroll-margin-bottom + scroll-margin-left, при нуле поместит элемент в середину
 
 ### scroll-margin-inline:
 

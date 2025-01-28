@@ -35,8 +35,13 @@
 
 Геометрические Формы и их настройки:
 
-- shape-image-threshold: 0.2; позволяет настроить обтекание
-- shape-margin позволяет настроить отступ
+# shape-image-threshold
+
+позволяет настроить обтекание
+
+# shape-margin
+
+позволяет настроить отступ
 
 # shape-outside
 
@@ -97,6 +102,19 @@ body {
   );
   shape-outside: linear-gradient(to bottom right, rebeccapurple, transparent);
   shape-image-threshold: 0.3;
+}
+```
+
+# shape-rendering
+
+оптимизационное свойство
+
+```scss
+.shape-rendering {
+  shape-rendering: auto;
+  shape-rendering: crispEdges;
+  shape-rendering: geometricPrecision;
+  shape-rendering: optimizeSpeed;
 }
 ```
 

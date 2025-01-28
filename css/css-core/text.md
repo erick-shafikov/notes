@@ -234,8 +234,13 @@ span {
 ## word-spacing
 
 ```scss
- {
-  word-spacing: "px", "%";
+.word-spacing {
+  word-spacing: 3px;
+  word-spacing: 0.3em;
+
+  /* <percentage> значения  */
+  word-spacing: 50%;
+  word-spacing: 200%;
 }
 ```
 
@@ -275,6 +280,16 @@ span {
 ## white-space-collapse
 
 управляет тем, как сворачивается пустое пространство внутри элемента
+
+```scss
+.white-space-collapse {
+  white-space-collapse: collapse;
+  white-space-collapse: preserve;
+  white-space-collapse: preserve-breaks;
+  white-space-collapse: preserve-spaces;
+  white-space-collapse: break-spaces;
+}
+```
 
 ## font-kerning
 
@@ -486,7 +501,7 @@ webkit-text-stroke = -webkit-text-stroke-width and -webkit-text-stroke-color.
 }
 ```
 
-## text-decoration (низ):
+## text-decoration:
 
 свойства text-decoration = text-decoration-line + text-decoration-color + text-decoration-style + text-decoration-thickness, декорирование подчеркивания текста
 
@@ -535,11 +550,13 @@ webkit-text-stroke = -webkit-text-stroke-width and -webkit-text-stroke-color.
 }
 ```
 
-### text-underline-offset
+### text-underline-offset (text-decoration)
 
-text-underline-offset: px - позволяет определить расстояния от линии декоратора до текста
+text-underline-offset: px - позволяет определить расстояния от линии декоратора до текста при text-decoration
 
-### text-underline-position
+### text-underline-position (text-decoration)
+
+при text-decoration
 
 text-underline-position: auto | under - позволяет определить линия подчеркивания будет находит внизу всех элементов
 
@@ -695,8 +712,8 @@ text-emphasis-position. {
 .user-select {
   user-select: none;
   user-select: auto;
-  user-select: text;
-  user-select: contain;
+  user-select: text; //Текст может быть выбран пользователем.
+  user-select: contain; //Позволяет начать выбор внутри элемента; однако, выбор будет содержаться внутри границ данного элемента.
   user-select: all;
 }
 ```
@@ -764,6 +781,16 @@ text-emphasis-position. {
 ```
 
 менее поддерживаемые свойство - text-wrap-mode, text-wrap-style
+
+```scss
+.text-wrap {
+  text-wrap-mode: wrap | nowrap;
+  text-wrap-style: auto;
+  text-wrap-style: balance;
+  text-wrap-style: pretty;
+  text-wrap-style: stable;
+}
+```
 
 ## overflow-wrap
 
@@ -925,6 +952,21 @@ dd#string {
 ## line-break
 
 перенос китайского и японского
+
+<!-- Производительность ---------------------------------------------------------------------------------------------------------------------->
+
+# Производительность
+
+## text-rendering
+
+```scss
+.text-rendering {
+  text-rendering: auto;
+  text-rendering: optimizeSpeed;
+  text-rendering: optimizeLegibility;
+  text-rendering: geometricPrecision;
+}
+```
 
 <!-- ссылки ---------------------------------------------------------------------------------------------------------------------------------->
 

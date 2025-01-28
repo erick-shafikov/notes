@@ -2,7 +2,7 @@ scroll-driven animations (-ff -safari)
 
 Существует две шкалы прогресса - прокрутка шкалы прогресса (от 0% до 100%) и временная шкала прогресса в зависимости от видимости объекта
 
-# scroll-timeline (на контейнере)
+# scroll-timeline (на контейнере) (-ff -safari)
 
 scroll-timeline = scroll-timeline-name + scroll-timeline-axis
 
