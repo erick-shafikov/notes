@@ -1,4 +1,139 @@
-# Валидация простых полей
+# test()
+
+## test() вариант 1
+
+```ts
+type test = (
+  name: string, //обязательное поле
+  message: string | function | any, //текст ошибки ${param} - синтаксис
+  test: () => true | ValidationError
+) => Schema;
+```
+
+```js
+let jimmySchema = string().test(
+  "is-jimmy",
+  "${path} is not Jimmy",
+  (value, context) => value === "jimmy"
+);
+
+// or make it async by returning a promise
+let asyncJimmySchema = string()
+  .label("First name")
+  .test(
+    "is-jimmy",
+    ({ label }) => `${label} is not Jimmy`, // a message can also be a function
+    async (value, testContext) =>
+      (await fetch("/is-jimmy/" + value)).responseText === "true"
+  );
+
+await schema.isValid("jimmy"); // => true
+await schema.isValid("john"); // => false
+```
+
+где контекст
+
+```ts
+type Context = {
+  path: string; // строковый путь текущей проверки
+  schema: Schema; // разрешенный объект схемы, с которым выполняется тест.
+  options: object; // объект, для которого был вызван метод validate() или isValid()
+  parent: object; //в случае вложенной схемы это значение родительского объекта
+  originalValue: any; //исходное значение, которое проверяется
+  createError: (Object: {
+    path: String;
+    message: String;
+    params: Object;
+  }) => any; //создать и вернуть ошибку проверки. Полезно для динамической установки path, params, или, что более вероятно, ошибки message. Если какой-либо из параметров пропущен, будет использован текущий путь или сообщение по умолчанию.
+};
+```
+
+## test() вариант 2
+
+```ts
+type test = (options: {
+  name: string; // имя теста
+  test: (value: any) => boolean; // тест со значением
+  message: string; // текст ошибки
+  params?: object; //параметры
+  exclusive: boolean; // false;
+}) => Schema;
+```
+
+```ts
+let max = 64;
+let schema = yup.string().test({
+  name: "max",
+  exclusive: true,
+  params: { max },
+  message: "${path} must be less than ${max} characters",
+  test: (value) => value == null || value.length <= max,
+});
+```
+
+# when
+
+```ts
+type when = (keys: string | string[], builder: object | (values: any[], schema) => Schema) => Schema
+```
+
+Вариант с возвратом схемы в виде объекта, ключи is, then, otherwise
+
+```ts
+let schema = object({
+  isBig: boolean(),
+  count: number()
+    .when("isBig", {
+      is: true, // alternatively: (val) => val == true
+      then: (schema) => schema.min(5), //(schema: Schema) => Schema
+      otherwise: (schema) => schema.min(0),
+    })
+    .when("$other", ([other], schema) =>
+      other === 4 ? schema.max(6) : schema
+    ),
+});
+
+await schema.validate(value, { context: { other: 4 } });
+```
+
+Для двх и более зависимых полей
+
+```ts
+let schema = object({
+  isSpecial: boolean(),
+  isBig: boolean(),
+  count: number().when(["isBig", "isSpecial"], {
+    is: true, // alternatively: (isBig, isSpecial) => isBig && isSpecial
+    then: (schema) => schema.min(5),
+    otherwise: (schema) => schema.min(0),
+  }),
+});
+
+await schema.validate({
+  isBig: true,
+  isSpecial: true,
+  count: 10,
+});
+```
+
+Функция сравнения в виде массива
+
+```ts
+let schema = yup.object({
+  isBig: yup.boolean(),
+  count: yup.number().when("isBig", ([isBig], schema) => {
+    return isBig ? schema.min(5) : schema.min(0);
+  }),
+});
+
+await schema.validate({ isBig: false, count: 4 });
+```
+
+<!-- BPs ------------------------------------------------------------------------------------------------------------------------------------->
+
+# BPs:
+
+## BP. Валидация простых полей
 
 [регулярные выражения](../js-core/regexp/regex-examples.md)
 
@@ -33,7 +168,7 @@ const Schema = Yup.object({
 });
 ```
 
-## тест строкового значения, как числового
+### тест строкового значения, как числового
 
 ```js
 const Schema = Yup.object({
@@ -48,7 +183,7 @@ const Schema = Yup.object({
 });
 ```
 
-## Валидация инлайн даты
+### Валидация инлайн даты
 
 Если есть текстовый ввод значения с маской
 
@@ -74,9 +209,9 @@ const Schema = Yup.object({
 });
 ```
 
-# Зависимые проверки
+## BP. Зависимые проверки
 
-## два поля не должны совпадать
+### два поля не должны совпадать
 
 ```js
 const Schema = Yup.object({
@@ -89,7 +224,7 @@ const Schema = Yup.object({
 });
 ```
 
-## два поля должны совпадать
+### два поля должны совпадать
 
 ```js
 const Schema = Yup.object({
@@ -119,7 +254,7 @@ const Schema = Yup.object({
 });
 ```
 
-## зависимые поля (одно)
+### зависимые поля (одно)
 
 ```js
 const Schema = Yup.object({
@@ -141,7 +276,7 @@ const Schema = Yup.object({
 });
 ```
 
-## зависимые поля (два и более)
+### зависимые поля (два и более)
 
 ```js
 const Schema = Yup.object({
@@ -162,7 +297,7 @@ const Schema = Yup.object({
 });
 ```
 
-# BP. разделение зависимой валидации на отдельные утилиты
+## BP. разделение зависимой валидации на отдельные утилиты
 
 ```ts
 // утилита для валидации (2 аргумента)
@@ -187,7 +322,7 @@ const Schema = Yup.object().shape({
 });
 ```
 
-# Валидация вложенных объектов
+## BP. Валидация вложенных объектов
 
 ```js
 const Schema = Yup.schema({
@@ -199,7 +334,7 @@ const Schema = Yup.schema({
 });
 ```
 
-# Валидация массива
+## BP. Валидация массива
 
 ```js
 const Schema = Yup.object({
