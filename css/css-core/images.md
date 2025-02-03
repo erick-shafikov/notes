@@ -234,6 +234,8 @@
 
 ## clip-path
 
+Позволяет определить фигуру
+
 ```scss
 .clip-path {
   clip-path: none;
@@ -434,7 +436,7 @@ alpha | luminance | match-source
 
 luminance | alpha тип маски
 
-# Фильтры
+# Фильтры и размытие
 
 ## filter
 
@@ -488,6 +490,18 @@ p {
 ```
 
 - [функции для свойства filter](./functions/filters-func.md)
+
+### blur()
+
+функция размытия изображения
+
+```scss
+.blur {
+  filter: blur(0); /* Без эффекта */
+  filter: blur(8px); /* Размытие с радиусом 8px */
+  filter: blur(1.17rem); /* Размытие с радиусом 1.17rem */
+}
+```
 
 ## backdrop-filter
 
@@ -739,7 +753,40 @@ repeating-linear-gradient() - линии
 
 - при создании должно быть указано как минимум два цвета
 
-# BP
+<!--  image-set() ---------------------------------------------------------------------------------------------------------------------------->
+
+# image-set()
+
+Позволяет выбрать наиболее подходящее изображение
+
+```scss
+.box {
+  background-image: url("large-balloons.jpg");
+  background-image: image-set(
+    "large-balloons.avif" type("image/avif"),
+    "large-balloons.jpg" type("image/jpeg")
+  );
+}
+
+.image-set {
+  background-image: image-set("image1.jpg" 1x, "image2.jpg" 2x);
+  background-image: image-set(url("image1.jpg") 1x, url("image2.jpg") 2x);
+  // Select gradient based on resolution
+  background-image: image-set(
+    linear-gradient(blue, white) 1x,
+    linear-gradient(blue, green) 2x
+  );
+  // Select image based on supported formats
+  background-image: image-set(
+    url("image1.avif") type("image/avif"),
+    url("image2.jpg") type("image/jpeg")
+  );
+}
+```
+
+<!-- BPs ------------------------------------------------------------------------------------------------------------------------------------->
+
+# BPs
 
 ## BP. Дефолтный стиль для img
 

@@ -61,7 +61,7 @@ scroll-timeline = scroll-timeline-name + scroll-timeline-axis
 Функция для отслеживания временной шкалы анонимной анимации зависящей от скролла
 
 ```scss
- {
+.scroll {
   animation-timeline: scroll();
 
   animation-timeline: scroll(

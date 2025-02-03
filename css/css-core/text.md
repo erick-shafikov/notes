@@ -20,17 +20,20 @@
 }
 
 @font-face {
+  // Указывает имя шрифта, которое будет использоваться для задания свойств шрифта.
   font-family: "Open Sans";
   src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"), url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
   // использование локальных шрифтов
   src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"),
   // ------------------------------------------------------------------
+  // Определяет как отображается шрифт, основываясь на том, был ли он загружен и готов ли к использованию.
   font-display: auto;
   font-display: block;
   font-display: swap;
   font-display: fallback;
   font-display: optional;
-
+  // Значение font-stretch
+  font-stretch: normal; //  ultra-condensed | extra-condensed | condensed | semi-condensed | semi-expanded | expanded | extra-expanded | ultra-expanded;
   // ------------------------------------------------------------------
   font-style: normal;
   font-style: italic;
@@ -44,6 +47,10 @@
   /* Multiple Values */
   font-weight: normal bold;
   font-weight: 300 500;
+  //настройки
+  font-variant: ;
+  font-feature-settings: ;
+  font-variation-settings: ;
 }
 ```
 
@@ -177,6 +184,33 @@ body {
 
 span {
   font-size: 1.6em; /* 1.6em = 16px */
+}
+```
+
+### @font-feature-values
+
+Применение для нескольких font-variant-alternates
+
+```scss
+/* Правило для "хорошего стиля" в Font One */
+@font-feature-values Font One {
+  @styleset {
+    nice-style: 12;
+  }
+}
+
+/* Правило для "хорошего стиля" в Font Two */
+@font-feature-values Font Two {
+  @styleset {
+    nice-style: 4;
+  }
+}
+
+…
+
+/* Применение правила с единственным объявлением */
+.nice-look {
+  font-variant-alternates: styleset(nice-style);
 }
 ```
 
@@ -488,6 +522,19 @@ CSS-свойство описывает, как линейное содержи�
 ## font-palette
 
 для взаимодействия с цветами в цветных шрифтах
+
+### @font-palette-values
+
+изменение цветов по умолчанию
+
+```scss
+@font-palette-values --identifier {
+  font-family: Bixa;
+}
+.my-class {
+  font-palette: --identifier;
+}
+```
 
 ## -webkit-text-stroke
 

@@ -36,23 +36,21 @@ p::before {
 
 <!-- calc-size()---------------------------------------------------------------------------------------------------------------------------->
 
-# calc-size()
-
-Нет в safari и ff
+# calc-size() (-ff -safari)
 
 Позволяет вычислять размеры для ключевых слов auto, fit-content, max-content, content, max-content.
 
 ```scss
-/* получение значений calc-size(), ничего не делать со значениями*/
-calc-size(auto, size)
-calc-size(fit-content, size)
-
-/* применять изменения к измеримому объекту */
-calc-size(min-content, size + 100px)
-calc-size(fit-content, size / 2)
-
-/* с функциями */
-calc-size(auto, round(up, size, 50px))
+.calc-size {
+  // получение значений calc-size(), ничего не делать со значениями
+  height: calc-size(auto, size);
+  height: calc-size(fit-content, size);
+  // применять изменения к измеримому объекту
+  height: calc-size(min-content, size + 100px);
+  height: calc-size(fit-content, size / 2);
+  // с функциями
+  height: calc-size(auto, round(up, size, 50px));
+}
 ```
 
 ```scss
@@ -70,7 +68,7 @@ section {
 }
 ```
 
-<!--  ---------------------------------------------------------------------------------------------------------------------------->
+<!-- calc() ---------------------------------------------------------------------------------------------------------------------------------->
 
 # calc()
 
@@ -110,22 +108,6 @@ body {
       safe-area-inset-bottom,
       20px
     ) env(safe-area-inset-left, 20px);
-}
-```
-
-<!--  image-set() ---------------------------------------------------------------------------------------------------------------------------->
-
-# image-set()
-
-Позволяет выбрать наиболее подходящее изображение
-
-```scss
-.box {
-  background-image: url("large-balloons.jpg");
-  background-image: image-set(
-    "large-balloons.avif" type("image/avif"),
-    "large-balloons.jpg" type("image/jpeg")
-  );
 }
 ```
 

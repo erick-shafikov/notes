@@ -267,9 +267,42 @@ h3::before {
 
 [для расстояния между li](./text.md#line-height)
 
+# counter()
+
+возвращает строке для списка
+
+```scss
+.double-list {
+  counter-reset: count -1;
+}
+
+.double-list li {
+  counter-increment: count 2;
+}
+
+.double-list li::marker {
+  content: counter(count, decimal) ") ";
+}
+```
+
+применение значений счетчика в элементах списка
+
+```scss
+ol {
+  counter-reset: count;
+}
+li {
+  counter-increment: count;
+}
+li::after {
+  content: "[" counter(count, lower-roman) "] == [" counter(count, lower-alpha)
+    "]";
+}
+```
+
 # counters()
 
-для вложенных списков
+для вложенных списков, как будет разделятся том и глава списка
 
 ```scss
 ol {

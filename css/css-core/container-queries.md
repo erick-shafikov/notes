@@ -34,7 +34,7 @@ container = container-name + container-type
 
 ## container-name
 
-Определяет имя контейнера, не должно быть or, and, not, или default.
+Определяет имя контейнера, не должно быть or, and, not, или default. Если контейнеризация применяется как безымянная, то будет применятся к потомкам
 
 ```scss
 .container-name {

@@ -193,6 +193,10 @@ position-try-order + position-try-fallbacks
 
 Позволяет расположить якорь. Нет в сафари и в ff
 
+- значения Inset-area: top, left, bottom, right., inset-block-start, inset-block-end, inset-inline-start, inset-inline-end, inset-block, inset-inline, inset
+- значения Margin: margin-top, margin-left, margin-bottom, margin-right, margin-block-start, margin-block-end, margin-inline-start, margin-inline-end, margin, margin-block, margin-inline
+- значения size: width, height, min-width, min-height, max-width, max-height, block-size, inline-size, min-block-size, min-inline-size, max-block-size, max-inline-size
+
 ```html
 <div class="anchor">⚓︎</div>
 
@@ -240,31 +244,39 @@ position-try-order + position-try-fallbacks
   inset-area: top;
   width: 200px;
   margin: 0 0 10px 0;
+  // применение
   position-try-fallbacks: --custom-left, --custom-bottom, --custom-right,
     --custom-bottom-right;
 }
 ```
 
-# anchor()
+# anchor() (-ff -safari)
 
-для определения позиции якоря
+для определения позиции якоря, можно указывать для позиции вставки (top, left, bottom, right, inset, inset-block-start, inset-block-end, inset-block, inset-inline-start, inset-inline-end, inset-inline)
+
+возвращает расстояние между стороной элемента, позиционируемого как якорь, указанной значением inset, и стороной элемента якоря, указанной выбранным anchor-side значением
 
 ```scss
- {
-  /* side or percentage */
-top: anchor(bottom);
-top: anchor(50%);
-top: calc(anchor(bottom) + 10px)
-inset-block-end: anchor(start);
+.anchor {
+  // side or percentage
+  top: anchor(bottom);
+  top: anchor(50%);
+  top: calc(anchor(bottom) + 10px);
+  inset-block-end: anchor(start);
 
-/* side of named anchor */
-top: anchor(--myAnchor bottom);
-inset-block-end: anchor(--myAnchor start);
+  // side of named anchor
+  top: anchor(--myAnchor bottom);
+  inset-block-end: anchor(--myAnchor start);
 
-/* side of named anchor with fallback */
-top: anchor(--myAnchor bottom, 50%);
-inset-block-end: anchor(--myAnchor start, 200px);
-left: calc(anchor(--myAnchor right, 0%) + 10px);
+  // side of named anchor with fallback
+  top: anchor(--myAnchor bottom, 50%);
+  inset-block-end: anchor(--myAnchor start, 200px);
+  //с calc
+  left: calc(anchor(--myAnchor right, 0%) + 10px);
+}
+
+.positionedElement {
+  inset-block-end: calc(anchor(start) + 10px);
 }
 ```
 
