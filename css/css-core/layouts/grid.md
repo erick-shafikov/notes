@@ -461,7 +461,7 @@ auto-fill - позволяет задать повторяемые элемен�
 
 <!-- Свойства grid-элементов ----------------------------------------------------------------------------------------------------------------->
 
-# Свойства grid-элементов
+# Свойства grid-элементов (grid-area, grid-column, grid-row, grid-row-start, grid-row-end, grid-column-start, grid-column-end)
 
 Эта группа свойств позволяет управлять расположением элементов внутри сутки, при создании сетки непосредственно внутри каждого элемента.
 
@@ -558,78 +558,21 @@ auto-fill - позволяет задать повторяемые элемен�
 
 - Если задать пересекающиеся значения, то элементы сетки будут накладываться друг на друга. Управление осуществляется с помощью z-index
 
-<!-- Выравнивание alignment ------------------------------------------------------------------------------------------------------------------>
+<!-- Выравнивание ---------------------------------------------------------------------------------------------------------------------------->
 
-# Выравнивание alignment
+# Выравнивание
 
 Две оси - ось блока (колонки) и ось ряда (inline)
 
-Выравнивание на оси блока:
+## Выравнивание по block оси:
 
-## align-self
-
-Выравнивание элемента управляемое самим элементом
-
-```scss
- {
-  align-self: center; /* Put the item around the center */
-  align-self: start; /* Put the item at the start */
-  align-self: end; /* Put the item at the end */
-  align-self: self-start; /* Align the item flush at the start */
-  align-self: self-end; /* Align the item flush at the end */
-  align-self: flex-start; /* Put the flex item at the start */
-  align-self: flex-end; /* Put the flex item at the end */
-
-  /* Baseline alignment */
-  align-self: baseline;
-  align-self: first baseline;
-  align-self: last baseline;
-  align-self: stretch; /* Stretch 'auto'-sized items to fit the container */
-}
-```
-
-## align-items
+### align-items
 
 - [align-items - выравнивает элементы оси блока внутри ряда](./flex.md#align-items-flex-grid)
 
-## justify-self
+### align-content
 
-выравнивание элемент вдоль главной оси. не работает в flex и табличных контейнерах
-
-```scss
- {
-  // Positional alignment
-  justify-self: center; // Pack item around the center
-  justify-self: start; // Pack item from the start
-  justify-self: end; // Pack item from the end
-  justify-self: flex-start; // Equivalent to 'start'. Note that justify-self is ignored in flexbox layouts.
-  justify-self: flex-end; // Equivalent to 'end'. Note that justify-self is ignored in flexbox layouts.
-  justify-self: self-start;
-  justify-self: self-end;
-  justify-self: left; // Pack item from the left
-  justify-self: right; // Pack item from the right
-  justify-self: anchor-center;
-
-  // Baseline alignment
-  justify-self: baseline;
-  justify-self: first baseline;
-  justify-self: last baseline;
-
-  // Overflow alignment (for positional alignment only)
-  justify-self: safe center;
-  justify-self: unsafe center;
-}
-```
-
-Если сетка использует область, которая меньше чем контейнер
-
-## justify-content
-
-[выравнивание элемент вдоль главной оси, внутри grid контейнера для оси inline](./flex.md#justify-content-flex-grid)
-
-## align-content
-
-Распределит контент в сетке по блоковой оси
+Распределит контент в сетке по блоковой оси, если есть свободное место (все свойства с content про свободно место)
 
 [align-content](./flex.md#align-content-flex)
 
@@ -659,9 +602,68 @@ auto-fill - позволяет задать повторяемые элемен�
 }
 ```
 
-## justify-items (grid)
+### align-self
 
-определяет атрибут по умолчанию justify-self
+Выравнивание элемента управляемое самим элементом
+
+```scss
+.align-self {
+  align-self: center; // Put the item around the center
+  align-self: start; // Put the item at the start
+  align-self: end; // Put the item at the end
+  align-self: self-start; // Align the item flush at the start
+  align-self: self-end; // Align the item flush at the end
+  align-self: flex-start; // Put the flex item at the start
+  align-self: flex-end; // Put the flex item at the end
+
+  // Baseline alignment
+  align-self: baseline;
+  align-self: first baseline;
+  align-self: last baseline;
+  align-self: stretch; // Stretch 'auto'-sized items to fit the container
+}
+```
+
+## Выравнивание по inline оси:
+
+### justify-self
+
+выравнивание элемент вдоль главной оси. не работает в flex и табличных контейнерах
+
+```scss
+.justify-self {
+  // Positional alignment
+  justify-self: center; // Pack item around the center
+  justify-self: start; // Pack item from the start
+  justify-self: end; // Pack item from the end
+  justify-self: flex-start; // Equivalent to 'start'. Note that justify-self is ignored in flexbox layouts.
+  justify-self: flex-end; // Equivalent to 'end'. Note that justify-self is ignored in flexbox layouts.
+  justify-self: self-start;
+  justify-self: self-end;
+  justify-self: left; // Pack item from the left
+  justify-self: right; // Pack item from the right
+  justify-self: anchor-center;
+
+  // Baseline alignment
+  justify-self: baseline;
+  justify-self: first baseline;
+  justify-self: last baseline;
+
+  // Overflow alignment (for positional alignment only)
+  justify-self: safe center;
+  justify-self: unsafe center;
+}
+```
+
+Если сетка использует область, которая меньше чем контейнер
+
+### justify-content
+
+[выравнивание элемент вдоль главной оси, внутри grid контейнера для оси inline если есть свободное место](./flex.md#justify-content-flex-grid)
+
+### justify-items (grid)
+
+определяет атрибут по умолчанию justify-self дял каждого grid элемента
 
 игнорируется в таблицах, flex и grid сетках
 

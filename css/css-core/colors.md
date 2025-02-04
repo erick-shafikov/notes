@@ -37,35 +37,6 @@ auto | none позволяет включить и выключить измен
 }
 ```
 
-# @media(prefers-color-scheme)
-
-- [медиа запросы для различных тем](./at-rules.md/#mediaprefers-color-scheme)
-
-## mix-blend-mode
-
-определяет режим смешивания цветов выбранного элемента с нижележащими слоями.
-
-```scss
-.mix-blend-mode {
-  mix-blend-mode: normal;
-  mix-blend-mode: multiply;
-  mix-blend-mode: screen;
-  mix-blend-mode: overlay;
-  mix-blend-mode: darken;
-  mix-blend-mode: lighten;
-  mix-blend-mode: color-dodge;
-  mix-blend-mode: color-burn;
-  mix-blend-mode: hard-light;
-  mix-blend-mode: soft-light;
-  mix-blend-mode: difference;
-  mix-blend-mode: exclusion;
-  mix-blend-mode: hue;
-  mix-blend-mode: saturation;
-  mix-blend-mode: color;
-  mix-blend-mode: luminosity;
-}
-```
-
 # isolation
 
 Управление контекстом контекст наложения,
@@ -95,3 +66,87 @@ div {
   opacity: 0.9; /* Видимость текста очень чёткая на фоне */
 }
 ```
+
+# @media(prefers-color-scheme)
+
+- [медиа запросы для различных тем](./at-rules.md/#mediaprefers-color-scheme)
+
+## mix-blend-mode
+
+определяет режим смешивания цветов выбранного элемента с нижележащими слоями.
+
+```scss
+.mix-blend-mode {
+  mix-blend-mode: normal;
+  mix-blend-mode: multiply;
+  mix-blend-mode: screen;
+  mix-blend-mode: overlay;
+  mix-blend-mode: darken;
+  mix-blend-mode: lighten;
+  mix-blend-mode: color-dodge;
+  mix-blend-mode: color-burn;
+  mix-blend-mode: hard-light;
+  mix-blend-mode: soft-light;
+  mix-blend-mode: difference;
+  mix-blend-mode: exclusion;
+  mix-blend-mode: hue;
+  mix-blend-mode: saturation;
+  mix-blend-mode: color;
+  mix-blend-mode: luminosity;
+}
+```
+
+<!-- @color-profile -------------------------------------------------------------------------------------------------------------------------->
+
+# @color-profile
+
+Определяет цветовой профиль
+
+```scss
+// имя --swop5c
+@color-profile --swop5c {
+  src: url("https://example.org/SWOP2006_Coated5v2.icc");
+}
+
+.header {
+  background-color: color(--swop5c 0% 70% 20% 0%);
+}
+```
+
+<!-- функции по работе с цветами ------------------------------------------------------------------------------------------------------------->
+
+# функции по работе с цветами
+
+- color-contrast()
+- color-mix() - для смешивания двух цветов
+- color() - Позволяет задавать цветовые пространства
+
+```html
+<div data-color="red"></div>
+<div data-color="green"></div>
+<div data-color="blue"></div>
+```
+
+```scss
+[data-color="red"] {
+  background-color: color(xyz 45 20 0);
+}
+
+[data-color="green"] {
+  background-color: color(xyz-d50 0.3 80 0.3);
+}
+
+[data-color="blue"] {
+  background-color: color(xyz-d65 5 0 50);
+}
+```
+
+- device-cmyk()
+- hsl()
+- hwb()
+- lab()
+- lch()
+- oklab()
+- oklch()
+
+- rgb()

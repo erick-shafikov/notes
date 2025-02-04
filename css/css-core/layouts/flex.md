@@ -70,7 +70,9 @@
 
 ## justify-content (flex, grid)
 
-выравнивание по главной оси justify-content
+выравнивание по главной оси justify-content. Не распространяется на блочные контейнеры и ячейки таблиц
+
+justify-self не может быть использован
 
 ```scss
 .flex {

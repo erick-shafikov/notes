@@ -2,17 +2,19 @@ body {
   margin: 0px;
 }
 
-/* .test {
-} */
-
-.anchor {
-  anchor-name: --myAnchor;
+.container {
+  background-color: chocolate;
+  display: flex;
+  /* justify-content: space-between; */
 }
 
-.infoBox {
-  position-anchor: --myAnchor;
-  position: absolute;
-  left: anchor(10%);
-  top: anchor(120%);
-  margin-left: 10px;
+.item {
+  background-color: aqua;
+  width: 50px;
+  height: 50px;
+}
+
+.self {
+  justify-self: center;
+  background-color: red;
 }

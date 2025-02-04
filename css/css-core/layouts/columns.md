@@ -128,10 +128,11 @@ column-rule-width + column-rule-style + column-rule-color позволяет о�
 }
 ```
 
-# column-span (multi-column)
+# column-span
 
 ```scss
 .column-span {
+  // других значений нет
   column-span: none;
   column-span: all;
 }
@@ -182,9 +183,9 @@ h2 {
 }
 ```
 
-# break-after
+# Выравнивание
 
-break-before,break-inside как разрывы страниц, столбцов или регионов должны вести себя после (до) сгенерированного блока
+Свойство align-content применяется к блочной оси и justify-content к встроенной оси
 
 # orphans (-ff)
 
@@ -193,5 +194,37 @@ break-before,break-inside как разрывы страниц, столбцов
 ```scss
 .orphans {
   orphans: 3;
+}
+```
+
+# break-after (break-before, break-inside)
+
+Применяется для определения разрыва страницы при печати а также для сетки из колонок
+
+break-inside - управление разрывами внутри колонок
+break-before, break-inside - до и после т.е. куда вставлять разрыв
+
+```scss
+ {
+  break-after: auto; //не будет форсировать разрыв
+  break-after: avoid; //избегать любых переносов до/после блока с
+  break-after: always;
+  break-after: all;
+
+  /* Page break values */
+  break-after: avoid-page;
+  break-after: page;
+  break-after: left;
+  break-after: right;
+  break-after: recto;
+  break-after: verso;
+
+  /* Column break values */
+  break-after: avoid-column;
+  break-after: column;
+
+  /* Region break values */
+  break-after: avoid-region;
+  break-after: region;
 }
 ```

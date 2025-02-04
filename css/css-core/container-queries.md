@@ -53,19 +53,6 @@ container = container-name + container-type
 }
 ```
 
-# content-visibility
-
-Позволяет сделать содержимое контейнера невидимым. Основное применение для создание плавных анимаций, при которых контент плавно пропадает.
-В анимации нужно включить transition-behavior: content-visibility
-
-```scss
-.content-visibility {
-  content-visibility: visible; //обычное отображение элемента
-  content-visibility: hidden; // не будет доступно для поиска, фокусировки
-  content-visibility: auto; //contain: content
-}
-```
-
 Второе применение экономия ресурсов при рендеринге
 
 # @container
