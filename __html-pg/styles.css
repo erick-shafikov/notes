@@ -5,7 +5,6 @@ body {
 .container {
   background-color: chocolate;
   display: flex;
-  /* justify-content: space-between; */
 }
 
 .item {
@@ -15,6 +14,5 @@ body {
 }
 
 .self {
-  justify-self: center;
-  background-color: red;
+  margin: 0 auto;
 }

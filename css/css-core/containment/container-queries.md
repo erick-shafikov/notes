@@ -1,3 +1,5 @@
+Контейнерные запросы делятся на два типа - именные и безымянные. Именные отталкиваются от контейнера сос свойством container, вторые являются потомком и ссылаются на свойство container-type. Правило @container позволяет управлять стилями внутри себя
+
 # container:
 
 container = container-name + container-type
@@ -117,6 +119,8 @@ container = container-name + container-type
 - cqmin: минимум от cqi и cqb
 - cqmax: максимум от cqi и cqb
 
+Условия внутри функции контейнера (аргументы)
+
 ```scss
 // использование
 @container (min-width: 700px) {
@@ -143,15 +147,7 @@ container = container-name + container-type
 c помощью функции style можно ссылать на стиль контейнера
 
 ```scss
-@container style(<style-feature>),
-    not style(<style-feature>),
-    style(<style-feature>) and style(<style-feature>),
-    style(<style-feature>) or style(<style-feature>) {
-  /* <stylesheet> */
-}
-
 // пример
-
 @container style(--themeBackground),
     not style(background-color: red),
     style(color: green) and style(background-color: transparent),
