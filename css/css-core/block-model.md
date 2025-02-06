@@ -3,9 +3,26 @@
 Элемент может быть блочным или строчным. Поток - это расположение элементов в документе. Что бы выкинуть элемент из потока из контекста форматирования - float, position: absolute, корневой элемент (html)
 Контексты форматирования:
 
-- block formatting context, BFC
+- block formatting context, BFC, располагаются по вертикали начиная с верху
 - inline formatting context
 - flex formatting context
+
+Контекст форматирования formatting context - то как формируется поток, состоит из других потоков
+
+Кроме корневого элемента html новый БКФ создаётся в следующих случаях:
+
+- плавающие элементы (float: left или float: right);
+- абсолютно позиционированные элементы (position: absolute, position: fixed или position: sticky);
+- элементы с display: inline-block;
+- ячейки табицы или элементы с display: table-cell, включая анонимные - ячейки таблицы, которые создаются, когда используются свойства display: table-\*;
+- заголовки таблицы или элементы с display: table-caption;
+- блочные элементы, когда значение свойства overflow отлично от visible;
+- элементы с display: flow-root или display: flow-root list-item;
+- элементы с contain: layout, content, или strict
+- флекс-элементы;
+- грид-элементы;
+- контейнеры мультиколонок;
+- элементы с column-span в значении all.
 
 # display
 

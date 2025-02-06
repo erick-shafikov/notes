@@ -9,7 +9,9 @@
 - Изменения расположения с помощью CSS: caption-side, text-align (устаревшие)
 - глобальные
 
-Если у table один потом caption, то нужно использовать figcaption
+Допустимые родители - table
+
+Когда элемент table, содержащий caption является единственным потомком элемента figure, вам следует использовать элемент figcaption вместо caption
 
 Атрибуты:
 
@@ -332,9 +334,41 @@ tbody - неявно встраивается во все таблицы (есл
 
 # thead
 
+Объединяет ряд таблицы, где идут заголовки колонок
 Находится после caption, colgroup
 
 - thead - первая строка, должен быть после col, colgroup
+- тег должен быть до tbody и не входить в него
+
+```html
+<table>
+  <caption>
+    ...
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Items</th>
+      <th scope="col">Expenditure</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Donuts</th>
+      <td>3,000</td>
+    </tr>
+    <tr>
+      <th scope="row">Stationery</th>
+      <td>18,000</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th scope="row">Totals</th>
+      <td>21,000</td>
+    </tr>
+  </tfoot>
+</table>
+```
 
 <!-- вложенные таблицы --------------------------------------------------------------------------------------------------------->
 

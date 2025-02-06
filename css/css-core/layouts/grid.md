@@ -10,7 +10,7 @@
 
 ```scss
 .grid {
-  // grid ===
+  // grid, значения по умолчанию про display:grid
   grid-template-rows: none;
   grid-template-columns: none;
   grid-template-areas: none;
@@ -44,7 +44,7 @@
 }
 ```
 
-## grid-template
+## grid-template:
 
 grid-template-areas + grid-template-rows + grid-template-columns
 
@@ -180,10 +180,13 @@ grid-auto-columns - длины элемента
   grid-auto-rows: min-content;
   grid-auto-rows: max-content;
   grid-auto-rows: auto;
+  grid-auto-rows: 100px;
   //поддерживает проценты, пиксели, функции min-max
   // для сетки с множеством колонок или строк (если перенесется более одной строки)
   // если перенос будет на три ряда первый - min-content, второй - max-content
   grid-auto-rows: min-content max-content auto;
+  // если перенос будет на три ряда первый - 100px, второй - 200px
+  grid-auto-rows: 100px 200px;
 }
 ```
 
@@ -564,9 +567,13 @@ auto-fill - позволяет задать повторяемые элемен�
 
 Две оси - ось блока (колонки) и ось ряда (inline)
 
+Выравнивание так же работает с margin: auto
+
 ## Выравнивание по block оси:
 
 ### align-items
+
+Выравнивание по block оси происходит так же как и во flex сетках
 
 - [align-items - выравнивает элементы оси блока внутри ряда](./flex.md#align-items-flex-grid)
 
@@ -689,6 +696,49 @@ auto-fill - позволяет задать повторяемые элемен�
   justify-items: legacy right;
   justify-items: legacy left;
   justify-items: legacy center;
+}
+```
+
+<!-- использование z-index ------------------------------------------------------------------------------------------------------------------->
+
+# использование z-index
+
+z-index может расположить две ячейки грида одну поверх другой
+
+```html
+<div class="wrapper">
+  <div class="box box1">One</div>
+  <div class="box box2">Two</div>
+  <div class="box box3">Three</div>
+  <div class="box box4">Four</div>
+  <div class="box box5">Five</div>
+</div>
+```
+
+```scss
+.wrapper {
+  display: grid;
+  // три колонки
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 100px;
+}
+.box1 {
+  // колонка на всю ширину 3fr
+  grid-column-start: 1;
+  grid-column-end: 4;
+  //начало - самый верх
+  grid-row-start: 1;
+  grid-row-end: 3;
+  // будет выше
+  z-index: 2;
+}
+.box2 {
+  // тоже с самого верха
+  grid-column-start: 1;
+  grid-row-start: 2;
+  grid-row-end: 4;
+  // будет перекрыт
+  z-index: 1;
 }
 ```
 
