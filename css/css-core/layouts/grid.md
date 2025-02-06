@@ -567,7 +567,8 @@ auto-fill - позволяет задать повторяемые элемен�
 
 Две оси - ось блока (колонки) и ось ряда (inline)
 
-Выравнивание так же работает с margin: auto
+- Выравнивание так же работает с margin: auto
+- writing-mode влияет на то как отображается сетка
 
 ## Выравнивание по block оси:
 
@@ -742,11 +743,13 @@ z-index может расположить две ячейки грида одн�
 }
 ```
 
-<!-- BPs ------------------------------------------------------------------------------------------------------------------------------------->
+# sub-grid
 
-# BPs
-
-## BP. sub-grid
+- в sub-grid отсутствует неявная сетка
+- gap можно переопределить
+- наименование грид линий:
+- - может быть аналогичным
+- - или template-columns: subgrid [line1] [line2] [line3] [line4]
 
 ```scss
 // пример использования
@@ -760,10 +763,29 @@ z-index может расположить две ячейки грида одн�
   display: grid;
   grid-column: 2 / 7;
   grid-row: 2 / 4;
+  // вложенный элемент будет ориентироваться по трекам внешнего грида
   grid-template-columns: subgrid;
   grid-template-rows: subgrid;
 }
 ```
+
+# masonry
+
+кладка - будет выравниваться по самому большому элементу
+
+```scss
+.grid {
+  display: grid;
+  // выровняет все ряды в одну высоту
+  grid-template-rows: masonry;
+  // выровняет все колонки в одну ширину
+  grid-template-columns: masonry;
+}
+```
+
+<!-- BPs ------------------------------------------------------------------------------------------------------------------------------------->
+
+# BPs
 
 ## BP.Абсолютное позиционирование в grid-сетке
 
@@ -966,5 +988,296 @@ p {
   .footer {
     grid-area: footer;
   }
+}
+```
+
+## BP. grid сетки
+
+### 3 колонки
+
+```html
+<div class="wrapper">
+  <header class="main-head">The header</header>
+  <nav class="main-nav">
+    <ul>
+      <li><a href="">Nav 1</a></li>
+      <li><a href="">Nav 2</a></li>
+      <li><a href="">Nav 3</a></li>
+    </ul>
+  </nav>
+  <article class="content">
+    <h1>Main article area</h1>
+    <p>
+      In this layout, we display the areas in source order for any screen less
+      that 500 pixels wide. We go to a two column layout, and then to a three
+      column layout by redefining the grid, and the placement of items on the
+      grid.
+    </p>
+  </article>
+  <aside class="side">Sidebar</aside>
+  <div class="ad">Advertising</div>
+  <footer class="main-footer">The footer</footer>
+</div>
+```
+
+```scss
+.main-head {
+  grid-area: header;
+}
+.content {
+  grid-area: content;
+}
+.main-nav {
+  grid-area: nav;
+}
+.side {
+  grid-area: sidebar;
+}
+.ad {
+  grid-area: ad;
+}
+.main-footer {
+  grid-area: footer;
+}
+
+// для мобильной версии
+.wrapper {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-areas:
+    "header"
+    "nav"
+    "content"
+    "sidebar"
+    "ad"
+    "footer";
+}
+
+@media (min-width: 500px) {
+  .wrapper {
+    grid-template-columns: 1fr 3fr;
+    grid-template-areas:
+      "header  header"
+      "nav     nav"
+      "sidebar content"
+      "ad      footer";
+  }
+  nav ul {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 700px) {
+  .wrapper {
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-areas:
+      "header header  header"
+      "nav    content sidebar"
+      "nav    content ad"
+      "footer footer  footer";
+  }
+  nav ul {
+    flex-direction: column;
+  }
+}
+```
+
+### 12 колонок
+
+```html
+<div class="wrapper">
+  <div class="item1">Start column line 1, span 3 column tracks.</div>
+  <div class="item2">
+    Start column line 6, span 4 column tracks. 2 row tracks.
+  </div>
+  <div class="item3">Start row 2 column line 2, span 2 column tracks.</div>
+  <div class="item4">
+    Start at column line 3, span to the end of the grid (-1).
+  </div>
+</div>
+```
+
+```scss
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(12, [col-start] 1fr);
+  grid-gap: 20px;
+}
+
+.item1 {
+  grid-column: col-start / span 3;
+}
+.item2 {
+  grid-column: col-start 6 / span 4;
+  grid-row: 1 / 3;
+}
+.item3 {
+  grid-column: col-start 2 / span 2;
+  grid-row: 2;
+}
+.item4 {
+  grid-column: col-start 3 / -1;
+  grid-row: 3;
+}
+```
+
+или
+
+```html
+<div class="wrapper">
+  <header class="main-head">The header</header>
+  <nav class="main-nav">
+    <ul>
+      <li><a href="">Nav 1</a></li>
+      <li><a href="">Nav 2</a></li>
+      <li><a href="">Nav 3</a></li>
+    </ul>
+  </nav>
+  <article class="content">
+    <h1>Main article area</h1>
+    <p>
+      In this layout, we display the areas in source order for any screen less
+      that 500 pixels wide. We go to a two column layout, and then to a three
+      column layout by redefining the grid, and the placement of items on the
+      grid.
+    </p>
+  </article>
+  <aside class="side">Sidebar</aside>
+  <div class="ad">Advertising</div>
+  <footer class="main-footer">The footer</footer>
+</div>
+```
+
+```scss
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(12, [col-start] 1fr);
+  grid-gap: 20px;
+}
+
+.wrapper > * {
+  grid-column: col-start / span 12;
+}
+
+@media (min-width: 500px) {
+  .side {
+    grid-column: col-start / span 3;
+    grid-row: 3;
+  }
+  .ad {
+    grid-column: col-start / span 3;
+    grid-row: 4;
+  }
+  .content,
+  .main-footer {
+    grid-column: col-start 4 / span 9;
+  }
+  nav ul {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 700px) {
+  .main-nav {
+    grid-column: col-start / span 2;
+    grid-row: 2 / 4;
+  }
+  .content {
+    grid-column: col-start 3 / span 8;
+    grid-row: 2 / 4;
+  }
+  .side {
+    grid-column: col-start 11 / span 2;
+    grid-row: 2;
+  }
+  .ad {
+    grid-column: col-start 11 / span 2;
+    grid-row: 3;
+  }
+  .main-footer {
+    grid-column: col-start / span 12;
+  }
+  nav ul {
+    flex-direction: column;
+  }
+}
+```
+
+## BP. список
+
+```html
+<ul class="listing">
+  <li>
+    <h2>Item One</h2>
+    <div class="body"><p>The content of this listing item goes here.</p></div>
+    <div class="cta"><a href="">Call to action!</a></div>
+  </li>
+  <li>
+    <h2>Item Two</h2>
+    <div class="body"><p>The content of this listing item goes here.</p></div>
+    <div class="cta"><a href="">Call to action!</a></div>
+  </li>
+  <li class="wide">
+    <h2>Item Three</h2>
+    <div class="body">
+      <p>The content of this listing item goes here.</p>
+      <p>This one has more text than the other items.</p>
+      <p>Quite a lot more</p>
+      <p>Perhaps we could do something different with it?</p>
+    </div>
+    <div class="cta"><a href="">Call to action!</a></div>
+  </li>
+  <li>
+    <h2>Item Four</h2>
+    <div class="body"><p>The content of this listing item goes here.</p></div>
+    <div class="cta"><a href="">Call to action!</a></div>
+  </li>
+  <li>
+    <h2>Item Five</h2>
+    <div class="body"><p>The content of this listing item goes here.</p></div>
+    <div class="cta"><a href="">Call to action!</a></div>
+  </li>
+</ul>
+```
+
+```scss
+.listing {
+  list-style: none;
+  margin: 2em;
+  display: grid;
+  grid-gap: 20px;
+  // автоматическое распределение, не меньше 200зч
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+// внутренности карточки
+.listing li {
+  border: 1px solid #ffe066;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+.listing .cta {
+  margin-top: auto;
+  border-top: 1px solid #ffe066;
+  padding: 10px;
+  text-align: center;
+}
+.listing .body {
+  padding: 10px;
+}
+//
+.listing {
+  list-style: none;
+  margin: 2em;
+  display: grid;
+  grid-gap: 20px;
+  // автоматически определит перенос
+  grid-auto-flow: dense;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+.listing .wide {
+  grid-column-end: span 2;
 }
 ```

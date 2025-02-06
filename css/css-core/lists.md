@@ -3,8 +3,21 @@
 # настройка элемента list-style:
 
 для стилизации маркеров списка
-
 Сокращенная запись для list-style = list-style-image + list-style-position + list-style-type
+
+- все li - display: list-item
+- padding-inline-start === 40px
+
+```scss
+ul {
+  // изначальный стиль
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  padding-inline-start: 40px;
+}
+```
 
 ## list-style-image
 
@@ -110,9 +123,31 @@ inside | outside - расположение маркера внутри отст
 
 # Управление нумерацией списка
 
+## counter-reset
+
+Сбросить или перевернуть список
+
+```scss
+.counter-reset {
+  counter-reset: my-counter;
+
+  // сбросить и установить на значение -3
+  counter-reset: my-counter -3;
+
+  // перевернуть
+  counter-reset: reversed(my-counter);
+
+  // перевернуть и начать с -1
+  counter-reset: reversed(my-counter) -1;
+
+  // настройки для нескольких
+  counter-reset: reversed(pages) 10 items 1 reversed(sections) 4;
+}
+```
+
 ## counter-increment
 
-Правило изменения счетчика
+Правило изменения счетчика, название для счетчика
 
 ```scss
 .counter-increment {
@@ -160,28 +195,6 @@ i:first-of-type {
 i::before {
   // указываем что счетчик стоит перед
   content: counter(sevens);
-}
-```
-
-## counter-reset
-
-Сбросить или перевернуть список
-
-```scss
-.counter-reset {
-  counter-reset: my-counter;
-
-  // сбросить и установить на значение -3
-  counter-reset: my-counter -3;
-
-  // перевернуть
-  counter-reset: reversed(my-counter);
-
-  // перевернуть и начать с -1
-  counter-reset: reversed(my-counter) -1;
-
-  // настройки для нескольких
-  counter-reset: reversed(pages) 10 items 1 reversed(sections) 4;
 }
 ```
 

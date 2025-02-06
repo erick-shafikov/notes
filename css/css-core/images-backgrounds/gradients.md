@@ -6,10 +6,28 @@
 
 linear-gradient() - создает линейный градиент
 
+## направление
+
 ```scss
 .simple-linear {
-  //двухцветные с плавным переходом
+  //двухцветные с плавным переходом, по умолчанию сверху вниз
   background: linear-gradient(blue, pink);
+  // поменять на слева направо
+  background: linear-gradient(to right, blue, pink);
+  // диагональный
+  background: linear-gradient(to bottom right, blue, pink);
+  //под определенным углом
+  background: linear-gradient(70deg, blue, pink);
+  background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
+}
+```
+
+## количество нескольких цветов
+
+Расположение точек на полу пути
+
+```scss
+.simple-linear {
   background: linear-gradient(#e66465, #9198e5);
   // по умолчанию будут равно распределены
   background: linear-gradient(red, yellow, blue, orange);
@@ -26,23 +44,29 @@ linear-gradient() - создает линейный градиент
   background: linear-gradient(to left, #333, #333 50%, #eee 75%, #333 75%);
   // для резкого перехода проценты в сумме должны быть равны 100
   background: linear-gradient(to bottom left, cyan 50%, palegoldenrod 50%);
-  // подсказка для перехода 10% займет blue
+  // подсказка для перехода 10% займет blue (blue будет меньше) одна точка показывает переход
   background: linear-gradient(blue, 10%, pink);
-}
-
-// поменять направление
-.horizontal-gradient {
-  background: linear-gradient(to right, blue, pink);
-  // диагональный
-  background: linear-gradient(to bottom right, blue, pink);
-  // использование углов
-  background: linear-gradient(70deg, blue, pink);
-  background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
+  //для точного расположения
+  background: linear-gradient(
+    to left,
+    lime 20%,
+    red 30% 45%,
+    cyan 55% 70%,
+    yellow 80%
+  );
+  //вариант с полосками
+  background: linear-gradient(
+    to left,
+    lime 25%,
+    red 25% 50%,
+    cyan 50% 75%,
+    yellow 75%
+  );
 }
 ```
 
 ```scss
-// можно комбинировать с изображениями
+// можно комбинировать с изображениями, градиенты - прозрачны
 .layered-image {
   background: linear-gradient(to right, transparent, mistyrose),
     url("critters.png");
@@ -64,11 +88,27 @@ linear-gradient() - создает линейный градиент
 
 # radial-gradient()
 
+## позиция центра
+
 ```scss
-// расположение центра
+// расположение центра по умолчанию в центре - красный, по краям синий
+.simple-radial {
+  background: radial-gradient(red, blue);
+}
+// красный  на 10px от центра, желтый до 30%, с 50% - синий
+.radial-gradient {
+  background: radial-gradient(red 10px, yellow 30%, #1e90ff 50%);
+}
+// смещение центра
+// центр на 0 по x и 30 от верха
 .radial-gradient {
   background: radial-gradient(at 0% 30%, red 10px, yellow 30%, #1e90ff 50%);
 }
+```
+
+## размер
+
+```scss
 //размер определяется расстоянием от начальной точки (центра) до ближайшей стороны блока.
 .radial-ellipse-side {
   background: radial-gradient(
@@ -87,6 +127,7 @@ linear-gradient() - создает линейный градиент
     beige
   );
   // по x - 25% от контейнера, по y -75%
+  // расстояние между начальной точкой (центром) и ближайшей стороной. Радиус круга – это расстояние между центром градиента и ближайшей стороной.
   background: radial-gradient(
     circle closest-side at 25% 75%,
     red,
@@ -94,6 +135,28 @@ linear-gradient() - создает линейный градиент
     #1e90ff 50%,
     beige
   );
+}
+```
+
+## Наложение
+
+```scss
+.stacked-radial {
+  background: radial-gradient(
+      circle at 50% 0,
+      rgba(255, 0, 0, 0.5),
+      rgba(255, 0, 0, 0) 70.71%
+    ), radial-gradient(
+      circle at 6.7% 75%,
+      rgba(0, 0, 255, 0.5),
+      rgba(0, 0, 255, 0) 70.71%
+    ),
+    radial-gradient(
+        circle at 93.3% 75%,
+        rgba(0, 255, 0, 0.5),
+        rgba(0, 255, 0, 0) 70.71%
+      ) beige;
+  border-radius: 50%;
 }
 ```
 
@@ -141,3 +204,92 @@ repeating-linear-gradient() - линии
 # repeating-radial-gradient() - круги из центра
 
 - при создании должно быть указано как минимум два цвета
+
+# PBs:
+
+## BP. Клетчатый градиент
+
+```scss
+.plaid-gradient {
+  background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 50px,
+      rgba(255, 127, 0, 0.25) 50px,
+      rgba(255, 127, 0, 0.25) 56px,
+      transparent 56px,
+      transparent 63px,
+      rgba(255, 127, 0, 0.25) 63px,
+      rgba(255, 127, 0, 0.25) 69px,
+      transparent 69px,
+      transparent 116px,
+      rgba(255, 206, 0, 0.25) 116px,
+      rgba(255, 206, 0, 0.25) 166px
+    ), repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 50px,
+      rgba(255, 127, 0, 0.25) 50px,
+      rgba(255, 127, 0, 0.25) 56px,
+      transparent 56px,
+      transparent 63px,
+      rgba(255, 127, 0, 0.25) 63px,
+      rgba(255, 127, 0, 0.25) 69px,
+      transparent 69px,
+      transparent 116px,
+      rgba(255, 206, 0, 0.25) 116px,
+      rgba(255, 206, 0, 0.25) 166px
+    ), repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 5px,
+      rgba(143, 77, 63, 0.25) 5px,
+      rgba(143, 77, 63, 0.25) 10px
+    ), repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(
+          143,
+          77,
+          63,
+          0.25
+        ) 5px, rgba(143, 77, 63, 0.25) 10px);
+
+  background: repeating-linear-gradient(
+      90deg,
+      transparent 0 50px,
+      rgba(255, 127, 0, 0.25) 50px 56px,
+      transparent 56px 63px,
+      rgba(255, 127, 0, 0.25) 63px 69px,
+      transparent 69px 116px,
+      rgba(255, 206, 0, 0.25) 116px 166px
+    ), repeating-linear-gradient(
+      0deg,
+      transparent 0 50px,
+      rgba(255, 127, 0, 0.25) 50px 56px,
+      transparent 56px 63px,
+      rgba(255, 127, 0, 0.25) 63px 69px,
+      transparent 69px 116px,
+      rgba(255, 206, 0, 0.25) 116px 166px
+    ), repeating-linear-gradient(
+      -45deg,
+      transparent 0 5px,
+      rgba(143, 77, 63, 0.25) 5px 10px
+    ), repeating-linear-gradient(45deg, transparent 0 5px, rgba(
+          143,
+          77,
+          63,
+          0.25
+        ) 5px 10px);
+}
+```
+
+# BP. Повторяющиеся круговые градиенты
+
+```scss
+.repeating-radial {
+  background: repeating-radial-gradient(
+    black,
+    black 5px,
+    white 5px,
+    white 10px
+  );
+}
+```
