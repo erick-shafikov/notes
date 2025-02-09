@@ -462,6 +462,19 @@ auto-fill - позволяет задать повторяемые элемен�
 }
 ```
 
+### fit-content
+
+формула fit-content() values === min(max-content, max(auto, argument))
+
+```scss
+.fit-content {
+  //Если изображение больше, дорожка перестает расти на 400 пикселях
+  grid-auto-columns/*_rows_*/: fit-content(400px);
+  grid-auto-columns/*_rows_*/: fit-content(5cm);
+  grid-auto-columns/*_rows_*/: fit-content(20%);
+}
+```
+
 <!-- Свойства grid-элементов ----------------------------------------------------------------------------------------------------------------->
 
 # Свойства grid-элементов (grid-area, grid-column, grid-row, grid-row-start, grid-row-end, grid-column-start, grid-column-end)

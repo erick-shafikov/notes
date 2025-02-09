@@ -196,7 +196,32 @@ div {
 }
 ```
 
-## inline-size
+## ориентация письма
+
+свойства block-size и inline-size позволяют управлять размерами при различных writing-mode, где inline-size эквивалентен width (right, left), block-size - height (top, bottom)
+
+### block-size
+
+Свойство позволяет записать height и width в одно свойство с учетом режима письма writing-mode.
+
+```scss
+.block-size {
+  block-size: 300px;
+  block-size: 25em;
+
+  block-size: 75%;
+
+  block-size: 25em border-box;
+  block-size: 75% content-box;
+  block-size: max-content;
+  block-size: min-content;
+  block-size: available;
+  block-size: fit-content;
+  block-size: auto;
+}
+```
+
+### inline-size
 
 задает высоту или ширину блока в зависимости от написания
 
@@ -685,29 +710,6 @@ float:
 - Элементы, позиционируемые потомками, в порядке появления в HTML
 
 <!-- ориентация письма ----------------------------------------------------------------------------------------------------------------------->
-
-# ориентация письма
-
-## block-size
-
-Свойство позволяет записать height и width в одно свойство с учетом режима письма writing-mode.
-
-```scss
-.block-size {
-  block-size: 300px;
-  block-size: 25em;
-
-  block-size: 75%;
-
-  block-size: 25em border-box;
-  block-size: 75% content-box;
-  block-size: max-content;
-  block-size: min-content;
-  block-size: available;
-  block-size: fit-content;
-  block-size: auto;
-}
-```
 
 # BPs
 

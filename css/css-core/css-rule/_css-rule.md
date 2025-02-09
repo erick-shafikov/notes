@@ -130,6 +130,7 @@ a {
 ```scss
 h2 {
   color: tomato;
+  //  & + p
   + p {
     color: white;
     background-color: black;

@@ -1,18 +1,17 @@
-body {
-  margin: 0px;
+.item {
+  border: 2px solid rgb(95 97 110);
+  border-radius: 0.5em;
+  padding: 20px;
+  width: 10em;
 }
 
 .container {
-  background-color: chocolate;
+  border: 2px solid rgb(75 70 74);
+  border-radius: 0.5em;
+  font: 1.2em sans-serif;
+
+  height: 200px;
   display: flex;
-}
-
-.item {
-  background-color: aqua;
-  width: 50px;
-  height: 50px;
-}
-
-.self {
-  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
 }

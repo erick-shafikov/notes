@@ -33,88 +33,29 @@
 
 !!!добавления margin а первому параграфу после не даст желаемого результата, margin нужно добавлять к float элементу
 
-Геометрические Формы и их настройки:
+# Обтекание по фигуре
 
-# shape-image-threshold
-
-позволяет настроить обтекание
-
-# shape-margin
-
-позволяет настроить отступ
-
-# shape-outside
-
-Позволяет сделать обтекание во float по определенной фигуре, можно установить изображение
+Можно сделать с помощью геометрических фигур
 
 ```scss
-.shape-outside {
-  shape-outside: circle(50%);
-}
-```
-
-- Можно настроить фигуру обтекания с помощью геометрических фигур и свойства clip-path, которое может принимать одно из значений:
-- - circle() - круг
-- - ellipse() - эллипс
-- - inset() - четырехугольник с возможностью настройки
-- - path(), polygon(), rect(), shape(), xywh() - для задачи более сложной фигуры
-
-```scss
-body {
-  font: 1.2em / 1.4 sans-serif;
-}
-
+// float - элемент, который будет обрезан по фигуре
 img {
   float: left;
   shape-outside: circle(50%);
 }
 ```
 
-Обрезка по изображению
+или с помощью shape-outside
 
 ```scss
-body {
-  font: 1.2em / 1.5 sans-serif;
-}
-
-img {
+.shape {
+  height: 150px;
+  width: 150px;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 50%;
   float: left;
-  shape-outside: url(https://mdn.github.io/shared-assets/images/examples/star-shape.png);
-}
-```
-
-Обрезка по градиенту
-
-```scss
-body {
-  font: 1.2em / 1.5 sans-serif;
-}
-
-.box::before {
-  content: "";
-  float: left;
-  height: 250px;
-  width: 400px;
-  background-image: linear-gradient(
-    to bottom right,
-    rebeccapurple,
-    transparent
-  );
-  shape-outside: linear-gradient(to bottom right, rebeccapurple, transparent);
-  shape-image-threshold: 0.3;
-}
-```
-
-# shape-rendering
-
-оптимизационное свойство
-
-```scss
-.shape-rendering {
-  shape-rendering: auto;
-  shape-rendering: crispEdges;
-  shape-rendering: geometricPrecision;
-  shape-rendering: optimizeSpeed;
+  shape-outside: border-box;
 }
 ```
 

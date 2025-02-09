@@ -36,7 +36,7 @@
 
 Позиционирование для position:absolute | relative | sticky. Если заданы height: auto | 100% то будут учитываться оба
 
-## inset (trbl c учетом rtl)
+## inset (trbl c учетом writing-mode)
 
 позволяет определить top, bottom, right, left в зависимости от rtl
 

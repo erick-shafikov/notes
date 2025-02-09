@@ -190,13 +190,12 @@ px расстояние от z=0 это свойство, устанавлива
 
 ```scss
 .perspective-origin {
-  perspective-origin: x-position;
+  perspective-origin: x-position; // left === 0% | center === 50% | right === 100%
+  perspective-origin: y-position; // top | center | bottom
 
-  /* Two-value syntax */
   perspective-origin: x-position y-position;
 
-  /* When both x-position and y-position are keywords,
-   the following is also valid */
+  // When both x-position and y-position are keywords, the following is also valid
   perspective-origin: y-position x-position;
 }
 ```

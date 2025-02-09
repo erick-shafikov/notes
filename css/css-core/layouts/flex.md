@@ -362,6 +362,26 @@ visibility: collapse позволяет управлять сокрытием э
 }
 ```
 
+или
+
+```scss
+.wrapper {
+  box-sizing: border-box;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.page-header,
+.page-footer {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.page-body {
+  // тело сайта займет все возможное место
+  flex-grow: 1;
+}
+```
+
 ## PB. распределение элементов с помощью margin: auto
 
 ```html
@@ -395,26 +415,19 @@ visibility: collapse позволяет управлять сокрытием э
 }
 ```
 
-## BP. липкий footer
-
-```scss
-.wrapper {
-  box-sizing: border-box;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.page-header,
-.page-footer {
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-.page-body {
-  flex-grow: 1;
-}
-```
-
 ## BP. хлебные крошки
+
+```html
+<nav aria-label="Breadcrumb" class="breadcrumb">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Category</a></li>
+    <li><a href="#">Sub Category</a></li>
+    <li><a href="#">Type</a></li>
+    <li><span aria-current="page">Product</span></li>
+  </ul>
+</nav>
+```
 
 ```scss
 .breadcrumb ul {
