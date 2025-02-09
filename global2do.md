@@ -4,8 +4,8 @@
 <!-- notes-work заполнять параллельно с задачами -->
 
 - mdn
-- - второй круг mdn css
 - - переход на web api и js
+- - - с учетом chrome - https://developer.chrome.com/docs/web-platform?hl=ru
 - - - shadow dom (learnJS + MDN)
 - - - css (learnJS)
 - - - [от поисковой строки до стадии reflow-repaint описание процессов/протоколов](./comp-science/networking.md)
@@ -16,6 +16,7 @@
 <!-- web-dev -->
 
 - разбор на doc папки web-dev (все что есть с докой - разобрать)
+- - react под капотом (https://incepter.github.io/how-react-works/docs/intro/)
 - - mui (в mui связать все компоненты с папкой v-17)
 - - tenStack query (4/5 v)
 - - gorhom bs дока

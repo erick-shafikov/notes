@@ -22,8 +22,13 @@
 Fiber – связанный лист. JS – объект.
 
 ```js
-{
-  stateNode, memoizedProps, memoizedState, child, parent, sibling;
+const fiberNode = {
+  stateNode,
+  memoizedProps,
+  memoizedState,
+  child,
+  parent,
+  sibling;
 }
 ```
 

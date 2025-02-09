@@ -6,11 +6,12 @@ let arr = new Array(2); //Создаёт массив длиной 2: [null, nul
 let arr = new Array({}, {}, {}); //Создаёт массив: [{},{},{},{}]
 // literal syntax
 let arr = [];
+// literal syntax
+let arr = [1, , 2]; //1, undefined, 2
 //
 let arr = Array.of(1, 2, 3);
 let arr = Array
-  .from
-  // итерируемый объект
+  .from /* итерируемый объект*/
   ();
 
 let arr = Array.from("string"); //[s, t, r, i, n, g]
