@@ -34,3 +34,63 @@ console.log(myFunc()); //2
 
 - Функции FD позволяет вызывать функции до инициализации, FE приведет к ошибке
 - var позволяет обращаться к переменной до объявления, let и const приведут к ошибке
+
+```js
+// var ------------------------------------------------------------------
+
+var a;
+console.log("The value of a is " + a); //Значение переменной a undefined
+console.log("The value of c is " + c); //Значение переменной c undefined
+var c;
+console.log(x === undefined); // true
+var x = 3;
+
+var myvar = "my value";
+
+(function () {
+  console.log(myvar); // undefined
+  var myvar = "local value";
+})();
+
+// ----------------------------------------------------------------------
+
+console.log("The value of b is " + b); //Uncaught ReferenceError: b не определена
+
+console.log("The value of x is " + x); //Uncaught ReferenceError: x не определена
+let x;
+
+function do_something() {
+  console.log(foo); // ReferenceError
+  let foo = 2;
+}
+
+// function -------------------------------------------------------------
+
+/* Определение функции */
+foo(); // "bar"
+
+function foo() {
+  console.log("bar");
+}
+
+/* Определение функции через выражение */
+baz(); // TypeError: baz is not a function
+
+var baz = function () {
+  console.log("bar2");
+};
+```
+
+Область видимости
+
+```js
+if (true) {
+  var x = 5;
+}
+console.log(x); // 5
+
+if (true) {
+  let y = 5;
+}
+console.log(y); // ReferenceError
+```

@@ -13,13 +13,14 @@ const obj = {};
 const obj = new ObjFunctionCreator(); // ObjFunctionCreator = function(){this. = ....}
 // Object.create
 Object.create(proto, [descriptors]);
-//
-
+// fromEntries
 Object.fromEntries([
   ["key0", "value0"],
   ["key1", "value1"],
 ]);
 ```
+
+Ключами могут быть и пустые строки и знак !
 
 ```js
 // Создание
@@ -52,6 +53,7 @@ let fruit = prompt("Какой фрукт купить?", "apple");
 let bag = {
   [fruit]: 5, // имя свойства будет взято из переменной fruit
 };
+
 alert(bag.apple); // 5, если fruit="apple"
 ```
 
@@ -96,6 +98,12 @@ function makeUser(name, age) {
     age,
   };
 }
+```
+
+## Методы
+
+```js
+
 ```
 
 Проверка наличия свойства:

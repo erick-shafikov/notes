@@ -11,7 +11,7 @@ try {
 
 try {
   alert("начало блока");
-  lalal;
+  notDeclaredVariable;
   alert("Конец блока try"); // Никогда не выполнится
 } catch (err) {
   alert("Возникла ошибка");
@@ -46,10 +46,10 @@ setTimeout(function () {
 
 ```js
 try {
-  lalala;
+  notDeclaredVariable;
 } catch (err) {
-  alert(err.name); //ReferenceError  alert(err.message); // lalalal is not defined
-  alert(err.stack); //ReferenceError: lalala is not defined at (стек вызова)
+  alert(err.name); //ReferenceError  alert(err.message); // notDeclaredVariable is not defined
+  alert(err.stack); //ReferenceError: notDeclaredVariable is not defined at (стек вызова)
   alert(err); // ошибка целиком
 }
 ```
@@ -72,7 +72,7 @@ try {
 Что если json из предыдущего примера не содержит свойства name
 
 ```js
-let json = `{ "age": 30}`; //данные неполные
+let json = `{ "age": 30 }`; //данные неполные
 try {
   let user = JSON.parse(json); //выполняется без ошибки
   alert(user.name); // нет свойства name
@@ -98,6 +98,8 @@ alert(error.message); //Ошибка
 # throw
 
 Сгенерируем ошибку для нашего примера
+
+throw может пробрасывать любой тип данных
 
 ```js
 let json = "{'age': 30}";
@@ -181,6 +183,7 @@ function func() {
     alert("finally");
   }
 }
+
 alert(func); //сначала "finally" а потом уже 1  try…finally
 
 function func() {
