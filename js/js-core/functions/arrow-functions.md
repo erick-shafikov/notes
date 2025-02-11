@@ -1,7 +1,5 @@
 # Arrow. Функции стрелки
 
-## constructor
-
 ```js
 // создаёт функцию func с аргументами arg1..argN и вычисляет  expression с правой стороны с их использованием, возвращая  результат:
 let func = (arg1, arg2, ...argN) => expression;
@@ -84,4 +82,44 @@ function foo(x = 2) {
   console.log(x);
 }
 foo(); // Uncaught SyntaxError: Identifier 'x' has already been declared
+```
+
+# сохранение контекста
+
+```js
+function Person() {
+  // Конструктор Person() определяет `this` как самого себя.
+  this.age = 0;
+
+  setInterval(function growUp() {
+    // Без strict mode функция growUp() определяет `this` как global object, который отличается от `this` определённого конструктором Person().
+    this.age++;
+  }, 1000);
+}
+
+var p = new Person();
+
+// решение 1 запомнить контекст выполнения
+function Person() {
+  var self = this; // Некоторые выбирают `that` вместо `self`.
+  // Выберите что-то одно и будьте последовательны.
+  self.age = 0;
+
+  setInterval(function growUp() {
+    // Колбэк ссылается на переменную `self`,
+    // значением которой является ожидаемый объект.
+    self.age++;
+  }, 1000);
+}
+// решение 2 - стрелочная функция
+
+function Person() {
+  this.age = 0;
+
+  setInterval(() => {
+    this.age++; // |this| должным образом ссылается на объект Person
+  }, 1000);
+}
+
+var p = new Person();
 ```
