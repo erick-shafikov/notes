@@ -1,7 +1,7 @@
 # с массивами
 
-- Vue может определять, когда вызываются методы мутации реактивного массива
-- при немутирующих операциях
+- jsx может определять, когда вызываются методы мутации реактивного массива
+- при не мутирующих операциях
   ```js
   this.items = this.items.filter((item) => item.message.match(/Foo/));
   ```
@@ -16,21 +16,21 @@ data() {
 }
 ```
 
-```vue
-<!-- можно с of -->
+```jsx
+// можно с of -->
 <div v-for="item of items"></div>
 <li v-for="item in items">{{ item.message }}</li>
-<!-- с индексом -->
+// с индексом -->
 <li v-for="(item, index) in items">
   {{ parentMessage }} - {{ index }} - {{ item.message }}
 </li>
 
-<!-- вложенные поля -->
+// вложенные поля -->
 <li v-for="{ message } in items">{{ message }}</li>
-<!--вложенные с индексом -->
+//вложенные с индексом -->
 <li v-for="({ message }, index) in items">{{ message }} {{ index }}</li>
 
-<!-- вложенные списки -->
+// вложенные списки -->
 <li v-for="item in items">
   <span v-for="childItem in item.children">
     {{ item.message }} {{ childItem }}
@@ -44,7 +44,7 @@ data() {
 data() {
   return {
     myObject: {
-      title: 'How to do lists in Vue',
+      title: 'How to do lists in jsx',
       author: 'Jane Doe',
       publishedAt: '2016-04-10'
     }
@@ -52,12 +52,12 @@ data() {
 }
 ```
 
-```vue
-<!-- только значения -->
+```jsx
+// только значения -->
 <li v-for="value in myObject">{{ value }}</li>
-<!-- c ключами -->
+// c ключами -->
 <li v-for="(value, key) in myObject">{{ key }}: {{ value }}</li>
-<!-- с индексом -->
+// с индексом -->
 <li v-for="(value, key, index) in myObject">
   {{ index }}. {{ key }}: {{ value }}
 </li>
@@ -65,18 +65,17 @@ data() {
 
 c числом
 
-```vue
+```jsx
 <span v-for="n in 10">{{ n }}</span>
 ```
 
 v-for с v-if
 
-```vue
-<!--
-v-if имеет более высокий приоритет, чем v-for. Это означает, что v-if условие не будет иметь доступа к переменным из области действия v-for
--->
+```jsx
+// v-if имеет более высокий приоритет, чем v-for. Это означает, что v-if условие не будет иметь доступа к переменным из области действия v-for
+
 <li v-for="todo in todos" v-if="!todo.isComplete">{{ todo.name }}</li>
-<!-- исправить с помощью template -->
+// исправить с помощью template -->
 <template v-for="todo in todos">
   <li v-if="!todo.isComplete">{{ todo.name }}</li>
 </template>
@@ -84,11 +83,11 @@ v-if имеет более высокий приоритет, чем v-for. Эт
 
 атрибут key может помочь при рендеринге
 
-```vue
+```jsx
 <div v-for="item in items" :key="item.id">
-  <!-- content -->
+  {/*content*/}
 </div>
-<!-- использование с template обязательно -->
+// использование с template обязательно -->
 <template v-for="todo in todos" :key="todo.name">
   <li>{{ todo.name }}</li>
 </template>
@@ -113,20 +112,16 @@ v-if имеет более высокий приоритет, чем v-for. Эт
 <button type="button" class="btn btn-primary" @click="add">Add number</button>
 
 <ul class="list-group">
-  добавляется на элемент списка
-  <!-- num - элемент массива -->
-  <!-- i - индекс массива -->
-  <!-- numbers - массив из data -->
-  <!-- при hover умножать на 2 -->
+  добавляется на элемент списка // num - элемент массива --> // i - индекс
+  массива --> // numbers - массив из data --> // при hover умножать на 2 -->
   <li v-for="num,i in numbers" class="list-group-item" @mouseenter="double(i)">
-    <!-- можно достать элемент -->
-    #{{ i }} / {{ num }}
+    // можно достать элемент --> #{{ i }} / {{ num }}
   </li>
 </ul>
 ```
 
 ```js
-let app = Vue.createApp({
+let app = jsx.createApp({
   data() {
     return {
       numbers: [],

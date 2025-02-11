@@ -23,7 +23,19 @@
 
 Атрибуты:
 
-- as - требуется только rel="preload" или rel="prefetch" позволяет установить приоритет
+- as - указывает тип контента требуется только rel="preload" или rel="prefetch" позволяет установить приоритет
+- - audio
+- - document (iframe)
+- - embed
+- - fetch (К JavaScript API XMLHttpRequest)
+- - font
+- - image (атрибут srcset)
+- - object
+- - script
+- - style
+- - track
+- - video
+- - worker
 - crossorigin: anonymous, use-credentials
 - href - url ресурса
 - hreflang - язык
@@ -31,6 +43,21 @@
 - media - запрос для ресурса используется для внешних стилей
 - referrerpolicy - no-referrer, no-referrer-when-downgrade, origin, origin-when-cross-origin, unsafe-url
 - rel - определяет отношение ресурса и внешней ссылки
+- - alternate - для указания ссылки на файл в формате XML
+- - author - ссылка на автора
+- - dns-prefetch
+- - help - ссылка на справку
+- - icon - адрес картинки
+- - license - ссылка на лицензию
+- - next - документ является частью блока документов, указывается ссылка на следующий документ
+- - pingback
+- - preconnect
+- - prefetch
+- - preload
+- - prerender
+- - prev - документ является частью блока документов, указывается ссылка на следующий документ
+- - search - ссылка на ресурс, с поиском по данному сайту
+- - stylesheet - стили
 - sizes - только для иконок, только при rel=icon
 - title - MIME тип
 
@@ -59,10 +86,39 @@
   type="font/woff2"
   crossorigin="anonymous"
 />
+<!-- иконки для устройств apple -->
+<!-- Для iPad 3 с Retina-экраном высокого разрешения: -->
+<link
+  rel="apple-touch-icon-precomposed"
+  sizes="144x144"
+  href="https://developer.mozilla.org/static/img/favicon144.png"
+/>
+<!-- Для iPhone с Retina-экраном высокого разрешения: -->
+<link
+  rel="apple-touch-icon-precomposed"
+  sizes="114x114"
+  href="https://developer.mozilla.org/static/img/favicon114.png"
+/>
+<!-- Для iPad первого и второго поколения: -->
+<link
+  rel="apple-touch-icon-precomposed"
+  sizes="72x72"
+  href="https://developer.mozilla.org/static/img/favicon72.png"
+/>
+<!-- Для iPhone, iPod Touch без Retina и устройств с Android 2.1+: -->
+<link
+  rel="apple-touch-icon-precomposed"
+  href="https://developer.mozilla.org/static/img/favicon57.png"
+/>
+<!-- Для других случаев - обычный favicon -->
+<link
+  rel="shortcut icon"
+  href="https://developer.mozilla.org/static/img/favicon32.png"
+/>
 ```
 
 ```html
-<!-- добавление иконки для разных устройств -->
+<!-- добавление иконки для разных устройств (apple) -->
 <!-- size определяет размер иконки -->
 <link
   rel="apple-touch-icon-precomposed"
@@ -90,6 +146,73 @@
 <link
   rel="shortcut icon"
   href="https://developer.mozilla.org/static/img/favicon32.png"
+/>
+<link rel="apple-touch-icon" href="touch-icon-iphone.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="touch-icon-ipad.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="touch-icon-iphone4.png" />
+<link rel="apple-touch-startup-image" href="/startup.png" />
+
+<link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png" />
+```
+
+```html
+<!-- HTML Link Tags -->
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title="RSS"
+  href="http://feeds.feedburner.com/martini"
+/>
+<link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
+<link rel="fluid-icon" type="image/png" href="/fluid-icon.png" />
+<link rel="me" type="text/html" href="http://google.com/profiles/thenextweb" />
+<link rel="shortlink" href="http://blog.unto.net/?p=353" />
+<link rel="archives" title="May 2003" href="http://blog.unto.net/2003/05/" />
+<link rel="index" title="DeWitt Clinton" href="http://blog.unto.net/" />
+<link
+  rel="start"
+  title="Pattern Recognition 1"
+  href="http://blog.unto.net/photos/pattern_recognition_1_about/"
+/>
+<link
+  rel="prev"
+  title="OpenSearch and OpenID?  A sure way to get my attention."
+  href="http://blog.unto.net/opensearch/opensearch-and-openid-a-sure-way-to-get-my-attention/"
+/>
+<link rel="next" title="Not blog" href="http://blog.unto.net/meta/not-blog/" />
+<link
+  rel="search"
+  href="/search.xml"
+  type="application/opensearchdescription+xml"
+  title="Viatropos"
+/>
+<link
+  rel="self"
+  type="application/atom+xml"
+  href="http://www.syfyportal.com/atomFeed.php?page=3"
+/>
+<link rel="first" href="http://www.syfyportal.com/atomFeed.php" />
+<link rel="next" href="http://www.syfyportal.com/atomFeed.php?page=4" />
+<link rel="previous" href="http://www.syfyportal.com/atomFeed.php?page=2" />
+<link rel="last" href="http://www.syfyportal.com/atomFeed.php?page=147" />
+<link rel="shortlink" href="http://smallbiztrends.com/?p=43625" />
+<link
+  rel="canonical"
+  href="http://smallbiztrends.com/2010/06/9-things-to-do-before-entering-social-media.html"
+/>
+<link
+  rel="EditURI"
+  type="application/rsd+xml"
+  title="RSD"
+  href="http://smallbiztrends.com/xmlrpc.php?rsd"
+/>
+<link rel="pingback" href="http://smallbiztrends.com/xmlrpc.php" />
+<!-- для стилей -->
+<link
+  media="only screen and (max-device-width: 480px)"
+  href="http://wordpress.org/style/iphone.css"
+  type="text/css"
+  rel="stylesheet"
 />
 ```
 
@@ -311,36 +434,6 @@ Company/Service Meta Tags Apple Meta Tags
   name="msapplication-task"
   content="name=Start Developing;action-uri=/category/javascript/;icon-uri=/images/script.ico"
 />
-<!-- иконка -->
-<link rel="shortcut icon" href="/images/favicon.ico" />
-<!-- Для iPad 3 с Retina-экраном высокого разрешения: -->
-<link
-  rel="apple-touch-icon-precomposed"
-  sizes="144x144"
-  href="https://developer.mozilla.org/static/img/favicon144.png"
-/>
-<!-- Для iPhone с Retina-экраном высокого разрешения: -->
-<link
-  rel="apple-touch-icon-precomposed"
-  sizes="114x114"
-  href="https://developer.mozilla.org/static/img/favicon114.png"
-/>
-<!-- Для iPad первого и второго поколения: -->
-<link
-  rel="apple-touch-icon-precomposed"
-  sizes="72x72"
-  href="https://developer.mozilla.org/static/img/favicon72.png"
-/>
-<!-- Для iPhone, iPod Touch без Retina и устройств с Android 2.1+: -->
-<link
-  rel="apple-touch-icon-precomposed"
-  href="https://developer.mozilla.org/static/img/favicon57.png"
-/>
-<!-- Для других случаев - обычный favicon -->
-<link
-  rel="shortcut icon"
-  href="https://developer.mozilla.org/static/img/favicon32.png"
-/>
 ```
 
 TweetMeme Meta Tags
@@ -381,74 +474,6 @@ Apple Tags
  user-scalable- запрет на масштабирование при user-scalable=no
  interactive-widget=resizes-visual | resizes-content | overlays-content отображение доп элементов (клавиатуры)
 -->
-<link rel="apple-touch-icon" href="touch-icon-iphone.png" />
-<link rel="apple-touch-icon" sizes="72x72" href="touch-icon-ipad.png" />
-<link rel="apple-touch-icon" sizes="114x114" href="touch-icon-iphone4.png" />
-<link rel="apple-touch-startup-image" href="/startup.png" />
-
-<link rel="apple-touch-icon" type="image/png" href="/apple-touch-icon.png" />
-```
-
-// HTML Link Tags
-
-```html
-<link
-  rel="alternate"
-  type="application/rss+xml"
-  title="RSS"
-  href="http://feeds.feedburner.com/martini"
-/>
-<link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
-<link rel="fluid-icon" type="image/png" href="/fluid-icon.png" />
-<link rel="me" type="text/html" href="http://google.com/profiles/thenextweb" />
-<link rel="shortlink" href="http://blog.unto.net/?p=353" />
-<link rel="archives" title="May 2003" href="http://blog.unto.net/2003/05/" />
-<link rel="index" title="DeWitt Clinton" href="http://blog.unto.net/" />
-<link
-  rel="start"
-  title="Pattern Recognition 1"
-  href="http://blog.unto.net/photos/pattern_recognition_1_about/"
-/>
-<link
-  rel="prev"
-  title="OpenSearch and OpenID?  A sure way to get my attention."
-  href="http://blog.unto.net/opensearch/opensearch-and-openid-a-sure-way-to-get-my-attention/"
-/>
-<link rel="next" title="Not blog" href="http://blog.unto.net/meta/not-blog/" />
-<link
-  rel="search"
-  href="/search.xml"
-  type="application/opensearchdescription+xml"
-  title="Viatropos"
-/>
-<link
-  rel="self"
-  type="application/atom+xml"
-  href="http://www.syfyportal.com/atomFeed.php?page=3"
-/>
-<link rel="first" href="http://www.syfyportal.com/atomFeed.php" />
-<link rel="next" href="http://www.syfyportal.com/atomFeed.php?page=4" />
-<link rel="previous" href="http://www.syfyportal.com/atomFeed.php?page=2" />
-<link rel="last" href="http://www.syfyportal.com/atomFeed.php?page=147" />
-<link rel="shortlink" href="http://smallbiztrends.com/?p=43625" />
-<link
-  rel="canonical"
-  href="http://smallbiztrends.com/2010/06/9-things-to-do-before-entering-social-media.html"
-/>
-<link
-  rel="EditURI"
-  type="application/rsd+xml"
-  title="RSD"
-  href="http://smallbiztrends.com/xmlrpc.php?rsd"
-/>
-<link rel="pingback" href="http://smallbiztrends.com/xmlrpc.php" />
-<!-- для стилей -->
-<link
-  media="only screen and (max-device-width: 480px)"
-  href="http://wordpress.org/style/iphone.css"
-  type="text/css"
-  rel="stylesheet"
-/>
 ```
 
 <!-- noscript ------------------------------------------------------------------------------------------------------------------->
