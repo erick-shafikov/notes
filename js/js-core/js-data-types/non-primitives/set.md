@@ -10,6 +10,8 @@
 - set.size возвращает количество элементов в множестве.
 - Set.values(), set.keys(), set.entries() – все эти методы имеет и Set
 
+- Set.has работает быстрее чем Array.indexOf.
+
 ```js
 let set = new Set();
 let john = { name: "John" };

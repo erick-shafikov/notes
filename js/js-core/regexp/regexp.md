@@ -505,7 +505,9 @@ regexp.exec(str); // varName (слово на позиции 4)
 
 # Методы
 
-- str.match(regexp), разница есть ли флаг g ищет совпадения или возвращает null
+## str.match(regexp)
+
+разница есть ли флаг g ищет совпадения или возвращает null
 
 ```js
 let str = "I love JavaScript";
@@ -525,7 +527,9 @@ result[0]; // JavaScript
 result.length; // 1
 ```
 
-- str.matchAll(regexp) Он используется, в первую очередь, для поиска всех совпадений вместе со скобочными группами. возвращает не массив, а перебираемый объект
+## str.matchAll(regexp)
+
+Он используется, в первую очередь, для поиска всех совпадений вместе со скобочными группами. возвращает не массив, а перебираемый объект
 
 ```js
 let str = "<h1>Hello, world!</h1>";
@@ -542,20 +546,24 @@ alert(firstMatch.index); // 0
 alert(firstMatch.input); // <h1>Hello, world!</h1>
 ```
 
-- str.split(regexp|substr, limit) Разбивает строку в массив по разделителю – регулярному выражению regexp или подстроке substr
+## str.split(regexp|substr, limit)
+
+Разбивает строку в массив по разделителю – регулярному выражению regexp или подстроке substr
 
 ```js
 "12-34-56".split("-"); // массив [12, 34, 56]
 "12, 34, 56".split(/,\s*/); // массив [12, 34, 56]
 ```
 
-- str.search(regexp) - озвращает позицию первого совпадения с regexp в строке str или -1
+## str.search(regexp)
+
+возвращает позицию первого совпадения с regexp в строке str или -1
 
 ```js
 "Я люблю JavaScript!".search(/Java.+/); // 8
 ```
 
-- str.replace(str|regexp, str|func)
+## str.replace(str|regexp, str|func)
 
 Когда первый аргумент replace является строкой, он заменяет только первое совпадение.
 
@@ -597,5 +605,10 @@ func(match, p1, p2, ..., pn, offset, input, groups):
 }); // Smith, John
 ```
 
-- regexp.exec(str) - без g флага ведет себя как str.match(regexp).
-- regexp.test(str) - вернет true/false
+## regexp.exec(str)
+
+без g флага ведет себя как str.match(regexp).
+
+## regexp.test(str)
+
+вернет true/false

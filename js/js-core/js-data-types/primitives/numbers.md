@@ -149,6 +149,71 @@ if (zero) {
 }
 ```
 
+## свойства Number
+
+```js
+var biggestNum = Number.MAX_VALUE;
+var smallestNum = Number.MIN_VALUE;
+var infiniteNum = Number.POSITIVE_INFINITY;
+var negInfiniteNum = Number.NEGATIVE_INFINITY;
+var notANum = Number.NaN;
+```
+
+## методы Number
+
+- Number.parseFloat() - вернет число с плавающей точкой, которое удалось распознать
+- Number.parseInt() - вернет целое число, которое удалось распознать
+- Number.isFinite() - является ли число конечным
+- Number.isInteger() - является ли число целым
+- Number.isNaN() - проверят на NaN
+- Number.isSafeInteger() - проверяет число целое и безопасное
+
+## методы экземпляра Number
+
+- toExponential() - Возвращает строку, представляющую число в экспоненциальном представлении.
+- toFixed() - Возвращает строку, представляющую число с заданным количеством разрядов после запятой.
+- toPrecision() - Возвращает строку, представляющую число с указанной точностью.
+
 ## Numbers BP. Учет плавающей точки
 
 если умножить 2.2 на 100, получается число: 220.00000000000003, лучше оборачивать Math.round()
+
+<!-- Объект Math ----------------------------------------------------------------------------------------------------------------------------->
+
+# Объект Math
+
+## Свойства
+
+- Math.PI;
+
+## Методы
+
+- abs()
+- sin(), cos(), tan(), asin(), acos(), atan(), atan2(), sinh(), cosh(), tanh(), asinh(), acosh(), atanh() - тригонометрия
+- pow(), exp(), expm1(), log10(), log1p(), log2() - степенные
+- floor(), ceil() - вернут целое которое меньше или больше заданного
+- min(), max() - поиск из чисел представленных через запятую
+- random() = [0, 1)
+- round(), fround(), trunc(),
+- sqrt(), cbrt(), hypot() - возведение в степень
+- sign() - знак числа
+- clz32(), imul() - операции над 32 битными
+
+# Форматирование чисел
+
+```js
+var gasPrice = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 3,
+});
+
+console.log(gasPrice.format(5.259)); // $5.259
+
+var hanDecimalRMBInChina = new Intl.NumberFormat("zh-CN-u-nu-hanidec", {
+  style: "currency",
+  currency: "CNY",
+});
+
+console.log(hanDecimalRMBInChina.format(1314.25)); // ￥ 一,三一四.二五
+```

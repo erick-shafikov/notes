@@ -9,41 +9,29 @@
 ```js
 // литеральный тип
 const obj = {};
-// через функции конструкторы
-const obj = new ObjFunctionCreator(); // ObjFunctionCreator = function(){this. = ....}
-// Object.create
+let user1 = new Object(); // синтаксис "конструктор объекта"
+const obj = new ObjFunctionCreator(); // через функции конструкторы ObjFunctionCreator = function(){this. = ....}
+// Object.create можно задать прототип объекта
 Object.create(proto, [descriptors]);
 // fromEntries
 Object.fromEntries([
   ["key0", "value0"],
   ["key1", "value1"],
 ]);
+
+Object.create(obj,  __someProp__: {
+    value: true
+    // и другие дескрипторы
+  }); //создает объект с прототипом obj и дескрипторами
 ```
 
-Ключами могут быть и пустые строки и знак !
+# Добавление свойств
+
+Ключами могут быть и пустые строки и знак !, все что может быть преобразовано к строке
 
 ```js
-// Создание
-let user1 = new Object(); // синтаксис "конструктор объекта"
-let user2 = {}; // синтаксис "литерал объекта"
-let user3 = {
-  // объект
-  name: "John", // под ключом "name" хранится значение "John"
-  age: 30, // под ключом "age" хранится значение 30
-};
-// Получение свойства объекта:
-alert(user.name); // John
-alert(user.age); // 30
-// Удаление
-delete user.age;
-
-// Для ключа, состоящего из двух слов:
-user["likes birds"] = true;
-alert(user["likes birds"]); // true
-delete user["likes birds"];
-
-let key = "likes birds"; // то же самое, что и user["likes birds"] = true;
-user[key] = true;
+let key = "some key"; // то же самое, что и obj["some key"] = true;
+obj[key] = true;
 ```
 
 Вычисляемые свойства. Смысл вычисляемого свойства прост: запись [fruit] означает, что, имя свойства необходимо взять из переменной fruit. И если посетитель введёт слово "apple", то в объекте bag теперь будет лежать свойство {apple: 5}.
@@ -73,6 +61,13 @@ a[c] = 456;
 console.log(a[b]); //456 ключи автоматически конвертируются в строки так что объект превращается в [object Object] в двух последних присваиваниях
 ```
 
+# Удаление свойств
+
+```js
+delete obj.age;
+delete obj["some key"];
+```
+
 Объекты константы:
 
 ```js
@@ -84,6 +79,8 @@ user = {
   name: "Pete",
 };
 ```
+
+## Методы
 
 Короткие свойства:
 
@@ -100,12 +97,6 @@ function makeUser(name, age) {
 }
 ```
 
-## Методы
-
-```js
-
-```
-
 Проверка наличия свойства:
 
 ```js
@@ -115,7 +106,7 @@ let key = "age";
 alert(key in user); // true
 ```
 
-Перебор
+# Перебор
 
 ```js
 for (key in object) {
@@ -212,12 +203,12 @@ Object.defineProperty(user, "toString", {
 });
 ```
 
-неконфигурируемое свойство
+## неконфигурируемое свойство
 
 ```js
 let descriptor = Object.getOwnPropertyDescriptor(Math, "PI");
 alert(Json.stringify(descriptor, null, 2));
-// Определение свойсва, как не конфигурируемого – это дорога в один конец, его нельзя будет изменить
+// Определение свойства, как не конфигурируемого – это дорога в один конец, его нельзя будет изменить
 let user = {};
 Object.defineProperty(user, "name", {
   value: "John",
@@ -268,52 +259,6 @@ Object.defineProperties.
 
 Другое отличие в том, что for..in игнорирует символьные свойства, а Object.getOwnPropertyDescriptors возвращает дескрипторы всех свойств, включая свойства-символы.
 
-Методы запечатывания объекта:
-
-```js
-Object.preventExtensions(obj); //запрещает добавлять новые свойства в объект
-Object.seal(obj); //запрещает добавлять и удалять
-Object.freeze(obj); //запрещает добавлять и удалять и изменять
-// проверки на ограничения
-Object.isExtensible(obj);
-Object.isSealed(obj);
-Object.isFrozen(obj);
-```
-
-<!-- Деструктуризация объекта -------------------------------------------------------------------------------------------------------------->
-
-# Деструктуризация объекта
-
-```js
-// Справа существующий объект, левая сторона – шаблон
-let { var1, var2 } = { var1: "var1", var2: "var2" };
-
-let options = { title: "Menu", width: 100, height: 200 };
-let { title, width, height } = options;
-alert(title);
-alert(width);
-alert(height);
-
-// Порядок не имеет значения
-let { height, width, title } = options; //тоже самое
-
-// В случае присваивания другой переменной
-//из примера выше
-let { width: w, height: h, title } = options; //двоеточия показывают что куда идет
-alert(title);
-alert(w);
-alert(h);
-
-// Значения по умолчанию могут быть функциями
-let { width = prompt("width"), title = prompt("title") } = options;
-
-// Могут совмещать : и =
-let { width: w = 100, height: h = 200, title } = options;
-
-// Взять то, что нужно:
-let { title } = options;
-```
-
 # Глобальное запечатывание объекта
 
 Дескрипторы свойств работают на уровне конкретных свойств.
@@ -333,16 +278,98 @@ Object.isFrozen(obj); //Возвращает true, если добавление
 
 На практике эти методы используются редко.
 
-# Геттеры и сеттеры
+<!-- Деструктуризация объекта ---------------------------------------------------------------------------------------------------------------->
+
+# Деструктуризация объекта
+
+```js
+// Справа существующий объект, левая сторона – шаблон
+let { var1, var2 } = { var1: "var1", var2: "var2" };
+
+let options = { title: "Menu", width: 100, height: 200 };
+let { title, width, height } = options;
+
+// Порядок не имеет значения
+let { height, width, title } = options; //тоже самое
+
+// В случае присваивания другой переменной
+//из примера выше
+let { width: w, height: h, title } = options; //двоеточия показывают что куда идет
+
+// Значения по умолчанию могут быть функциями
+let { width = prompt("width"), title = prompt("title") } = options;
+
+// Могут совмещать : и =
+let { width: w = 100, height: h = 200, title } = options;
+
+// Взять то, что нужно:
+let { title } = options;
+```
+
+## Вложенная деструктуризация
+
+```js
+let options = {
+  size: {
+    width: 100,
+    height: 200,
+  },
+  items: ["Cake", "Donut"],
+  extra: true,
+};
+
+let {
+  size: { width, height },
+  items: [item1, item2],
+  title = "Menu",
+} = options;
+
+// size и items отсутствуют так как мы взяли их содержимое
+```
+
+## spread
+
+Копирует все enumerable свойства
+
+```js
+let options = {
+  title: "Menu",
+  height: 100,
+  width: 200,
+};
+
+let { title, ...rest } = options;
+alert(rest.height); //100
+alert(rest.width); //200
+
+// Подвох с let. JS обрабатывает { } в основном потоке кода как юлок кода
+let title, width, height;
+
+const { title, weight, height } = { title: "Menu", width: 200, height: 100 };
+//исправленный вариант
+({ title, width, height } = { title: "Menu", width: 200, height: 100 });
+
+alert(title);
+```
+
+<!-- геттеры и сеттеры ----------------------------------------------------------------------------------------------------------------------->
+
+# геттеры и сеттеры
 
 Два типа свойств – data properties и accessor properties. Второй тип делится на get и set
 
 ```js
 let obj = {
-  get propName() {}, //срабатывает, при чтении obj.propName
-  set propName(value) {}, //срабатывает при записи obj.propName = value
+  get propName() {
+    //срабатывает, при чтении obj.propName
+  },
+  set propName(value) {
+    //срабатывает при записи obj.propName = value
+  },
 };
+```
 
+```js
 let user = {
   name: "John",
   surname: "Smith",
@@ -355,14 +382,30 @@ let user = {
     [this.name, this.surName] = value.split(" ");
   },
 };
-
-alert(user.fullName); // John Smith  user.fullName = "Alice Cooper"  alert(user.surName);//Cooper
 ```
 
-# Дескрипторы свойств доступа
+```js
+// Геттеры и сеттеры можно использовать, как обертки для реальных свойств
+let user = {
+  get name() {
+    return this._name;
+    //само значение name хранится в свойстве _name, к таким свойствам обычно на прямую не обращаются
+  },
+  set name(value) {
+    if (name.length < 4) {
+      alert("name is too short");
+      return;
+    }
+    this._name = value;
+  },
+};
+```
+
+## Дескрипторы свойств доступа
 
 ```js
-// Свйоства-аксессоры не имеют value и writable, дескриптор аксессора может иметь:  get – функция для чтения,
+// Свойства -асессоры не имеют value и writable, дескриптор асессора может иметь:
+// get – функция для чтения,
 // set – функция, принимающая один аргумент, вызываемая при присвоения свойства
 // enumerable и configurable.
 
@@ -380,28 +423,7 @@ Object.defineProperty(user, "fullName", {
 alert(user.fullName); //John Smith  for(let key in user) alert(key);
 ```
 
-# геттеры и сеттеры свойств
-
-```js
-// Геттеры и сеттеры можно использовать, как обертки для реальных свойств
-let user = {
-  get name() {
-    return this._name;
-    //само значение name хранится в свойстве _name, к таким свойствам обычно на прямую не обращаются
-  },
-  set name(value) {
-    if (name.length < 4) {
-      alert("name is too short");
-      return;
-    }
-    this._name = value;
-  },
-};
-user.name = "Pete";
-alert(user.name); //Pete  user.name = "";//too short
-```
-
-Интересная область применения аксессоров – они могут в любой момент изменить поведение обычного свойства
+Интересная область применения асессоров – они могут в любой момент изменить поведение обычного свойства
 
 ```js
 // В примере объект со свойствами name и age
@@ -566,51 +588,7 @@ obj.f(); //666
 obj.g(); //777 если window.a = 777 или var a = 777, если поменять на let то undefined
 ```
 
-# spread
-
-Копирует все enumerable свойства
-
-```js
-let options = {
-  title: "Menu",
-  height: 100,
-  width: 200,
-};
-
-let { title, ...rest } = options;
-alert(rest.height); //100
-alert(rest.width); //200
-
-// Подвох с let. JS обрабатывает { } в основном потоке кода как юлок кода
-let title, width, height;
-
-const { title, weight, height } = { title: "Menu", width: 200, height: 100 };
-//исправленный вариант
-({ title, width, height } = { title: "Menu", width: 200, height: 100 });
-
-alert(title);
-```
-
-## Вложенная деструктуризация
-
-```js
-let options = {
-  size: {
-    width: 100,
-    height: 200,
-  },
-  items: ["Cake", "Donut"],
-  extra: true,
-};
-
-let {
-  size: { width, height },
-  items: [item1, item2],
-  title = "Menu",
-} = options;
-
-// size и items отсутствуют так как мы взяли их содержимое
-```
+<!-- this ------------------------------------------------------------------------------------------------------------------------------------>
 
 # this
 
@@ -676,7 +654,99 @@ setTimeout(function () {
 
 есть уязвимость – если до момента вызова setTimeout user измениться, то setTimeout вызовет его с изменениям
 
-# toJson()
+<!-- Методы Object --------------------------------------------------------------------------------------------------------------------------->
+
+# Методы Object
+
+## Object.entries(obj)
+
+```js
+let obj = { name: "John", age: 30 };
+let map = new Map(Object.entries(obj)); //Здесь Object.entries возвращает массив пар ключ-значение: [
+// ["name","John"], ["age", 30] ]. Это именно то, что нужно для создания Map.
+```
+
+## Object.keys(obj)
+
+```js
+let user = { name: "John", age: 30 };
+Object.keys(obj); // ["name", "age"]  Object.values(obj)// ["John", 30]
+```
+
+## Object.fromEntries
+
+у объектов нет методов map, filter, но это можно сделать с помощью Object.entries с последующим вызовом Object.fromEntries
+
+- Вызов Object.entries(obj) вызывает массив пар ключ/значение для obj
+- На нем вызываем методы массива
+- Используем Object.fromEntries(array) на результате, чтобы обратно вернуть его в объект
+
+```js
+let prices = { banana: 1, orange: 2, meat: 4 };
+
+let doublePrices = Object.fromEntries(Object.entries(prices).map(([key, value] => [key, value * 2 ])))
+
+// Object.fromEntries (Map в obj) можно преобразовать коллекцию в объект
+let prices = Object.formEntries([
+  ["banana", 1],
+  ["orange", 2],
+]);
+// prices = {banana:1, orange 2}  Alert(prices.orange)//2
+
+```
+
+```js
+// Чтобы получить объект из Map:
+let map = new Map();
+Map.set("banana", 1);
+let obj = Object.fromEntries(map.entries()); //map.entries возвращает массив пар ключ/значение
+let object = Object.fromEntries(map); //убрали .entries
+```
+
+## getPrototypeOf
+
+возвращает [[Prototype]] obj
+
+```js
+Object.getPrototypeOf(obj);
+```
+
+## getOwnPropertyNames
+
+возвращает массив всех собственных строковых ключей.
+
+```js
+Object.getOwnPropertyNames(obj);
+```
+
+## getOwnPropertySymbols
+
+массив символьных
+
+```js
+Object.getOwnPropertySymbols(obj);
+```
+
+## setPrototypeOf
+
+устанавливает в [[Prototype]] obj объект proto
+
+```js
+Object.setPrototypeOf(obj, proto);
+```
+
+<!-- Методы объекта -------------------------------------------------------------------------------------------------------------------------->
+
+# методы экземпляра объекта
+
+## hasOwnProperty и hasOwn
+
+```js
+obj.hasOwnProperty(key): //возвращает true, если у obj есть собственное (не унаследованное) свойство с именем key.
+obj.hasOwn(key); // тоже самое
+```
+
+## toJson()
 
 как и toString для преобразования строк, объект может содержать toJSON
 
@@ -707,56 +777,11 @@ alert(JSON.stringify(room)); //23
 alert(JSON.stringify(meetup)); //{"title": "Conference", "room": 23} работает, когда обращаются на прямую и когда объект room вложен
 ```
 
-# Object.entries
+<!-- BPs ------------------------------------------------------------------------------------------------------------------------------------->
 
-```js
-let obj = { name: "John", age: 30 };
-let map = new Map(Object.entries(obj)); //Здесь Object.entries возвращает массив пар ключ-значение: [
-// ["name","John"], ["age", 30] ]. Это именно то, что нужно для создания Map.
+# BPs:
 
-// Object.fromEntries (Map в obj) можно преобразовать коллекцию в объект
-let prices = Object.formEntries([
-  ["banana", 1],
-  ["orange", 2],
-]);
-// prices = {banana:1, orange 2}  Alert(prices.orange)//2
-
-// Чтобы получить объект из Map:
-let map = new Map();
-Map.set("banana", 1);
-let obj = Object.fromEntries(map.entries()); //map.entries возвращает массив пар ключ/значение
-Alert(object.banana); //1  Короче:
-let object = Object.fromEntries(map); //убрали .entries
-```
-
-```js
-let user = { name: "John", age: 30 };
-Object.keys(obj); // ["name", "age"]  Object.values(obj)// ["John", 30]
-Object.entries(obj); //[["name", "John"], ["age", 30]]
-
-for (let value of Object.values(user)) {
-  alert(value);
-}
-```
-
-# Object.fromEntries
-
-у объектов нет методов map, filter, но это можно сделать с помощью Object.entries с последующим вызовом Object.fromEntries
-
-- Вызов Object.entries(obj) вызывает массив пар ключ/значение для obj
-- На нем вызываем методы массива
-- Используем Object.fromEntries(array) на результате, чтобы обратно вернуть его в объект
-
-```js
-let prices = { banana: 1, orange: 2, meat: 4 };
-
-let doublePrices = Object.fromEntries(Object.entries(prices).map(([key, value] => [key, value * 2 ])))
-
-alert( doublePrices.meat ); //8
-
-```
-
-# BP переиспользование переменных
+## BP переиспользование переменных
 
 - следить за тем, нет ли переменных, которые имеют одно и тоже значения, но называются по-разному
 
@@ -789,37 +814,4 @@ function endpoint(request, response) {
 
   someFunction(body);
 }
-```
-
-<!-- Глоссарий Свойства объекта ------------------------------------------------------------------------------------------------------------>
-
-# Глоссарий
-
-```js
-Object.create(obj,  __someProp__: {
-    value: true
-    // и другие дескрипторы
-  }); //создает объект с прототипом obj и дескрипторами
-Object.fromEntries(Object.entries(prices).map(([key, value] => [key, value ]))) //создаст объект из массива [[key, value],[key, value]]
-Object.getPrototypeOf(obj); //возвращает [[Prototype]] obj
-Object.getOwnPropertyNames(obj) //возвращает массив всех собственных строковых ключей.
-Object.getOwnPropertySymbols(obj) // массив символьных
-// получение ключе - свойств
-Object.keys(obj)
-Object.values(obj)
-Object.entries(obj) //строковых ключей/значений/пар ключ-значение
-
-Object.setPrototypeOf(obj, proto); //устанавливает в [[Prototype]] obj объект proto
-```
-
-```js
-// методы Reflect
-Reflect.ownKeys(obj); //возвращает массив всех собственных ключей.
-```
-
-методы экземпляра объекта
-
-```js
-obj.hasOwnProperty(key): //возвращает true, если у obj есть собственное (не унаследованное) свойство с именем key.
-obj.hasOwn(key); // тоже самое
 ```

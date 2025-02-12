@@ -7,6 +7,8 @@
 значения из неё.
 В WeakMap присутствуют только следующие методы: weakMap.get(key), weakMap.set(key, value), weakMap.delete(key), weakMap.has(key)
 
+Нет перебора элементов
+
 ```js
 let visitCountMap = new Map(); // map: user => число визитов
 Function countUser(user){

@@ -5,37 +5,39 @@
 
 - mdn
 - - переход на web api и js
-- - - с учетом chrome - https://developer.chrome.com/docs/web-platform?hl=ru
 - - - shadow dom (learnJS + MDN)
 - - - css (learnJS)
-- - - [от поисковой строки до стадии reflow-repaint описание процессов/протоколов](./comp-science/networking.md)
-- - - drag&drop
-- - - [раздел "how to" на w3c](https://www.w3schools.com/howto/default.asp)
+- с учетом chrome - https://developer.chrome.com/docs/web-platform?hl=ru
+- drag&drop
+- [раздел "how to" на w3c](https://www.w3schools.com/howto/default.asp)
+- [от поисковой строки до стадии reflow-repaint описание процессов/протоколов](./comp-science/networking.md)
 - развертывание фронт приложений
 
-<!-- web-dev -->
+<!-- папка web-dev -->
 
-- разбор на doc папки web-dev (все что есть с докой - разобрать)
+разбор на doc папки web-dev (все что есть с докой - разобрать, сначала фронт, потом мобилку, отдельно бек)
+
+- front
 - - react под капотом (https://incepter.github.io/how-react-works/docs/intro/)
 - - mui (в mui связать все компоненты с папкой v-17)
 - - tenStack query (4/5 v)
+- - react-bootstrap (дойти до html элементов и css стилей)
+- native:
 - - gorhom bs дока
 - - разобрать doc react-native
-- react-bootstrap (дойти до html элементов и css стилей)
-    <!-- tg -->
+
+tg:
+
 - разбор статей с хабр
 - разбор компонентов с анимацией (code pen)
-  <!-- watch-->
 
-    <!-- новые -->
+новые технологии:
 
 - tailwind
 - MOBX
 - RxJs
 - Web 3
-
   <!-- графика -->
-
 - canvas (WYT) Минин, доделать
 - GSAP (WD)
 - ThreeJS (WD)
