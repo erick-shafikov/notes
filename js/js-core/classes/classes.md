@@ -1,148 +1,89 @@
-Classes
-
-```js
-//может быть объявлен как:
-let class = Class{}
-let class = Class newClass{ } //– можно использовать внутри ссылку на NFE
-
-class Class {
-// Классы являются разновидностью функций
-constructor(arg){//инициализатор объекта, если конструктор отсутствует, то создается конструктор вида
-constructor(args) {
-super(args);
-}
-//внешние свойства:
-// Никаких запятых между свойствами
-// не устанавливаются в class.prototype
-this.prop = prop1//неизменяемый параметр, так как есть только get prop1()  this.prop2 = prop2//изменяемый параметр так как есть set prop2()
-this._defProp = valueDefProp//по договоренности свойства с префиксом «_» являются неприкасаемыми
-super(mothersProp)//Если мы унаследуем свойство из родительского объекта
-get prop1( ){ return this.prop1 }//у value1 есть только get, он защищен
-get prop2( ){ return this.prop2}
-set prop2(value) {this.prop2 = value}
-get defProp( ) {return _defProp}
-set defProp(value) { this._defProp = value}
-[Symbol.iterator](){}//метод с вычисляемым именем
-
-//-----------------------------------------------------------------------
-//невидимые свойства:
-[[ConstructorKind]]: "derived"//Если объект class это унаследованный объект
-}
-
-method1(){
-//внешняя часть объекта
-//внутренняя часть method1
-//все методы в классах enumerable
-//[[HomeObject]]:class//объект должен быть объявлен как method():… а не method1: function(),  нужен только для определения super
-
-}
-super method2(){ motherMethod2() /* если наследующий объект не менял объект родителя, а  использовал motherMethod2(), то нужно пометить его как super
-!!! У стрелочных функций нет super*/
-//[[HomeObject]] //– ссылается на себя, что бы правильно определять super
-}
-
-static method3(){ /*метод записывается не	в prototype а непосредственно в сам класс значение  this является сам конструктор класса User
-тоже самое, что и User.staticMethod3 = function() { };  Смысл в том, чтобы сравнивать два ново созданных класса*/
-
-static [Symbol.hasInstance](obj){/* instance – c англ. пример/образец.  if (obj.method) return true;
-*/}
-
-["some"+"calculated"+"method"]():{ }//можно использовать вычисляемые свойства
-
-//внутренний объект prototype  Class.prototype: {
-//method1:function методы можно добавлять напрямую в прототип:
-Class.prototype.addMethod = function(){};
-constructor: Class
-[[Prototype]]: motherClass // если такой имеется, устанавливается при extends
-}
-[[FunctionKind]]:"classConstructor"//каждый класс помечен внутренним свойством, что отличает  его от функций.
-}
-
-//Проверка на наследственность
-obj instanceOf class //true если obj принадлежит классу или наследующему от него
-
-```
-
 # Синтаксис
 
 ```js
 class MyClass {
-  constructor() {} //метод constructor() вызывается автоматически при вызове new MyClass()
-  method1() {}
-  method2() {}
-  method3() {}
-} //затем вызывается new MyClass() для создания нового объекта
-```
-
-!!!Запятые между методами не ставятся
-!!! Методы класса неперечсиляемые
-
-```js
-class User {
-  //1. создаем функцию с именем User, которая становится результатом объявления класса
-  constructor(name) {
+  constructor() {
+    //метод constructor() вызывается автоматически при вызове new MyClass()
     //создает код функции
     this.name = name;
   }
-
-  sayHi() {
+  method() {
+    // метод класса
     //2. Сохраняет все методы в User.prototype
     alert(this.name);
   }
+  field = "field"; // поле класса
+
+  static staticField = "some-static-field"; //статичное поле
+
+  static staticMethod() {
+    //статичный метод
+  }
+
+  static {
+    // статичный блок кода
+    // будет срабатывать при инициализации класса, имеют доступ к статичным и приватным полям класса
+  }
+
+  #privateField = "some-private-field"; // приватное свойство
 }
 
-let user = new User("Иван");
-// 1.Создается новый объект, он будет взят из прототипа
-//2. constructor запускается с заданными аргументами и сохраняет его в this.name
+// вызов без new приведет к ошибке
+// Создается новый объект, он будет взят из прототипа
+// constructor запускается с заданными аргументами и сохраняет его в this.name
+const instance = new MyClass();
+
+alert(MyClass === MyClass.prototype.constructor); //true
+alert(MyClass.prototype.method); //alert( this.name );
+alert(Object.getOwnPropertyNames(MyClass.prototype)); // constructor, sayHi
+
+(typeOf MyClass) //function в JS класс – разновидность функции
 ```
 
-Разница в том, что класс упаковывает все методы в конструктор, при объявлении. Параметры функции являются параметрами функции constructor
+это аналогично
 
 ```js
-class User {
-  constructor(name) {
-    this.name = name;
-  }
-  sayHi() {
-    alert(this.name);
-  }
+function MyClass() {
+  this.field = "field";
 }
 
-alert(typeOf User) //function в JS класс – разновидность функции
-
-class User {
-constructor(name) {
-  this.name = name;
-  }
-  sayHi() {
-    alert(this.name);
-    }
-}
-
-alert(User === User.prototype.constructor ); //true
-alert(User.prototype.sayHi); //alert( this.name );
-alert( Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
-
-```
-
-```js
-function User(name) {
-  this.name = name;
-}
-
-User.prototype.sayHi = function () {
-  alert(this.name);
+MyClass.staticField = "some-static-field";
+MyClass.staticMethod = function () {
+  //статичный метод
+};
+MyClass.prototype.method = function () {
+  // метод класса
 };
 
-let user = new User("John");
-user.sayHi();
+(function () {
+  // статичный блок кода
+})();
 ```
+
+```js
+const MyClass = class {
+  // так тоже можно создавать класс
+};
+```
+
+Разница в том, что класс упаковывает все методы в конструктор, при объявлении.
+
+!!!Запятые между методами не ставятся
+!!! Методы класса не перечисляемые
 
 различие в том, что:
 
 - функция созданная с помощью class помечена свойством [[FunctionKind]]: "classConstructor". В отличае от обычных функций, класс не может быть вызван без new
 - Методы класса являются неперечислимыми, enumerable: false для всех методов
 - Классы всегда используют use strict
+
+<!-- конструктор ----------------------------------------------------------------------------------------------------------------------------->
+
+## конструктор
+
+не рекомендуется возвращать что-то из конструктора
+
+<!-- Class Expression ------------------------------------------------------------------------------------------------------------------------>
 
 # Class Expression
 
@@ -161,7 +102,8 @@ let User = class MyClass {
 };
 
 new User().sayHi();
-alert(Myclass); //MyClass переменная видна только внутри кода функции
+
+alert(MyClass); //MyClass переменная видна только внутри кода функции
 // Динамическое создание классов
 function makeClass(phrase) {
   return class {
@@ -174,12 +116,14 @@ let User = makeClass("Привет");
 new User().SayHi();
 ```
 
-# Геттеры и сеттеры
+<!-- геттеры и сеттеры ----------------------------------------------------------------------------------------------------------------------->
+
+# геттеры и сеттеры
 
 ```js
 class User {
   constructor(name) {
-    this.name = name;
+    this._name = name;
   }
   get name() {
     return this._name;
@@ -210,7 +154,7 @@ Object.defineProperties(User.prototype, {
 });
 ```
 
-Вычисляемое свойство
+## Вычисляемое свойство
 
 ```js
 class User {
@@ -238,11 +182,9 @@ const result = user.getName();
 console.log(result); //James так как user.getName() возвращает this.name то при попытке получить свойства вызывается геттер get name()
 ```
 
+<!-- Inheritance ----------------------------------------------------------------------------------------------------------------------------->
+
 # Inheritance
-
-<img src='./assets/js/class-inheritance-1.png'>
-
-<img src='./assets/js/class-inheritance-2.png'>
 
 ```js
 class Animal {
@@ -277,52 +219,44 @@ let rabbit = new Rabbit("Мой кролик");
 //А теперь Rabbit расширит Animal
 
 class Animal {
-  constructor(name){
+  constructor(name) {
     this.speed = 0;
     this.name = name;
-    }
-    run(speed){
-      this.speed = speed;
-      alert(`${this.name бежит со скоростью ${this.speed}}`);
-      }
-      stop(){
-  this.speed = 0;
-  alert(`${this.name} стоит`);
+  }
+  run(speed) {
+    this.speed = speed;
+    alert(`${this.name} бежит со скоростью ${this.speed}}`);
+  }
+  stop() {
+    this.speed = 0;
+    alert(`${this.name} стоит`);
+  }
 }
-}
-let animal = new Animal("мой питомец"):
+let animal = new Animal("мой питомец");
 
-class Rabbit extends Animal{
-//устанавливает Rabbit.prototype.[[Prototype]]
-// в Animal.prototype. после extends могут быть любые выражения
-constructor(name){
-  this.name = name; //можно убрать
-}
-hide() {
-  alert(`${this.name} прячется!`);
+class Rabbit extends Animal {
+  //устанавливает Rabbit.prototype.[[Prototype]]
+  // в Animal.prototype. после extends могут быть любые выражения
+  constructor(name) {
+    this.name = name; //можно убрать
+  }
+  hide() {
+    alert(`${this.name} прячется!`);
   }
 }
 let rabbit = new Rabbit("White Rabbit");
 
 // После extends разрешены любые выражения
-
-function f(phrase){
-return class {
-sayHi(){ alert(phrase) }
-}
-}
-
-class User extends f("Привет") {}  new User().sayHi(); // Привет
-
 ```
 
-<img src='./assets/js/class-inheritance-3.png'>
+<!-- super ----------------------------------------------------------------------------------------------------------------------------------->
 
-# Super
+# super
 
 - super.method() вызывает родительский метод
 - super() вызывает родительский конструктор
-  Если мы определим свой метод в наследующем классе, то он заменит родительский
+- Если мы определим свой метод в наследующем классе, то он заменит родительский
+- нельзя получить this до вызова super
 
   ```js
   class Animal {
@@ -337,24 +271,24 @@ class User extends f("Привет") {}  new User().sayHi(); // Привет
     }
     stop() {
       this.speed = 0;
-      alert(`${this.mame} is stay`);
+      alert(`${this.name} is stay`);
     }
   }
   ```
 
 ```js
 class Rabbit extends Animal {
-  hide(){
+  hide() {
     alert(`${this.name} is hide!`);
-    stop(){
-      super.stop(); //вызывает родительский метод this.hide();
-      }
-      }}
+  }
+  stop() {
+    super.stop(); //вызывает родительский метод this.hide();
+  }
+}
 
-let rabbit = new Rabbit("Белый кролик")
+let rabbit = new Rabbit("Белый кролик");
 rabbit.run(5); // Белый кролик бежит со скоростью 5
 rabbit.stop(); // Белый кролик стоит. Белый кролик прячется
-
 ```
 
 !!!У стрелочных функций нет super
@@ -376,18 +310,19 @@ setTimeout(function () {
 Если класс расширяет другой класс, в котором нет конструктора, то создается конструктор вида:
 
 ```js
-class Rabbit extends Animal {
-  constructor(...args) {
-    super(...args);
-  }
-}
-
 class Animal {
   constructor(name) {
     this.speed = 0;
     this.name = name;
   }
 }
+
+class Rabbit extends Animal {
+  constructor(...args) {
+    super(...args);
+  }
+}
+
 class Rabbit extends Animal {
   constructor(name, earLength) {
     this.speed = 0;
@@ -407,16 +342,17 @@ class Animal {
 class Rabbit extends Animal {
   constructor(name, earLength) {
     super(name);
-    //Наследующий класс функция – конструктор помечена сециальным внутренним свойством  [ConstructionKind]]:derived
+    //Наследующий класс функция – конструктор помечена специальным внутренним свойством  [ConstructionKind]]:derived
     //Когда выполняется обычный конструктор он создает пустой объект и присваивает его this
-    //Когда зfпускается конструктор унаследованного класса он этого не делает, он ждет, что это сделает  конструктор родительского класса
+    //Когда запускается конструктор унаследованного класса он этого не делает, он ждет, что это сделает  конструктор родительского класса
 
     this.earLength = earLength;
   }
 }
 
 let rabbit = new Rabbit("White Rabbit", 10);
-alert(rabbit.name); //White Rabbit  alert(rabbit.earLength); //10
+alert(rabbit.name); //White Rabbit
+alert(rabbit.earLength); //10
 ```
 
 В классах потомках конструктор обязан вызывать super до использования this
@@ -526,7 +462,7 @@ let tree = {
 tree.sayHi(); // я животное, так как в нем есть super.sayHi()
 ```
 
-# Методы не свободны
+## Методы не свободны
 
 ```js
 // Метод, а не свойства – функции
@@ -534,7 +470,7 @@ tree.sayHi(); // я животное, так как в нем есть super.say
 
 let animal = {
   eat: function () {
-    // не eat(){ … }
+    // не eat(){ ... }
   },
 };
 
@@ -548,7 +484,9 @@ let rabbit = {
 rabbit.eat(); //Ошибка вызова super "super" keyword unexpected here
 ```
 
-# Статические методы и свойства
+<!-- статические методы и свойства ----------------------------------------------------------------------------------------------------------->
+
+# статические методы и свойства
 
 Мы можем присвоить методы самой функции - классу, а не её prototype – метод, который стоит над всеми
 наследующими объектами
@@ -567,20 +505,22 @@ User.staticMethod = function () {};
 //this при вызове User.staticMethod() является сам конструктор класса.
 // Обычно используются только для  классов. Есть объекты статей Article и нужна функция их сравнения
 
-class Article{
-constructor(title, data){
-  this.title = title;
-  this.date = date;
+class Article {
+  constructor(title, data) {
+    this.title = title;
+    this.date = date;
+  }
+  static compare(articleA, articleB) {
+    return articleA.date - articleB.date;
+  }
 }
-static compare(articleA, articleB){
-  return articleA.date – articleB.date;
-}}
 
 let articles = [
-new Article("HTML", new Date(2019, 1, 1)),
-new Article("CSS", new Date(2019, 0, 1)).
-new Article("JS", new Date(2019, 11, 1))
+  new Article("HTML", new Date(2019, 1, 1)),
+  new Article("CSS", new Date(2019, 0, 1)),
+  new Article("JS", new Date(2019, 11, 1)),
 ];
+
 articles.sort(Article.compare);
 ```
 
@@ -589,66 +529,65 @@ articles.sort(Article.compare);
 Создание пустой статьи с сегодняшней датой:
 
 ```js
-class Article{  constructor(title, date){
-  this.title = title;
-  this.date = date;
-}
-static createTodays(){ //this == Article
-return new this("today's article", new Date());
-}
+class Article {
+  constructor(title, date) {
+    this.title = title;
+    this.date = date;
+  }
+  static createTodays() {
+    //this == Article
+    return new this("today's article", new Date());
+  }
 }
 
-let article = Article.createTodays():  alert(article.title); //сегодняшний дайджест
+let article = Article.createTodays();
+alert(article.title); //сегодняшний дайджест
 
 // Статистические свойства
 class Article {
-static publisher = "Name"
+  static publisher = "Name";
 }
-
 ```
 
-# Наследование статического свойства
+## Наследование статического свойства
 
 ```js
-class Animal { //метод Animal.compare наследуется и доступен как Rabbit.compare
-constructor(name, speed){
-  this.speed = speed;
-  this.name = name;
+class Animal {
+  //метод Animal.compare наследуется и доступен как Rabbit.compare
+  constructor(name, speed) {
+    this.speed = speed;
+    this.name = name;
+  }
+
+  run(speed = 0) {
+    this.speed += speed;
+    alert(`${this.name} run with speed ${this.speed}`);
+  }
+  static compare(animalA, animalB) {
+    return animalA.speed - animalB.speed;
+  }
 }
 
-run(speed = 0){
-  this.speed += speed;
-  alert(`${this.name} run with speed ${this.speed}`);
-}
-static compare(animalA, animalB){
-  return animalA.speed – animalB.speed;
-}
+class Rabbit extends Animal {
+  hide() {
+    alert(`${this.name} is hiding`);
+  }
 }
 
-class Rabbit extends Animal {  hide() {
-alert(`${this.name} is hidding`);
-}
-}
-
-let rabbits = [
-new Rabbit("White",10),  new Rabbit("Black", 5)
-];
+let rabbits = [new Rabbit("White", 10), new Rabbit("Black", 5)];
 
 rabbit.sort(Rabbit.compare);
 
-rabbits[0].run() //balck
+rabbits[0].run(); //black
 
-alert(Rabbit. proto ===Animal); //true
-alert(Rabbit.prototype. proto ===Animal.prototype); //true
-
+alert(Rabbit.proto === Animal); //true
+alert(Rabbit.prototype.proto === Animal.prototype); //true
 ```
 
 Rabbit extends Animal создает две ссылки на прототип:
 Функция Rabbit прототипно наследуется от Animal
 Rabbit.prototype прототипно наследует от Animal.prototype class Animal {}
 class Rabbit extends Animal{}
-
-<img src='./assets/js/class-static-m-inh.png'>
 
 ```js
 // Все объекты наследуют от Object.prototype и имеют доступ к общим методам
@@ -687,11 +626,9 @@ alert(rabbit.hasOwnProperty("name")); // true
 
 ```js
 class Rabbit extends Object {}
-alert(Rabbit.prototype.__proto__ === Object.prototype);
-//true наследование между prototype функции-конструкторов
+alert(Rabbit.prototype.__proto__ === Object.prototype); //true наследование между prototype функции-конструкторов
 alert(Rabbit.__proto__ === Object); //true наследование между функциями конструкторов
-alert(Rabbit.getOwnPropertyNames({ a: 11, b: 2 }));
-//Rabbit представляет доступ к статистическим методам Object через Rabbit
+alert(Rabbit.getOwnPropertyNames({ a: 11, b: 2 })); //Rabbit представляет доступ к статистическим методам Object через Rabbit
 ```
 
 Но если не унаследовать явно то для Rabbit. proto не установлен Object
@@ -711,7 +648,9 @@ Object.__proto__ === Function.prototype;
 class Rabbit: Rabbit.**proto** === Function.prototype
 class Rabbit extends Object Rabbit.**proto** === Object //нужно указать super в конструкторе
 
-# Приватные и защищенные поля
+<!-- Приватные поля ------------------------------------------------------------------------------------------------------------->
+
+# приватные поля
 
 Поле – это свойство или метод объекта: публичные и приватные (доступные только внутри класса)
 
@@ -754,6 +693,8 @@ class CoffeeMAchine {
   //теперь power нельзя изменить, так как нет сеттера
 }
 ```
+
+<!-- защищенное свойство --------------------------------------------------------------------------------------------------------------------->
 
 # Защищенное свойство
 
@@ -803,45 +744,48 @@ class User {
 }
 ```
 
+дублирование или имя без # в конструкторе приведет к ошибке
+
 # Расширение встроенных классов
 
 От встроенных Map, Array тоже можно наследовать
 
 ```js
-class PowerArray extends Array { // arr.constructor === PowerArray
-isEmpty(){
-  return this.length === 0;
+class PowerArray extends Array {
+  // arr.constructor === PowerArray
+  isEmpty() {
+    return this.length === 0;
+  }
+
+  static get [Symbol.spaces]() {
+    return Array;
+  } //с помощью этого метода такие методы ка map, filter будут возвращать не powerArray а обычные Array без расширенных методов
 }
 
-static.get[Symbol.spaces](){
-  return Array;
-  }//с помощью этого метода такие методы ка map, filter будут  возвращать не powerArray а обычные Array без расширенных методов
-}
-
-let arr = new PowerArray(1,2,5,10,50);
+let arr = new PowerArray(1, 2, 5, 10, 50);
 alert(arr.isEmpty()); //false
 
-let filteredArr = arr.filter(item => item >=10);
+let filteredArr = arr.filter((item) => item >= 10);
 alert(filteredArr); //10,50
-alert(filtered.isEmpty()) //false
+alert(filtered.isEmpty()); //false
 // Поэтому при вызове arr.filter() он внутри создает массив результатов именно используя arr.constructor а не
 // обычный массив? чтобы возвращал обычные массивы такие методы как map, filter
 class PowerArray extends Array {
   isEmpty() {
     return this.length === 0;
-}
+  }
 
-static get [Symbol.spaces](){
-  return Array;
-}
+  static get [Symbol.spaces]() {
+    return Array;
+  }
 }
 let arr = new PowerArray(1, 2, 5, 10, 50);
-let filteredArr = arr.filter(item => item >= 10);
+let filteredArr = arr.filter((item) => item >= 10);
 alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
-
 ```
 
-У встроенных объектов есть собственные статические методы – Object.keys Array.isArray .. Встроенные классы не наследуют статические методы друг друга
+У встроенных объектов есть собственные статические методы – Object.keys Array.isArray ..
+Встроенные классы не наследуют статические методы друг друга
 
 Array и Date наследуют от Object, так что в их экземплярах доступны методы из Object.prototype,
 Array.[[Prototype]] не ссылается на Object так что нет методов Array.keys()
@@ -857,6 +801,8 @@ for (let i in arr) {
   console.log(i); //0 ,1, 2, 3, 4, each for..in итерируется по всем полям объекта и его прототипов (т.е. проходит по всей цепочке прототипов).
 }
 ```
+
+<!-- instanceOf ------------------------------------------------------------------------------------------------------------------------------>
 
 # instanceOf
 
@@ -894,6 +840,8 @@ obj.__proto__. proto .__proto === Class.prototype?
 
 ```
 
+<!-- ObjA.isPrototypeOf(objB) ---------------------------------------------------------------------------------------------------------------->
+
 # ObjA.isPrototypeOf(objB)
 
 ObjA.isPrototypeOf(objB) ← true если objA есть где-то в прототипной цепочке objB.
@@ -903,6 +851,8 @@ function Rabbit() {}
 let rabbit = new Rabbit();
 Rabbit.prototype = {}; //обнуляем прототип конструктора  alert (rabbit instanceof Rabbit);//false
 ```
+
+<!-- Object.prototype.toString --------------------------------------------------------------------------------------------------------------->
 
 # Object.prototype.toString
 
@@ -916,18 +866,24 @@ alert(objectToString.call(arr)); //[object Array] а call здесь для ко
 
 let s = Object.prototype.toString;
 
-alert(s.call(123)); //[object Number]  alert( s.call(null))//[object Null]  alert( s.call(alert))//[Object function]
+alert(s.call(123)); //[object Number]
+alert(s.call(null)); //[object Null]
+alert(s.call(alert)); //[Object function]
 
-// Поведение метода toString можно настраивать через специальное свойство Symbol.toStringTag
 let user = {
-  [Symbal.toStringTag]: "User",
+  // Поведение метода toString можно настраивать через специальное свойство Symbol.toStringTag
+  [Symbol.toStringTag]: "User",
 };
+
 alert({}.toString.call(user)); //[object User]
 
 alert(window[Symbol.toStringTag]); //window
-alert(XMLHttpRequest.prototype[Symbol.toStringTag]); //XMLHttpRequest  alert( {}[Symbol.toStringTag].call(window)); //[object Window]
+alert(XMLHttpRequest.prototype[Symbol.toStringTag]); //XMLHttpRequest
+alert({}[Symbol.toStringTag].call(window)); //[object Window]
 alert([Symbol.toStringTag].call(new XMLHttpRequest())); //[object XMLHttpRequest]
 ```
+
+<!-- Примеси --------------------------------------------------------------------------------------------------------------------------------->
 
 # Примеси
 
@@ -949,13 +905,18 @@ class User {
     this.name = name;
   }
 }
+
 Object.assign(User.prototype, sayHiMIxin); //Копируется user.prototype
 new User("Vasya").sayHi(); //Hi Vasya
 ```
 
-Это не наследование, а просто копирование методов. User может наследовать от другого класса, но при этом также включать в себя примеси, подмешивающие другие методы
+Это не наследование, а просто копирование методов.
+User может наследовать от другого класса, но при этом также включать в себя примеси, подмешивающие другие методы
 
-class User extends Person{ } Object.assign(User.prototype, sayHiMixin)
+```js
+class User extends Person {}
+Object.assign(User.prototype, sayHiMixin);
+```
 
 Примеси могут наследовать друг друг
 
@@ -991,8 +952,6 @@ new User("John").sayHi(); //Hi John
 // при вызове родительского метода super.say() из sayHiMixin этот метод ищется в прототипе самой примеси, а не класса
 ```
 
-<img src='/assets/js/mixins.png'/> EventMixin
-
 ```js
 let EventMixin = {
   on(eventName, handler) {
@@ -1014,7 +973,7 @@ let EventMixin = {
     }
   },
   trigger(eventName, ...args) {
-    //для генерации события, name – имя события, далее доп аргументы […arg]
+    //для генерации события, name – имя события, далее доп аргументы [...arg]
     if (!this._eventHandlers || !this._eventHandlers[eventName]) {
       return;
     }
