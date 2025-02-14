@@ -1,34 +1,39 @@
-# PROMISE
+## создание promise
 
 ```js
-let promise = new Promise(function(resolve, reject){//возвращает объект с двумя  свойствами status и value
-resolve(value);
-reject(error);})//функции cb, которые принимают два значения state и result
+let promise = new Promise(function (resolve, reject) {
+  //возвращает объект с двумя  свойствами status и value
+  resolve(value);
+  reject(error);
+}); //функции cb, которые принимают два значения state и result
 //может быть только что-то одно, исполнится только первый
 
 //Недоступная часть
 // Promise.state: pending | fulfilled | reject
 // Promise.result: undefined | fulfilled | error
 //обработчики для случаев value и error
-promise.then(function(result){}, function(error) {})//работает с Thenable объектами
-.catch(f)//тоже самое, что и .then(null, errorHandlingFunction)
-.finally(f)//тоже самое, что и then(f,f)
+promise
+  .then(
+    function (result) {},
+    function (error) {}
+  ) //работает с Thenable объектами
+  .catch(f) //тоже самое, что и .then(null, errorHandlingFunction)
+  .finally(f); //тоже самое, что и then(f,f)
 
-//цепочки промисов
-.then(function(result){
-  return result*2})
-.then(function(result){
-})
+// цепочки промисов
+promise
+  .then(function (result) {
+    return result * 2;
+  })
+  .then(function (result) {})
+  .then(function(result){
+    return new Promise((resolve, reject)) => {}}
+    )
 // или
-.then(function(result){
-return new Promise(resolve, reject) => {}})
-
 ```
 
-- resolve(value) – колбэк, вызванный, если работа завершилась успешно с результатом value
+- resolve(value) – коллбек, вызванный, если работа завершилась успешно с результатом value
 - reject(error) – если произошла ошибка
-
-<img src='./assets/js/promise-obj.png'/>
 
 Исполнитель запускается автоматически, а затем он должен вызвать resolve или reject. У объекта promise, возвращаемого конструктором есть внутренние свойства
 
@@ -52,7 +57,7 @@ let Promise = new Promise(function(resolve, reject){
 ```
 
 - !!!Может быть что-то одно, все остальное игнорируется
-- !!!recolve и reject ожидает только один аргумент
+- !!!resolve и reject ожидает только один аргумент
 - !!!reject лучше вызывать с объектом Error
 
 ## Функции потребители

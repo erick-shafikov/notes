@@ -8,6 +8,7 @@
 type Flatten<Type> = Type extends Array<infer Item> ? Item : Type; //достаем тип элемента из массива, в противном случае сам тип
 const t1: Flatten<string> = "x";
 const t2: Flatten<boolean> = false;
+
 type TArrString = [string, boolean];
 const array: TArrString = ["x", false];
 const t3: Flatten<TArrString> = "y"; //t3: string | boolean
@@ -25,18 +26,9 @@ type R1 = ReturnType2<() => boolean>; //type R1 = boolean
 function runTransaction(transaction: { fromTo: [string, string] }) {
   console.log(transaction);
 }
-const transaction: GetFirstArg<typeof runTransaction> = { fromTo: ["1", "2"] };
+
 runTransaction(transaction);
 //берем функцию, которую принимаем, обозначаем что нужно забрать
-type GetFirstArg<T> = T extends (first: infer First, ...args: any[]) => any
-  ? First
-  : never;
-
-// пример из доки
-function runTransaction(transaction: { fromTo: [string, string] }) {
-  console.log(transaction);
-}
-
 type GetFirstArg<T> = T extends (first: infer First, ...args: any[]) => any
   ? First
   : never;
