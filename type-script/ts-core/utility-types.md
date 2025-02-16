@@ -1,6 +1,4 @@
-# Utility types
-
-## Partial
+# Partial
 
 Создает тип со всеми свойствами Type, установленными как необязательные. Эта утилита вернет тип, представляющий все подмножества данного типа.
 
@@ -23,7 +21,7 @@ const todo2 = updateTodo(todo1, {
 });
 ```
 
-## Required
+# Required
 
 Создает тип, состоящий из всех свойств Type, для которых установлено значение required. Противоположность Partial, все поля интерфейса должны быть обязательными
 
@@ -37,7 +35,7 @@ const obj2: Required<Props> = { a: 5 };
 // Property 'b' is missing in type '{ a: number; }' but required in type 'Required<Props>'.
 ```
 
-## Omit, Pick, Extract, Exclude
+# Omit, Pick, Extract, Exclude
 
 ```ts
 interface PaymentPersistent {
@@ -71,7 +69,7 @@ type ExcludeEx = Exclude<"from" | "to" | Payment, string>;
 } */
 ```
 
-## Return type. Parameters
+# Return type. Parameters
 
 ```ts
 //ReturnType - вытаскивает что возвращает функция
@@ -92,7 +90,7 @@ type first = PT[0]; //type first = number
 type CP = ConstructorParameters<typeof User1>; //type CP = [id: number, name: string]
 ```
 
-## Awaited
+# Awaited
 
 ```ts
 //вытаскиваем из разной вложенности
