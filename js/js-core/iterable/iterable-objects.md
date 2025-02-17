@@ -1,18 +1,21 @@
-<!-- Iterable objects --------------------------------------------------------------------------------->
+# Iterable objects
 
-### Iterable objects
-
-Итерируемые объекты – это объекты, которые ревизуют метод Symbol.iterator Псевдо массивы – это объекты у которых есть индексы и свойство length Возможны объекты смешанного типа Итерируемый объект не может быть псевдо массивом и псевдо массив не может быть итерируемым объектом
+- Итерируемые объекты – это объекты, которые ревизуют метод Symbol.iterator
+- Объекты String, Array, TypedArray, Map и Set являются итерируемыми, потому что их прототипы содержат метод Symbol.iterator.
+- Псевдо массивы – это объекты у которых есть индексы и свойство length Возможны объекты смешанного типа
+- Итерируемый объект не может быть псевдо массивом и псевдо массив не может быть итерируемым объектом
 
 ```js
-let arrayLike = {//псевдо массив, но его нельзя итерировать, есть индексы и length -> псевдо массив
-0: "Hello",
-1: "World",
-length: 2
+//псевдо массив, но его нельзя итерировать, есть индексы и length -> псевдо массив
+let arrayLike = {
+  0: "Hello",
+  1: "World",
+  length: 2,
 };
 
-for (let item of arrayLike)
-
+for (let item of arrayLike) {
+  //
+}
 ```
 
 - Когда цикл for..of запускается, он вызывает этот метод один раз (или выдаёт ошибку, если метод не найден). Этот метод должен вернуть итератор объект с методом next.
@@ -51,56 +54,4 @@ for (let char of "test") {
   // срабатывает 4 раза: по одному для каждого символа
   alert(char); // t, затем e, затем s, затем t
 }
-```
-
-### linked list
-
-```js
-let list = {
-  value: 1,
-  next: {
-    value: 2,
-    next: {
-      value: 3,
-      next: {
-        value: 4,
-        next: null,
-      },
-    },
-  },
-};
-// Разделить связанный список
-let secondList = list.next.next;
-list.next.next = null;
-// Обледенить:
-list.next.next = secondList
-
-// для добавления нового:
-list = {"new item", next: list};
-
-// Вывод по порядку(цикл):
-function printList(list) {
-let tmp = list;
-while (tmp) {
-  alert(tmp.value);
-  tmp = tmp.next;
-}}
-// Вывод по порядку(рекурсия):
-function printList(list) {
-alert(list.value); // выводим
-// текущий элемент
-if (list.next) {  printList(list.next); //делаем то же самое для остальной  части списка
-}}
-// Вывод в обратном(рекурсия):
-function printReverseList(list) {  if (list.next) {
-printReverseList(list.next);
-}
-alert(list.value);
-}
-if(obj.next != null){
-revPrintList(obj.next);  alert(obj.value);
-} else {
-alert(obj.value);
-}
-
 ```

@@ -1,10 +1,35 @@
+# объекты со свойством next
+
+Создание итерируемого объекта
+
+```js
+function makeIterator(array) {
+  var nextIndex = 0;
+
+  return {
+    next: function () {
+      return nextIndex < array.length
+        ? { value: array[nextIndex++], done: false }
+        : { done: true };
+    },
+  };
+}
+
+var it = makeIterator(["yo", "ya"]);
+console.log(it.next().value); // 'yo'
+console.log(it.next().value); // 'ya'
+console.log(it.next().done); // true
+```
+
+<!-- генераторы ------------------------------------------------------------------------------------------------------------------------------>
+
 # генераторы
 
 синтаксис
 
 ```js
 function* generatorSequence() {
-  //нет разницы function* f(…) или function *f(…)
+  //нет разницы function* f() или function *f()
   yield 1;
   yield 2;
   return 3;
@@ -18,10 +43,12 @@ let generator = generatorSequence();
 alert(generator); //[object Generator]
 ```
 
-Основной метод – next().
-При вызове он запускает выполнение кода до ближайшей инструкции yield <значение>, если оно отсутствует, то оно предполагается равным undefined.
-По достижении yield выполнение функции приостанавливается, а соответствующее значение возвращается во внешний код
-Результатом next() является объект с двумя свойствами { value: значение из yield, done : true/false}
+## next
+
+- Основной метод – next().
+- При вызове он запускает выполнение кода до ближайшей инструкции yield <значение>, если оно отсутствует, то оно предполагается равным undefined.
+- По достижении yield выполнение функции приостанавливается, а соответствующее значение возвращается во внешний код
+  Результатом next() является объект с двумя свойствами { value: значение из yield, done : true/false}
 
 ```js
 let generator = generatorSequence();
@@ -49,6 +76,7 @@ for (let value of generator) {
 }
 // Так как генераторы перебираемые объекты, то можно использовать связанную с ними функциональность
 let sequence = [0, ...generateSequence()];
+
 alert(sequence); //0,1,2,3,
 ```
 
@@ -73,6 +101,7 @@ let range = {
     };
   },
 };
+
 for (let value of range) {
   alert(value);
 }
@@ -136,7 +165,7 @@ for( let code of generateAlphaNum()){
 alert(str)
 ```
 
-### yield
+## yield
 
 yield не только возвращает результат наружу, но и может передавать значение извне в генератор,
 синтаксис: generator.next(arg)
@@ -146,25 +175,29 @@ function* gen() {
   let result = yield "2+2 = ?";
   alert(result);
 }
+
 let generator = gen();
 
 let question = generator.next().value; //yield возвращает значение
 generator.next(4); //передача в генератор, как результат текущего yield, с последующим выводом  результата.
 
 setTimeout(() => generator.next(4), 1000); //код не обязан немедленно вызывать next(4), генератор подождет
+
 // в отличие от обычных функций, генератор может обмениваться результатами с вызывающим кодом
 function* gen() {
-  let ask1 = yield "2+2=?";
+  let ask1 = yield "2 + 2 = ?";
   alert(ask1); // (2) 4
-  let ask2 = yield "3*3=?";
+  let ask2 = yield "3 * 3 = ?";
   alert(ask2); // 9
 }
+
 let generator = gen();
-alert(generator.next().value); //(1) 2+2=? вызывает yield в первой строчке, останавливается на этом  alert(generator.next(4).value); //3*3 = ? присваивает к yield в первой строчке значение 4, выводя  значение первым alert" ом и переходит к вызову yield на следующей строчке
+alert(generator.next().value); //(1) 2+2=? вызывает yield в первой строчке, останавливается на этом
+alert(generator.next(4).value); //3*3 = ? присваивает к yield в первой строчке значение 4, выводя  значение первым alert" ом и переходит к вызову yield на следующей строчке
 alert(generator.next(9).done); //true присваивает предыдущему yield 9, выполняя второй ask, в поисках
 ```
 
-### generator.throw
+## generator.throw
 
 для того чтобы передать ошибку в yield нужно вызвать generator.throw(err). В этом случае исключение err возникнет на строке с yield. Перехват ошибки:
 
@@ -212,7 +245,9 @@ async function* range(start, end) {
 })();
 ```
 
-## Асинхронные итераторы
+<!-- Асинхронные итераторы ---------------------------------------------->
+
+# Асинхронные итераторы
 
 - Symbol.asyncIterator вместо Symbol.Iterator
 - next() должен возвращать промис
@@ -254,25 +289,23 @@ let range = {
 ```
 
 ```js
-async function* generateSequence(start, end){
-  for(let i = start; i <= end; i++) {
-    await new Promise(resolve => setTimeout(resolve, 2000));
+async function* generateSequence(start, end) {
+  for (let i = start; i <= end; i++) {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     yield i;
-}
+  }
 }
 
-(async => () {
-let generator = generateSequence(1,5);
+(async () => {
+  let generator = generateSequence(1, 5);
 
-for await (let value of generator){
-alert(value);
-}
+  for (let value of generator) {
+    alert(value);
+  }
 })();
-
 
 // метод generator.next() теперь тоже асинхронный и возвращает промисы
 result = await generator.next();
-
 ```
 
 ## Асинхронно перебираемые объекты с помощью асинхронного генератора
@@ -297,6 +330,8 @@ let range = {
 })();
 ```
 
+<!-- BPs ---------------------------------------------------------------->
+
 ## BP
 
 - запрос на url в виде https://api.github.com/repos/repo/commits
@@ -305,7 +340,7 @@ let range = {
   коммитов
 
 ```js
-async function* fwtchCommits(repo) {
+async function* fetchCommits(repo) {
   let url = "https://api.github.com/repos/${repo}/commts";
   while (url) {
     const response = await fetch(url, {
@@ -325,11 +360,43 @@ async function* fwtchCommits(repo) {
 
 (async () => {
   let commit = 0;
-  for await (const commits of fetchCommits("…")) {
+  for await (const commits of fetchCommits("comments.com/comments")) {
     console.log(commit.author.login);
     if (++count == 100) {
       break;
     }
   }
 })();
+```
+
+## Bps: числа фибоначчи на генераторах
+
+```js
+function* fibonacci() {
+  var fn1 = 1;
+  var fn2 = 1;
+  while (true) {
+    var current = fn2;
+    fn2 = fn1;
+    fn1 = fn1 + current;
+    var reset = yield current;
+    if (reset) {
+      fn1 = 1;
+      fn2 = 1;
+    }
+  }
+}
+
+var sequence = fibonacci();
+console.log(sequence.next().value); // 1
+console.log(sequence.next().value); // 1
+console.log(sequence.next().value); // 2
+console.log(sequence.next().value); // 3
+console.log(sequence.next().value); // 5
+console.log(sequence.next().value); // 8
+console.log(sequence.next().value); // 13
+console.log(sequence.next(true).value); // 1
+console.log(sequence.next().value); // 1
+console.log(sequence.next().value); // 2
+console.log(sequence.next().value); // 3
 ```

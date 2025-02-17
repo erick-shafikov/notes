@@ -1,5 +1,3 @@
-## создание promise
-
 ```js
 let promise = new Promise(function (resolve, reject) {
   //возвращает объект с двумя  свойствами status и value
@@ -19,26 +17,15 @@ promise
   ) //работает с Thenable объектами
   .catch(f) //тоже самое, что и .then(null, errorHandlingFunction)
   .finally(f); //тоже самое, что и then(f,f)
-
-// цепочки промисов
-promise
-  .then(function (result) {
-    return result * 2;
-  })
-  .then(function (result) {})
-  .then(function(result){
-    return new Promise((resolve, reject)) => {}}
-    )
-// или
 ```
 
-- resolve(value) – коллбек, вызванный, если работа завершилась успешно с результатом value
-- reject(error) – если произошла ошибка
+- resolve(value) - коллбек, вызванный, если работа завершилась успешно c результатом value
+- reject(error) - если произошла ошибка
 
 Исполнитель запускается автоматически, а затем он должен вызвать resolve или reject. У объекта promise, возвращаемого конструктором есть внутренние свойства
 
-- state(состояние) – в начале pending(ожидание), которое меняется либо fulfilled или reject
-- result – в начале undefined, а потом меняется на value либо на error
+- state(состояние) - в начале pending(ожидание), которое меняется либо fulfilled или reject
+- result - в начале undefined, а потом меняется на value либо на error
 
 Пример с setTimeout и успешным выполнением:
 
@@ -60,42 +47,50 @@ let Promise = new Promise(function(resolve, reject){
 - !!!resolve и reject ожидает только один аргумент
 - !!!reject лучше вызывать с объектом Error
 
-## Функции потребители
+# Функции потребители
 
 ```js
 promise.then(
-function(result){//обработает успешное выполнение
-},
-function(error){//обработает ошибку
-}
+  function (result) {
+    //обработает успешное выполнение
+  },
+  function (error) {
+    //обработает ошибку
+  }
 );
-// Пример:
+```
 
-let promise = new Promise(function(resolve, reject){
-setTimeout(() => resolve("done"), 1000);
-});
-promise.then(
-result => alert(result),//выведет done  error => alert(error)
-);
-
-// ИЛИ
-
-let promise = new Promise(function(resolve, reject){
-  setTimeout(()=>reject(new Error("Упс!"), 1000));
+```js
+// Пример с удачным исполнения промиса
+let promise = new Promise(function (resolve, reject) {
+  setTimeout(() => resolve("done"), 1000);
 });
 
 promise.then(
-result => alert(result))//не будет запущена error
+  (result) => alert(result) //выведет done
+  error => alert(error)
+);
+```
 
+```js
+// пример с неудачным
+let promise = new Promise(function (resolve, reject) {
+  setTimeout(() => reject(new Error("Упс!"), 1000));
+});
+
+promise.then(
+  (result) => alert(result), //не будет запущена error
+  (error) => alert(error) //Упс? спустя секунду
+);
+```
+
+```js
 // Если нам нужно обработать только результат, при успешном выполнение, то можно передать только один  аргумент в
-.then(error=> alert(error))//Упс? спустя секунду
-
 let promise = new Promise(function(resolve = > {
   setTimeout(()=> resolve("done!"), 1000);
 }));
 
 promise.then(alert);
-
 ```
 
 ## catch
@@ -128,7 +123,7 @@ new Promise((resolve, reject)=>{  throw new Error("error");
 
 ```
 
-## Promises chain
+# Promises chain
 
 Код выполняется, так как promise.then возвращает промис, когда обработчик возвращает какое-то значение, то оно становится результатом выполнения
 
@@ -152,7 +147,7 @@ new Promise(function (resolve, reject) {
   });
 ```
 
-### Возвращаемые промисы
+## Возвращаемые промисы
 
 ```js
 new Promise(function(resolve, reject){
@@ -180,31 +175,30 @@ alert(result); //4
 
 ```
 
-## thenable
+# thenable
 
 Обработчик может возвращать не именно промис, а любой объект, содержащий метод then. Этот объект будет
 обработан как промис.
 
 ```js
-class Thenable{
-  constructor(num){
-this.num = num;
+class Thenable {
+  constructor(num) {
+    this.num = num;
+  }
+  then(resolve, reject) {
+    alert(resolve);
+    setTimeout(() => resolve(this.num * 2), 1000);
+  }
 }
-then(resolve, reject){
-alert(resolve);
-setTimeout(() => resolve(this.num * 2), 1000);
-}}
 
-new Promise(resolve => resolve(1))
-.then(result = > {
-
-return new Thenable(result);//JS проверяет объект //возвращаемый из обработчика then
-})
-.then(alert)//покажет 2 через 200мс
-
+new Promise((resolve) => resolve(1))
+  .then((result) => {
+    return new Thenable(result); //JS проверяет объект возвращаемый из обработчика then
+  })
+  .then(alert); //покажет 2 через 200мс
 ```
 
-## Обработка ошибок
+# Обработка ошибок
 
 Если промис завершился с ошибкой, то управление переходит в ближайший обработчик ошибок, чтобы перехватить ошибку, catch можно переместить в конец:
 
@@ -230,7 +224,7 @@ fetch(/url/)
 
 ```
 
-### Неявный try…catch
+## Неявный try catch
 
 Вокруг функции промиса и обработчиков находится «невидимый try..catch»
 
@@ -256,9 +250,9 @@ new Promise((resolve, reject) => {
   .catch(alert); //Error: Ошибка
 ```
 
-### Проброс ошибок
+## Проброс ошибок
 
-.catch ведет себя как try…catch, можно использовать сколько угодно .then и в конце один catch. Если мы пробросим throw ошибку внутри блока .catch, то управление перейдет к следующему ближайшему обработчику ошибок, а если мы обработаем ошибку, то продолжит работу ближайший обработчик .then
+.catch ведет себя как try catch, можно использовать сколько угодно .then и в конце один catch. Если мы пробросим throw ошибку внутри блока .catch, то управление перейдет к следующему ближайшему обработчику ошибок, а если мы обработаем ошибку, то продолжит работу ближайший обработчик .then
 
 ```js
 new Promise((resolve, reject) => {
@@ -292,14 +286,14 @@ new Promise((resolve, reject) => {
   });
 ```
 
-### Необработанные ошибки
+## Необработанные ошибки
 
 Если ошибку не обработать, то код падает, в браузере мы можем поймать такие ошибки с помощью unhandledrejectiion:
 
 ```js
 window.addEventListener("unhandledrejectiion", function (event) {
   alert(event.promise); //[object Promise] объект, который сгенерировал ошибку
-  alert(event.reason); //Error: Ошибка – объект ошибки, который не был обработан
+  alert(event.reason); //Error: Ошибка - объект ошибки, который не был обработан
 });
 
 new Promise(function () {
@@ -307,7 +301,11 @@ new Promise(function () {
 }); //нет обработчика ошибок
 ```
 
-## Promise API. Promise.all
+<!-- Promise API ----------------------------------------------------------------------------------------------------------------------------->
+
+# Promise API:
+
+## Promise.all
 
 Принимает массив промисов (или любой перебираемый объект) и возвращает промис. Новый промис
 завершиться, когда завершаться все промисы и его результатом будет их массив.
@@ -371,33 +369,35 @@ Promise.all([new promise((resolve, reject) => resolve(1), 1000), 2, 3]).then(
 Promise.all подходит, когда нужно чтобы каждый из промисов выполнился правильно, Promise.all ждет
 завершение всех промисов, а результат будет выгладить как:
 
-[{status:"fulfilled", value: результат} в случае успешного выполнения
-{status:"rejected", reason: ошибка}] в случае ошибки
+```js
+const res = [
+  { status: "fulfilled", value: "результат" }, //в случае успешного выполнения
+  { status: "rejected", reason: "ошибка" }, //в случае ошибки
+];
+```
 
 ```js
 // Пример, когда нам нужно загрузить информацию о всех пользователях
 
-let urls =[
-"https://user1",  "https://user2",  "https://no-such-url"
-];
+let urls = ["https://user1", "https://user2", "https://no-such-url"];
 
-//map возвращает массив результатов, для каждого применяя  fetch, fetch возвращает промисы в виде response
-Promise.allSettled(urls.map(url => fetch(url)))
-.then(result=>{
-results.forEach(results, num) => {
-  if(result.status === "fulfilled"){
-    alert(`${urls[num]}:${result.value.status}`);
-    }
+//map возвращает массив результатов, для каждого применяя fetch, fetch возвращает промисы в виде response
+const result = Promise.allSettled(urls.map((url) => fetch(url))).then(
+  (result) => {
+    results.forEach((results, num) => {
+      if (result.status === "fulfilled") {
+        alert(`${urls[num]}:${result.value.status}`);
+      }
 
-    if(results.status === "rejected"){
-  alert($`{urls[num]}:${result.reason}`);
-}
-}});
+      if (results.status === "rejected") {
+        alert($`{urls[num]}:${result.reason}`);
+      }
+    });
+  }
+);
 
 // массив
 // results:  [ {status:"fulfilled", value:…}, {status:"fulfilled", value:…}, {status:"rejected", value: ошибка} ]
-
-
 ```
 
 ## Promise.race
@@ -446,9 +446,11 @@ function loadCached(url) {
 Promise.reject(error); //создает промис завершенный с ошибкой error тоже самое, что и let promise = new Promise((resolve, reject) => reject(error));
 ```
 
-## Промисификация
+<!-- Промисификация -------------------------------------------------------------------------------------------------------------------------->
 
-Промисификация – изменение функции, которая принимает коллбек для возвращения промиса
+# Промисификация
+
+Промисификация - изменение функции, которая принимает коллбек для возвращения промиса
 
 ```js
 function loadScript(src, callback) {
@@ -475,17 +477,17 @@ let loadScriptPromise = function (src) {
 };
 ```
 
-## Async await
+<!-- async await ----------------------------------------------------------------------------------------------------------------------------->
+
+# async await
 
 ```js
-async function f() {
-  return 1;
-} //Эта функция всегда возвращает промис, значения других типов оборачиваются в завершившийся промис автоматически
+//Эта функция всегда возвращает промис, значения других типов оборачиваются в завершившийся промис автоматически
 async function f() {
   return 1;
 }
-
 f().then(alert);
+
 // тоже самое что и:
 async function f() {
   return Promise.resolve(1);
@@ -493,7 +495,7 @@ async function f() {
 f().then(alert); //1
 ```
 
-await – заставляет ждать интерпретатор JS до тех пор, пока промис справа от awiat не выполнится, после чего он выполнит результат и исполнение кода продолжится :
+await - заставляет ждать интерпретатор JS до тех пор, пока промис справа от await не выполнится, после чего он выполнит результат и исполнение кода продолжится :
 let value = await promise;
 
 !!! можно использовать только внутри функции async
@@ -586,16 +588,17 @@ async function f() {
 
 async function f() {
   try {
-    let response = await fetch(/url/);
+    let response = await fetch("/url/");
   } catch (err) {
     alert(err);
   }
 }
 f();
+
 // несколько строк с await
 async function f() {
   try {
-    let response = await fetch(/url/);
+    let response = await fetch("/url/");
     let user = await response.json();
   } catch (err) {
     alert(err);
@@ -605,7 +608,7 @@ async function f() {
 f();
 // без try..catch
 async function f() {
-  let response = await fetch(/url/);
+  let response = await fetch("/url/");
 }
 f().catch(alert);
 ```

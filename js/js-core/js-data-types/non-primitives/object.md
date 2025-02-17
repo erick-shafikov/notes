@@ -815,3 +815,55 @@ function endpoint(request, response) {
   someFunction(body);
 }
 ```
+
+## Bps linked list
+
+```js
+let list = {
+  value: 1,
+  next: {
+    value: 2,
+    next: {
+      value: 3,
+      next: {
+        value: 4,
+        next: null,
+      },
+    },
+  },
+};
+// Разделить связанный список
+let secondList = list.next.next;
+list.next.next = null;
+// Обледенить:
+list.next.next = secondList
+
+// для добавления нового:
+list = {"new item", next: list};
+
+// Вывод по порядку(цикл):
+function printList(list) {
+let tmp = list;
+while (tmp) {
+  alert(tmp.value);
+  tmp = tmp.next;
+}}
+// Вывод по порядку(рекурсия):
+function printList(list) {
+alert(list.value); // выводим
+// текущий элемент
+if (list.next) {  printList(list.next); //делаем то же самое для остальной  части списка
+}}
+// Вывод в обратном(рекурсия):
+function printReverseList(list) {  if (list.next) {
+printReverseList(list.next);
+}
+alert(list.value);
+}
+if(obj.next != null){
+revPrintList(obj.next);  alert(obj.value);
+} else {
+alert(obj.value);
+}
+
+```
