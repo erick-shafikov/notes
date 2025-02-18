@@ -494,12 +494,11 @@ webkit-border-before = -webkit-border-before-color + -webkit-border-before-style
 
 Добавит тень от контейнера
 
-Параметры:
-
-- значение по горизонтали
-- смещение по вертикали
-- размытие тени
-- цвет тени
+- значение по горизонтали (offset-x)
+- смещение по вертикали (offset-y)
+- размытие тени (blur-radius)
+- распространение тени (spread-radius)
+- цвет тени (color)
 
 ```scss
 .single-shadow {

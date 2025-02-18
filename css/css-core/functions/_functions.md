@@ -111,6 +111,12 @@ body {
 }
 ```
 
+Значения:
+
+- safe-area-inset-top, safe-area-inset-right, safe-area-inset-bottom, safe-area-inset-left
+- titlebar-area-x, titlebar-area-y, titlebar-area-width, titlebar-area-height
+- keyboard-inset-top, keyboard-inset-right, keyboard-inset-bottom, keyboard-inset-left, keyboard-inset-width, keyboard-inset-height
+
 <!-- is() ---------------------------------------------------------------------------------------------------------------------------------->
 
 # is()
