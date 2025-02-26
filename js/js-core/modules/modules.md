@@ -32,6 +32,12 @@
 
 - Async скрипты будут загружаться вне зависимости друг от друга и вне зависимости от DOMContentLoaded. Скрипты добавленные через JS ведут себя как async
 
+Что бы браузер понял что отдали скрипт, сервер должен поставить content-type text/javascript
+
+## js и mjs
+
+mjs - дает понять что это модуль
+
 ## Выполнение при импорте
 
 Код в модуле выполняется только один раз при импорте
@@ -101,6 +107,8 @@ sayHI(); //Ready to serve, Pete
 </script>
 ```
 
+<!-- export ---------------------------------------------------------------------------------------------------------------------------------->
+
 # export
 
 ```js
@@ -114,6 +122,8 @@ export class User {
 } //Не ставится точка с запятой после экспорта класс или функции
 ```
 
+## object export
+
 ```js
 // Экспорт отдельно от объявления
 //say.js
@@ -125,41 +135,31 @@ function syaBye(user) {
 }
 
 export { sayHI, sayBye }; //список для экспорта
+```
 
-// Экспортировать «как»
-//say.js
+## export as
+
+```js
+// [say.js] Экспортировать «как»
+
+function sayHi(user) {
+  alert("Hello ${user}");
+}
+function syaBye(user) {
+  alert("Bye ${user}");
+}
+
 export { sayHi as hi, sayBye as bye }; //теперь hi и bye официальные имена
+```
+
+```js
 //main.js
 import * as say from "./say.js";
 say.hi("John");
 say.bye(John);
 ```
 
-# import
-
-```js
-import { sayHI, sayBye } from "./main.js/";
-sayHi("John");
-sayBye("John");
-
-// Но если нужно импортировать много чего, мы можем импортировать все сразу в виде объекта
-
-import * as say from "./say.js"; //недостатки – более длинные имена, преимущества – делаем код более  понятным
-say.sayHi("John");
-say.sayBye("John");
-```
-
-# import as
-
-Мы можем использовать as, чтобы импортировать под другими именами
-
-```js
-import { sayHi as hi, sayBye as bye } from "./say.js";
-hi("John");
-bye("John");
-```
-
-# default export
+## default export
 
 Модули бывают двух типов: 1. модули с библиотеками функции 2. модули с чем-то одним
 
@@ -253,7 +253,7 @@ sum.default(4)
 
 ```
 
-## reexport
+## re-export
 
 Синтаксис export ... from ... позволяет импортировать и сразу экспортировать под другим именем
 
@@ -262,53 +262,51 @@ export { sayHi } from "./say.js"; //реэкспортировать sayHi
 export { default as User } from "./user.js"; //реэкспортировать default
 ```
 
-Структура файлов:
-
-- auth/
-- - index.js
-- - user.js
-- - helpers.js
-- - test/
-- - - login.js
-- - - providers/
-- - - github.js facebook.js
-
-мы хотим сделать функциональность нашего пакета доступной через единую точку входа «главный файл», что бы можно было экспортировать import {login, logout} from "auth/index.js". Чтобы внешние разработчики не разбирались со структкрой. Так как функциональность может быть разбросана то мы можем импортировать их в auth.js и тут же экспортировать их наружу
-
-```js
-//auth/index.js
-import {login, logout} from "./helpers.js";  
-export {login, logout};
-import User from "./user.js";  
-export {User};
-
-// теперь можно писать
-import {login} from "auth/index.js".
-// Ниже более короткий вариант
-export {login, logout} from "./helpers.js";
-export {default as User} from "./user.js";
-
-```
-
-## Реэкспорт по умолчанию
-
 ```js
 //user.js
 export default class User {
   //export User from "./user.js" не сработает
 }
 // Должно быть:
-export { default as User } from "./";
+export { default as User } from "./user.js";
 
 // реэкспортирует только именованные экспорты
 export * from "./user.js";
 
 // Если мы хотим реэкспортировать именованные экспорты и экспорты по умолчанию, то нам понадобятся две инструкции
-
-export * from "./user.js"; //для реэкспорта именованных экспортов  export {default} from "./user.js;// для экспорта по умолчанию
+export * from "./user.js"; //для реэкспорта именованных экспортов
+export { default } from "./user.js";// для экспорта по умолчанию
 ```
 
-## Динамические импорты
+<!-- import ---------------------------------------------------------------------------------------------------------------------------------->
+
+# import
+
+```js
+import { sayHI, sayBye } from "./main.js/";
+sayHi("John");
+sayBye("John");
+```
+
+```js
+// Но если нужно импортировать много чего, мы можем импортировать все сразу в виде объекта
+
+import * as say from "./say.js"; //недостатки – более длинные имена, преимущества – делаем код более  понятным
+say.sayHi("John");
+say.sayBye("John");
+```
+
+## import as
+
+Мы можем использовать as, чтобы импортировать под другими именами
+
+```js
+import { sayHi as hi, sayBye as bye } from "./say.js";
+hi("John");
+bye("John");
+```
+
+## async import()
 
 Выражение import(module) загружает модуль и возвращает промис, результатом которого становится объект модуля, содержащий все его экспорты
 
@@ -325,8 +323,8 @@ import(modulePath)
 ```
 
 ```js
-// Внутри асинхронной функции, то можно let module = await import(modulePath)
 //say.js
+// Внутри асинхронной функции, то можно let module = await import(modulePath)
 export function hi() {
   alert("Привет");
 }
@@ -334,26 +332,25 @@ export function hi() {
 export function bye() {
   alert("Пока");
 }
+```
+
+```js
 let { hi, bye } = await import("./say.js");
 hi();
 bye();
 ```
 
 ```js
-// Экспорт по умолчанию
 //say.js
+// Экспорт по умолчанию
 export default function () {
   alert("Module loaded (export default)!");
 }
+```
 
+```js
 let obj = await import("./say.js");
 let say = obj.default;
 let { default: say } = await import("./say.js");
 say();
 ```
-
-# js и mjs
-
-mjs - дает понять что это модуль
-
-Что бы браузер понял что отдали скрипт, сервер должен поставить content-type text/javascript
