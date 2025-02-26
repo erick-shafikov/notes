@@ -206,8 +206,9 @@
 
 ```scss
 .background-size {
-  background-size: cover; // cover - растянет изображение по всему блоку сохраняя пропорции, но обрежет при надобности
-  background-size: contain; //  contain - растянет по всем блоку но изменит пропорции
+  // оба свойства не меняют свои пропорции
+  background-size: cover; // cover - не будет тянуть изображение, при уменьшении будет обрезаться
+  background-size: contain; //  contain - растянет или сузит по всем блоку но изменит не пропорции
 
   /* Указано одно значение - ширина изображения, */
   /* высота в таком случае устанавливается в auto */
@@ -221,6 +222,8 @@
   background-size: 3em 25%;
   background-size: auto 6px;
   background-size: auto auto;
+  // растянет изображения меняя пропорции
+  background-size: 100% 100%;
 
   /* Значения для нескольких фонов */
   /* Не путайте такую запись с background-size: auto auto */

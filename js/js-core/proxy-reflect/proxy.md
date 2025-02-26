@@ -3,8 +3,23 @@
 Объект proxy оборачивается вокруг объекта и может перехватывать разные действия с ним. Синтаксис:
 
 ```js
-let proxy = new Proxy(target, handler); //target – объект, для которого нужно Proxy
+let proxy = new Proxy(target, handler);
+//target – объект, для которого нужно Proxy
 //handler – конфигурация proxy: объект с ловушками, методами, которые перехватывают разные операции. Proxy без ловушек:
+```
+
+```js
+handler.getPrototypeOf() === Object.getPrototypeOf();
+//Reflect.getPrototypeOf(), __proto__, Object.prototype.isPrototypeOf(), instanceof
+handler.setPrototypeOf(); //Object.setPrototypeOf() и Reflect.setPrototypeOf()
+handler.isExtensible(); //Object.isExtensible() Reflect.isExtensible()
+handler.preventExtensions(); //Object.preventExtensions(), Reflect.preventExtensions()
+handler.getOwnPropertyDescriptor(); //Object.getOwnPropertyDescriptor(), Reflect.getOwnPropertyDescriptor()
+handler.defineProperty(); //Object.defineProperty(), Reflect.defineProperty();
+handler.has(); //foo in proxy, foo in Object.create(proxy), Reflect.has()
+handler.get(); //proxy[foo]and proxy.bar, Object.create(proxy)[foo], Reflect.get();
+handler.set(); //roxy[foo] = bar and proxy.foo = bar, Reflect.set()
+handler.deleteProperty(); //delete proxy[foo] and delete proxy.foo, Reflect.deleteProperty();
 ```
 
 ```js
@@ -12,20 +27,21 @@ let target = {};
 let proxy = new Proxy(target, {}); //пустой handler
 proxy.test = 5; //записали в proxy
 alert(proxy.test); //5
-for (let key in proxy) alert(key); //test
+for (let key in proxy) {
+  alert(key); //test
+}
 ```
 
-![alt text](/assets/js/proxy-table.png)
+# get
 
-## Значение по умолчанию с ловушкой get
+handler должен иметь метод get(target, property, receiver):
 
-handler должен иметь метод get(target, property, receiver)
-target – оригинальный объект, который передавался перовым аргументом в конструктор new Proxy property – имя свойства //всегда строковое значение, при массивах использовать +prop
-receiver – если свойство объекта является геттером, то receiver – это объект, который будет использован
-как this при его вызове. Обычно это сам объект прокси
-Массив, при чтение из которого несуществующего элемента возвращается 0 (обычно undefined)
+- target – оригинальный объект, который передавался перовым аргументом в конструктор new Proxy
+- property – имя свойства //всегда строковое значение, при массивах использовать +prop
+- receiver – если свойство объекта является геттером, то receiver – это объект, который будет использован как this при его вызове. Обычно это сам объект прокси
 
 ```js
+//  Массив, при чтение из которого несуществующего элемента возвращается 0 (обычно undefined)
 let numbers = [0, 1, 2];
 
 let numbers = new Proxy(numbers, {
@@ -39,7 +55,11 @@ let numbers = new Proxy(numbers, {
 });
 
 alert(numbers[1]); //1
-alert(numbers[123]); //0 нет такого элемента Словарь, в котором при неизвестном запросе возвращается фраза
+alert(numbers[123]); //0 нет такого элемента
+```
+
+```js
+//Словарь, в котором при неизвестном запросе возвращается фраза
 let dictionary = {
   Hello: "Hola",
   Bye: "Adios",
@@ -59,33 +79,35 @@ alert(dictionary["Hello"]); //Hola
 alert(dictionary["Welcome to proxy"]); //Welcome to proxy
 ```
 
-## Валидация с ловушкой get
+# set
 
-set(target, property, value, receiver)
-target – оригинальный объект, который передавался первым аргументом в конструктор new Proxy property – имя свойства
-value – значение свойства
-receiver – этот аргумент имеете значение, если только свойство сеттер. Set должна вернуть true если запись прошла успешно и false в противном случае(будет сгенерирована ошибка TypeError)
-Массив исключительно для чисел
+set(target, property, value, receiver):
+
+- target – оригинальный объект, который передавался первым аргументом в конструктор new Proxy property – имя свойства
+- value – значение свойства
+- receiver – этот аргумент имеете значение, если только свойство сеттер. Set должна вернуть true если запись прошла успешно и false в противном случае(будет сгенерирована ошибка TypeError)
+  Массив исключительно для чисел
 
 ```js
 let numbers = [];
 let numbers = new Proxy(numbers, {
   set(target, prop, val){
-if (typeof val == "number"){
-target[prop] = val;
-return true;//при успешном добавлении не забывать возвращать true
-} else {
-  return false;
-}}});
+    if (typeof val === "number"){
+      target[prop] = val;
+      return true; //при успешном добавлении не забывать возвращать true
+      } else {
+        return false;
+        }}}
+);
 numbers.push(1);//добавлен
 numbers.push(2);//добавлен
 numbers.push("Тест")://TypeError
 
 ```
 
-## перебор с помощью ownKeys и getOwnPropertyDescription
+## ownKeys и getOwnPropertyDescription
 
-Object.keys, цикл for…in и большинство других методов, которые работают со списком свойства объекта, используют внутренний метод [[OWnProertyKeys]] (перехватываемый ловушкой ownKeys) для их получения
+Object.keys, цикл for...in и большинство других методов, которые работают со списком свойства объекта, используют внутренний метод [[OWnPropertyKeys]] (перехватываемый ловушкой ownKeys) для их получения
 
 Object.getOwnPropertyNames(obj) возвращает не-символьные ключи Object.getOwnPropertySymbols(obj) возвращает символьные ключи Object.keys/values() возвращает не-символьные ключи/значения с флагом enumerable
 for…in перебирает не-символьные ключи с флагом enumerable, а также ключи прототипов пропускаем свойства начинающиеся с подчеркивания \_:
@@ -132,7 +154,15 @@ user = new Proxy(user, {
 alert(Object.keys(user)); //a, b, c
 ```
 
-## защищенные свойства с ловушкой
+# Proxy.revocable()
+
+отзыв обработчика
+
+<!-- BPs ------------------------------------------------------------------------------------------------------------------------------------->
+
+# BPs:
+
+## BP. защищенные свойства с ловушкой
 
 ```js
 let user = { name: "Вася", _password: "Secret" };
@@ -165,6 +195,7 @@ let user = new Proxy(user, {
     return Object.keys(target).filter((key) => !key.startWith("_"));
   },
 });
+
 try {
   alert(user.password);
 } catch (e) {
@@ -183,10 +214,12 @@ try {
   alert(e.message);
 }
 
-for (let key in user) alert(key);
+for (let key in user) {
+  alert(key);
+}
 ```
 
-## в диапазоне с ловушкой has
+## BP. в диапазоне с ловушкой has
 
 ```js
 let range = { start: 1, end: 10 };
@@ -210,7 +243,7 @@ alert(5 in range); //true
 alert(50 in range); //false
 ```
 
-## Оборачивание функций
+# Оборачивание функций
 
 - apply(target, thiArg, args) – активируется при вызови прокси функции
 - target – это оригинальный объект
@@ -228,132 +261,6 @@ function delay(f, ms) {
 ```
 
 Плюс данного метода в отличие от обертки, все обращение к функции будет на прямую, а не к функции обертке
-
-# Reflect
-
-Reflect – встроенный объект упрощающий создание прокси, позволяющий обернуть методы и правильно перенаправить
-
-```js
-let user = {
-  name: "Вася",
-};
-
-user = new Proxy(user, {
-  get(target, prop, receiver) {
-    alert("GET ${prop}");
-    return Reflect.get(target, prop, receiver);
-  },
-
-  set(target, prop, val, receiver) {
-    alert(`SET ${prop} = {val}`);
-    return Reflect.set(target, prop, val, receiver);
-  },
-});
-
-let name = user.name;
-user.name = "Петя";
-```
-
-## Прокси для геттера
-
-Раскроем суть receiver
-
-```js
-let user = {
-  _name: "Гость",
-  get name() {
-    return this._name;
-  },
-};
-
-let userProxy = new Proxy(user, {
-  get(target, prop, receiver) {
-    return target[prop]; //target == user
-  },
-});
-
-alert(userProxy.name);
-
-let admin = {
-  proto: userProxy,
-  _name: "Admin",
-};
-
-alert(admin.name); //Гость
-
-let userProxy = new Proxy(user, {
-  get(target, prop, receiver) {
-    return Reflect.get(target, prop, receiver);
-  },
-
-  // Можно было переписать как
-  get(target, prop, receiver) {
-    return Reflect.get(...arguments);
-  },
-});
-```
-
-### Ограничения для прокси
-
-Map, Set, Date, Promise – имеют внутренние слоты
-Map хранит элементы во внутреннем слоте [[MapData]], Встроенные методы get/ set обращаются напрямую, не через get/set
-
-```js
-let map = new Map();
-let proxy = new Proxy(map, {});
-proxy.set("test", 1);
-
-// исправим
-
-let proxy = new Map();
-let proxy = new Proxy(map, {
-  get(target, prop, receiver) {
-    let value = Reflect.get(...arguments);
-    return typeof value == "function" ? value.bind(target) : value;
-  },
-});
-
-proxy.set("test", 1);
-alert(proxy.get("test")); //1
-
-// ----------------------------------------------------------------------
-class User {
-  #name = "Гость";
-
-  getName() {
-    return this.#name;
-  }
-}
-
-let user = new User();
-
-user = new Proxy(user, {});
-alert(user.getName()); //Ошибка
-
-// исправление:
-
-let user = new Proxy(user, {
-  get(target, prop, receiver) {
-    let value = Reflect.get(...arguments);
-    return typeof value == "function" ? value.bind(target) : value;
-  },
-});
-
-alert(user.getName());
-
-
-let proxy {proxy, revoke} = Proxy.revocable(target, handler)
-
-let object = {
-data: "Важные Данные",
-};
-
-let {proxy, revoke} = Proxy.revocable(object, {});
-alert(proxy.data);
-revoke()
-alert(proxy.data)//ошибка
-
-```
 
 ## BP
 
