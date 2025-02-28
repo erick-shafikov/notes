@@ -1,6 +1,4 @@
-# классы
-
-## объектный синтаксис классов
+# объектный синтаксис классов
 
 ```vue
 <div :class="{ active: isActive }"></div>
@@ -21,7 +19,7 @@ const classObject = reactive({
 });
 ```
 
-## синтаксис с массивом
+# синтаксис с массивом
 
 ```html
 <div :class="[activeClass, errorClass]"></div>
@@ -96,4 +94,15 @@ const styleObject = reactive({
   color: "red",
   fontSize: "30px",
 });
+```
+
+# c компонентами
+
+```vue
+<!-- шаблон дочернего компонента -->
+<p class="foo bar">Привет</p>
+<!-- при использовании компонента -->
+<MyComponent class="baz boo" />
+<!-- результат -->
+<p class="foo bar baz boo">Привет</p>
 ```

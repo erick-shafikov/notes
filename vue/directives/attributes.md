@@ -37,7 +37,8 @@ data() {
 
 динамические
 
-```html
+```vue
+<template>
 <a v-bind:[attributeName]="url"> ... </a>
 <!-- shorthand -->
 <a :[attributeName]="url"> ... </a>
@@ -49,4 +50,5 @@ data() {
 
 <!-- нельзя -->
 <a :['foo' + bar]="value"> ... </a>
+</template>
 ```

@@ -108,7 +108,7 @@ v-for с v-if
 
 ## BP.Пример с добавлением элементов
 
-```html
+```vue
 <button type="button" class="btn btn-primary" @click="add">Add number</button>
 
 <ul class="list-group">
