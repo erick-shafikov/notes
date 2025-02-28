@@ -5,3 +5,11 @@
 ```
 
 # ??lazy
+
+# prevent
+
+preventDefault
+
+```vue
+<form v-if="!formDone" @submit.prevent="sendForm">
+```

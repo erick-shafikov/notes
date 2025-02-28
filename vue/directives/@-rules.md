@@ -32,9 +32,7 @@ btn-primary"
 </script>
 ```
 
-<!-- @submit --------------------------------------------------------------------------------------------------------------------------------->
-
-# @submit
+- @submit
 
 ```html
 <form v-if="!formDone" @submit.prevent="sendForm"></form>
@@ -52,3 +50,5 @@ Vue.createApp({
   },
 }).mount(".sample");
 ```
+
+- @scroll

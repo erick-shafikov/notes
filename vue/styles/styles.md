@@ -2,7 +2,7 @@
 
 ## объектный синтаксис классов
 
-```html
+```vue
 <div :class="{ active: isActive }"></div>
 <!-- если isActive===true -->
 <div class="active"></div>
@@ -10,7 +10,7 @@
 
 передача объекта в класс
 
-```html
+```vue
 <div :class="classObject"></div>
 ```
 
