@@ -12,8 +12,6 @@
 - Node – основной для DOM узлов, обеспечивает функциональность для parentNode, nextSibling, childNOdes (это все геттеры)
 - Element – базовый класс для DOM обеспечивает навигацию
 
-<img src="./assets/js-dom/dom-classes.png" width="500" height="300">
-
 # nodeType
 
 elem.nodeType == 1 для узлов – элементов

@@ -112,7 +112,7 @@ v-for с v-if
 <button type="button" class="btn btn-primary" @click="add">Add number</button>
 
 <ul class="list-group">
-  добавляется на элемент списка // num - элемент массива --> // i - индекс
+  <-- добавляется на элемент списка // num - элемент массива --> // i - индекс
   массива --> // numbers - массив из data --> // при hover умножать на 2 -->
   <li v-for="num,i in numbers" class="list-group-item" @mouseenter="double(i)">
     // можно достать элемент --> #{{ i }} / {{ num }}

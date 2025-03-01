@@ -1,6 +1,6 @@
 # Объявления чисел
 
-number – числа до BigInt
+number – числа до BigInt. Числа 64 битные с двойной точностью
 
 ```js
 let value = Number(value); // преобразовывает value в число
