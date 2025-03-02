@@ -52,12 +52,12 @@ data() {
 }
 ```
 
-```jsx
-// только значения -->
+```vue
+<!-- только значения -->
 <li v-for="value in myObject">{{ value }}</li>
-// c ключами -->
+<!-- c ключами -->
 <li v-for="(value, key) in myObject">{{ key }}: {{ value }}</li>
-// с индексом -->
+<!-- с индексом -->
 <li v-for="(value, key, index) in myObject">
   {{ index }}. {{ key }}: {{ value }}
 </li>
@@ -69,13 +69,14 @@ c числом
 <span v-for="n in 10">{{ n }}</span>
 ```
 
-v-for с v-if
+# v-for с v-if
 
-```jsx
-// v-if имеет более высокий приоритет, чем v-for. Это означает, что v-if условие не будет иметь доступа к переменным из области действия v-for
+v-if имеет более высокий приоритет, чем v-for. Это означает, что v-if условие не будет иметь доступа к переменным из области действия v-for
 
+```vue
+<!-- ошибка -->
 <li v-for="todo in todos" v-if="!todo.isComplete">{{ todo.name }}</li>
-// исправить с помощью template -->
+<!-- исправить с помощью template -->
 <template v-for="todo in todos">
   <li v-if="!todo.isComplete">{{ todo.name }}</li>
 </template>
@@ -104,24 +105,70 @@ v-for с v-if
 />
 ```
 
+# отображение отфильтрованных массивов
+
+```vue
+<template>
+  <li v-for="n in evenNumbers">{{ n }}</li>
+</template>
+
+<script>
+const numbers = ref([1, 2, 3, 4, 5]);
+
+const evenNumbers = computed(() => {
+  return numbers.value.filter((n) => n % 2 === 0);
+});
+</script>
+```
+
+```vue
+<template>
+  <ul v-for="numbers in sets">
+    <!-- перебор происходит не по массиву, а по результату ф-ции -->
+    <li v-for="n in even(numbers)">{{ n }}</li>
+  </ul>
+</template>
+
+<script>
+const sets = ref([
+  [1, 2, 3, 4, 5],
+  [6, 7, 8, 9, 10],
+]);
+
+// функция для фильтрации, возвращает массив
+function even(numbers) {
+  return numbers.filter((number) => number % 2 === 0);
+}
+</script>
+```
+
+!!! при использовании sort, reverse - использовать копирование
+
 # BPS:
 
 ## BP.Пример с добавлением элементов
 
 ```vue
-<button type="button" class="btn btn-primary" @click="add">Add number</button>
+<template>
+  <button type="button" class="btn btn-primary" @click="add">Add number</button>
 
-<ul class="list-group">
-  <-- добавляется на элемент списка // num - элемент массива --> // i - индекс
-  массива --> // numbers - массив из data --> // при hover умножать на 2 -->
-  <li v-for="num,i in numbers" class="list-group-item" @mouseenter="double(i)">
-    // можно достать элемент --> #{{ i }} / {{ num }}
-  </li>
-</ul>
-```
+  <ul class="list-group">
+    <!-- добавляется на элемент списка num - элемент массива  -->
+    <!-- i - индекс массива  -->
+    <!-- numbers - массив из data  -->
+    <!-- при hover умножать на 2  -->
+    <li
+      v-for="(num, i) in numbers"
+      class="list-group-item"
+      @mouseenter="double(i)"
+    >
+      <-- можно достать элемент --> #{{ i }} / {{ num }}
+    </li>
+  </ul>
+</template>
 
-```js
-let app = jsx.createApp({
+<script>
+export default {
   data() {
     return {
       numbers: [],
@@ -136,5 +183,6 @@ let app = jsx.createApp({
       this.numbers[i] *= 2;
     },
   },
-});
+}
+<script>
 ```

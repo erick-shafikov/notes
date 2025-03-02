@@ -44,3 +44,53 @@ v-model распадается на две детективы
   });
 </script>
 ```
+
+# c чекбоксами
+
+```vue
+<template>
+  <input type="checkbox" id="checkbox" v-model="checked" />
+  <label for="checkbox">{{ checked }}</label>
+
+  <div>Отмеченные имена: {{ checkedNames }}</div>
+
+  <input type="checkbox" id="jack" value="Jack" v-model="checkedNames" />
+  <label for="jack">Jack</label>
+
+  <input type="checkbox" id="john" value="John" v-model="checkedNames" />
+  <label for="john">John</label>
+
+  <input type="checkbox" id="mike" value="Mike" v-model="checkedNames" />
+  <label for="mike">Mike</label>
+  <!-- при значениях для false и true -->
+  <input type="checkbox" v-model="toggle" true-value="да" false-value="нет" />
+</template>
+```
+
+# c радо кнопками
+
+```vue
+<template>
+  <div>Выбрано: {{ picked }}</div>
+
+  <input type="radio" id="one" value="Один" v-model="picked" />
+  <label for="one">Один</label>
+
+  <input type="radio" id="two" value="Два" v-model="picked" />
+  <label for="two">Два</label>
+</template>
+```
+
+# c селектом
+
+```vue
+<template>
+  <div>Выбраны: {{ selected }}</div>
+
+  <select v-model="selected" multiple>
+    <option>А</option>
+    <option>Б</option>
+    <option>В</option>
+  </select>
+</template>
+```
