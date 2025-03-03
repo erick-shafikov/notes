@@ -67,7 +67,7 @@ try {
 }
 ```
 
-### Генерация собственных ошибок
+## Генерация собственных ошибок
 
 Что если json из предыдущего примера не содержит свойства name
 
@@ -93,6 +93,19 @@ let error = new Error(message);
 let error = new Error("Ошибка");
 alert(error.name); //Error
 alert(error.message); //Ошибка
+```
+
+## AggregateError
+
+ошибка которая объединяет несколько ошибок
+
+```js
+Promise.any([Promise.reject(new Error("some error"))]).catch((e) => {
+  console.log(e instanceof AggregateError); // true
+  console.log(e.message); // "All Promises rejected"
+  console.log(e.name); // "AggregateError"
+  console.log(e.errors); // [ Error: "some error" ]
+});
 ```
 
 # throw

@@ -203,6 +203,14 @@ let user = {
 
 # Методы Object
 
+## Object.is()
+
+строгое сравнение двух объектов
+
+возвращает false для сравнения -0 и +0, true для сравнений двух NaN
+
+Object.is(obj1, obj2)
+
 ## Object.entries(obj)
 
 ```js
@@ -248,7 +256,7 @@ let obj = Object.fromEntries(map.entries()); //map.entries возвращает 
 let object = Object.fromEntries(map); //убрали .entries
 ```
 
-## getPrototypeOf
+## Object.getPrototypeOf
 
 возвращает [[Prototype]] obj
 
@@ -256,7 +264,7 @@ let object = Object.fromEntries(map); //убрали .entries
 Object.getPrototypeOf(obj);
 ```
 
-## getOwnPropertyNames
+## Object.getOwnPropertyNames
 
 возвращает массив всех собственных строковых ключей.
 
@@ -264,7 +272,7 @@ Object.getPrototypeOf(obj);
 Object.getOwnPropertyNames(obj);
 ```
 
-## getOwnPropertySymbols
+## Object.getOwnPropertySymbols
 
 массив символьных
 
@@ -272,7 +280,7 @@ Object.getOwnPropertyNames(obj);
 Object.getOwnPropertySymbols(obj);
 ```
 
-## setPrototypeOf
+## Object.setPrototypeOf
 
 устанавливает в [[Prototype]] obj объект proto
 
