@@ -311,6 +311,20 @@ span {
 }
 ```
 
+- !!! white-space: pre-wrap позволяет в react, в пропсы передавать текст с пробельными символами (перенос строки итд)
+
+```scss
+.container {
+  white-space: pre-wrap;
+}
+```
+
+```jsx
+const Comp = ({ text }) => <div className="container">{text}</div>;
+
+<Comp text={"текст\nЕще текст"} />;
+```
+
 ## white-space-collapse
 
 управляет тем, как сворачивается пустое пространство внутри элемента

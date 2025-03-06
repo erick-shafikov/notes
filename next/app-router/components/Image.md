@@ -23,7 +23,13 @@ export default function Page() {
 
 ## src
 
-может быть ссылка на локальный файл или не удаленный, если удаленный, то нужно настроить
+может быть ссылка на локальный файл или не удаленный, если удаленный, то нужно настроить. Может принимать экспортированный файл
+
+```tsx
+import someImageSrc from "@/assets/some-image.png";
+
+<Image src={someImageSrc} />;
+```
 
 ### загрузка сторонних
 
@@ -200,7 +206,7 @@ loading = "lazy"; // {lazy} | {eager}
 
 ## blurDataURL
 
-путь до данных если при placeholder "blur"
+путь до данных если при placeholder "blur", Это должно быть 64-base. Например изображение сжатое до 10X10 px
 
 ## unoptimized
 
@@ -211,6 +217,10 @@ unoptimized = {false} // {false} | {true}
 ## overrideSrc
 
 для подмены изображения
+
+## decoding
+
+async, sync, auto
 
 <!-- getImageProps() ------------------------------------------------------------------------>
 
@@ -280,6 +290,98 @@ const ThemeImage = (props: Props) => {
 };
 ```
 
+# настройки config
+
+```js
+module.exports = {
+  images: {
+    //для блокировки других путей
+    localPatterns: [
+      {
+        pathname: "/assets/images/**",
+        search: "",
+      },
+    ],
+    //для удаленных картинок
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "example.com",
+        port: "",
+        pathname: "/account123/**",
+        search: "?v=1727111025337",
+      },
+    ],
+    //лоудеры при отключении автомтической оптимизации
+    loader: "custom",
+    loaderFile: "./my/image/loader.js",
+    // если известно на каких устройствах
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    //размеры картинок
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    //допустимые значения качества
+    qualities: [25, 50, 75],
+    formats: ["image/webp"],
+    //конфигурация кеша
+    minimumCacheTTL: 60, // 1 minute
+    //запретить статический импорт
+    disableStaticImages: true,
+  },
+};
+```
+
+# BPs
+
+## Отзывчивые изображения
+
+```tsx
+import Image from "next/image";
+import me from "../photos/me.jpg";
+
+export default function Author() {
+  return (
+    <>
+      {/* со статическим импортом */}
+      <Image
+        src={me}
+        alt="Picture of the author"
+        sizes="100vw"
+        style={{
+          width: "100%",
+          height: "auto",
+        }}
+      />
+      {/* со динамическим импортом */}
+      <Image
+        src={photoUrl}
+        alt="Picture of the author"
+        sizes="100vw"
+        style={{
+          width: "100%",
+          height: "auto",
+        }}
+        width={500}
+        height={300}
+      />
+      {/* fill */}
+      <div style={{ position: "relative", width: "300px", height: "500px" }}>
+        <Image
+          src={photoUrl}
+          alt="Picture of the author"
+          sizes="300px"
+          fill
+          style={{
+            objectFit: "contain",
+          }}
+        />
+      </div>
+    </>
+  );
+}
+```
+
+## art direction
+
 для разных устройств разные изображения
 
 ```tsx
@@ -314,6 +416,37 @@ export default function Home() {
       <source media="(min-width: 500px)" srcSet={mobile} />
       <img {...rest} style={{ width: "100%", height: "auto" }} />
     </picture>
+  );
+}
+```
+
+## background images
+
+```tsx
+import { getImageProps } from "next/image";
+
+function getBackgroundImage(srcSet = "") {
+  const imageSet = srcSet
+    .split(", ")
+    .map((str) => {
+      const [url, dpi] = str.split(" ");
+      return `url("${url}") ${dpi}`;
+    })
+    .join(", ");
+  return `image-set(${imageSet})`;
+}
+
+export default function Home() {
+  const {
+    props: { srcSet },
+  } = getImageProps({ alt: "", width: 128, height: 128, src: "/img.png" });
+  const backgroundImage = getBackgroundImage(srcSet);
+  const style = { height: "100vh", width: "100vw", backgroundImage };
+
+  return (
+    <main _style={style}>
+      <h1>Hello World</h1>
+    </main>
   );
 }
 ```
