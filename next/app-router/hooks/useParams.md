@@ -1,0 +1,3 @@
+## useParams
+
+получить params

@@ -575,7 +575,7 @@ window.CSS.registerProperty({
 
 ```scss
 // использование импорта относительно поддерживаемого свойства supports
-@import `/css/styles.css` supports(color: AccentColor);
+@import "/css/styles.css" supports(color: AccentColor);
 
 // отсутствие поддержки
 @supports not (property: value) {
