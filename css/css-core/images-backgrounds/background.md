@@ -110,6 +110,18 @@
 }
 ```
 
+можно указать
+
+```scss
+.bg {
+  background-image: image-set(
+    small-image.png 1x,
+    medium-image.png 2x,
+    large-image.png 3x
+  );
+}
+```
+
 ## background-origin
 
 как расположить изображение относительно рамок и контента
