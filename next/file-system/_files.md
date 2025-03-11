@@ -26,3 +26,21 @@
 - Хранить все внутри роутов (feature-sliced)
 
 Роутинг можно осуществлять window.history.pushState
+
+# конфигурация сегмента
+
+```tsx
+export const experimental_ppr = undefined; //позволяет статические и динамические компоненты использовать вместе
+// поменять на полностью динамические или полностью статично поведение
+export const dynamic = "auto"; //'force-dynamic' - полностью динамический на каждый запрос, 'error', 'force-static - принудительно статическое';
+
+export const dynamicParams = true; //если не сгенерированы в generateStaticParams, то сгенерируются при запросе при false - 404 error
+//срок кеширования
+export const revalidate = false; //0 - динамическая визуализация | number
+
+export const fetchCache = "auto"; //"default-cache" |"only-cache" |"force-cache" |"force-no-store" |"default-no-store" |"only-no-store";
+export const runtime = "nodejs"; // 'edge';платформа развертывания
+export const preferredRegion = "auto"; // 'global' | 'home' | string | string[];
+//ограничение выполнения логики на сервере
+export const maxDuration = undefined; //number;
+```
