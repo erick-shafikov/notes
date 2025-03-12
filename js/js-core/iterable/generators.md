@@ -52,17 +52,14 @@ alert(generator); //[object Generator]
 
 ```js
 let generator = generatorSequence();
-let one = generator.next();
-alert(JSON.stringify(one)); //{value: 1, done: false}
-let two = generator.next();
-alert(JSON.stringify(two)); //{value: 2, done: false}
-let three = generator.next();
-alert(JSON.stringify(three)); //{value: 3, done true}, каждый следующий будет возвращать {done: true}
+let one = generator.next(); //{value: 1, done: false}
+let two = generator.next(); //{value: 2, done: false}
+let three = generator.next(); //{value: 3, done true}, каждый следующий будет возвращать {done: true}
 ```
 
 ## Перебор генераторов
 
-Возвращаемые значения можно перебирать через for…of
+Возвращаемые значения можно перебирать через for...of
 
 ```js
 function* generateSequence() {
@@ -74,10 +71,9 @@ let generator = generateSequence();
 for (let value of generator) {
   alert(value); //1,2
 }
-// Так как генераторы перебираемые объекты, то можно использовать связанную с ними функциональность
-let sequence = [0, ...generateSequence()];
 
-alert(sequence); //0,1,2,3,
+// Так как генераторы перебираемые объекты, то можно использовать связанную с ними функциональность
+let sequence = [0, ...generateSequence()]; //0,1,2,3,
 ```
 
 ## Использование генераторов для перебираемых объектов
@@ -124,45 +120,48 @@ let range = {
 
 ```js
 function* generateSequence(start, end) {
-  for (let i = start; i <= end; i++) yield i;
+  for (let i = start; i <= end; i++) {
+    yield i;
+  }
 }
-// Для генерации последовательности сначала цифры 0,…9  (c кодами символов 48…57)
+// Для генерации последовательности сначала цифры 0, ...9  (c кодами символов 48...57)
 
-function* generateSequence(stArt, end){
-for (let i = start, i <= end, i++) yield i;
+function* generateSequence(start, end){
+  for (let i = start, i <= end, i++) {
+  yield i
+  }
 }
 
 // Функция для генерации строки формата 0…9A…Za…z
 
-function* generatePasswordsCodes(){
-yield* generateSequence(48, 57);
-yield* generateSequence(65, 90);
-yield* generateSequence(97, 122);
-
+function* generatePasswordsCodes() {
+  yield* generateSequence(48, 57);
+  yield* generateSequence(65, 90);
+  yield* generateSequence(97, 122);
 }
 
-let str ="";
+let str = "";
 
-for( let code of generatePasswordCodes()){
-str += String.fromCharCodes(code);
+for (let code of generatePasswordCodes()) {
+  str += String.fromCharCodes(code);
 }
 
 alert(str); //0…9A…Za…z
 
 // тоже самое, но через вложенные циклы
-function* generateAlphaNum() {
-for (let i = 48; i <= 57, i++) yield i;
-for (let i = 65; i <= 90, i++) yield i;
-for (let i = 97; i <= 122, i++) yield i;
-}
+// function* generateAlphaNum() {
+// for (let i = 48; i <= 57, i++) yield i
+// for (let i = 65; i <= 90, i++) yield i
+// for (let i = 97; i <= 122, i++) yield i
+// }
 
-let str ="";
+let str = "";
 
-for( let code of generateAlphaNum()){
+for (let code of generateAlphaNum()) {
   str += String.fromCharCodes(code);
 }
 
-alert(str)
+alert(str);
 ```
 
 ## yield
@@ -330,6 +329,25 @@ let range = {
 })();
 ```
 
+```js
+async function* foo() {
+  yield await Promise.resolve("a");
+  yield await Promise.resolve("b");
+  yield await Promise.resolve("c");
+}
+
+let str = "";
+
+async function generate() {
+  for await (const val of foo()) {
+    str = str + val;
+  }
+  console.log(str);
+}
+
+generate();
+```
+
 <!-- BPs ---------------------------------------------------------------->
 
 ## BP
@@ -348,8 +366,8 @@ async function* fetchCommits(repo) {
     });
 
     const body = await response.json();
-    let nextPAge = response.headers.get("Link").match(/<(.*?)>; rel="next"/);
-    nextPAge = nextPage && nextPage[1];
+    let nextPage = response.headers.get("Link").match(/<(.*?)>; rel="next"/);
+    nextPage = nextPage && nextPage[1];
     url = nextPage;
     for (let commit of body) {
       yield commit;

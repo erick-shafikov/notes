@@ -22,7 +22,7 @@ ArrayBuffer. ;//
 
 ```
 
-# методы экземпляра
+## методы экземпляра
 
 ```js
 buffer.resize(newLength); //новый размер
@@ -32,7 +32,7 @@ buffer.transfer(newByteLength); //копия
 buffer.transferToFixedLength(newByteLength); //копия с заполнением нулми
 ```
 
-# свойства экземпляра
+## свойства экземпляра
 
 ```js
 buffer.byteLength; //длина
@@ -46,8 +46,6 @@ console.log(buffer1.resizable); //true
 console.log(buffer2.resizable); //false
 ```
 
-<!-- ---------------- -->
+# DataView
 
-```js
-
-```
+предоставляет низко-уровневый интерфейс для чтения и записи различных числовых типов в бинарном ArrayBuffer
