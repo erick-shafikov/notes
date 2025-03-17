@@ -1,5 +1,7 @@
 # Eval
 
+- возвращаемое значение string | undefined
+
 ```js
 // Синтаксис
 let result = eval("code");

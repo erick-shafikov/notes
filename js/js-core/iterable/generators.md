@@ -57,6 +57,26 @@ let two = generator.next(); //{value: 2, done: false}
 let three = generator.next(); //{value: 3, done true}, каждый следующий будет возвращать {done: true}
 ```
 
+## return
+
+возвращает полученное значение и останавливает генератор
+
+```js
+function* gen() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+var g = gen();
+g.next(); // { value: 1, done: false }
+g.next(); // { value: 2, done: false }
+g.next(); // { value: 3, done: false }
+g.next(); // { value: undefined, done: true }
+g.return(); // { value: undefined, done: true }
+g.return(1); // { value: 1, done: true }
+```
+
 ## Перебор генераторов
 
 Возвращаемые значения можно перебирать через for...of
@@ -194,6 +214,22 @@ let generator = gen();
 alert(generator.next().value); //(1) 2+2=? вызывает yield в первой строчке, останавливается на этом
 alert(generator.next(4).value); //3*3 = ? присваивает к yield в первой строчке значение 4, выводя  значение первым alert" ом и переходит к вызову yield на следующей строчке
 alert(generator.next(9).done); //true присваивает предыдущему yield 9, выполняя второй ask, в поисках
+```
+
+```js
+function* gen() {
+  while (true) {
+    var value = yield null;
+    console.log(value);
+  }
+}
+
+var g = gen();
+g.next(1);
+// "{ value: null, done: false }"
+g.next(2);
+// 2
+// "{ value: null, done: false }"
 ```
 
 ## generator.throw

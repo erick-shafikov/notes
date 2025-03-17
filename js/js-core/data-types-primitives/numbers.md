@@ -20,7 +20,16 @@ let value = Number(value); // преобразовывает value в число
 - -.3333333333333333333
 - .1e-23
 
-infinity = 1/0
+# Infinity
+
+```js
+console.log(Infinity); // Infinity
+console.log(Infinity + 1); // Infinity
+console.log(Math.pow(10, 1000)); // Infinity
+console.log(Math.log(0)); // -Infinity
+console.log(1 / Infinity); // 0
+console.log(1 / 0); // Infinity
+```
 
 ## Арифметические действия
 
