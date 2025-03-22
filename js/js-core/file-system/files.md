@@ -1,38 +1,4 @@
-# работа с файлами
-
-## ArrayBuffer
-
-Бинарные файлы: ArrayBuffer, Uint8Array, DataView, Blob, File
-
-```js
-//длина фиксирована, для доступ к байтам используется специальный метод
-//Uint8Array, Uint16Array, Uint32Array, Float64Array
-let buffer = new ArrayBuffer(16); // создаётся буфер длиной 16 байт
-
-// Методы
-
-buffer.length; //сколько хранится сейчас
-buffer.byteLength; //сколько всего
-// Конструктор
-new TypedArray(buffer, [byteOffset], [length]);
-// buffer
-
-view[0] = 123456;
-
-// теперь пройдёмся по всем значениям
-for (let num of view) {
-  alert(num); // 123456, потом 0, 0, 0 (всего 4 значения)
-}
-```
-
-Методы map, slice, find, reduce, нет методов splice, concat
-
-```js
-arr.set(fromArr, [offset]);
-arr.subarray([begin, end]);
-```
-
-## TextDecoder и TextEncoder
+# TextDecoder и TextEncoder
 
 Методы которые позволяет преобразовать бинарные файлы в текстовые и наоборот
 
@@ -53,7 +19,7 @@ let uint8Array = encoder.encode("Hello");
 alert(uint8Array); // 72,101,108,108,111
 ```
 
-## Blob
+# Blob
 
 Объект, который состоит из:
 
@@ -137,7 +103,7 @@ fileReader.onload = function (event) {
 };
 ```
 
-## File
+# File
 
 Объект file наследуется от Blob
 
@@ -162,7 +128,7 @@ function showFile(input) {
 }
 ```
 
-## FileReader
+# FileReader
 
 Объект который читает данные из blob
 

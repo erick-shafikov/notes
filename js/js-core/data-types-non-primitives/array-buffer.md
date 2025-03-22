@@ -13,6 +13,27 @@ new ArrayBuffer(length);
 new ArrayBuffer(length, { maxByteLength });
 ```
 
+Бинарные файлы: ArrayBuffer, Uint8Array, DataView, Blob, File
+
+```js
+//длина фиксирована, для доступ к байтам используется специальный метод
+//Uint8Array, Uint16Array, Uint32Array, Float64Array
+let buffer = new ArrayBuffer(16); // создаётся буфер длиной 16 байт
+
+// Методы
+
+// Конструктор
+new TypedArray(buffer, [byteOffset], [length]);
+// buffer
+
+view[0] = 123456;
+
+// теперь пройдёмся по всем значениям
+for (let num of view) {
+  alert(num); // 123456, потом 0, 0, 0 (всего 4 значения)
+}
+```
+
 # методы
 
 ```js
@@ -23,6 +44,13 @@ ArrayBuffer. ;//
 ```
 
 ## методы экземпляра
+
+Методы map, slice, find, reduce, нет методов splice, concat
+
+```js
+arr.set(fromArr, [offset]);
+arr.subarray([begin, end]);
+```
 
 ```js
 buffer.resize(newLength); //новый размер
@@ -35,7 +63,8 @@ buffer.transferToFixedLength(newByteLength); //копия с заполнени�
 ## свойства экземпляра
 
 ```js
-buffer.byteLength; //длина
+buffer.length; //сколько хранится сейчас
+buffer.byteLength; //сколько всего
 buffer.detached; //был ли изменен
 buffer.maxByteLength; //макс длина
 buffer.resizable; //масштабируемый ли массив

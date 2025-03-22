@@ -80,9 +80,7 @@ user = {
 };
 ```
 
-# методы
-
-Короткие свойства:
+# короткие свойства
 
 ```js
 function makeUser(name, age) {
@@ -97,10 +95,9 @@ function makeUser(name, age) {
 }
 ```
 
-Проверка наличия свойства:
+# проверка наличия свойства
 
 ```js
-// Проверка наличия свойства:
 let user = { age: 30 };
 let key = "age";
 alert(key in user); // true
@@ -123,29 +120,10 @@ for (let key in user) {
 
 # копирование объектов
 
+- либо с помощью [Object.assign()](#objectassign)
+- либо с помощью structureClone
+
 ```js
-Object.assign(dest, [src1, src2, src3]);
-
-// Для объединения:
-let user = { name: "John" };
-let permissions1 = { canView: true };
-let permissions2 = { canEdit: true };
-// копируем все свойства из permissions1 и permissions2 в user  Object.assign(user, permissions1, permissions2);
-// now user = { name: "John", canView: true, canEdit: true }
-
-// Для копирования объекта:
-let user = { name: "John", age: 30 };
-let clone = Object.assign({}, user);
-// Объекты с не примитивными свойствами
-let user = {
-  name: "John",
-  sizes: {
-    height: 182,
-    width: 50,
-  },
-};
-alert(user.sizes.height); // 182
-
 // Специальная функция js для копирования объектов
 structureClone(obj); //нельзя скопировать функции, dom-элементы
 ```
@@ -201,15 +179,105 @@ let user = {
 
 <!-- Методы Object --------------------------------------------------------------------------------------------------------------------------->
 
-# Методы Object
+# свойства Object
 
-## Object.is()
+## Object.length
 
-строгое сравнение двух объектов
+всегда 1
 
-возвращает false для сравнения -0 и +0, true для сравнений двух NaN
+# методы Object
 
-Object.is(obj1, obj2)
+## Object.assign()
+
+создает новый объект
+
+```js
+Object.assign(dest, [src1, src2, src3]);
+
+// Для объединения:
+let user = { name: "John" };
+let permissions1 = { canView: true };
+let permissions2 = { canEdit: true };
+// копируем все свойства из permissions1 и permissions2 в user  Object.assign(user, permissions1, permissions2);
+// now user = { name: "John", canView: true, canEdit: true }
+
+// Для копирования объекта:
+let user = { name: "John", age: 30 };
+let clone = Object.assign({}, user);
+// Объекты с не примитивными свойствами
+let user = {
+  name: "John",
+  sizes: {
+    height: 182,
+    width: 50,
+  },
+};
+alert(user.sizes.height); // 182
+
+// Специальная функция js для копирования объектов
+structureClone(obj); //нельзя скопировать функции, dom-элементы
+```
+
+- наследуемые свойства не копируются
+- примитивы оборачиваются в объекты
+
+```js
+var v1 = "123";
+var v2 = true;
+var v3 = 10;
+var v4 = Symbol("foo");
+
+var obj = Object.assign({}, v1, null, v2, undefined, v3, v4);
+// Примитивы будут обёрнуты, а null и undefined - проигнорированы.
+// Обратите внимание, что собственные перечисляемые свойства имеет только обёртка над строкой.
+console.log(obj); // { "0": "1", "1": "2", "2": "3" }
+```
+
+- если ключ с writable: false совпадает с ключом в копируемом объекта, то пробросится исключение
+
+## Object.create()
+
+создает объект с прототипом указанном в аргументе
+
+Object.create(proto[, propertiesObject])
+
+- propertiesObject аргумент является дескриптором
+
+## Object.defineProperty()
+
+добавит свойство с дескриптором
+
+```js
+Object.defineProperty(obj, "key", {
+  enumerable: false,
+  configurable: false,
+  writable: false,
+  value: "static",
+  get: function () {
+    return 0xdeadbeef;
+  },
+  set: function (newValue) {
+    bValue = newValue;
+  },
+});
+```
+
+## Object.defineProperties()
+
+добавит несколько свойств с дескриптором
+
+```js
+Object.defineProperties(obj, {
+  property1: {
+    value: true,
+    writable: true,
+  },
+  property2: {
+    value: "Hello",
+    writable: false,
+  },
+});
+```
 
 ## Object.entries(obj)
 
@@ -219,11 +287,14 @@ let map = new Map(Object.entries(obj)); //Здесь Object.entries возвра
 // ["name","John"], ["age", 30] ]. Это именно то, что нужно для создания Map.
 ```
 
-## Object.keys(obj)
+## Object.freeze()
+
+запрещает изменять и удалять свойства
 
 ```js
-let user = { name: "John", age: 30 };
-Object.keys(obj); // ["name", "age"]  Object.values(obj)// ["John", 30]
+var o = Object.freeze(obj);
+
+o.foo = "quux"; // тихо ничего не делает
 ```
 
 ## Object.fromEntries
@@ -256,15 +327,21 @@ let obj = Object.fromEntries(map.entries()); //map.entries возвращает 
 let object = Object.fromEntries(map); //убрали .entries
 ```
 
-## Object.getPrototypeOf
+## Object.getOwnPropertyDescriptor()
 
-возвращает [[Prototype]] obj
+возвратит дескриптор свойства
 
 ```js
-Object.getPrototypeOf(obj);
+o = { bar: 42 };
+d = Object.getOwnPropertyDescriptor(o, "bar");
+//  { configurable: true, enumerable: true, value: 42, writable: true }
 ```
 
-## Object.getOwnPropertyNames
+## Object.getOwnPropertyDescriptors()
+
+возвратит дескрипторы свойств
+
+## Object.getOwnPropertyNames()
 
 возвращает массив всех собственных строковых ключей.
 
@@ -272,9 +349,86 @@ Object.getPrototypeOf(obj);
 Object.getOwnPropertyNames(obj);
 ```
 
-## Object.getOwnPropertySymbols
+## Object.getOwnPropertySymbols()
 
-массив символьных
+имена всех символьных свойств
+
+## Object.getPrototypeOf()
+
+вернет прототип объекта
+
+возвращает [[Prototype]] obj
+
+## Object.groupBy()
+
+```js
+function myCallback({ quantity }) {
+  return quantity > 5 ? "ok" : "restock";
+}
+
+const result2 = Object.groupBy(inventory, myCallback);
+
+/* Result is:
+{
+  restock: [
+    { name: "asparagus", type: "vegetables", quantity: 5 },
+    { name: "bananas", type: "fruit", quantity: 0 },
+    { name: "cherries", type: "fruit", quantity: 5 }
+  ],
+  ok: [
+    { name: "goat", type: "meat", quantity: 23 },
+    { name: "fish", type: "meat", quantity: 22 }
+  ]
+}
+*/
+```
+
+## Object.is()
+
+строгое сравнение двух объектов
+
+возвращает false для сравнения -0 и +0, true для сравнений двух NaN
+
+Object.is(obj1, obj2)
+
+## Object.isExtensible()
+
+разрешено ли расширение Object.preventExtensions()
+
+## Object.isFrozen()
+
+был ли применен Object.freeze()
+
+## Object.isSealed()
+
+был ли применен Object.seal()
+
+## Object.keys(obj)
+
+## Object.preventExtensions()
+
+```js
+const object1 = {};
+
+Object.preventExtensions(object1);
+
+try {
+  Object.defineProperty(object1, "property1", {
+    value: 42,
+  });
+} catch (e) {
+  console.log(e);
+  // Expected output: TypeError: Cannot define property property1, object is not extensible
+}
+```
+
+## Object.seal()
+
+запретить удаление свойств
+
+```js
+Object.getPrototypeOf(obj);
+```
 
 ```js
 Object.getOwnPropertySymbols(obj);
@@ -290,14 +444,75 @@ Object.setPrototypeOf(obj, proto);
 
 <!-- Методы объекта -------------------------------------------------------------------------------------------------------------------------->
 
-# методы экземпляра объекта
+# свойства экземпляра
 
-## hasOwnProperty и hasOwn
+## obj.prototype.constructor
+
+Указывает функцию, которая создает прототип объекта.
+
+- Object() если с помощью литерала
+- Function конструктор если с помощью new Function
+
+## obj.prototype.\_\_proto\_\_
+
+указывает прототип
+
+# методы экземпляра объекта obj
+
+## obj.\_\_defineGetter\_\_() (устарело)
+
+создаст геттер
+
+## obj.\_\_defineSetter\_\_() (устарело)
+
+создаст сеттер
+
+## obj.\_\_lookupGetter\_\_() (устарело)
+
+вернет функцию геттер
+
+## obj.\_\_lookupSetter\_\_() (устарело)
+
+вернет функцию геттер
+
+## obj.hasOwnProperty() и obj.hasOwn()
 
 ```js
 obj.hasOwnProperty(key): //возвращает true, если у obj есть собственное (не унаследованное) свойство с именем key.
 obj.hasOwn(key); // тоже самое
 ```
+
+## obj.isPrototypeOf()
+
+входит ли объект в цепочку прототипов
+
+## obj.propertyIsEnumerable()
+
+является ли свойство enumerable
+
+## obj.toLocaleString()
+
+вызывает toString
+
+## obj.toString()
+
+строковое представление объекта
+
+```js
+var toString = Object.prototype.toString;
+
+toString.call(new Date()); // [object Date]
+toString.call(new String()); // [object String]
+toString.call(Math); // [object Math]
+
+// Начиная с JavaScript 1.8.5
+toString.call(undefined); // [object Undefined]
+toString.call(null); // [object Null]
+```
+
+## obj.valueOf()
+
+примитивное значение объекта
 
 ## toJson()
 
@@ -423,4 +638,34 @@ if (obj.next != null) {
 } else {
   alert(obj.value);
 }
+```
+
+## BP. самоархивирующийся объект
+
+```js
+function Archiver() {
+  var temperature = null;
+  var archive = [];
+
+  Object.defineProperty(this, "temperature", {
+    get: function () {
+      console.log("get!");
+      return temperature;
+    },
+    set: function (value) {
+      temperature = value;
+      archive.push({ val: temperature });
+    },
+  });
+
+  this.getArchive = function () {
+    return archive;
+  };
+}
+
+var arc = new Archiver();
+arc.temperature; // 'get!'
+arc.temperature = 11;
+arc.temperature = 13;
+arc.getArchive(); // [{ val: 11 }, { val: 13 }]
 ```
