@@ -1,32 +1,113 @@
 # Proxy
 
+- прокси-объект - обертка над объектом целью
+- обработчики - объект с ловушками
+- ловушки - методы переопределяющий поведение объекта
+- цель - исходный объект
+
 Объект proxy оборачивается вокруг объекта и может перехватывать разные действия с ним. Синтаксис:
 
 ```js
-let proxy = new Proxy(target, handler);
 //target – объект, для которого нужно Proxy
-//handler – конфигурация proxy: объект с ловушками, методами, которые перехватывают разные операции. Proxy без ловушек:
-```
+let proxy = new Proxy(target, {
+  //handler – конфигурация proxy: объект с ловушками, методами, которые перехватывают разные операции. Proxy без ловушек:
+  getPrototypeOf() {
+    //Object.getPrototypeOf(), Reflect.getPrototypeOf(), __proto__, Object.prototype.isPrototypeOf(), instanceof
+  },
+  setPrototypeOf() {
+    //Object.setPrototypeOf() и Reflect.setPrototypeOf()
+  },
 
-```js
-handler.getPrototypeOf() === Object.getPrototypeOf();
-//Reflect.getPrototypeOf(), __proto__, Object.prototype.isPrototypeOf(), instanceof
-handler.setPrototypeOf(); //Object.setPrototypeOf() и Reflect.setPrototypeOf()
-handler.isExtensible(); //Object.isExtensible() Reflect.isExtensible()
-handler.preventExtensions(); //Object.preventExtensions(), Reflect.preventExtensions()
-handler.getOwnPropertyDescriptor(); //Object.getOwnPropertyDescriptor(), Reflect.getOwnPropertyDescriptor()
-handler.defineProperty(); //Object.defineProperty(), Reflect.defineProperty();
-handler.has(); //foo in proxy, foo in Object.create(proxy), Reflect.has()
-handler.get(); //proxy[foo]and proxy.bar, Object.create(proxy)[foo], Reflect.get();
-handler.set(); //roxy[foo] = bar and proxy.foo = bar, Reflect.set()
-handler.deleteProperty(); //delete proxy[foo] and delete proxy.foo, Reflect.deleteProperty();
+  isExtensible() {
+    //Object.isExtensible() Reflect.isExtensible()
+  },
+  preventExtensions() {
+    //Object.preventExtensions(), Reflect.preventExtensions()
+  },
+  getPropertyDescriptor: function (oTarget, sKey) {
+    var vValue = oTarget[sKey] || oTarget.getItem(sKey);
+    return vValue
+      ? {
+          value: vValue,
+          writable: true,
+          enumerable: true,
+          configurable: false,
+        }
+      : undefined;
+  },
+  getOwnPropertyDescriptor(oTarget, sKey) {
+    var vValue = oTarget[sKey] || oTarget.getItem(sKey);
+    return vValue
+      ? {
+          value: vValue,
+          writable: true,
+          enumerable: true,
+          configurable: false,
+        }
+      : undefined; //или undefined
+    //Object.getOwnPropertyDescriptor(), Reflect.getOwnPropertyDescriptor()
+  },
+  defineProperty(oTarget, sKey, oDesc) {
+    if (oDesc && "value" in oDesc) {
+      oTarget.setItem(sKey, oDesc.value);
+    }
+    return oTarget;
+    //Object.defineProperty(), Reflect.defineProperty(),
+  },
+  has(oTarget, sKey) {
+    return sKey in oTarget || oTarget.hasItem(sKey);
+    //foo in proxy, foo in Object.create(proxy), Reflect.has()
+  },
+  get(oTarget, sKey) {
+    return oTarget[sKey] || oTarget.getItem(sKey) || undefined;
+    //proxy[foo]and proxy.bar, Object.create(proxy)[foo], Reflect.get(),
+  },
+  set(oTarget, sKey, vValue) {
+    if (sKey in oTarget) {
+      return false;
+    }
+    return oTarget.setItem(sKey, vValue);
+    //roxy[foo] = bar and proxy.foo = bar, Reflect.set()
+  },
+  deleteProperty(oTarget, sKey) {
+    if (sKey in oTarget) {
+      return false;
+    }
+    return oTarget.removeItem(sKey);
+    //delete proxy[foo] and delete proxy.foo, Reflect.deleteProperty();
+  },
+  enumerate(oTarget, sKey) {
+    return oTarget.keys();
+  },
+  iterate(oTarget, sKey) {
+    return oTarget.keys();
+  },
+  ownKeys(oTarget, sKey) {
+    return oTarget.keys();
+  },
+  hasOwn(oTarget, sKey) {
+    return oTarget.hasItem(sKey);
+  },
+  getPropertyNames(oTarget) {
+    return Object.getPropertyNames(oTarget).concat(oTarget.keys());
+  },
+  getOwnPropertyNames(oTarget) {
+    return Object.getOwnPropertyNames(oTarget).concat(oTarget.keys());
+  },
+  fix: function (oTarget) {
+    return "not implemented yet!";
+  },
+});
 ```
 
 ```js
 let target = {};
 let proxy = new Proxy(target, {}); //пустой handler
+
 proxy.test = 5; //записали в proxy
+
 alert(proxy.test); //5
+
 for (let key in proxy) {
   alert(key); //test
 }
@@ -37,7 +118,7 @@ for (let key in proxy) {
 handler должен иметь метод get(target, property, receiver):
 
 - target – оригинальный объект, который передавался перовым аргументом в конструктор new Proxy
-- property – имя свойства //всегда строковое значение, при массивах использовать +prop
+- property – имя свойства всегда строковое значение, при массивах использовать +prop
 - receiver – если свойство объекта является геттером, то receiver – это объект, который будет использован как this при его вызове. Обычно это сам объект прокси
 
 ```js
@@ -105,12 +186,15 @@ numbers.push("Тест")://TypeError
 
 ```
 
-## ownKeys и getOwnPropertyDescription
+## getOwnPropertyDescription
 
-Object.keys, цикл for...in и большинство других методов, которые работают со списком свойства объекта, используют внутренний метод [[OWnPropertyKeys]] (перехватываемый ловушкой ownKeys) для их получения
+getOwnPropertyDescriptor function(target, name) -> PropertyDescriptor | undefined
 
-Object.getOwnPropertyNames(obj) возвращает не-символьные ключи Object.getOwnPropertySymbols(obj) возвращает символьные ключи Object.keys/values() возвращает не-символьные ключи/значения с флагом enumerable
-for…in перебирает не-символьные ключи с флагом enumerable, а также ключи прототипов пропускаем свойства начинающиеся с подчеркивания \_:
+## ownKeys
+
+возвращает массив всех собственных имен [string | symbol]
+
+Object.keys, цикл for...in и большинство других методов, которые работают со списком свойства объекта, используют внутренний метод [[OwnPropertyKeys]] (перехватываемый ловушкой ownKeys) для их получения
 
 ```js
 let user = { name: "Вася", age: 30, _password: "***" };
@@ -154,9 +238,78 @@ user = new Proxy(user, {
 alert(Object.keys(user)); //a, b, c
 ```
 
+## defineProperty
+
+задает новое свойство - возвращаемое свойство - игнорируется
+
+defineProperty function(target, name, propertyDescriptor) -> any
+
+## deleteProperty
+
+срабатывает на удаление, если возвращает true - успешно
+
+deleteProperty function(target, name) -> boolean
+
+## preventExtensions
+
+preventExtensions function(target) -> boolean
+
+## has
+
+has function(target, name) -> boolean
+
+<!--  -->
+
 # Proxy.revocable()
 
 отзыв обработчика
+
+# constructor И apply
+
+```js
+function extend(sup, base) {
+  var descriptor = Object.getOwnPropertyDescriptor(
+    base.prototype,
+    "constructor"
+  );
+
+  const prototype = { ...base.prototype };
+
+  base.prototype = Object.create(sup.prototype);
+  base.prototype = Object.assign(base.prototype, prototype);
+
+  var handler = {
+    construct: function (target, args) {
+      var obj = Object.create(base.prototype);
+      this.apply(target, obj, args);
+      return obj;
+    },
+    apply: function (target, that, args) {
+      sup.apply(that, args);
+      base.apply(that, args);
+    },
+  };
+  var proxy = new Proxy(base, handler);
+  descriptor.value = proxy;
+  Object.defineProperty(base.prototype, "constructor", descriptor);
+  return proxy;
+}
+
+var Person = function (name) {
+  this.name = name;
+};
+
+var Boy = extend(Person, function (name, age) {
+  this.age = age;
+});
+
+Boy.prototype.sex = "M";
+
+var Peter = new Boy("Peter", 13);
+console.log(Peter.sex); // "M"
+console.log(Peter.name); // "Peter"
+console.log(Peter.age); // 13
+```
 
 <!-- BPs ------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -291,7 +444,7 @@ function makeObservable(target) {
 let user = {};
 user = makeObservable(user);
 
-user.observe((key, value) => alert("SET ${key} = ${value}"));
+user.observe((key, value) => alert(`SET ${key} = ${value}`));
 //эта стрелочная функция будет аргументом handler
 
 user.name = "John";
