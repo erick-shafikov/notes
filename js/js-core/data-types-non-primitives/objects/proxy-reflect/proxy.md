@@ -8,99 +8,6 @@
 Объект proxy оборачивается вокруг объекта и может перехватывать разные действия с ним. Синтаксис:
 
 ```js
-//target – объект, для которого нужно Proxy
-let proxy = new Proxy(target, {
-  //handler – конфигурация proxy: объект с ловушками, методами, которые перехватывают разные операции. Proxy без ловушек:
-  getPrototypeOf() {
-    //Object.getPrototypeOf(), Reflect.getPrototypeOf(), __proto__, Object.prototype.isPrototypeOf(), instanceof
-  },
-  setPrototypeOf() {
-    //Object.setPrototypeOf() и Reflect.setPrototypeOf()
-  },
-
-  isExtensible() {
-    //Object.isExtensible() Reflect.isExtensible()
-  },
-  preventExtensions() {
-    //Object.preventExtensions(), Reflect.preventExtensions()
-  },
-  getPropertyDescriptor: function (oTarget, sKey) {
-    var vValue = oTarget[sKey] || oTarget.getItem(sKey);
-    return vValue
-      ? {
-          value: vValue,
-          writable: true,
-          enumerable: true,
-          configurable: false,
-        }
-      : undefined;
-  },
-  getOwnPropertyDescriptor(oTarget, sKey) {
-    var vValue = oTarget[sKey] || oTarget.getItem(sKey);
-    return vValue
-      ? {
-          value: vValue,
-          writable: true,
-          enumerable: true,
-          configurable: false,
-        }
-      : undefined; //или undefined
-    //Object.getOwnPropertyDescriptor(), Reflect.getOwnPropertyDescriptor()
-  },
-  defineProperty(oTarget, sKey, oDesc) {
-    if (oDesc && "value" in oDesc) {
-      oTarget.setItem(sKey, oDesc.value);
-    }
-    return oTarget;
-    //Object.defineProperty(), Reflect.defineProperty(),
-  },
-  has(oTarget, sKey) {
-    return sKey in oTarget || oTarget.hasItem(sKey);
-    //foo in proxy, foo in Object.create(proxy), Reflect.has()
-  },
-  get(oTarget, sKey) {
-    return oTarget[sKey] || oTarget.getItem(sKey) || undefined;
-    //proxy[foo]and proxy.bar, Object.create(proxy)[foo], Reflect.get(),
-  },
-  set(oTarget, sKey, vValue) {
-    if (sKey in oTarget) {
-      return false;
-    }
-    return oTarget.setItem(sKey, vValue);
-    //roxy[foo] = bar and proxy.foo = bar, Reflect.set()
-  },
-  deleteProperty(oTarget, sKey) {
-    if (sKey in oTarget) {
-      return false;
-    }
-    return oTarget.removeItem(sKey);
-    //delete proxy[foo] and delete proxy.foo, Reflect.deleteProperty();
-  },
-  enumerate(oTarget, sKey) {
-    return oTarget.keys();
-  },
-  iterate(oTarget, sKey) {
-    return oTarget.keys();
-  },
-  ownKeys(oTarget, sKey) {
-    return oTarget.keys();
-  },
-  hasOwn(oTarget, sKey) {
-    return oTarget.hasItem(sKey);
-  },
-  getPropertyNames(oTarget) {
-    return Object.getPropertyNames(oTarget).concat(oTarget.keys());
-  },
-  getOwnPropertyNames(oTarget) {
-    return Object.getOwnPropertyNames(oTarget).concat(oTarget.keys());
-  },
-  fix: function (oTarget) {
-    return "not implemented yet!";
-  },
-});
-```
-
-```js
 let target = {};
 let proxy = new Proxy(target, {}); //пустой handler
 
@@ -113,7 +20,184 @@ for (let key in proxy) {
 }
 ```
 
+# apply
+
+ловушка для вызова функций
+
+- target- объект
+- thisArg - аргумент this для вызова
+- argumentsList -список аргументов
+
+```js
+function sum(a, b) {
+  return a + b;
+}
+
+const handler = {
+  apply: function (target, thisArg, argumentsList) {
+    console.log(`Calculate sum: ${argumentsList}`);
+    // "Calculate sum: 1,2"
+
+    return target(argumentsList[0], argumentsList[1]) * 10;
+  },
+};
+
+const proxy1 = new Proxy(sum, handler);
+
+console.log(sum(1, 2)); // 3
+console.log(proxy1(1, 2)); // 30
+```
+
+```js
+function delay(f, ms) {
+  return new Proxy(f, {
+    apply(target, thisArg, args) {
+      setTimeout(() => target.apply(thisArgs, args), ms);
+    },
+  });
+}
+```
+
+Плюс данного метода в отличие от обертки, все обращение к функции будет на прямую, а не к функции обертке
+
+# construct
+
+ловушка для [[Construct]], метод который будет срабатывать с вызовом new
+
+```js
+function monster1(disposition) {
+  this.disposition = disposition;
+}
+
+const handler1 = {
+  construct(target, argumentsList, newTarget) {
+    console.log(`Creating a ${target.name}`);
+    // "Creating a monster1"
+
+    return new target(...argumentsList);
+  },
+};
+
+const proxy1 = new Proxy(monster1, handler1);
+
+console.log(new proxy1("fierce").disposition);
+```
+
+## constructor И apply
+
+```js
+function extend(sup, base) {
+  var descriptor = Object.getOwnPropertyDescriptor(
+    base.prototype,
+    "constructor"
+  );
+
+  const prototype = { ...base.prototype };
+
+  base.prototype = Object.create(sup.prototype);
+  base.prototype = Object.assign(base.prototype, prototype);
+
+  var handler = {
+    construct: function (target, args) {
+      var obj = Object.create(base.prototype);
+      this.apply(target, obj, args);
+      return obj;
+    },
+    apply: function (target, that, args) {
+      sup.apply(that, args);
+      base.apply(that, args);
+    },
+  };
+  var proxy = new Proxy(base, handler);
+  descriptor.value = proxy;
+  Object.defineProperty(base.prototype, "constructor", descriptor);
+  return proxy;
+}
+
+var Person = function (name) {
+  this.name = name;
+};
+
+var Boy = extend(Person, function (name, age) {
+  this.age = age;
+});
+
+Boy.prototype.sex = "M";
+
+var Peter = new Boy("Peter", 13);
+console.log(Peter.sex); // "M"
+console.log(Peter.name); // "Peter"
+console.log(Peter.age); // 13
+```
+
+# defineProperty
+
+задает новое свойство - возвращаемое свойство - игнорируется. Ловушка для [[DefineOwnProperty]]
+
+defineProperty function(target, name, propertyDescriptor) -> any
+
+- target
+- name - свойство строковое или символьное
+- propertyDescriptor - дескриптор
+- - enumerable
+- - configurable
+- - writable
+- - value
+- - get
+- - set
+
+```js
+const handler1 = {
+  defineProperty(target, key, descriptor) {
+    invariant(key, "define");
+    return true;
+  },
+};
+
+function invariant(key, action) {
+  if (key[0] === "_") {
+    throw new Error(`Invalid attempt to ${action} private "${key}" property`);
+  }
+}
+
+const monster1 = {};
+const proxy1 = new Proxy(monster1, handler1);
+
+console.log((proxy1._secret = "easily scared"));
+```
+
+# deleteProperty
+
+срабатывает на удаление, если возвращает true - успешно
+
+deleteProperty function(target, name) -> boolean
+
+```js
+const monster1 = {
+  texture: "scaly",
+};
+
+const handler1 = {
+  deleteProperty(target, prop) {
+    if (prop in target) {
+      delete target[prop];
+      console.log(`property removed: ${prop}`);
+      // "property removed: texture"
+    }
+  },
+};
+
+console.log(monster1.texture); // "scaly"
+
+const proxy1 = new Proxy(monster1, handler1);
+delete proxy1.texture;
+
+console.log(monster1.texture); // undefined
+```
+
 # get
+
+срабатывает при proxy[foo] and proxy.bar
 
 handler должен иметь метод get(target, property, receiver):
 
@@ -160,37 +244,108 @@ alert(dictionary["Hello"]); //Hola
 alert(dictionary["Welcome to proxy"]); //Welcome to proxy
 ```
 
-# set
+# getOwnPropertyDescription
 
-set(target, property, value, receiver):
-
-- target – оригинальный объект, который передавался первым аргументом в конструктор new Proxy property – имя свойства
-- value – значение свойства
-- receiver – этот аргумент имеете значение, если только свойство сеттер. Set должна вернуть true если запись прошла успешно и false в противном случае(будет сгенерирована ошибка TypeError)
-  Массив исключительно для чисел
-
-```js
-let numbers = [];
-let numbers = new Proxy(numbers, {
-  set(target, prop, val){
-    if (typeof val === "number"){
-      target[prop] = val;
-      return true; //при успешном добавлении не забывать возвращать true
-      } else {
-        return false;
-        }}}
-);
-numbers.push(1);//добавлен
-numbers.push(2);//добавлен
-numbers.push("Тест")://TypeError
-
-```
-
-## getOwnPropertyDescription
+ловушка для [[GetOwnProperty]]
 
 getOwnPropertyDescriptor function(target, name) -> PropertyDescriptor | undefined
 
-## ownKeys
+```js
+const monster1 = {
+  eyeCount: 4,
+};
+
+const handler1 = {
+  getOwnPropertyDescriptor(target, prop) {
+    console.log(`called: ${prop}`);
+    // "called: eyeCount"
+
+    return { configurable: true, enumerable: true, value: 5 };
+  },
+};
+
+const proxy1 = new Proxy(monster1, handler1);
+
+console.log(Object.getOwnPropertyDescriptor(proxy1, "eyeCount").value);
+```
+
+Пробросит ошибку:
+
+- если результат не null или Object
+- если configurable: false должно возвращать undefined
+- если для существующего
+
+# getPrototypeOf
+
+ловушка для [[GetPrototypeOf]]
+
+```js
+const monster1 = {
+  eyeCount: 4,
+};
+
+const monsterPrototype = {
+  eyeCount: 2,
+};
+
+const handler = {
+  getPrototypeOf(target) {
+    return monsterPrototype;
+  },
+};
+
+const proxy1 = new Proxy(monster1, handler);
+
+console.log(Object.getPrototypeOf(proxy1) === monsterPrototype); // true
+
+console.log(Object.getPrototypeOf(proxy1).eyeCount); // 2
+```
+
+Пробросит ошибку:
+
+- если результат не null или Object
+
+# has
+
+ловушка для [[HasProperty]] при проверке prop in obj
+
+has function(target, name) -> boolean
+
+# isExtensible
+
+Ловушка лоя [[IsExtensible]]
+
+```js
+const monster1 = {
+  canEvolve: true,
+};
+
+const handler1 = {
+  isExtensible(target) {
+    return Reflect.isExtensible(target);
+  },
+  preventExtensions(target) {
+    target.canEvolve = false;
+    return Reflect.preventExtensions(target);
+  },
+};
+
+const proxy1 = new Proxy(monster1, handler1);
+
+console.log(Object.isExtensible(proxy1)); // true
+
+console.log(monster1.canEvolve); // true
+
+Object.preventExtensions(proxy1);
+
+console.log(Object.isExtensible(proxy1)); // false
+
+console.log(monster1.canEvolve); // false
+```
+
+# ownKeys
+
+ловушка для [[OwnPropertyKeys]]
 
 возвращает массив всех собственных имен [string | symbol]
 
@@ -238,78 +393,93 @@ user = new Proxy(user, {
 alert(Object.keys(user)); //a, b, c
 ```
 
-## defineProperty
+# preventExtensions
 
-задает новое свойство - возвращаемое свойство - игнорируется
-
-defineProperty function(target, name, propertyDescriptor) -> any
-
-## deleteProperty
-
-срабатывает на удаление, если возвращает true - успешно
-
-deleteProperty function(target, name) -> boolean
-
-## preventExtensions
+ловушка [[PreventExtensions]]
 
 preventExtensions function(target) -> boolean
 
-## has
+```js
+const monster1 = {
+  canEvolve: true,
+};
 
-has function(target, name) -> boolean
+const handler1 = {
+  preventExtensions(target) {
+    target.canEvolve = false;
+    Object.preventExtensions(target);
+    return true;
+  },
+};
+
+const proxy1 = new Proxy(monster1, handler1);
+
+console.log(monster1.canEvolve); // true
+
+Object.preventExtensions(proxy1);
+
+console.log(monster1.canEvolve); // false
+```
+
+# set
+
+set(target, property, value, receiver):
+
+- target – оригинальный объект, который передавался первым аргументом в конструктор new Proxy property – имя свойства
+- value – значение свойства
+- receiver – этот аргумент имеете значение, если только свойство сеттер. Set должна вернуть true если запись прошла успешно и false в противном случае(будет сгенерирована ошибка TypeError)
+  Массив исключительно для чисел
+
+```js
+let numbers = [];
+numbers = new Proxy(numbers, {
+  set(target, prop, val) {
+    if (typeof val === "number") {
+      target[prop] = val;
+      return true;
+    } else {
+      return false;
+    }
+  },
+});
+
+numbers.push(1); //добавлен
+numbers.push(2); //добавлен
+numbers.push("Тест"); //TypeError
+```
+
+# setPrototypeOf()
+
+ловушка дял [[SetPrototypeOf]]
+
+```js
+const handler1 = {
+  setPrototypeOf(monster1, monsterProto) {
+    monster1.geneticallyModified = true;
+    return false;
+  },
+};
+
+const monsterProto = {};
+const monster1 = {
+  geneticallyModified: false,
+};
+
+const proxy1 = new Proxy(monster1, handler1);
+// Object.setPrototypeOf(proxy1, monsterProto); // Throws a TypeError
+
+console.log(Reflect.setPrototypeOf(proxy1, monsterProto));
+// Expected output: false
+
+console.log(monster1.geneticallyModified);
+// Expected output: true
+```
 
 <!--  -->
 
 # Proxy.revocable()
 
 отзыв обработчика
-
-# constructor И apply
-
-```js
-function extend(sup, base) {
-  var descriptor = Object.getOwnPropertyDescriptor(
-    base.prototype,
-    "constructor"
-  );
-
-  const prototype = { ...base.prototype };
-
-  base.prototype = Object.create(sup.prototype);
-  base.prototype = Object.assign(base.prototype, prototype);
-
-  var handler = {
-    construct: function (target, args) {
-      var obj = Object.create(base.prototype);
-      this.apply(target, obj, args);
-      return obj;
-    },
-    apply: function (target, that, args) {
-      sup.apply(that, args);
-      base.apply(that, args);
-    },
-  };
-  var proxy = new Proxy(base, handler);
-  descriptor.value = proxy;
-  Object.defineProperty(base.prototype, "constructor", descriptor);
-  return proxy;
-}
-
-var Person = function (name) {
-  this.name = name;
-};
-
-var Boy = extend(Person, function (name, age) {
-  this.age = age;
-});
-
-Boy.prototype.sex = "M";
-
-var Peter = new Boy("Peter", 13);
-console.log(Peter.sex); // "M"
-console.log(Peter.name); // "Peter"
-console.log(Peter.age); // 13
-```
 
 <!-- BPs ------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -372,7 +542,7 @@ for (let key in user) {
 }
 ```
 
-## BP. в диапазоне с ловушкой has
+## в диапазоне с ловушкой has
 
 ```js
 let range = { start: 1, end: 10 };
@@ -395,25 +565,6 @@ range = new Proxy(range, {
 alert(5 in range); //true
 alert(50 in range); //false
 ```
-
-# Оборачивание функций
-
-- apply(target, thiArg, args) – активируется при вызови прокси функции
-- target – это оригинальный объект
-- thisArg – это контекст this
-- args – список аргументов
-
-```js
-function delay(f, ms) {
-  return new Proxy(f, {
-    apply(target, thisArg, args) {
-      setTimeout(() => target.apply(thisArgs, args), ms);
-    },
-  });
-}
-```
-
-Плюс данного метода в отличие от обертки, все обращение к функции будет на прямую, а не к функции обертке
 
 ## BP
 
