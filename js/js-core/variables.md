@@ -94,3 +94,17 @@ if (true) {
 }
 console.log(y); // ReferenceError
 ```
+
+# со скобками
+
+```js
+var x = 5;
+var y = 0;
+
+let (x = x+10, y = 12) {
+  console.log(x+y); // 27
+}
+
+console.log(x + y); // 5
+
+```

@@ -11,14 +11,17 @@ function User(name) {
   this.isAdmin = false;
 }
 let user = new User("Вася");
-alert(user.name); // Вася  alert(user.isAdmin); // false  происходит следующее:
+alert(user.name); // Вася
+alert(user.isAdmin); // false  происходит следующее:
 // Создаётся новый пустой объект, и он присваивается this.
 // Выполняется код функции. Обычно он модифицирует this, добавляет туда новые свойства.
 // Возвращается значение this. 4. При вызове return с объектом, будет возвращён объект, а не this
 
 function User(name) {
   //this = {}; (неявно)
-  //добавляет к this  this.name = name;  this.isAdmin = false;
+  //добавляет к this
+  this.name = name;
+  this.isAdmin = false;
   //return this(неявно)
 }
 // Любая функция может быть использована как конструктор
@@ -31,7 +34,7 @@ let user = new (function () {
 })();
 ```
 
-Используя специальное свойство new.target внутри функции мы можем проверить вызвана ли функция при помощи опреатора new или без него, если да, то в new.target будет сама функиця, в противном случае undefined
+Используя специальное свойство new.target внутри функции мы можем проверить вызвана ли функция при помощи оператора new или без него, если да, то в new.target будет сама функция, в противном случае undefined
 
 ```js
 function User() {

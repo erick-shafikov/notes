@@ -83,6 +83,25 @@ const MyClass = class {
 
 не рекомендуется возвращать что-то из конструктора
 
+new.target.name - позволит узнать кто создал класс
+
+```js
+class A {
+  constructor() {
+    console.log(new.target.name);
+  }
+}
+
+class B extends A {
+  constructor() {
+    super();
+  }
+}
+
+var a = new A(); // вернёт "A"
+var b = new B(); // вернёт "B"
+```
+
 <!-- Class Expression ------------------------------------------------------------------------------------------------------------------------>
 
 # Class Expression
@@ -303,6 +322,25 @@ class Rabbit extends Animal {
 setTimeout(function () {
   super.stop();
 }, 1000); //ошибка
+```
+
+super в обычных объектах
+
+```js
+var obj1 = {
+  method1() {
+    console.log("method 1");
+  },
+};
+
+var obj2 = {
+  method2() {
+    super.method1();
+  },
+};
+
+Object.setPrototypeOf(obj2, obj1);
+obj2.method2(); // выведет "method 1"
 ```
 
 # Переопределение конструктора

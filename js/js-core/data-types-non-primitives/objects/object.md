@@ -98,9 +98,34 @@ function makeUser(name, age) {
 # проверка наличия свойства
 
 ```js
-let user = { age: 30 };
-let key = "age";
-alert(key in user); // true
+// Массивы
+const trees = ["redwood", "bay", "cedar", "oak", "maple"];
+0 in trees; // true
+3 in trees; // true
+6 in trees; // false
+"bay" in trees; // false (необходимо указать индекс элемента в массиве, а не значение)
+"length" in trees; // true (length является свойством Array)
+Symbol.iterator in trees; // true
+
+// Уже существующие объекты
+"PI" in Math; // true
+
+// Пользовательские объекты
+const mycar = { make: "Honda", model: "Accord", year: 1998 };
+"make" in mycar; // true
+"model" in mycar; // true
+```
+
+c удаленными свойствами
+
+```js
+const mycar = { make: "Honda", model: "Accord", year: 1998 };
+delete mycar.make;
+"make" in mycar; // false
+
+const trees = ["redwood", "bay", "cedar", "oak", "maple"];
+delete trees[3];
+3 in trees; // false
 ```
 
 # Перебор
