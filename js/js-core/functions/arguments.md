@@ -110,6 +110,17 @@ function showMenu({title = "Menu", width = 100. height = 200} = {}){
 showMenu();
 ```
 
+## в аргументах доступны другие аргументы
+
+```js
+function greet(name, greeting, message = greeting + " " + name) {
+  return [name, greeting, message];
+}
+
+greet("David", "Hi"); // ["David", "Hi", "Hi David"]
+greet("David", "Hi", "Happy Birthday!"); // ["David", "Hi", "Happy Birthday!"]
+```
+
 ## объекты в качестве аргумента
 
 ```js
