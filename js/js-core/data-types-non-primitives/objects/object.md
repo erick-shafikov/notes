@@ -490,6 +490,35 @@ Object.setPrototypeOf(obj, proto);
 
 создаст геттер
 
+```js
+// Нестандартный и устаревший способ
+
+const o = {};
+o.__defineGetter__("gimmeFive", function () {
+  return 5;
+});
+console.log(o.gimmeFive); // 5
+
+// Способы, совместимые со стандартом
+
+// Использование оператора get
+const o = {
+  get gimmeFive() {
+    return 5;
+  },
+};
+console.log(o.gimmeFive); // 5
+
+// Использование Object.defineProperty()
+const o = {};
+Object.defineProperty(o, "gimmeFive", {
+  get: function () {
+    return 5;
+  },
+});
+console.log(o.gimmeFive); // 5
+```
+
 ## obj.\_\_defineSetter\_\_() (устарело)
 
 создаст сеттер
