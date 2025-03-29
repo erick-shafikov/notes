@@ -1,6 +1,5 @@
 Работа с примитивами, как с объектами осуществляется через объект обертку, который создается на момент работы с примитивом
-в момент обращения к свойству строки str создается специальный объект, который знает значение строки и имеет полезные методы такие как .toUpperCase()
-Этот метод запускается и возвращает строку
+в момент обращения к свойству строки str создается специальный объект, который знает значение строки и имеет полезные методы такие как .toUpperCase() Этот метод запускается и возвращает строку
 Специальный метод удаляется, остается изменённый str
 
 Конструкторы String/Number/Boolean предназначены только для внутреннего пользования, то есть через new Number(1) или new Boolean(false)
@@ -10,7 +9,8 @@
 
 ```js
 let str = "Привет":
-str.test = 5;//undefined (без strict), Ошибка (strict)
+str.test = 5;
+//undefined (без strict), Ошибка (strict)
 // В момент обращения создается объект обертка
 // В строгом режиме попытка изменения выдаст ошибку
 // Без строго режима операция продолжиться, объект получит свойство test, но после этого оно удаляется
@@ -21,23 +21,35 @@ str.test = 5;//undefined (без strict), Ошибка (strict)
 alert(value); // преобразует значение к строке. undefined
 ```
 
-Обратные – помимо функции вставки значения выражения, так же помогают растянуть на несколько строк
-Для многострочного текста
-
-```js
-Let guestList = `Guest:
-John
-Pete
-Mary
-;
-```
-
-Перебор
+# Перебор
 
 ```js
 for (let char of "string") {
   //
 }
+```
+
+<!-- unicode-символы ------------------------------------------------------------------------------------------------------------------------->
+
+# unicode-символы
+
+```js
+"\xA9"; // "©"
+"\u00A9"; // "©"
+```
+
+# Сравнение строк
+
+Intl.Collator позволяет отфильтровать в алфавитном порядке с учетом локали
+
+```js
+var names = ["Hochberg", "Hönigswald", "Holzman"];
+
+var germanPhoneBook = new Intl.Collator("de-DE-u-co-phonebk");
+
+// as if sorting ["Hochberg", "Hoenigswald", "Holzman"]:
+console.log(names.sort(germanPhonebook.compare).join(", "));
+// logs "Hochberg, Hönigswald, Holzman"
 ```
 
 # new String()
@@ -52,6 +64,29 @@ objStr.toString();
 var s = new String("foo"); // Создание объекта
 console.log(s); // Отобразится: { '0': 'f', '1': 'o', '2': 'o'}
 typeof s; // Вернёт 'object'
+
+const a = new String("Hello world"); // a === "Hello world" is false
+//объект вида { 0:'H', .... 10: 'd' }
+const b = String("Hello world"); // b === "Hello world" is true
+a instanceof String; // is true
+b instanceof String; // is false
+typeof a; // "object"
+typeof b; // "string"
+```
+
+разница в поведении с eval
+
+```js
+const s1 = "2 + 2"; // создаёт строковый примитив
+const s2 = new String("2 + 2"); // создаёт объект String
+console.log(eval(s1)); // выведет число 4
+console.log(eval(s2)); // выведет строку '2 + 2'
+```
+
+преобразование в примитив с помощью valueOf
+
+```js
+console.log(eval(s2.valueOf())); // выведет число 4
 ```
 
 # toString()
@@ -63,107 +98,344 @@ typeof s; // Вернёт 'object'
 number.toString(2);
 ```
 
-<!-- Методы строк ---------------------------------------------------------------------------------------------------------------------------->
+<!-- Статические методы ---------------------------------------------------------------------------------------------------------------------->
 
-# Методы строк
+# статические методы
 
-<!-- получение символа -->
+## String.fromCharCode()
 
-## получение символа:
+создает строку из последовательностей unicode
 
-### length
+```js
+String.fromCharCode(65, 66, 67); // "ABC"
+```
 
-Возвращает длину строки
+## String.fromCodePoint()
 
-### str[i]
+с помощью кодовых точек
+
+```js
+String.fromCodePoint(42); // "*"
+String.fromCodePoint(65, 90); // "AZ"
+String.fromCodePoint(0x404); // "\u0404"
+String.fromCodePoint(0x2f804); // "\uD87E\uDC04"
+String.fromCodePoint(194564); // "\uD87E\uDC04"
+String.fromCodePoint(0x1d306, 0x61, 0x1d307); // "\uD834\uDF06a\uD834\uDF07"
+
+String.fromCodePoint("_"); // RangeError
+String.fromCodePoint(Infinity); // RangeError
+String.fromCodePoint(-1); // RangeError
+String.fromCodePoint(3.14); // RangeError
+String.fromCodePoint(3e-2); // RangeError
+String.fromCodePoint(NaN); // RangeError
+```
+
+## String.raw()
+
+строка из сырой шаблонной строки для вывода строки как есть
+
+```js
+String.raw`Привет\n${2 + 3}!`; // 'Привет\n5!',
+String.raw`Привет\u000A!`; // 'Привет\u000A!', а здесь мы получим символы
+
+let name = "Боб";
+String.raw`Привет\n${name}!`; // 'Привет\nБоб!', сработала подстановка.
+
+// Обычно вам не нужно вызывать метод String.raw() как функцию,
+// но никто не запрещает вам делать это:
+String.raw({ raw: "тест" }, 0, 1, 2);
+// 'т0е1с2т'
+```
+
+<!-- свойства экземпляра ---------------------------------------------------------------------------------------------------------------------------->
+
+# свойства экземпляра
+
+## str.length
+
+длина строки
+
+<!-- Методы экземпляра строк ---------------------------------------------------------------------------------------------------------------------------->
+
+# Методы экземпляра строк
+
+- str.anchor() - для оборачивания строки в a
+- str.big() - для оборачивания строки в big
+- str.blink() - для оборачивания строки в blink
+- str.bold() - для оборачивания строки в bold
+- str.fixed() - для оборачивания строки в tt
+- str.fontcolor(color) - оборачивает в тег font с атрибутом color
+- str.fontsize(size) - оборачивает в тег font с атрибутом size
+- str.italics() - оборачивает в тег i
+- str.link(url) - обернет строку в тег link c параметром url
+- str.small() - обернет строку в тег small
+- str.strike() - обернет строку в тег strike
+- str.sub() - обернет строку в тег sub
+- str.sup() - обернет строку в тег sup
+
+## str[i]
 
 символ на позиции в str, если символа нет undefined
 
-### slice(start [, end])
+## str.at(index)
 
-строки от start до (не включая) end.
+Возвращает элемент на позиции
 
-### substring(start [, end])
+```js
+// последний
+str.at(-1);
+```
 
-часть строки между start и end. (можно задавать start больше чем end) str.substr(start [, length]) ← часть строки от start длины length.
+## str.charAt(index)
 
-### codePointAt(pos)
+позволяет получить символ или букву
 
-код для символа, находящегося на позиции pos:
+## str.charCodeAt(index)
 
-### charAt(), charCodeAt
+кодировка в ascii
 
-at(-1) получить последний символ из строки
-Если символа нет, то пустую строку
+## str.codePointAt(index)
 
-<!-- Поиск -->
+⇒ UTF-16 код
 
-## поиск:
-
-### indexOf(substring, pos)
-
-ищет подстроку substring в строке str, начиная с позиции pos, и возвращает позицию, на которой располагается совпадение, либо -1 при отсутствии совпадений.
-
-### lastIndexOf(substr, position)
-
-который ищет с конца строки к её началу.
-
-### includes()
-
-true, если в строке str есть подстрока substr, либо false, если нет. str.includes(substr, pos)
-
-### startWith() и endsWith()
-
-проверяют, соответственно, начинается ли и заканчивается ли строка определённой строкой:
-
-## преобразование:
-
-### toLowerCase(), toUpperCase()
-
-Возвести в upper или lower case
-
-### concat
+## concat
 
 объединяет строки
 
-### trim()
+- - и += - более производительные
 
-удаляет пробелы с обоих концов строки. Пробелы — это все пробельные символы (пробел, табуляция, неразрывный пробел и т. д.) и все символы конца строки (LF, CR и т. д.). Обрати внимание, trim() удаляет пробелы только с краев.
+```js
+var hello = "Привет, ";
+console.log(hello.concat("Кевин", ", удачного дня."));
 
-### replace()
+/* Привет, Кевин, удачного дня. */
+```
 
-Синтаксис str.replace(regexp|substr, newSubstr|function[,flags]) ← новую строку с некоторыми или всеми сопоставлениями с шаблоном, замененным на заменитель
+## startWith() и endsWith()
 
-### repeat()
+проверяют, соответственно, начинается ли и заканчивается ли строка определённой строкой:
+
+```js
+var str = "Быть или не быть, вот в чём вопрос.";
+
+console.log(str.endsWith("вопрос.")); // true
+console.log(str.endsWith("быть")); // false
+console.log(str.endsWith("быть", 16)); // true
+```
+
+## includes()
+
+true, если в строке str есть подстрока substr, либо false, если нет. str.includes(substr, pos) начиная с pos позиции
+
+## indexOf(substring, pos) и lastIndexOf(substr, position)
+
+ищет подстроку substring в строке str, начиная с позиции pos, и возвращает позицию, на которой располагается совпадение, либо -1 при отсутствии совпадений.
+
+который ищет с конца строки к её началу.
+
+```js
+// подсчет количества вхождений
+var str = "Быть или не быть, вот в чём вопрос.";
+var count = 0;
+var pos = str.indexOf("в");
+
+while (pos !== -1) {
+  count++;
+  pos = str.indexOf("в", pos + 1);
+}
+
+console.log(count); // отобразит 3
+```
+
+## str.isWellFormed()
+
+проверяет есть ли суррогатные пары ⇒ boolean
+
+## str.localCompare()
+
+```js
+const a = "réservé"; // With accents, lowercase
+const b = "RESERVE"; // No accents, uppercase
+
+console.log(a.localeCompare(b));
+// Expected output: 1
+console.log(a.localeCompare(b, "en", { sensitivity: "base" }));
+// Expected output: 0
+```
+
+## str.match(regexp)
+
+возвращает массив сопоставлений или null
+
+```js
+var str = "Смотри главу 3.4.5.1 для дополнительной информации";
+var re = /смотри (главу \d+(\.\d)*)/i;
+var found = str.match(re);
+
+console.log(found);
+
+// выведет [ 'Смотри главу 3.4.5.1',
+//           'главу 3.4.5.1',
+//           '.1',
+//           index: 0,
+//           input: 'Смотри главу 3.4.5.1 для дополнительной информации' ]
+```
+
+## str.matchAll(regexp)
+
+```js
+const regexp = /t(e)(st(\d?))/g;
+const str = "test1test2";
+
+const array = [...str.matchAll(regexp)];
+
+console.log(array[0]); // Expected output: Array ["test1", "e", "st1", "1"]
+console.log(array[1]); // Expected output: Array ["test2", "e", "st2", "2"]
+```
+
+## str.normalize()
+
+⇒ нормализованную Unicode форму строки - значения объекта String, на котором вызывается.
+
+## str.padEnd(targetLength, padString) и str.padStart(targetLength, padString)
+
+```js
+// padEnd()
+console.log("Блины со сметаной".padEnd(25, ".")); // Результат: "Блины со сметаной........"
+console.log("200".padEnd(5)); // Результат: "200  "
+
+//padStart()
+"abc".padStart(10); // "       abc"
+"abc".padStart(10, "foo"); // "foofoofabc"
+"abc".padStart(6, "123465"); // "123abc"
+"abc".padStart(8, "0"); // "00000abc"
+"abc".padStart(1); // "abc"
+```
+
+## repeat(count)
 
 создает новую строку, повторяя заданную строку несколько раз, и возвращает ее. repeat() вызывает RangeError, если количество повторений отрицательное, равно бесконечности или превышает максимальный размер строки. Если используем параметр 0, возвращается пустая строка. При использовании нецелого числа значение преобразуется в ближайшее целое число с округлением вниз.
 
-### split
+## replace(regexp|substr, newSubstr|function[,flags])
 
-разбивает строку на массив по заданному разделителю delim. есть необязательный второй числовой аргумент
+Синтаксис str.replace(regexp|substr, newSubstr|function[,flags]) ← новую строку с некоторыми или всеми сопоставлениями с шаблоном, замененным на заменитель
+
+- $$ - Вставляет символ доллара «$».
+- $& - Вставляет сопоставившуюся подстроку.
+- $` - Вставляет часть строки, предшествующую сопоставившейся подстроке.
+- $' - Вставляет часть строки, следующую за сопоставившейся подстрокой.
+- $n (или $nn) - Символы n или nn являются десятичными цифрами, вставляет - - n-ную сопоставившуюся подгруппу из объекта RegExp в первом параметре.
+
+```js
+var re = /([А-ЯЁа-яё]+)\s([А-ЯЁа-яё]+)/;
+var str = "Джон Смит";
+var newstr = str.replace(re, "$2, $1");
+console.log(newstr); // Смит, Джон
+```
+
+```js
+function f2c(x) {
+  function convert(str, p1, offset, s) {
+    return ((p1 - 32) * 5) / 9 + "C";
+  }
+  var s = String(x);
+  var test = /(\d+(?:\.\d*)?)F\b/g;
+  return s.replace(test, convert);
+}
+```
+
+## str.replaceAll()
+
+- возвращает новую строку со всеми совпадениями
+
+## str.search()
+
+аналог test, но вместо подстроки возвращает ее индекс
+
+## slice(start [, end])
+
+строки от start до (не включая) end.
+
+```js
+let str1 = "Приближается утро.";
+str1.slice(1, 8); //риближа
+str1.slice(4, -2); //лижается утр
+str1.slice(12); //утро.
+str1.slice(30); //""
+str1.slice(-3); //вернёт 'ро.'
+str1.slice(-3, -1); //вернёт 'ро'
+str1.slice(0, -1); //'Приближается утро'
+str.slice(-11, 16); //вернёт 'ается утр'
+```
+
+## split
+
+разбивает строку на массив по заданному разделителю delim (символ или регулярное выражение). есть необязательный второй числовой аргумент - лимит на количество подстрок
 
 ```js
 // необязательный числовой аргумент
 let names = "Вася, Петя, Маша, Саша".split(", ", 2); // arr == ["Вася", "Петя"]
 ```
 
-## Другие:
+## substring(start [, end])
 
-## fromCodePoint(code)
-
-Создаёт символ по его коду code
-
-## normalize
-
-Возвращает нормализованную Unicode форму строки - значения объекта String, на котором вызывается.
-
-<!-- unicode-символы ------------------------------------------------------------------------------------------------------------------------->
-
-# unicode-символы
+часть строки между start и end. (можно задавать start больше чем end) str.substr(start [, length]) ← часть строки от start длины length.
 
 ```js
-"\xA9"; // "©"
-"\u00A9"; // "©"
+var anyString = "Mozilla";
+
+anyString.substring(0, 3); // Отобразит 'Moz'
+anyString.substring(3, 0); // Отобразит 'Moz'
+anyString.substring(4, 7); // Отобразит 'lla'
+anyString.substring(7, 4); // Отобразит 'lla'
+anyString.substring(0, 6); // Отобразит 'Mozill'
+anyString.substring(0, 7); // Отобразит 'Mozilla'
+anyString.substring(0, 10); // Отобразит 'Mozilla'
+```
+
+## str.toLowerCase(), str.toUpperCase(), str.toLocaleLowerCase(), str.toLocaleUpperCase(), str.toLowerCase()
+
+Возвести в upper или lower case
+
+## str.toWellFormed()
+
+преобразует строку в well-formed
+
+## str.trim(), str.trimRight(), str.trimLeft()
+
+удаляет пробелы с обоих концов строки. Пробелы — это все пробельные символы (пробел, табуляция, неразрывный пробел и т. д.) и все символы конца строки (LF, CR и т. д.). Обрати внимание, trim() удаляет пробелы только с краев.
+
+- trimRight - уберет символы справа
+- trimLeft - уберет символы слева
+
+## str.valueOf()
+
+вернет примитивное значение для объекта String
+
+# String.prototype[@@iterator]()
+
+```js
+var string = "A\uD835\uDC68";
+
+var strIter = string[Symbol.iterator]();
+
+console.log(strIter.next().value); // "A"
+console.log(strIter.next().value); // "\uD835\uDC68"
+```
+
+<!-- шаблонные строки ------------------------------------------------------------------------------------------------------------------------>
+
+# шаблонные строки
+
+Обратные – помимо функции вставки значения выражения, так же помогают растянуть на несколько строк
+Для многострочного текста
+
+```js
+Let guestList = `Guest:
+John
+Pete
+Mary
+;
 ```
 
 <!-- Тегерированные аргументы ---------------------------------------------------------------------------------------------------------------->
@@ -186,18 +458,4 @@ getPersonInfo`${person} is ${age} years old`;
 // ['', ' is ', ' years old']
 // в two – оправляется person
 // в three - 21
-```
-
-# Сравнение строк
-
-Intl.Collator позволяет отфильтровать в алфавитном порядке с учетом локали
-
-```js
-var names = ["Hochberg", "Hönigswald", "Holzman"];
-
-var germanPhonebook = new Intl.Collator("de-DE-u-co-phonebk");
-
-// as if sorting ["Hochberg", "Hoenigswald", "Holzman"]:
-console.log(names.sort(germanPhonebook.compare).join(", "));
-// logs "Hochberg, Hönigswald, Holzman"
 ```
