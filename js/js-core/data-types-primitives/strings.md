@@ -57,16 +57,13 @@ console.log(names.sort(germanPhonebook.compare).join(", "));
 ```js
 //возвращает объект, что бы достать строку нужно вызвать
 const objStr = new String();
-
-String.prototype.isPrototypeOf(objStr); //достать строку из объекта-строки
-
 objStr.toString();
+
 var s = new String("foo"); // Создание объекта
 console.log(s); // Отобразится: { '0': 'f', '1': 'o', '2': 'o'}
 typeof s; // Вернёт 'object'
 
-const a = new String("Hello world"); // a === "Hello world" is false
-//объект вида { 0:'H', .... 10: 'd' }
+const a = new String("Hello world"); // a === "Hello world" is false { 0:'H', .... 10: 'd' }
 const b = String("Hello world"); // b === "Hello world" is true
 a instanceof String; // is true
 b instanceof String; // is false
@@ -100,7 +97,7 @@ number.toString(2);
 
 <!-- Статические методы ---------------------------------------------------------------------------------------------------------------------->
 
-# статические методы
+# статические методы String
 
 ## String.fromCharCode()
 
@@ -149,7 +146,7 @@ String.raw({ raw: "тест" }, 0, 1, 2);
 
 <!-- свойства экземпляра ---------------------------------------------------------------------------------------------------------------------------->
 
-# свойства экземпляра
+# свойства экземпляра строк str
 
 ## str.length
 
@@ -157,7 +154,7 @@ String.raw({ raw: "тест" }, 0, 1, 2);
 
 <!-- Методы экземпляра строк ---------------------------------------------------------------------------------------------------------------------------->
 
-# Методы экземпляра строк
+# методы экземпляра строк str
 
 - str.anchor() - для оборачивания строки в a
 - str.big() - для оборачивания строки в big
@@ -198,11 +195,11 @@ str.at(-1);
 
 ⇒ UTF-16 код
 
-## concat
+## str.concat(str1, str2)
 
 объединяет строки
 
-- - и += - более производительные
+- операторы str1 + str2 и str1 += str2 более производительные
 
 ```js
 var hello = "Привет, ";
@@ -211,7 +208,7 @@ console.log(hello.concat("Кевин", ", удачного дня."));
 /* Привет, Кевин, удачного дня. */
 ```
 
-## startWith() и endsWith()
+## str.startWith() и str.endsWith()
 
 проверяют, соответственно, начинается ли и заканчивается ли строка определённой строкой:
 
@@ -223,9 +220,11 @@ console.log(str.endsWith("быть")); // false
 console.log(str.endsWith("быть", 16)); // true
 ```
 
-## includes()
+## str.includes(substr)
 
 true, если в строке str есть подстрока substr, либо false, если нет. str.includes(substr, pos) начиная с pos позиции
+
+- substr может быть регулярным выражением
 
 ## indexOf(substring, pos) и lastIndexOf(substr, position)
 
@@ -283,6 +282,8 @@ console.log(found);
 
 ## str.matchAll(regexp)
 
+вернет итератор по всем результатам
+
 ```js
 const regexp = /t(e)(st(\d?))/g;
 const str = "test1test2";
@@ -312,11 +313,11 @@ console.log("200".padEnd(5)); // Результат: "200  "
 "abc".padStart(1); // "abc"
 ```
 
-## repeat(count)
+## str.repeat(count)
 
 создает новую строку, повторяя заданную строку несколько раз, и возвращает ее. repeat() вызывает RangeError, если количество повторений отрицательное, равно бесконечности или превышает максимальный размер строки. Если используем параметр 0, возвращается пустая строка. При использовании нецелого числа значение преобразуется в ближайшее целое число с округлением вниз.
 
-## replace(regexp|substr, newSubstr|function[,flags])
+## str.replace(regexp|substr, newSubstr|function[,flags])
 
 Синтаксис str.replace(regexp|substr, newSubstr|function[,flags]) ← новую строку с некоторыми или всеми сопоставлениями с шаблоном, замененным на заменитель
 
@@ -356,6 +357,8 @@ function f2c(x) {
 
 строки от start до (не включая) end.
 
+- в отличает от str.substring может принимать отрицательные индексы
+
 ```js
 let str1 = "Приближается утро.";
 str1.slice(1, 8); //риближа
@@ -368,7 +371,7 @@ str1.slice(0, -1); //'Приближается утро'
 str.slice(-11, 16); //вернёт 'ается утр'
 ```
 
-## split
+## str.split(delim)
 
 разбивает строку на массив по заданному разделителю delim (символ или регулярное выражение). есть необязательный второй числовой аргумент - лимит на количество подстрок
 
@@ -378,6 +381,8 @@ let names = "Вася, Петя, Маша, Саша".split(", ", 2); // arr == [
 ```
 
 ## substring(start [, end])
+
+- не может принимать отрицательные индексы в отличие от slice
 
 часть строки между start и end. (можно задавать start больше чем end) str.substr(start [, length]) ← часть строки от start длины length.
 
@@ -412,7 +417,7 @@ anyString.substring(0, 10); // Отобразит 'Mozilla'
 
 вернет примитивное значение для объекта String
 
-# String.prototype[@@iterator]()
+## String.prototype[@@iterator]()
 
 ```js
 var string = "A\uD835\uDC68";
@@ -455,7 +460,7 @@ const person = "Lydia";
 const age = 21;
 getPersonInfo`${person} is ${age} years old`;
 // в one – массив из пустой строки, так как начинается с параметра, потом " is "", потом разделенный строкой " years old"
-// ['', ' is ', ' years old']
-// в two – оправляется person
-// в three - 21
+// массив из всех не-аргументов ['', ' is ', ' years old']
+// в two – оправляется person Lydia
+// в three age - 21
 ```
