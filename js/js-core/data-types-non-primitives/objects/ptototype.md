@@ -19,9 +19,9 @@ rabbit.__proto__ = animal; //одним из способов задания я�
 rabbit.walk(); //"animal Walk"
 ```
 
-!!!Ссылки не могут идти по кругу
-!!!Значение proto может быть только объект или null
-!!!Прототип используется только для чтения свойств. Операции записи и удаления работают напрямую с объектом
+- !!!Ссылки не могут идти по кругу
+- !!!Значение proto может быть только объект или null
+- !!!Прототип используется только для чтения свойств. Операции записи и удаления работают напрямую с объектом
 
 ```js
 let animal = {
@@ -139,7 +139,8 @@ function Rabbit(name) {
 
 let rabbit = new Rabbit("white Rabbit");
 let rabbit2 = new rabbit.constructor("Black Rabbit");
-//в свойстве Rabbit.prototype есть свойство  constructor : Rabbit, а Rabbit в свою очередь функция-конструктор, при передачи в rabbit создается свойство конструктор и у нового объекта
+//в свойстве Rabbit.prototype есть свойство  constructor === Rabbit,
+// а Rabbit в свою очередь функция-конструктор, при передачи в rabbit создается свойство конструктор и у нового объекта
 ```
 
 Если в F.prototype содержится объект, оператор new устанавливает его в качестве [[prototype]] для нового объекта,
@@ -156,7 +157,7 @@ function Rabbit(name) {
 
 Rabbit.prototype = animal;
 let rabbit = new Rabbit("White Rabbit");
-// rabbit. proto__=== animal, при создании объекта через New Rabbit() запиши ему animal в [[Prototype]]
+// rabbit.__proto__=== animal, при создании объекта через New Rabbit() запиши ему animal в [[Prototype]]
 alert(rabbit.eats); //true
 alert(rabbit.name); //White Rabbit
 ```
@@ -197,9 +198,9 @@ Rabbit.prototype.jumps = true;
 
 ```js
 function commonFunc() {
-  return "common function"; //
+  return "common function";
 }
-const arrowFunc = () => "arrow function"; //
+const arrowFunc = () => "arrow function";
 console.log(commonFunc.prototype); //{constructor: ƒ} ↳ constructor: ƒ commonFunc() [[Prototype]]: Object
 console.log(arrowFunc.prototype); //undefined
 ```

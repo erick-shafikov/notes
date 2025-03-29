@@ -262,7 +262,7 @@ console.log(obj); // { "0": "1", "1": "2", "2": "3" }
 
 - если ключ с writable: false совпадает с ключом в копируемом объекта, то пробросится исключение
 
-## Object.create()
+## Object.create(proto)
 
 создает объект с прототипом указанном в аргументе
 
@@ -270,7 +270,7 @@ Object.create(proto[, propertiesObject])
 
 - propertiesObject аргумент является дескриптором
 
-## Object.defineProperty()
+## Object.defineProperty(obj, desc)
 
 добавит свойство с дескриптором
 
@@ -289,7 +289,7 @@ Object.defineProperty(obj, "key", {
 });
 ```
 
-## Object.defineProperties()
+## Object.defineProperties(obj, desc)
 
 добавит несколько свойств с дескриптором
 
