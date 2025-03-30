@@ -354,7 +354,7 @@ let obj = Object.fromEntries(map.entries()); //map.entries возвращает 
 let object = Object.fromEntries(map); //убрали .entries
 ```
 
-## Object.getOwnPropertyDescriptor()
+## Object.getOwnPropertyDescriptor(obj)
 
 возвратит дескриптор свойства
 
@@ -364,11 +364,11 @@ d = Object.getOwnPropertyDescriptor(o, "bar");
 //  { configurable: true, enumerable: true, value: 42, writable: true }
 ```
 
-## Object.getOwnPropertyDescriptors()
+## Object.getOwnPropertyDescriptors(obj)
 
 возвратит дескрипторы свойств
 
-## Object.getOwnPropertyNames()
+## Object.getOwnPropertyNames(obj)
 
 возвращает массив всех собственных строковых ключей.
 
@@ -376,9 +376,13 @@ d = Object.getOwnPropertyDescriptor(o, "bar");
 Object.getOwnPropertyNames(obj);
 ```
 
-## Object.getOwnPropertySymbols()
+## Object.getOwnPropertySymbols(obj)
 
 имена всех символьных свойств
+
+```js
+Object.getOwnPropertySymbols(obj);
+```
 
 ## Object.getPrototypeOf()
 
@@ -386,7 +390,11 @@ Object.getOwnPropertyNames(obj);
 
 возвращает [[Prototype]] obj
 
-## Object.groupBy()
+```js
+Object.getPrototypeOf(obj);
+```
+
+## Object.groupBy(obj, func)
 
 ```js
 function myCallback({ quantity }) {
@@ -410,7 +418,7 @@ const result2 = Object.groupBy(inventory, myCallback);
 */
 ```
 
-## Object.is()
+## Object.is(obj1, obj2)
 
 строгое сравнение двух объектов
 
@@ -418,21 +426,21 @@ const result2 = Object.groupBy(inventory, myCallback);
 
 Object.is(obj1, obj2)
 
-## Object.isExtensible()
+## Object.isExtensible(obj)
 
 разрешено ли расширение Object.preventExtensions()
 
-## Object.isFrozen()
+## Object.isFrozen(obj)
 
 был ли применен Object.freeze()
 
-## Object.isSealed()
+## Object.isSealed(obj)
 
 был ли применен Object.seal()
 
 ## Object.keys(obj)
 
-## Object.preventExtensions()
+## Object.preventExtensions(obj)
 
 ```js
 const object1 = {};
@@ -449,19 +457,11 @@ try {
 }
 ```
 
-## Object.seal()
+## Object.seal(obj)
 
 запретить удаление свойств
 
-```js
-Object.getPrototypeOf(obj);
-```
-
-```js
-Object.getOwnPropertySymbols(obj);
-```
-
-## Object.setPrototypeOf
+## Object.setPrototypeOf(obj, prototype)
 
 устанавливает в [[Prototype]] obj объект proto
 
@@ -640,7 +640,7 @@ function endpoint(request, response) {
 }
 ```
 
-## Bps linked list
+## BPs. linked list
 
 ```js
 let list = {
@@ -696,7 +696,7 @@ if (obj.next != null) {
 }
 ```
 
-## BP. самоархивирующийся объект
+## BPs. архивирующийся объект
 
 ```js
 function Archiver() {
