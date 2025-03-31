@@ -133,6 +133,44 @@ logger.info("Message 2");
 // Во втором логе тоже есть description: "Ok"
 ```
 
+```js
+const logger = pino({
+  mixin(obj, num, logger) {
+    return {
+      tags: logger.tags,
+    };
+  },
+});
+
+//глобальный объект
+logger.tags = {};
+
+// в логгер добавляют метод для работы с глобальным объектом
+logger.addTag = function (key, value) {
+  logger.tags[key] = value;
+};
+
+function createChild(parent, ...context) {
+  // context === bindings
+  const newChild = logger.child(...context);
+  // current tags оставляем в замыкании
+  newChild.tags = { ...logger.tags };
+  // в newChild добавляют метод addTag
+  newChild.addTag = function (key, value) {
+    newChild.tags[key] = value;
+  };
+  return newChild;
+}
+
+logger.addTag("foo", 1);
+const child = createChild(logger, {});
+child.addTag("bar", 2);
+logger.info("this will only have `foo: 1`");
+child.info("this will have both `foo: 1` and `bar: 2`");
+// так как свой скоуп
+logger.info("this will still only have `foo: 1`");
+```
+
 <!-- свойства экземпляра ----------------------------------------------------------------------------------------------------------->
 
 # свойства экземпляра
@@ -151,13 +189,13 @@ logger
   );
 ```
 
-# logger.silent();
+## logger.silent();
 
 ```js
 logger.silent();
 ```
 
-# logger.child()
+## logger.child()
 
 позволяет создать логгер с состоянием
 

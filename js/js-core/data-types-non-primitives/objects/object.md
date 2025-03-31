@@ -554,6 +554,9 @@ obj.hasOwn(key); // тоже самое
 
 строковое представление объекта
 
+Обычные объекты преобразуются к строке как [object Object]
+Object.prototype.toString возвращает тип
+
 ```js
 var toString = Object.prototype.toString;
 
@@ -564,6 +567,29 @@ toString.call(Math); // [object Math]
 // Начиная с JavaScript 1.8.5
 toString.call(undefined); // [object Undefined]
 toString.call(null); // [object Null]
+
+//
+let objectToString = Object.prototype.toString;
+let arr = [];
+alert(objectToString.call(arr)); //[object Array] а call здесь для контекста this = arr
+
+let s = Object.prototype.toString;
+
+alert(s.call(123)); //[object Number]
+alert(s.call(null)); //[object Null]
+alert(s.call(alert)); //[Object function]
+
+let user = {
+  // Поведение метода toString можно настраивать через специальное свойство Symbol.toStringTag
+  [Symbol.toStringTag]: "User",
+};
+
+alert({}.toString.call(user)); //[object User]
+
+alert(window[Symbol.toStringTag]); //window
+alert(XMLHttpRequest.prototype[Symbol.toStringTag]); //XMLHttpRequest
+alert({}[Symbol.toStringTag].call(window)); //[object Window]
+alert([Symbol.toStringTag].call(new XMLHttpRequest())); //[object XMLHttpRequest]
 ```
 
 ## obj.valueOf()
