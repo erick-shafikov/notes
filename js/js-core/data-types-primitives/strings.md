@@ -43,9 +43,9 @@ for (let char of "string") {
 Intl.Collator позволяет отфильтровать в алфавитном порядке с учетом локали
 
 ```js
-var names = ["Hochberg", "Hönigswald", "Holzman"];
+const names = ["Hochberg", "Hönigswald", "Holzman"];
 
-var germanPhoneBook = new Intl.Collator("de-DE-u-co-phonebk");
+const germanPhoneBook = new Intl.Collator("de-DE-u-co-phonebk");
 
 // as if sorting ["Hochberg", "Hoenigswald", "Holzman"]:
 console.log(names.sort(germanPhonebook.compare).join(", "));
@@ -59,7 +59,7 @@ console.log(names.sort(germanPhonebook.compare).join(", "));
 const objStr = new String();
 objStr.toString();
 
-var s = new String("foo"); // Создание объекта
+const s = new String("foo"); // Создание объекта
 console.log(s); // Отобразится: { '0': 'f', '1': 'o', '2': 'o'}
 typeof s; // Вернёт 'object'
 
@@ -202,7 +202,7 @@ str.at(-1);
 - операторы str1 + str2 и str1 += str2 более производительные
 
 ```js
-var hello = "Привет, ";
+const hello = "Привет, ";
 console.log(hello.concat("Кевин", ", удачного дня."));
 
 /* Привет, Кевин, удачного дня. */
@@ -213,7 +213,7 @@ console.log(hello.concat("Кевин", ", удачного дня."));
 проверяют, соответственно, начинается ли и заканчивается ли строка определённой строкой:
 
 ```js
-var str = "Быть или не быть, вот в чём вопрос.";
+const str = "Быть или не быть, вот в чём вопрос.";
 
 console.log(str.endsWith("вопрос.")); // true
 console.log(str.endsWith("быть")); // false
@@ -234,9 +234,9 @@ true, если в строке str есть подстрока substr, либо 
 
 ```js
 // подсчет количества вхождений
-var str = "Быть или не быть, вот в чём вопрос.";
-var count = 0;
-var pos = str.indexOf("в");
+const str = "Быть или не быть, вот в чём вопрос.";
+const count = 0;
+const pos = str.indexOf("в");
 
 while (pos !== -1) {
   count++;
@@ -267,9 +267,9 @@ console.log(a.localeCompare(b, "en", { sensitivity: "base" }));
 возвращает массив сопоставлений или null
 
 ```js
-var str = "Смотри главу 3.4.5.1 для дополнительной информации";
-var re = /смотри (главу \d+(\.\d)*)/i;
-var found = str.match(re);
+const str = "Смотри главу 3.4.5.1 для дополнительной информации";
+const re = /смотри (главу \d+(\.\d)*)/i;
+const found = str.match(re);
 
 console.log(found);
 
@@ -328,9 +328,9 @@ console.log("200".padEnd(5)); // Результат: "200  "
 - $n (или $nn) - Символы n или nn являются десятичными цифрами, вставляет - - n-ную сопоставившуюся подгруппу из объекта RegExp в первом параметре.
 
 ```js
-var re = /([А-ЯЁа-яё]+)\s([А-ЯЁа-яё]+)/;
-var str = "Джон Смит";
-var newstr = str.replace(re, "$2, $1");
+const re = /([А-ЯЁа-яё]+)\s([А-ЯЁа-яё]+)/;
+const str = "Джон Смит";
+const newstr = str.replace(re, "$2, $1");
 console.log(newstr); // Смит, Джон
 ```
 
@@ -339,8 +339,8 @@ function f2c(x) {
   function convert(str, p1, offset, s) {
     return ((p1 - 32) * 5) / 9 + "C";
   }
-  var s = String(x);
-  var test = /(\d+(?:\.\d*)?)F\b/g;
+  const s = String(x);
+  const test = /(\d+(?:\.\d*)?)F\b/g;
   return s.replace(test, convert);
 }
 ```
@@ -387,7 +387,7 @@ let names = "Вася, Петя, Маша, Саша".split(", ", 2); // arr == [
 часть строки между start и end. (можно задавать start больше чем end) str.substr(start [, length]) ← часть строки от start длины length.
 
 ```js
-var anyString = "Mozilla";
+const anyString = "Mozilla";
 
 anyString.substring(0, 3); // Отобразит 'Moz'
 anyString.substring(3, 0); // Отобразит 'Moz'
@@ -420,9 +420,9 @@ anyString.substring(0, 10); // Отобразит 'Mozilla'
 ## String.prototype[@@iterator]()
 
 ```js
-var string = "A\uD835\uDC68";
+const string = "A\uD835\uDC68";
 
-var strIter = string[Symbol.iterator]();
+const strIter = string[Symbol.iterator]();
 
 console.log(strIter.next().value); // "A"
 console.log(strIter.next().value); // "\uD835\uDC68"
@@ -443,9 +443,45 @@ Mary
 ;
 ```
 
-<!-- Тегерированные аргументы ---------------------------------------------------------------------------------------------------------------->
+```js
+`\`` === "`"; //true
+```
 
-# Тегерированные аргументы
+# Теговые аргументы
+
+- первый аргумент - массив строчных значений
+- остальные - аргументы для подстановок
+
+```js
+const person = "Mike";
+const age = 28;
+
+//strings - массив строк из литерала
+function myTag(strings, personExp, ageExp) {
+  const str0 = strings[0]; // "That "
+  const str1 = strings[1]; // " is a "
+
+  // Технически, в конце итогового выражения
+  // (в нашем примере) есть ещё одна строка,
+  // но она пустая (""), так что пропустим её.
+  // const str2 = strings[2];
+
+  let ageStr;
+  if (ageExp > 99) {
+    ageStr = "centenarian";
+  } else {
+    ageStr = "youngster";
+  }
+
+  // Мы даже можем вернуть строку, построенную другим шаблонным литералом
+  return `${str0}${personExp}${str1}${ageStr}`;
+}
+
+const output = myTag`That ${person} is a ${age}`;
+
+console.log(output);
+// That Mike is a youngster
+```
 
 ```js
 //При использовании тегированных шаблонных литералов
@@ -463,4 +499,16 @@ getPersonInfo`${person} is ${age} years old`;
 // массив из всех не-аргументов ['', ' is ', ' years old']
 // в two – оправляется person Lydia
 // в three age - 21
+```
+
+## raw
+
+```js
+function tag(strings) {
+  return strings.raw[0];
+}
+
+tag`string text line 1 \\n string text line 2`;
+// выводит "string text line 1 \\n string text line 2",
+// включая 'n' и два символа '\'
 ```
