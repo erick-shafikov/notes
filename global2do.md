@@ -8,10 +8,10 @@
 - - - shadow dom (learnJS + MDN)
 - - - css (learnJS)
 - с учетом chrome - https://developer.chrome.com/docs/web-platform?hl=ru
-- drag&drop
 - [раздел "how to" на w3c](https://www.w3schools.com/howto/default.asp)
+- - drag&drop
 - [от поисковой строки до стадии reflow-repaint описание процессов/протоколов](./comp-science/networking.md)
-- развертывание фронт приложений
+- развертывание фронт приложений (сборщики webpack, gulp.)
 
 <!-- папка web-dev -->
 
@@ -33,6 +33,7 @@ tg:
 
 новые технологии:
 
+- Vue
 - tailwind
 - MOBX
 - RxJs
@@ -59,5 +60,3 @@ DOC
 - курс яндекса
 - Грокаем алгоритмы
 - Leetcode
-
-⇒
