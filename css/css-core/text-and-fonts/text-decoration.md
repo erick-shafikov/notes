@@ -1,20 +1,20 @@
-## color
+# color
 
 цвет текста
 
 ```scss
- {
+.color {
   color: red; //цвет текста
 }
 ```
 
 можно использовать свойство -webkit-text-fill-color
 
-## font-palette
+# font-palette
 
 для взаимодействия с цветами в цветных шрифтах
 
-### @font-palette-values
+## @font-palette-values
 
 изменение цветов по умолчанию
 
@@ -27,7 +27,7 @@
 }
 ```
 
-## -webkit-text-stroke
+# -webkit-text-stroke
 
 webkit-text-stroke = -webkit-text-stroke-width and -webkit-text-stroke-color.
 
@@ -39,14 +39,14 @@ webkit-text-stroke = -webkit-text-stroke-width and -webkit-text-stroke-color.
 }
 ```
 
-## text-decoration:
+# text-decoration:
 
 свойства text-decoration = text-decoration-line + text-decoration-color + text-decoration-style + text-decoration-thickness, декорирование подчеркивания текста
 
-### text-decoration-line
+## text-decoration-line
 
 ```scss
- {
+.text-decoration-line {
   //декорирование текста
   text-decoration-line: underline | overline | line-through | blink; //где находится линия
   text-decoration-line: underline overline; // может быть две
@@ -57,19 +57,19 @@ webkit-text-stroke = -webkit-text-stroke-width and -webkit-text-stroke-color.
 }
 ```
 
-### text-decoration-color
+## text-decoration-color
 
 цвет подчеркивания
 
 ```scss
- {
+.text-decoration {
   // шорткат для text-decoration-line, text-decoration-style, ext-decoration-color
   text-decoration: line-through red wavy;
   text-decoration-color: red;
 }
 ```
 
-### text-decoration-style
+## text-decoration-style
 
 ```scss
 .text-decoration-style {
@@ -77,43 +77,43 @@ webkit-text-stroke = -webkit-text-stroke-width and -webkit-text-stroke-color.
 } //цвет линии
 ```
 
-### text-decoration-thickness
+## text-decoration-thickness
 
 ширина линии подчеркивания
 
 ```scss
- {
+.text-decoration-thickness {
   text-decoration-thickness: 0.1em;
   text-decoration-thickness: 3px;
 }
 ```
 
-### text-underline-offset (text-decoration)
+## text-underline-offset (text-decoration)
 
 text-underline-offset: px - позволяет определить расстояния от линии декоратора до текста при text-decoration
 
-### text-underline-position (text-decoration)
+## text-underline-position (text-decoration)
 
 при text-decoration
 
 text-underline-position: auto | under - позволяет определить линия подчеркивания будет находит внизу всех элементов
 
-### text-decoration-skip
+## text-decoration-skip
 
 при добавлении подчеркивания сделать сплошную линию, либо с прерыванием на буквы у,р,д
 
 ```scss
- {
+.text-decoration-skip-ink {
   text-decoration-skip-ink: auto | none;
 }
 ```
 
-## text-emphasis (верх):
+# text-emphasis (верх):
 
 Добавит элементы поверх текста, text-emphasis = text-emphasis-position + text-emphasis-style + text-emphasis-color.
 
 ```scss
- {
+.text-emphasis {
   text-emphasis: "x";
   text-emphasis: "点";
   text-emphasis: "\25B2";
@@ -134,20 +134,20 @@ text-underline-position: auto | under - позволяет определить 
 }
 ```
 
-### text-emphasis-color - цвет элементов поверх текста
+## text-emphasis-color - цвет элементов поверх текста
 
 ```scss
- {
+.text-emphasis-color {
   text-emphasis-color: #555;
   text-emphasis-color: blue;
   text-emphasis-color: rgb(90 200 160 / 80%);
 }
 ```
 
-### text-emphasis-position расположение элементов поверх текста
+## text-emphasis-position расположение элементов поверх текста
 
 ```scss
-text-emphasis-position. {
+.text-emphasis-position {
   text-emphasis-position: auto;
 
   /* Keyword values */
@@ -166,7 +166,7 @@ text-emphasis-position. {
 }
 ```
 
-### text-emphasis-style элемент вставки
+## text-emphasis-style элемент вставки
 
 ```scss
 .text-emphasis-style {
@@ -186,12 +186,12 @@ text-emphasis-position. {
 }
 ```
 
-## text-shadow
+# text-shadow
 
 тень от текста
 
 ```scss
- {
+.text-shadow {
   /* смещение-x | смещение-y | радиус-размытия | цвет */
   text-shadow: 1px 1px 2px black;
 
@@ -213,12 +213,12 @@ text-emphasis-position. {
 }
 ```
 
-## text-transform
+# text-transform
 
 преобразует написание текста upper/lower-case и др
 
 ```scss
- {
+.text-transform {
   text-transform: none;
   text-transform: capitalize;
   text-transform: uppercase;
@@ -229,7 +229,7 @@ text-emphasis-position. {
 }
 ```
 
-## initial-letter
+# initial-letter
 
 размер и глубину для опущенных, приподнятых и утопленных начальных букв.
 
@@ -242,7 +242,7 @@ text-emphasis-position. {
 }
 ```
 
-## user-select
+# user-select
 
 Отвечает за возможность выделять текст
 
@@ -256,12 +256,12 @@ text-emphasis-position. {
 }
 ```
 
-## font-size-adjust
+# font-size-adjust
 
 позволяет регулировать lowercase и uppercase
 
 ```scss
-.font-size-adjus {
+.font-size-adjust {
   font-size-adjust: none;
 
   font-size-adjust: 0.5;
@@ -272,9 +272,7 @@ text-emphasis-position. {
 }
 ```
 
-# Ковычки
-
-## quotes
+# quotes
 
 режим кавычек для тега q
 
