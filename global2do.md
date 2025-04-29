@@ -4,9 +4,8 @@
 <!-- notes-work заполнять параллельно с задачами -->
 
 - mdn
-- - переход на web api и js
+- - переход на web api
 - - - shadow dom (learnJS + MDN)
-- - - css (learnJS)
 - с учетом chrome - https://developer.chrome.com/docs/web-platform?hl=ru
 - [раздел "how to" на w3c](https://www.w3schools.com/howto/default.asp)
 - - drag&drop

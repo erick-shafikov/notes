@@ -1,10 +1,8 @@
-<!-- font ------------------------------------------------------------------------------------------------------------------------------------>
-
-# font:
+# font
 
 font = font-style + font-variant + font-weight + font-stretch + font-size + line-height + font-family
 
-## font-style
+# font-style
 
 стиль начертания
 
@@ -16,13 +14,13 @@ font = font-style + font-variant + font-weight + font-stretch + font-size + line
 }
 ```
 
-## font-variant:
+# font-variant:
 
 font-variant-alternates + font-variant-caps + font-variant-east-asian + font-variant-emoji + font-variant-ligatures + font-variant-numeric + font-variant-position
 
 варианты написания разных шрифтов под разные языки если они предусмотрены шрифтом
 
-### font-variant-alternates
+## font-variant-alternates
 
 управляет использованием альтернативных глифов
 
@@ -38,7 +36,7 @@ font-variant-alternates + font-variant-caps + font-variant-east-asian + font-var
 }
 ```
 
-## font-weight
+# font-weight
 
 жирность
 
@@ -63,7 +61,7 @@ font-variant-alternates + font-variant-caps + font-variant-east-asian + font-var
 }
 ```
 
-## font-stretch
+# font-stretch
 
 растягивает шрифт
 
@@ -85,9 +83,17 @@ font-variant-alternates + font-variant-caps + font-variant-east-asian + font-var
 }
 ```
 
-## font-size
+# font-size
 
 размер шрифта, стандартное значение у тега html - 16px
+
+Возможные значения:
+
+- 1mm (мм) = 3.8px (не используются)
+- 1cm (см) = 38px (не используются)
+- 1pt (типографский пункт) = 4/3 px (не используются)
+- 1pc (типографская пика) = 16px (не используются)
+- % - от родителя
 
 ```scss
 .font-size {
@@ -119,7 +125,7 @@ span {
 }
 ```
 
-### @font-feature-values
+## @font-feature-values
 
 Применение для нескольких font-variant-alternates
 
@@ -146,14 +152,30 @@ span {
 }
 ```
 
-## line-height
+# line-height
 
-расстояние между строками или минимальное расстояние между блокам и в блоке
+расстояние между строками или минимальное расстояние между блокам и в блоке, берется от текущего шрифта
 
 ```scss
- {
+.line-height {
   line-height: 1rem; //px | % | 1.5;
 }
+```
+
+можно центрировать одну строку задав одинаковый height и line-height
+
+```scss
+.outer {
+  height: 5em;
+  line-height: 5em;
+  border: 1px solid blue;
+}
+```
+
+```html
+<div class="outer">
+  <span style="border:1px solid red">Текст</span>
+</div>
 ```
 
 # font-family

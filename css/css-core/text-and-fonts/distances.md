@@ -1,4 +1,4 @@
-## word-spacing
+# word-spacing
 
 ```scss
 .word-spacing {
@@ -11,7 +11,7 @@
 }
 ```
 
-## letter-spacing
+# letter-spacing
 
 расстояние между буквами
 
@@ -21,22 +21,22 @@
 }
 ```
 
-## tab-size
+# tab-size
 
 размер символа табуляции
 
-## text-indent
+# text-indent
 
 определяет размер отступа (пустого места) перед строкой в текстовом блоке.
 
-## white-space
+# white-space
 
 Свойство white-space управляет тем, как обрабатываются пробельные символы внутри элемента.
 
 ```scss
  {
   white-space: normal; //Последовательности пробелов объединяются в один пробел.
-  white-space: nowrap; //не переносит строки (оборачивание текста) внутри текста.
+  white-space: nowrap; //не переносит строки (оборачивание текста) внутри текста. Удалит переносы строк
   white-space: pre; //Последовательности пробелов сохраняются так, как они указаны в источнике.
   white-space: pre-wrap; //как и в pre + <br/>
   white-space: pre-line; //только <br />
@@ -58,7 +58,7 @@ const Comp = ({ text }) => <div className="container">{text}</div>;
 <Comp text={"текст\nЕще текст"} />;
 ```
 
-## white-space-collapse
+# white-space-collapse
 
 управляет тем, как сворачивается пустое пространство внутри элемента
 
@@ -72,7 +72,7 @@ const Comp = ({ text }) => <div className="container">{text}</div>;
 }
 ```
 
-## font-kerning
+# font-kerning
 
 расстояние между буквами
 
