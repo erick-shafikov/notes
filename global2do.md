@@ -3,12 +3,10 @@
 <!-- notes -->
 <!-- notes-work заполнять параллельно с задачами -->
 
-- mdn
-- - переход на web api
-- - - shadow dom (learnJS + MDN)
 - с учетом chrome - https://developer.chrome.com/docs/web-platform?hl=ru
 - [раздел "how to" на w3c](https://www.w3schools.com/howto/default.asp)
 - - drag&drop
+- - ...
 - [от поисковой строки до стадии reflow-repaint описание процессов/протоколов](./comp-science/networking.md)
 - развертывание фронт приложений (сборщики webpack, gulp.)
 
@@ -27,6 +25,9 @@
 
 tg:
 
+- mdn (параллельно)
+- - переход на web api
+- - shadow dom (learnJS + MDN)
 - разбор статей с хабр
 - разбор компонентов с анимацией (code pen)
 
