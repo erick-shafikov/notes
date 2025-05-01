@@ -1,10 +1,12 @@
-console.log(1);
+const element = document.querySelector("label");
+const button = document.querySelector("button");
+const result = document.querySelector("#result");
 
-setTimeout(() => console.log(2), 0);
+const attribute = element.attributes[0];
+console.log(element.attributes);
+result.value = attribute.value;
 
-new Promise((resolve) => {
-  console.log(3);
-  resolve(4);
-}).then((res) => console.log(res));
-
-console.log(5);
+button.addEventListener("click", () => {
+  attribute.value = "a new value";
+  result.value = attribute.value;
+});

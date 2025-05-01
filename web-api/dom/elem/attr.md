@@ -1,32 +1,45 @@
-# DOM-свойства
+# класс Attr
+
+класс Attr наследует Node
+
+получить
+
+```js
+attr = element.attributes;
+```
+
+## свойства экземпляра
+
+- name - Имя атрибута
+- namespaceURI
+- localName
+- prefix
+- ownerElement ⇒ элемент
+- value
 
 ```html
-<!-- Можем создать свойство для document.body -->
-<body id="page">
-  <!-- body.id = "page" в DOM -->
+<label test="initial value"></label>
 
-  <script>
-    document.body.myData = {
-      name: "Cesar",
-      title: "Imperator",
-    };
+<button>Click me to set test to <code>"a new value"</code>…</button>
 
-    alert(document.body.myData.title); //Imperator
+<p>
+  Current value of the <code>test</code> attribute:
+  <output id="result">None.</output>
+</p>
+```
 
-    document.body.syaTagName = function () {
-      alert(this.tagName);
-    };
+```js
+const element = document.querySelector("label");
+const button = document.querySelector("button");
+const result = document.querySelector("#result");
 
-    document.body.sayTagName(); //BODY (значение this в это методе будет document.body)
+const attribute = element.attributes[0];
+result.value = attribute.value;
 
-    Element.prototype.sayHI = function () {
-      alert(`Hello, i"m ${this.tagName}`);
-    };
-
-    document.documentElement.sayHI(); // Hello, I"m HTML
-    document.body.sayHi(); //Hello, I"m BODY
-  </script>
-</body>
+button.addEventListener("click", () => {
+  attribute.value = "a new value";
+  result.value = attribute.value;
+});
 ```
 
 # HTML атрибуты
