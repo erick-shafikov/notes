@@ -90,32 +90,6 @@ event.target – это элемент на который курсор пере
 event.relatedTarget – это элемент с которого курсор ушел
 Для события mouseout наоборот
 
-```js
-container.onmouseover = container.onmouseout = handler;
-
-function handler(event){
-function str(el) {
-//часть для вывода в log доп информации
-    if(!el) return "null";
-
-    return.el.className || el.tagName;
-  }
-
-  log.value += event.type + ": " + "target=" + str(event.target)+
-  ", relatedTarget= "+ str(event.relatedTarget) + "\n";
-
-  log.scrollTop = log.scrollHeight;
-
-  if(event.type == "mouseover") {
-  event.target,style = "pink"
-  }
-
-   if(event.type = "mouseout") {
-  event.target.style.background = "";
-  }
-}
-```
-
 ```html
 <body>
   <!--лица-->
@@ -146,11 +120,43 @@ function str(el) {
 </body>
 ```
 
+```js
+container.onmouseover = container.onmouseout = handler;
+
+function str(el) {
+  //часть для вывода в log доп информации
+  if (!el) return "null";
+
+  return el.className || el.tagName;
+}
+
+function handler(event) {
+  log.value +=
+    event.type +
+    ": " +
+    "target=" +
+    str(event.target) +
+    ", relatedTarget= " +
+    str(event.relatedTarget) +
+    "\n";
+
+  log.scrollTop = log.scrollHeight;
+
+  if (event.type == "mouseover") {
+    event.target.style = "pink";
+  }
+
+  if ((event.type = "mouseout")) {
+    event.target.style.background = "";
+  }
+}
+```
+
 ### Событие mouse при переходе не потомка
 
 Событие mouseout генерируется в том числе, когда указатель переходит с элемента на его потомка. Визуально курсор еще на элементе но мы получим mouseout. Курсор может быть над одним элементом над самым глубоко вложенным и верхнем z-index
 
-Событие mouseover происходящее на потомке всплывает, если на родительском элементе есть такой обработчки то он его вызовет
+Событие mouseover происходящее на потомке всплывает, если на родительском элементе есть такой обработчик то он его вызовет
 
 ```js
 parent.onmouseout = function (event) {
@@ -217,48 +223,49 @@ table.onmouseout = function (event) {
 ### BP. улучшенная подсказка
 
 ```js
-let tooltip
-document.onmouseover = function(event) {
-  let anchorElem = event.target.closest("[data-tooltip]")
-//ищем предков по классу, у которого есть атрибут data-tooltip
-  if(!anchorElem) return;
+let tooltip;
+
+document.onmouseover = function (event) {
+  let anchorElem = event.target.closest("[data-tooltip]");
+  //ищем предков по классу, у которого есть атрибут data-tooltip
+  if (!anchorElem) return;
   tooltip = showTooltip(anchorElem, anchorElem.dataset.tooltip);
-}
-document.onmouseout = function(){
-  if(tooltip){
+};
+document.onmouseout = function () {
+  if (tooltip) {
     tooltip.remove();
     tooltip = false;
   }
-}
+};
+
 function showTooltip(anchorElem, html) {
-  let tooltipElem = document.createElement("");
+  let tooltipElem = document.createElement("div");
   tooltipElem.className = "tooltip";
   tooltipElem.innerHTML = html;
   document.body.append(tooltipElem);
 
   let coords = anchorElem.getBoundingClientRect();
-  let left = coords.left + (anchor.offsetWidth – tooltipElem.offsetWidth) / 2
-  if(left < 0) left = 0;
-  let top = coords.top – tooltipElem.offsetHeight – 5;
-  if(top < 0){
-    top coors.top + anchorElem.offsetHeight + 5;
+
+  let left = coords.left + (anchor.offsetWidth - tooltipElem.offsetWidth) / 2;
+  if (left < 0) left = 0;
+  let top = coords.top - tooltipElem.offsetHeight - 5;
+  if (top < 0) {
+    coords.top + anchorElem.offsetHeight + 5;
   }
   tooltipElem.style.left = left + "px";
   tooltipElem.style.top = top + "px";
-  return tooltipElem
+  return tooltipElem;
 }
-
 ```
 
 ## Drag'n'Drop с событиями мыши
 
 ```js
-
 // Алгоритм Drag"n"Drop
 
-ball.onmousedown = function(event) {
-  let shiftX = event.clientX – ball.getBoundingClientRect().left;
-  let shiftY = event.clientY – ball.getBoundingClientRect().top;
+ball.onmousedown = function (event) {
+  let shiftX = event.clientX - ball.getBoundingClientRect().left;
+  let shiftY = event.clientY - ball.getBoundingClientRect().top;
 
   ball.style.position = "absolute";
   ball.style.zIndex = 1000;
@@ -267,8 +274,8 @@ ball.onmousedown = function(event) {
   moveAt(event.pageX, event.pageY); //координаты курсора мыши
 
   function moveAt(pageX, pageY) {
-   ball.style.left = pageX – shiftX + "px";
-   ball.style.top = pageY – shiftY + "px";
+    ball.style.left = pageX - shiftX + "px";
+    ball.style.top = pageY - shiftY + "px";
   }
 
   function omMouseMove(event) {
@@ -277,13 +284,11 @@ ball.onmousedown = function(event) {
 
   document.addEventLIstener("mousemove", onMOuseMove);
   ball.onmouseup = null;
-  };
-
-
-ball.ondragstart = function() {
-  return false;
 };
 
+ball.ondragstart = function () {
+  return false;
+};
 ```
 
 ### Цели переноса
@@ -299,7 +304,7 @@ ball.ondragstart = function() {
 
 ```js
 ball.hidden = true;
-let elemBelow = document.elementFromPoint(event.clientX, event.clientY); //elemBelow – элемент под мячом
+let elemBelow = document.elementFromPoint(event.clientX, event.clientY); //elemBelow - элемент под мячом
 ball.hidden = false;
 
 let currentDroppable = null; //потенциальная цель переноса
@@ -377,6 +382,7 @@ document.querySelectorAll().forEach((row) => {
       //убираем подпрыгивание слайдера
       document.addEventListener("mousemove", onMouseMove); //добавляем передвижение
       document.addEventListener("mouseup", onMouseUp);
+
       function onMouseMove(event) {
         let newLeft =
           event.clientX - shiftX - slider.getBoundingClientRect().left;
