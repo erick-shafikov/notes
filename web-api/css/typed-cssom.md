@@ -50,6 +50,32 @@ for (const [prop, val] of defaultComputedStyles) {
 - delete()
 - clear()
 
+```js
+// Element styles.
+el.style.opacity = 0.3;
+typeof el.style.opacity === "string"; // Ugh. A string!?
+
+// Stylesheet rules.
+document.styleSheets[0].cssRules[0].style.opacity = 0.3;
+// Element styles.
+el.attributeStyleMap.set("opacity", 0.3);
+typeof el.attributeStyleMap.get("opacity").value === "number"; // Yay, a number!
+
+// Stylesheet rules.
+const stylesheet = document.styleSheets[0];
+stylesheet.cssRules[0].styleMap.set("background", "blue");
+
+el.attributeStyleMap.set("margin-top", CSS.px(10));
+// el.attributeStyleMap.set('margin-top', '10px'); // string arg also works.
+el.attributeStyleMap.get("margin-top").value; // 10
+el.attributeStyleMap.get("margin-top").unit; // 'px'
+
+// Use CSSKeyWorldValue for plain text values:
+el.attributeStyleMap.set("display", new CSSKeywordValue("initial"));
+el.attributeStyleMap.get("display").value; // 'initial'
+el.attributeStyleMap.get("display").unit; // undefined
+```
+
 # CSSUnparsedValue
 
 для пользовательских свойств
