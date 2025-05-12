@@ -77,7 +77,8 @@ newspaper.addEventListener("click", () => {
   newspaper.animate(newspaperSpinning, newspaperTiming);
 });
 ```
--  append() - вставляет в конец Element.
+
+- append() - вставляет в конец Element.
 - attachShadow() - добавляет теневое DOM дерево к Element
 - before(param1, param2, paramN) - добавляет в начало Element
 - checkVisibility(options) ⇒ boolean виден ли элемент (display:none)
@@ -89,13 +90,13 @@ newspaper.addEventListener("click", () => {
 - - - checkVisibilityCSS
 - closest(selectors) ⇒ возвращает ближайший родительский компонент по селектору
 - computedStyleMap() ⇒ StylePropertyMapReadOnly
-- getAnimations() ⇒  Animation
+- getAnimations() ⇒ Animation
 - getAttribute(attributeName) ⇒ значение атрибута по имени
 - getAttributeNames() ⇒ массив с именами атрибутов
 - getAttributeNode() ⇒ Attr
 - getAttributeNodeNS() ⇒ Attr для NS
 - getAttributeNS() ⇒ Attr для NS
-- getBoundingClientRect() ⇒ размер элемента и его расположение left, top, right, bottom, x, y, width и height 
+- getBoundingClientRect() ⇒ размер элемента и его расположение left, top, right, bottom, x, y, width и height
 - getClientRects() ⇒ DOMRect[]
 - getElementsByClassName(names) ⇒ HTMLCollection из потомков с names в качестве classNames
 - getElementsByTagName() ⇒ HTMLCollection из потомков по имя тега
@@ -115,16 +116,16 @@ newspaper.addEventListener("click", () => {
 - insertAdjacentText(position, element)- вставит text как html
 - matches(selectorString) - соответствует ли Element css селектору selectorString
 - moveBefore(movedNode, referenceNode) - movedNode переместит перед referenceNode
-- prepend(param1, param2, paramN) - вставит перед концом 
-- querySelector(selectors) ⇒ первый Element по  selectors
+- prepend(param1, param2, paramN) - вставит перед концом
+- querySelector(selectors) ⇒ первый Element по selectors
 - querySelectorAll(selectors) ⇒ статичный NodeList
 - releasePointerCapture() - остановит Pointer Capture
 - remove() - удалит элемент из dom
 - removeAttribute(attrName) - удалит атрибут с Element
-- removeAttributeNode() -  удалит Attr с Element
+- removeAttributeNode() - удалит Attr с Element
 - removeAttributeNS()
 - replaceChildren(param1, param2, paramN) - заменит Element элементами param1, param2, paramN
-- replaceWith(param1, param2,  paramN) - заменит детей Element
+- replaceWith(param1, param2, paramN) - заменит детей Element
 - requestFullscreen() - сделать Element на весь экран
 - requestPointerLock() - блокировка курсора
 - scroll(xCoord, yCoord) - прокрутить до (xCoord, yCoord)
@@ -132,8 +133,8 @@ newspaper.addEventListener("click", () => {
 - - options:
 - - - behavior: smooth, instant, auto
 - scrollBy(xCoord, yCoord) или scrollBy(options)
-- scrollIntoView(alignToTop) - элемент в поле видемости alignToTop - будет ли верхняя граница по верху 
-- scrollIntoView(scrollIntoViewOptions) - 
+- scrollIntoView(alignToTop) - элемент в поле видемости alignToTop - будет ли верхняя граница по верху
+- scrollIntoView(scrollIntoViewOptions) -
 - - scrollIntoViewOptionsЖ
 - - - behavior
 - - - block
@@ -145,10 +146,132 @@ newspaper.addEventListener("click", () => {
 - setAttributeNodeNS()
 - setAttributeNS()
 - setCapture()Не стандартноУстарело
-- setHTMLUnsafe() - для преобразования строки в HTML 
+- setHTMLUnsafe() - для преобразования строки в HTML
 - setPointerCapture() - сделать элемент target для Pointer Events
 - toggleAttribute(name, force) - для boolean атрибутов
 
 ## события
+
+- afterscriptexecute (Нестандартный Устаревший) - загрузка скрипта
+- animationcancel (-ch,-ed) - незапланированное прерывание анимации
+- animationend - окончание анимации
+- animationiteration - окончание итерации анимации
+- animationstart - начало анимации
+- - свойства события:
+- - - animationName
+- - - elapsedTime
+- - - pseudoElement
+- auxclick - при клике не на основной мыши
+- - свойства:
+- - - altitudeAngle
+- - - azimuthAngle
+- - - pointerId
+- - - width
+- - - height
+- - - pressure
+- - - tangentialPressure
+- - - tiltX
+- - - tiltY
+- - - twist
+- - - pointerType
+- - - .isPrimary
+- beforeinput - при изменении в поле input, до самих изменений в dom элементе(не работаете на select)
+- - свойства:
+- - - data
+- - - dataTransfer
+- - - inputType
+- - - isComposing
+- beforematch (-ff, -sf)- для работы с hidden="until-found" срабатывает до того как найдет
+- beforescriptexecute (Нестандартный Устаревший)
+- beforexrselect (Экспериментальный) - WebXR
+- blur - при потери фокуса с элемента (не всплывает)
+- click - this - элемент на котором было вызвано = mousedown + mouseup
+- compositionend - для отмены ввода в системе написания текста
+- compositionstart
+- compositionupdate
+- contentvisibilityautostatechange - content-visibility: auto
+- contextmenu - пкм
+- copy - Clipboard API событие
+- cut
+- dblclick
+- - свойства:
+- - - altKey
+- - - button
+- - - buttons
+- - - clientX
+- - - clientY
+- - - ctrlKey
+- - - layerX
+- - - layerY
+- - - metaKey
+- - - movementX
+- - - movementY
+- - - offsetX
+- - - offsetY
+- - - pageX
+- - - pageY
+- - - relatedTarget
+- - - screenX
+- - - screenY
+- - - shiftKey
+- - - mozInputSource
+- - - webkitForce
+- - - x === MouseEvent.clientX.
+- - - y === MouseEvent.clientY.
+- DOMActivate Устаревший
+- DOMMouseScroll (Нестандартный Устаревший)
+- focus - при фокусировке (не всплывает)
+- focusin - при фокусировке (всплывает)
+- focusout - потеря фокуса (всплывает)
+- fullscreenchange - при переходе в fullscreen режим
+- fullscreenerror
+- gesturechange Нестандартный - при передвижении цифр во время касания
+- gestureend Нестандартный
+- gesturestart Нестандартный
+- gotpointercapture - срабатывает если setPointerCapture()
+- input - ввод
+- keydown - нажата клавиша
+- keypress - Устаревший - клавиши alt, enter
+- keyup - клавиша отжата
+- lostpointercapture
+
+- mousedown - нажата кнопка мыши
+- mouseenter - находится над элементом
+- mouseleave - уходит с элемента
+- mousemove - мышь внутри элемента
+- mouseout - движения не внутри элеме6нта
+- mouseover
+
+mouseup
+mousewheel (Нестандартный Устаревший)
+MozMousePixelScroll (Нестандартный Устаревший)
+paste
+pointercancel
+pointerdown
+pointerenter
+pointerleave
+pointermove
+pointerout
+pointerover
+pointerrawupdat e(Экспериментальный)
+pointerup
+scroll
+scrollend
+scrollsnapchang e(Экспериментальный)
+scrollsnapchangin g(Экспериментальный)
+securitypolicyviolation
+touchcancel
+touchend
+touchmove
+touchstart
+transitioncancel
+transitionend
+transitionrun
+transitionstart
+webkitmouseforcechangedНестандартный
+webkitmouseforcedownНестандартный
+webkitmouseforceupНестандартный
+webkitmouseforcewillbeginНестандартный
+wheel
 
 ⇒

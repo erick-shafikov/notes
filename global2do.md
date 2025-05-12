@@ -7,7 +7,7 @@
 - [раздел "how to" на w3c](https://www.w3schools.com/howto/default.asp)
 - - drag&drop
 - - ...
-- [от поисковой строки до стадии reflow-repaint описание процессов/протоколов](./comp-science/networking.md)
+- [от поисковой строки до стадии reflow-repaint описание процессов/протоколов](./comp-science/networking.md) + mdn web
 - развертывание фронт приложений (сборщики webpack, gulp.)
 
 <!-- папка web-dev -->
