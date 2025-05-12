@@ -239,39 +239,56 @@ newspaper.addEventListener("click", () => {
 - mouseenter - находится над элементом
 - mouseleave - уходит с элемента
 - mousemove - мышь внутри элемента
-- mouseout - движения не внутри элеме6нта
-- mouseover
-
-mouseup
-mousewheel (Нестандартный Устаревший)
-MozMousePixelScroll (Нестандартный Устаревший)
-paste
-pointercancel
-pointerdown
-pointerenter
-pointerleave
-pointermove
-pointerout
-pointerover
-pointerrawupdat e(Экспериментальный)
-pointerup
-scroll
-scrollend
-scrollsnapchang e(Экспериментальный)
-scrollsnapchangin g(Экспериментальный)
-securitypolicyviolation
-touchcancel
-touchend
-touchmove
-touchstart
-transitioncancel
-transitionend
-transitionrun
-transitionstart
-webkitmouseforcechangedНестандартный
-webkitmouseforcedownНестандартный
-webkitmouseforceupНестандартный
-webkitmouseforcewillbeginНестандартный
-wheel
+- mouseout - движения не внутри элемента
+- mouseover - движения на элементе и на дочерних
+- mouseup
+- mousewheel (Нестандартный Устаревший)
+- - свойства:
+- - - deltaX
+- - - deltaY
+- - - deltaZ
+- - - deltaMode
+- MozMousePixelScroll (Нестандартный Устаревший)
+- paste - при вставке контента getData()
+- pointercancel
+- pointerdown - для мыши от состояния когда не нажаты хотя бы одна кнопка(вызовется один раз при первом нажатии), дял стилуса когда совершается контакт.Наследование от MouseEvent
+- - свойства:
+- - - altitudeAngle - угол XY со стилусом
+- - - azimuthAngle - угол YZ со стилусом
+- - - persistentDeviceId - идентификатор устройства
+- - - pointerId - идентификатор указателя
+- - - width - ширина указателя
+- - - pressure - давление от 0 до 1
+- - - tangentialPressure- давление от -1 до 1
+- - - tiltX
+- - - tiltY
+- - - twist
+- - - pointerType
+- - - isPrimary
+- pointerenter - указатель попадает в область проверки
+- pointerleave
+- pointermove
+- pointerout
+- pointerover
+- pointerrawupdate (Экспериментальный)
+- pointerup
+- scroll - при скролле
+- scrollend - (-sf)
+- scrollsnapchange (Экспериментальный)
+- scrollsnapchanging(Экспериментальный)
+- securitypolicyviolation - при нарушении CSP
+- touchcancel - отмена действий касания
+- touchend
+- touchmove
+- touchstart
+- transitioncancel - отмена анимации
+- transitionend
+- transitionrun
+- transitionstart
+- webkitmouseforcechangedНестандартный
+- webkitmouseforcedownНестандартный
+- webkitmouseforceupНестандартный
+- webkitmouseforcewillbeginНестандартный
+- wheel
 
 ⇒

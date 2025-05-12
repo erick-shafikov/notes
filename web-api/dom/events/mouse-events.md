@@ -1,26 +1,8 @@
-# Основы событий мыши
+# Событие мыши MouseEvent
 
-## Типы событий мыши
+свойства:
 
-Простые события:
-
-- mousedown/mouseup – кнопка мыши нажата/опущена
-- mouseover/mouseup – курсор мыши появляется над элементом и уходит с него
-- mousemove – каждое движение над этим элементом генерирует это событие
-- contextmenu – ПКМ или вызов контекстного меню с клавиатуры
-
-Комплексные события
-
-- click – вызывает при mousedown а затем mouseup над одним и тем же элементом
-- dbclick – вызывает при двойном клике на элементе
-
-Получение информации о кнопки which
-
-event.which == 1 ЛКМ, event.which == 2 СКМ, event.which == 3 ПКМ
-
-Модификаторы shaft, ctrl alt, meta
-
-shiftKey, altKey, ctrlKey metaKey – Cmd для мак
+- altKey - нажат ли alt
 
 ```html
 <button id="button">Нажми Alt+Shift+Click</button>
@@ -34,12 +16,27 @@ shiftKey, altKey, ctrlKey metaKey – Cmd для мак
 </script>
 ```
 
-### Координаты clientX/Y, pageX/Y
-
-- clientX/Y Относительно окна (без учета прокрутки)
-- pageX/Y относительно документа
-- screenX/Y относительно монитора (только в хроме)
-- offsetX/Y относительно элемента
+- button - код клавиши
+- buttons - код клавиш которые были нажаты
+- clintX, clientY – координаты курсора в момент клика относительно DOM Относительно окна (без учета прокрутки)
+- ctrlKey - нажат ли ctrl
+- metaKey - нажата ли meta
+- movementX - координата x относительно последней позиции
+- movementY - координата y относительно последней позиции
+- offsetX - относительно границы узла
+- offsetY
+- pageX - относительно всего документа
+- pageY -
+- relatedTarget - второстепенная цель
+- screenX - относительно экрана
+- shiftKey - зажат ли shift
+- which - Получение информации о кнопки
+- - event.which == 1 ЛКМ,
+- - event.which == 2 СКМ,
+- - event.which == 3 ПКМ
+- mozInputSource
+- webkitForce - давление при клике
+- x, y - clintX, clientY
 
 ```html
 <input
@@ -62,9 +59,31 @@ shiftKey, altKey, ctrlKey metaKey – Cmd для мак
 </div>
 ```
 
-## Движение мыши
+методы:
 
-### События mouseover/mouseout, relatedTarget
+- MouseEvent.getModifierState() - вернет состояние
+- MouseEvent.initMouseEvent()
+
+константы:
+
+- MouseEvent.WEBKIT_FORCE_AT_MOUSE_DOWN
+- MouseEvent.WEBKIT_FORCE_AT_FORCE_MOUSE_DOWN
+
+## Типы событий мыши
+
+Простые события:
+
+- mousedown/mouseup – кнопка мыши нажата/опущена
+- mouseover/mouseup – курсор мыши появляется над элементом и уходит с него
+- mousemove – каждое движение над этим элементом генерирует это событие
+- contextmenu – ПКМ или вызов контекстного меню с клавиатуры
+
+Комплексные события:
+
+- click – вызывает при mousedown а затем mouseup над одним и тем же элементом
+- dbclick – вызывает при двойном клике на элементе
+
+Движение мыши События mouseover/mouseout, relatedTarget:
 
 Для события mouseover:
 event.target – это элемент на который курсор перешел
@@ -133,13 +152,15 @@ function str(el) {
 
 Событие mouseover происходящее на потомке всплывает, если на родительском элементе есть такой обработчки то он его вызовет
 
-parent.onmouseout = function(event) {
-/_event.target: внешний элемент_/
-}
+```js
+parent.onmouseout = function (event) {
+  /_event.target: внешний элемент_/;
+};
 
-parent.onmouseover = function(event) {
-/_event.target: внутренний элемент всплыло_/
-}
+parent.onmouseover = function (event) {
+  /_event.target: внутренний элемент всплыло_/;
+};
+```
 
 ### mouseenter mouseleave
 
@@ -151,45 +172,46 @@ mouseenter и mouseleave не всплывают
 ```js
 // Обработчик под указателем мыши
 // пример подкрашивает ячейки таблицы, причем все
-table.onmouseover = function(event){ //закрасим
+table.onmouseover = function (event) {
+  //закрасим
   let target = event.target;
   target.style = background = "pink";
 };
-table.onmouseout = function(event) {
+table.onmouseout = function (event) {
   let target = event.target;
   target.style.background = "";
-}
+};
 
-пример, где будут подсвечиваться только td
+// пример, где будут подсвечиваться только td
 let currentElem = null;
 //переменная для текущего элемента
-table.onmouseover = function(event){//При наведении
-  if(currentElem) return;
-//если элемент не выбран выйти из функции
+table.onmouseover = function (event) {
+  //При наведении
+  if (currentElem) return;
+  //если элемент не выбран выйти из функции
   let target = event.target.closest("td");
-//найти среди предков td, если вложенный элемент
-  if(!target) return;
-//если нет среди предков - выйти
-  if(!table.contains(target)) return;
-//элемент должен быть внутри нашей таблицы
+  //найти среди предков td, если вложенный элемент
+  if (!target) return;
+  //если нет среди предков - выйти
+  if (!table.contains(target)) return;
+  //элемент должен быть внутри нашей таблицы
   currentElem = target; //нашли
   target.style.background = "pink"; //покрасили
 };
 
-table.onmouseout = function(event){
-//покидаем элемент
-  if(!currentElem) return //если не определен элемент - выход
+table.onmouseout = function (event) {
+  //покидаем элемент
+  if (!currentElem) return; //если не определен элемент - выход
   let relatedTarget = event.relatedTarget;
-//определяем покинутый объект
-  while(relatedTarget) {
-    if(relatedTarget == currentElem) return;
+  //определяем покинутый объект
+  while (relatedTarget) {
+    if (relatedTarget == currentElem) return;
     relatedTarget = related.parentNode;
-  }//поднимаемся выше по дереву, что бы отфильтровать переход между td и span
+  } //поднимаемся выше по дереву, что бы отфильтровать переход между td и span
 
-currentElem.style. background = ""; //сброс цвета
-currentElem = null;//обнуляем текущей элемент
-}
-
+  currentElem.style.background = ""; //сброс цвета
+  currentElem = null; //обнуляем текущей элемент
+};
 ```
 
 ### BP. улучшенная подсказка

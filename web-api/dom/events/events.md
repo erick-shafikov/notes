@@ -2,15 +2,13 @@
 
 функция, которая срабатывает, как только событие произошло
 
-# Использование атрибута HTML, inline
+- Использование атрибута HTML, inline
 
 ```html
+<!-- Использование атрибута HTML, inline -->
 <input value="Нажми меня" onclick="alert('Клик!')" type="button" />
-```
 
-# Использование функции в атрибуте HTML
-
-```html
+<!-- Использование функции в атрибуте HTML -->
 <script>
   function countRabbits() {
     for (let i = 1; i <= 3; i++) {
@@ -20,11 +18,8 @@
 </script>
 
 <input type="button" onclick="countRabbits()" value="Считать кроликов" />
-```
 
-# Присвоение элементу
-
-```html
+<!-- Присвоение элементу -->
 <input id="elem" type="button" value="Нажми меня!" />    
 <script>
   elem.onclick = function () {
@@ -35,14 +30,13 @@
 
 - !!!Обработчик всегда хранится в свойстве DOM объекта, а атрибут – один из способов его инициализировать
 - !!!Назначить более одного обработчика невозможно
-- !!!при присвоении уже существующий функции DOM – свойству, нельзя ставить скобки
-  button.onclick = func, а не button.onclick = function() т.к. присвоит результат
+- !!!при присвоении уже существующий функции DOM – свойству, нельзя ставить скобки button.onclick = func, а не button.onclick = function() т.к. присвоит результат
 - !!!При присвоении в HTML, нужно ставить скобки <… onclick="func()">
 - !!!В атрибутах использовать функцию а не строки
 - !!!Не использовать setAttribute, так как при создании все станет строкой
 - !!!Регистр DOM-свойства имеет значения
 
-# addEventListener
+## addEventListener
 
 ```js
 element.addEventListener(event, handler, {
@@ -61,7 +55,7 @@ elem.removeEventListener("click", () => alert("message"));
 - !!! Позволяет добавить несколько обработчиков
 - !!! обработчики таких свойств как DOMContentLoaded можно добавить только через addEventListener
 
-# Объект события
+## интерфейс события Event
 
 Когда происходит событие, браузер создает объект события записывает в него детали и передает его в качестве аргумента функцию-обработчику
 
@@ -77,11 +71,31 @@ elem.removeEventListener("click", () => alert("message"));
 <script>
 ```
 
-некоторые свойства:
+свойства:
 
-- event.type – тип события в примере "click"
-- event.currentTarget – элемент на котором сработал обработчик
-- event.clintX и event.clientY – координаты курсора в момент клика
+- bubbles ⇒ boolean всплыло ли событие или нет
+- cancelBubble ⇒ boolean если установить true не будет всплывать
+- cancelable ⇒ boolean можно ли отменить
+- composed ⇒ boolean может ли всплывать между shadow dom и обычным
+- currentTarget - ссылка не элемент на котором обрабатывается событие
+- deepPath - массив dom узлов, на которых сработало событие
+- defaultPrevented - было ли вызвано event.preventDefault()
+- eventPhase - фаза события
+- explicitOriginalTarget - первоначальный целевой элемент
+- originalTarget - Первоначальный целевой объект события до перенаправлений
+- scoped - всплывает ли данное событие через shadow root
+- target - элемент на котором произошло событие
+- timeStamp - элемент когда произошло событие
+- type – тип события в примере "click"
+- isTrusted - событие запущено с помощью клика мыши или скрипта
+
+методы:
+
+- createEvent() - создание события для дальнейшего использования createEvent()
+- initEvent() - запуски события
+- preventDefault() - отмена события
+- stopImmediatePropagation() - отмена на фазе перехвата
+- stopPropagation() - остановка события далее по Dom
 
 # Объект-обработчик handleEvent
 
