@@ -1,13 +1,11 @@
 # front-end:
 
 <!-- notes -->
-<!-- notes-work заполнять параллельно с задачами -->
 
 - с учетом chrome - https://developer.chrome.com/docs/web-platform?hl=ru
-- [раздел "how to" на w3c](https://www.w3schools.com/howto/default.asp)
-- - drag&drop
-- - ...
-- [от поисковой строки до стадии reflow-repaint описание процессов/протоколов](./comp-science/networking.md) + mdn web
+- [раздел "how to" на w3c: drag&drop,...](https://www.w3schools.com/howto/default.asp)
+- [от поисковой строки до стадии reflow-repaint описание процессов/протоколов](./comp-science/networking.md)
+- - mdn http
 - развертывание фронт приложений (сборщики webpack, gulp.)
 
 <!-- папка web-dev -->
@@ -18,7 +16,6 @@
 - - react под капотом (https://incepter.github.io/how-react-works/docs/intro/)
 - - mui (в mui связать все компоненты с папкой v-17)
 - - tenStack query (4/5 v)
-- - react-bootstrap (дойти до html элементов и css стилей)
 - native:
 - - gorhom bs дока
 - - разобрать doc react-native

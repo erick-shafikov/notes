@@ -43,8 +43,9 @@
 - media - запрос для ресурса используется для внешних стилей
 - referrerpolicy - no-referrer, no-referrer-when-downgrade, origin, origin-when-cross-origin, unsafe-url
 - rel - определяет отношение ресурса и внешней ссылки
-- - alternate - для указания ссылки на файл в формате XML
+- - alternate - для указания ссылки на файл в формате XML обязательно hreflang
 - - author - ссылка на автора
+- - canonical - для указания сайта для поисковых роботов (атрибут href должен вести на домашнюю страницу)
 - - dns-prefetch
 - - help - ссылка на справку
 - - icon - адрес картинки
@@ -266,6 +267,10 @@
 Синтаксис - атрибуты name и content
 Существую og метаданные open graph для facebook, так же есть у твиттера
 
+Дав типа:
+
+- http-equiv - прагма для анализа страницы
+
 Атрибуты:
 
 - charset
@@ -285,6 +290,7 @@
 - - googlebot
 - - publisher
 - - robots
+- - theme-color
 - - scheme
 
 ## meta. кодировка страницы
@@ -455,6 +461,9 @@ Rails Meta Tags
 Apple Tags
 
 ```html
+<!-- дял добавления сайта на телефон -->
+<meta name="apple-mobile-web-app-title" content="MLW" />
+<meta name="application-name" content="MLW" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=no" />
@@ -507,6 +516,12 @@ Apple Tags
 - type - по умолчанию js:
 - - module - скрипт является модулем
 - - importmap - скрипт является алиасом импортов
+
+разница между async и defer
+
+- баз атрибута - рендер ставится на паузу при загрузке и выполнении скрипта
+- defer - рендер происходит с загрузкой параллельно, выполнение скрипта только после рендера
+- async - рендер происходит с загрузкой параллельно, но при выполнении скрипта рендер останавливается
 
 <!-- style ------------------------------------------------------------------------------------------------------------------->
 
