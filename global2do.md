@@ -1,8 +1,7 @@
 # front-end:
 
-<!-- notes -->
-
 - с учетом chrome - https://developer.chrome.com/docs/web-platform?hl=ru
+
 - [раздел "how to" на w3c: drag&drop,...](https://www.w3schools.com/howto/default.asp)
 - [от поисковой строки до стадии reflow-repaint описание процессов/протоколов](./comp-science/networking.md)
 - - mdn http
