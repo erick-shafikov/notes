@@ -290,6 +290,24 @@ role="heading" - может заменить семантику для div в к
 </nav>
 ```
 
+оформление хлебных крошек
+
+```html
+<nav aria-label="breadcrumbs">
+  <ol role="list">
+    <li>
+      <a href="/">web.dev</a>
+    </li>
+    <li>
+      <a href="/learn">Learn</a>
+    </li>
+    <li>
+      <a href="/learn/html">HTML</a>
+    </li>
+  </ol>
+</nav>
+```
+
 <!-- section ------------------------------------------------------------------------------------------------------------------->
 
 # section (HTML5)
