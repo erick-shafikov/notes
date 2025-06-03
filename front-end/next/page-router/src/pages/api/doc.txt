@@ -1,0 +1,15 @@
+Функции:
+
+req: NextApiRequest:
+
+req.cookies - отправленные куки, по умолчанию  {}
+req.query - объект строки запроса {}
+req.body - тело объекта или null
+
+res: NextApiResponse<Data>:
+
+res.status(code) - функция по установке статуса
+res.json(body) - отправляет JSON, body должно быть сериализованно
+res.send(body) - отправляет body
+res.redirect([status,] path) - перенаправить на другой путь
+res.revalidate(urlPath) - ревалидировать страницу по средству getStaticProps urlPath - строка
