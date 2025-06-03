@@ -39,3 +39,36 @@ const transaction: GetFirstArg<typeof runTransaction> = {
 
 runTransaction(transaction);
 ```
+
+# BP
+
+## url-parser
+
+```ts
+type UrlParamsToUnion<
+  URL,
+  Acc = never
+> = URL extends `${string}:${infer Parameter}/${infer Rest}`
+  ? UrlParamsToUnion<Rest, Acc | Parameter>
+  : URL extends `${string}:${infer Parameter}`
+  ? Acc | Parameter
+  : Acc;
+
+// Полученный union тип затем легко преобразовать в тип объекта с помощью следующего кода:
+type ParamsUnionToObj<T extends string> = {
+  [K in T]: string;
+};
+
+type UrlObj<T> = ParamsUnionToObj<UrlParamsToUnion<T>>;
+```
+
+```ts
+const getUserCommentsURL = "/users/:usersId/comments/:commentsId" as const;
+
+const interpolateURLParameters = <T>(url: T, parameters: UrlObj<T>) => {};
+
+interpolateURLParameters(getUserCommentsURL, {
+  usersId: "123",
+  commentsId: "1234",
+});
+```

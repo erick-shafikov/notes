@@ -1,4 +1,4 @@
-## Enum
+# Enum
 
 ```ts
 type direction = "left" | "right"; //ограниченная структура
@@ -39,3 +39,8 @@ const res = {
   statusCode: StatusCode.SUCCESS, //0
 };
 ```
+
+# минусы
+
+- при компиляции enum, компилятор создает дополнительный JavaScript код и усложняет работу компилятору
+- может помочь const enum

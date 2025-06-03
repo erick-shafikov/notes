@@ -33,8 +33,7 @@
 - git checkout master – переходим на мастер-ветку
 - git checkout branch-name – возвращаемся
 - git stash pop – возвращаем все изменения на любую ветку
-
-git checkout –f – удалить все изменения
+- git checkout –f – удалить все изменения
 
 ## pull request
 
@@ -50,7 +49,7 @@ git show @~~ == git show HEAD~~
 ## git merge
 
 - git merge branch-name-to-merge - если мы находимся на некоторой ветке, то она сольется с веткой branch-name-to-merge
-- git merge febranch-name-to-merge -
+- git merge fe branch-name-to-merge -
 
 семантические конфликты – это конфликты, которые приводят к ошибкам
 
@@ -60,7 +59,7 @@ git show @~~ == git show HEAD~~
 
 ## git reset
 
-- git reset –-hard commit - сброс до старого коммита, если нет <commit> , <commit> === HEAD
+- git reset –-hard commit - сброс до старого коммита, если нет commit , commit === HEAD
 - git reset --soft commit - сброс до старого коммита, но изменения в коммитах остаются
 
 ## git commit
@@ -68,7 +67,7 @@ git show @~~ == git show HEAD~~
 - git commit –-amend – git commit --soft
 - git commit –am ‘message’ === git add . + git commit ‘message’
 
-## git ceckout
+## git checkout
 
 - git checkout –ours – при слиянии показывает нашу версию комиита
 - git checkout –ours – при слиянии показывает нашу версию комиита
