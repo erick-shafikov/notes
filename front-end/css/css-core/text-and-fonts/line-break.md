@@ -21,7 +21,7 @@
 .text-wrap {
   text-wrap: wrap; //обычный перенос при переполнение
   text-wrap: nowrap; //отмена переноса
-  text-wrap: balance; //лучшее соотношение в плане длины строк
+  text-wrap: balance; //лучшее соотношение в плане длины строк, автоматически распределяет текст в равных пропорциях (убирает вдовы)
   text-wrap: pretty; // более медленный алгоритм wrap
   text-wrap: stable;
 }
@@ -33,7 +33,7 @@
 .text-wrap {
   text-wrap-mode: wrap | nowrap;
   text-wrap-style: auto;
-  text-wrap-style: balance;
+  text-wrap-style: balance; ||
   text-wrap-style: pretty;
   text-wrap-style: stable;
 }

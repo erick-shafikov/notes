@@ -112,6 +112,45 @@ animation-range = animation-range-start + animation-range-end
 }
 ```
 
+<!-- view-transition ------------------------------------------------------------------------------------------------------------------------->
+
+# Используемые для view-transition
+
+## ::view-transition
+
+верхний элемент переходов
+
+```scss
+html::view-transition {
+  position: fixed;
+  inset: 0;
+}
+```
+
+```scss
+::view-transition {
+  background-color: rgb(0 0 0 / 25%);
+}
+```
+
+## ::view-transition-group
+
+отдельная группа
+
+## ::view-transition-image-pair
+
+для "old" и "new" состояний
+
+## ::view-transition-new
+
+новая стадия перехода, состояние после перехода, потомок ::view-transition-image-pair
+
+## ::view-transition-old
+
+изначальная стадия, до перехода
+
+- [свойство content](./css-props.md/#content)
+
 # BPs
 
 ## BP. пример

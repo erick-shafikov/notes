@@ -300,6 +300,13 @@ iframe создает плавающий фрейм, который находи
 Атрибуты:
 
 - alt - альтернативный текст, если изображение не загрузилось
+
+если изображение декоративное
+
+```html
+<img src="decorative.svg" alt="" aria-hidden="true" />
+```
+
 - crossorigin значения:
 - - anonymous
 - - use-credentials

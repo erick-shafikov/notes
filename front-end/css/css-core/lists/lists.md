@@ -352,3 +352,7 @@ ol {
 # line-height
 
 [для расстояния между li](./text.md#line-height)
+
+## ::marker (-s)
+
+маркер списка
