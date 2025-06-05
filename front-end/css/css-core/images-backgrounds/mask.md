@@ -64,13 +64,11 @@ nonzero | evenodd настрой выбора пикселей для вычет
 
 # mask
 
+Маски подобны изображениям
+
 краткая запись следующих свойств нужная для маскирования изображения:
 
 mask = mask-clip + mask-composite + mask-image + mask-mode + mask-origin + mask-position + mask-repeat + mask-size
-
-### -webkit-mask-composite
-
-альтернатива mask-composite, так же как и -webkit-mask-position-x, -webkit-mask-position-yNon-standard, -webkit-mask-repeat-xNon-standard, -webkit-mask-repeat-yNon-standard
 
 ## mask-clip
 
@@ -104,7 +102,12 @@ mask-clip определяет область применения маски
 
 ## mask-image
 
-ресурс для маски
+ресурс для маски, может быть:
+
+- изображением (с прозрачным фоном)
+- градиентом с использованием transparent
+
+Можно использовать для маскирования изображений и текста
 
 ```scss
  {
@@ -112,6 +115,7 @@ mask-clip определяет область применения маски
 
   /* <image> values */
   mask-image: linear-gradient(rgb(0 0 0 / 100%), transparent);
+  mask-image: linear-gradient(#000, transparent);
   mask-image: image(url(mask.png), skyblue);
 
   /* Multiple values */
@@ -206,4 +210,22 @@ alpha | luminance | match-source
 
 ## mask-type
 
-luminance | alpha тип маски
+```scss
+.mask-type {
+  mask-type: alpha; //использование в качестве маски alpha
+  mask-type: luminance; //использование в качестве маски яркость
+}
+```
+
+## mask-composite
+
+определяет поведение при наложении маск
+
+```scss
+.mask-composite {
+  mask-composite: add; //
+  mask-composite: subtract;
+  mask-composite: intersect;
+  mask-composite: exclude;
+}
+```
