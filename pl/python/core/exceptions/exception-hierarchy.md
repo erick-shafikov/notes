@@ -1,0 +1,69 @@
+- Base Exception
+-
+    - Exception
+-
+    -
+        - Attribute Error
+-
+    -
+        - Arithmetic Error
+-
+    -
+        -
+            - ZeroDivision
+-
+    -
+        -
+            - Floating point
+-
+    -
+        -
+            - Overflow Error
+-
+    -
+        - EOF Error
+-
+    -
+        - Name Error
+-
+    -
+        - Lookup error
+-
+    -
+        -
+            - Index error
+-
+    -
+        -
+            - Key error
+-
+    -
+        - OS error
+-
+    -
+        -
+            - FileNotFound
+-
+    -
+        -
+            - Interrupted
+-
+    -
+        -
+            - Permission Error
+-
+    -
+        -
+            - Timeout Error
+-
+    -
+        - Type Error
+-
+    -
+        - Value Error
+-
+    - SystemExit
+-
+    - GeneratorExit
+-
+    - KeyboardInterrupt
