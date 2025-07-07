@@ -291,6 +291,11 @@
 - - publisher
 - - robots
 - - theme-color
+
+```html
+<meta name="theme-color" content="#222" />
+```
+
 - - scheme
 
 ## meta. кодировка страницы

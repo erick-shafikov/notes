@@ -901,6 +901,8 @@ inline-block
 
 ```scss
 textarea {
-  resize: none;
+  resize: none; //
+  resize: vertical;
+  field-sizing: content;
 }
 ```

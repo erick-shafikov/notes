@@ -216,10 +216,10 @@ tabindex = "0", встанут в конец очереди. tabindex = "-1" т�
 
 ```html
 <ul>
-  <li tabindex=""1"">Один</li>
-  <li tabindex=""0"">Ноль</li>
-  <li tabindex=""2"">Два</li>
-  <li tabindex=""-1"">Минус один</li>
+  <li tabindex="1">Один</li>
+  <li tabindex="0">Ноль</li>
+  <li tabindex="2">Два</li>
+  <li tabindex="-1">Минус один</li>
 </ul>
 
 <style>
