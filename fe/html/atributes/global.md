@@ -263,12 +263,61 @@ Content-Security-Policy: script-src 'nonce-8IBTHwOdqNKAWeKl7plt8g=='
 
 # popover
 
-Определяет элемент как popover. Элементы - скрыты
+Определяет элемент как popover. Элементы - скрыты, значения:
+
+- auto - автоматическое определение состояния
+- manual - с помощью popovertargetaction
 
 ```html
 <button popovertarget="my-popover">Open Popover</button>
 
 <div popover id="my-popover">Greetings, one and all!</div>
+```
+
+-- popovertargetaction - "hide", "show", or "toggle" для кнопок
+
+```html
+<button popovertarget="mypopover" popovertargetaction="show">
+  Show popover
+</button>
+<button popovertarget="mypopover" popovertargetaction="hide">
+  Hide popover
+</button>
+<div id="mypopover" popover>Popover content</div>
+```
+
+- поддерживают JS
+
+```js
+document.addEventListener("keydown", (event) => {
+  if (event.key === "h") {
+    popover.togglePopover();
+  }
+});
+```
+
+селекторы
+
+```scss
+[popover] {
+  /* Declarations here */
+}
+
+[popover] {
+  /* Declarations here */
+}
+
+:popover-open {
+  /* Declarations here */
+}
+```
+
+задний фон
+
+```scss
+::backdrop {
+  backdrop-filter: blur(3px);
+}
 ```
 
 <!-- rel ------------------------------------------------------------------------------------------------------------>
