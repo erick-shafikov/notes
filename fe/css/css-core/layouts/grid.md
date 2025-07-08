@@ -1294,3 +1294,13 @@ p {
   grid-column-end: span 2;
 }
 ```
+
+## Равная ширина для всех элементов
+
+- для flex так не получится так как он распределяет свободное место равномерно
+
+```scss
+.grid-container {
+  grid: none / auto-flow minmax(min-content, 1fr);
+}
+```

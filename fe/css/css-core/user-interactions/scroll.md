@@ -24,7 +24,7 @@ auto | thin | none;
 ```scss
 .scrollbar-gutter {
   scrollbar-gutter: auto;
-  scrollbar-gutter: stable; // отступ есть по обе стороны, нужно для того что бы рзервировать место под scroll bar при открытии модальных окон
+  scrollbar-gutter: stable; // отступ есть по обе стороны, нужно для того что бы резервировать место под scroll bar при открытии модальных окон
   scrollbar-gutter: both-edges;
 }
 ```
