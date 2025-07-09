@@ -157,8 +157,16 @@ dir dir dir {
 }
 ```
 
-- если один из селекторов не поддерживает - все правило НЕ сбросится
+- если один из селекторов не поддерживает - все правило НЕ сбросится, будет проигнорировано свойство
 - Отличает от where - у where специфичность === 0
+
+нельзя
+
+```scss
+.awesome-block:is(::before, ::after) {
+  background-color: blue;
+}
+```
 
 ## last-child
 
@@ -232,6 +240,14 @@ body :not(p) {
 - p:nth-child(n) - Описывает каждый элемент <p> среди группы соседних элементов. Эквивалентно простому селектору p.
 
 - p:nth-child(1) или p:nth-child(0n+1) Описывает каждый элемент p, являющийся первым среди группы соседних элементов. Эквивалентно селектору :first-child.
+
+- допустимо работать с of
+
+```scss
+:nth-child(2 of .awesome-block) {
+  background-color: lightblue;
+}
+```
 
 ## :nth-last-child()
 
@@ -337,6 +353,24 @@ div:target-within {
 ## :where()
 
 :is(), :any() только с нулевой специфичностью
+
+- из-зв специфичности :where == 0 итоговый цвет lightblue
+
+```scss
+:where(.awesome-text) {
+  background-color: tomato;
+}
+
+span {
+  background-color: lightblue;
+}
+```
+
+```html
+<body>
+  <span class="awesome-text">Великолепный текст</span>
+</body>
+```
 
 ## BP. Выбор диапазона элементов
 

@@ -498,3 +498,37 @@ function removeHint() {
   this.style.willChange = "auto";
 }
 ```
+
+## Влияние свойств на анимацию
+
+```scss
+.awesome-block {
+  width: 2rem;
+  height: 2rem;
+  background-color: lightblue;
+  position: absolute;
+  animation: move 2s infinite;
+}
+
+//в этом случае перерисовки не будет
+@keyframes move {
+  0% {
+    translate: 0;
+  }
+
+  100% {
+    translate: 2rem;
+  }
+}
+
+//браузеры будут перерисовывать элемент на каждое изменение значения
+@keyframes move {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: 2rem;
+  }
+}
+```
