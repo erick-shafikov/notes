@@ -22,4 +22,14 @@ function Page({ commentsPromise }) {
 }
 ```
 
-Может также читать контекст
+Может также читать контекст. Можно вызывать внутри блоков условий
+
+```js
+function Component({ condition, promise }) {
+  if (condition) {
+    const data = use(promise);
+    return <div>{data}</div>;
+  }
+  return <div>Ничего нет</div>;
+}
+```
