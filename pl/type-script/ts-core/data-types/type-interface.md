@@ -179,19 +179,3 @@ const person = makeWatchedObject({
 
 person.on("firstNameChanged", () => {});
 ```
-
-# типизация массивов
-
-```ts
-const numTriplet: [number, number, number] = [7, 7, 7];
-numTriplet.length; //3
-numTriplet.pop();
-numTriplet.pop();
-numTriplet.pop();
-numTriplet.length; //3 ts не видит, что мы вытащили все элементы из, лечится с помощью readonly
-```
-
-```ts
-type Array2<T> = [T, ...T[]]; //массив с одним обязательным элементом
-type Array2<T> = [T, T, ...T[]]; //массив с двумя обязательными элементом
-```
