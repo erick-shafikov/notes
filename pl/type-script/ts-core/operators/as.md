@@ -1,4 +1,4 @@
-## Кастомизация типов
+# Кастомизация типов
 
 ```ts
 function fetchWithAuth(url: string, method: "post" | "get"): 1 | -1 {
