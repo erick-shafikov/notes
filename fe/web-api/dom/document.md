@@ -1,8 +1,6 @@
 window.document - входная точка в dom
 
-#
-
-## статические методы
+# статические методы
 
 позволяет из строки сделать Document
 
@@ -12,7 +10,7 @@ window.document - входная точка в dom
 Document.parseHTMLUnsafe(input);
 ```
 
-## свойства экземпляра
+# свойства экземпляра
 
 - activeElement ⇒ элемент на котором фокус
 - adoptedStyleSheets - для использования с CSSStyleSheet
@@ -89,7 +87,7 @@ document.adoptedStyleSheets = [sheet];
 - xmlEncoding (Устарело)
 - xmlVersion (Устарело)
 
-## методы экземпляра
+# методы экземпляра
 
 - adoptNode() - позволяет вставить кусок из одного документа в другой
 
@@ -209,7 +207,7 @@ document.open("https://www.github.com", "", "noopener=true");
 - write() - Deprecated - открывает документ для редактирования
 - writeln() - Выводит в документ строку со знаком перевода каретки в конце.
 
-## события
+# события
 
 - afterscriptexecute - Non-standard Deprecated - окончание работы скрипта
 - beforescriptexecute - Non-standard Deprecated - старт работы скрипта
