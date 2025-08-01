@@ -19,6 +19,16 @@
 }
 ```
 
+расчет коэффициента для адаптивной верстки
+
+```scss
+html {
+
+  --kw: calc( ( clamp( [minWidth] , 100vw, [maxWidth] ) - [minWidth] ) / ( [maxWidth] - [minWidth] ) )
+  font-size: calc((16 - 10) * var(--kw) + 62.5%);
+}
+```
+
 - exp() - экспонента
 - hypot() - квадратные корень
 - log()
