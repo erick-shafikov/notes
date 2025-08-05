@@ -1,9 +1,8 @@
 # front-end:
 
-- с учетом chrome - https://developer.chrome.com/docs/web-platform?hl=ru
+- https://developer.chrome.com/docs/web-platform?hl=ru
 - [раздел "how to" на w3c: drag&drop,...](https://www.w3schools.com/howto/default.asp)
-- [от поисковой строки до стадии reflow-repaint описание процессов/протоколов](./comp-science/networking.md)
-- - mdn http
+- mdn http
 - развертывание фронт приложений (сборщики webpack, gulp.)
 
 <!-- папка web-dev -->
@@ -22,7 +21,6 @@ tg:
 - mdn (параллельно)
 - - переход на web api
 - - shadow dom (learnJS + MDN)
-- разбор статей с хабр
 - разбор компонентов с анимацией (code pen)
 
 новые технологии:
