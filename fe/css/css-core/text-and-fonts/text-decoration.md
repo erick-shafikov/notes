@@ -242,6 +242,38 @@ text-underline-position: auto | under - позволяет определить 
 }
 ```
 
+## ::first-letter
+
+задает первую букву абзаца
+
+```scss
+p::first-letter {
+  -webkit-initial-letter: 3 3;
+  initial-letter: 3 3;
+  // тени
+  text-shadow: -6px -6px 0 #7d6975, 6px 6px 0 #e6d5b3;
+  // толщина границы буквы
+  text-stroke: 5px #e6d5b3;
+  //фон и добавление цветов
+  background-color: #e6d5b3;
+  background-image: linear-gradient(135deg, #c8b9c2 0%, #7d6975 50%);
+  background-image: url(...); //можно url
+  //вариант отображения только внутри буквы
+  background-clip: text;
+  color: transparent;
+  //граница вокруг буквы
+  border: 5px solid #e6d5b3;
+  //градиент для границ
+  border-style: solid;
+  border-width: 10px;
+  border-image: conic-gradient(...) 1;
+  //обрезка по фигуре для границ
+  padding-inline: 1rem 2rem;
+  background-color: #e6d5b3;
+  clip-path: polygon(...);
+}
+```
+
 # user-select
 
 Отвечает за возможность выделять текст
