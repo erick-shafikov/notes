@@ -532,3 +532,15 @@ function removeHint() {
   }
 }
 ```
+
+через calc size
+
+```scss
+.card {
+  height: 0;
+}
+
+.card.open {
+  height: calc-size(auto);
+}
+```

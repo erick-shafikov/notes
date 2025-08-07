@@ -1,0 +1,77 @@
+.item {
+  opacity: 1;
+  height: 3rem;
+  display: grid;
+  overflow: hidden;
+  transform-origin: bottom;
+  transition: opacity 0.5s, transform 0.5s, height 0.5s,
+    display 0.5s allow-discrete;
+}
+
+@starting-style {
+  .item {
+    opacity: 0;
+    height: 0;
+  }
+}
+
+/* while it is deleting, before DOM removal in JS */
+.is-deleting {
+  opacity: 0;
+  height: 0;
+  display: none;
+  transform: skewX(50deg) translateX(-25vw);
+}
+
+/* etc */
+@layer base {
+  body {
+    font-family: system-ui, sans-serif;
+  }
+
+  button {
+    border: none;
+    background: none;
+  }
+
+  .items {
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    background: aliceblue;
+    border: 1px solid lightblue;
+    padding: 0 1rem;
+    border-radius: 1rem;
+    width: 300px;
+  }
+
+  .sr-only {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .container {
+    display: grid;
+    justify-content: center;
+    width: 300px;
+    margin: 0 auto;
+  }
+
+  .add {
+    font-size: 2rem;
+    width: 3rem;
+    height: 3rem;
+    line-height: 0;
+    margin: 0 auto;
+  }
+}

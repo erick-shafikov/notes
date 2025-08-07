@@ -292,3 +292,93 @@ px расстояние от z=0 это свойство, устанавлива
   transform: rotateX(-90deg) translateZ(50px);
 }
 ```
+
+# bp. анимация display:none
+
+решение opacity + height или width
+
+```scss
+li {
+  height: 50px; /* any measurable value, not "auto" */
+  opacity: 1;
+  transition: height 0ms 0ms, opacity 400ms 0ms;
+}
+
+.fade-out {
+  overflow: hidden; /* Hide the element content, while height = 0 */
+  height: 0;
+  opacity: 0;
+  padding: 0;
+  transition: height 0ms 400ms, padding 0ms 400ms, opacity 400ms 0ms;
+}
+// или через max-height
+.collapsible {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.collapsible.open {
+  max-height: 500px;
+}
+```
+
+через js
+
+```js
+document.getElementById("fadeButton").addEventListener("click", function () {
+  const element = document.getElementById("myElement");
+  element.style.opacity = "0";
+  setTimeout(() => {
+    element.style.display = "none";
+  }, 1000); // Match this value with the duration in CSS
+});
+
+document.getElementById("toggleButton").addEventListener("click", function () {
+  const el = document.querySelector(".expandable");
+  const contentHeight = el.scrollHeight;
+  el.style.height = contentHeight + "px";
+
+  el.addEventListener("transitionend", function (e) {
+    el.removeEventListener("transitionend", arguments.callee);
+    el.style.height = "auto";
+  });
+});
+```
+
+Вариант 3 display и content-visibility
+
+```scss
+.fade-out {
+  animation: fade-out 0.25s forwards;
+}
+
+/* Keyframe animations */
+@keyframes fade-out {
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+```
+
+Вариант 4 transition-behavior: allow-discrete
+
+```scss
+.card {
+  @starting-style {
+    opacity: 0;
+  }
+
+  opacity: 1;
+  transition: opacity 0.5s;
+
+  transition: opacity 0.5s, display 0.5s;
+  transition-behavior: allow-discrete; /* this is essential */
+}
+
+.card.fade-out {
+  opacity: 0;
+  display: none;
+}
+```

@@ -27,7 +27,7 @@
 ```scss
 .text-orientation {
   text-orientation: mixed;
-  text-orientation: upright;
+  text-orientation: upright; //сверху вниз
   text-orientation: sideways-right;
   text-orientation: sideways;
   text-orientation: use-glyph-orientation;
