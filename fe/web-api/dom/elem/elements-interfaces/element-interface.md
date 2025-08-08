@@ -290,5 +290,3 @@ newspaper.addEventListener("click", () => {
 - webkitmouseforceupНестандартный
 - webkitmouseforcewillbeginНестандартный
 - wheel
-
-⇒

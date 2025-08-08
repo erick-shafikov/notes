@@ -1,6 +1,6 @@
 # События клавиатуры
 
-## События keydown и keyup
+# События keydown и keyup
 
 события keyup и keydown происходят при нажатии и отпускании клавиши
 
@@ -20,7 +20,7 @@ document.addEventListener("keydown", function (event) {
 });
 ```
 
-### Действия по умолчанию
+# Действия по умолчанию
 
 Действия по умолчанию
 
@@ -41,7 +41,7 @@ document.addEventListener("keydown", function (event) {
 />
 ```
 
-### Отследить одновременное нажатие
+# Отследить одновременное нажатие
 
 ```js
 function runOnKeys(func, ...codes) {

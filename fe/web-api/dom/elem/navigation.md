@@ -36,7 +36,53 @@ document.body может быть равен null если скрипт нахо
 
 ```
 
-# родительские отношения
+# dom дочерние childNodes, firstChild, lastChild
+
+childNodes похож на массив, но это просто перебираемый объект, для перебора мы используем for…of
+
+- children – коллекция детей, которые являются элементами
+- firstElementChild, LastElementChild – первый и последний дочерние элементы
+- parentElement – родитель-элемент, тоже самое что и parentNode, исключение document.documentElement
+
+```js
+for (let node of document.body.childNodes) {
+  //не работают методы массивов
+  alert(node);
+}
+
+// Превратим в массив
+alert(Array.from(document.body.childNodes).filter);
+```
+
+!!!Все коллекции только для чтения и отражают текущее состояние DOM
+!!!Лучше не использовать цикл for…in
+!!!Только для чтения
+
+# соседи и родитель nextSibling, previousSibling
+
+Соседи – это объекты у которых один родитель
+
+- previousElementSibling, nextElementSibling – соседи элементы
+
+```html
+<html>
+  <head>
+    …
+  </head>
+  <body>
+    …
+  </body>
+  <!-- head и body соседи - правый и левый -->
+</html>
+```
+
+```js
+alert(document.body.parentNode === document.documentElement); //true <html> является родителем <body>
+// .nextSibling – следующий сосед
+alert(document.head.nextSibling); //HTMLBodyElement <body> идет после <head>
+// .previousSibling – предыдущий сосед
+alert(document.body.previousSibling); //HTMLHeadElement
+```
 
 ```html
 <body>
@@ -62,49 +108,64 @@ document.body может быть равен null если скрипт нахо
 -->
 ```
 
-# dom дочерние childNodes, firstChild, lastChild
-
-childNodes похож на массив, но это просто перебираемый объект, для перебора мы используем for…of
-
 ```js
-for (let node of document.body.childNodes) {
-  //не работают методы массивов
-  alert(node);
+document.documentElement.parentNode; //document
+document.documentElement.parentElement; //null, т.к. document – не элемент
+
+while ((elem = elem.parentElement)) {
+  //идти наверх до <html>
+  alert(elem);
 }
-
-// Превратим в массив
-alert(Array.from(document.body.childNodes).filter);
 ```
-
-!!!Все коллекции только для чтения и отражают текущее состояние DOM
-!!!Лучше не использовать цикл for…in
-!!!Только для чтения
-
-## соседи и родитель nextSibling, previousSibling
-
-Соседи – это объекты у которых один родитель
 
 ```html
-<html>
-  <head>
-    …
-  </head>
-  <body>
-    …
-  </body>
-  <!-- head и body соседи - правый и левый -->
-</html>
+<body>
+  <!-- [object HTMLDivElement] -->
+  <div> Начало </div>
+<ul>
+  <li> Информация </li>
+  <!-- [object HTMLUlListElement] -->
+<ul>
+<!-- [object HTMLDivElement] -->
+<div> Конец </div>
+</body>
+<script>
+for (elem of document.body.children) {
+  alert(elem); //DIV, UL, DIV, SCRIPT
+}
+</script>
+
 ```
 
-```js
-alert(document.body.parentNode === document.documentElement); //true <html> является родителем <body>
-// .nextSibling – следующий сосед
-alert(document.head.nextSibling); //HTMLBodyElement <body> идет после <head>
-// .previousSibling – предыдущий сосед
-alert(document.body.previousSibling); //HTMLHeadElement
+```html
+<body>
+  <div> Начало </div>
+  <ul>
+    <li>
+      <b> Информация </b>
+      </li>
+      <ul>
+</body>
+
+
+<!-- childNodes содержит список всех детей, включая текстовые узлы
+//[object Text]
+//[object HTMLDivElement]
+//[object Text]</div>
+//[object HTMLUlListElement]
+//[object Text] </li>
+<//[object Text] Конец //[object Text] </div>
+//[object HTMLScriptElement]
+//childNodes не массив, а перебираемый объект
+//text, DIV, Text, UL, … SCRIPT
+-->
 ```
 
-## навигация по элементам
+- !!!Все коллекции только для чтения и отражают текущее состояние DOM
+- !!!Лучше не использовать цикл for…in
+- !!!Только для чтения
+
+# навигация по элементам
 
 - children – коллекция детей, которые являются элементами
 - firstElementChild, LastElementChild – первый и последний дочерние элементы
@@ -140,7 +201,7 @@ for (elem of document.body.children) {
 
 ```
 
-## Навигация в таблицах
+# Навигация в таблицах
 
 - table.rows – коллекция строк tr таблицы
 - table.caption/tHead/tFoot – ссылки на элементы таблицы caption thead tfoot

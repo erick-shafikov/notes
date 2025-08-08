@@ -86,9 +86,10 @@
 Движение мыши События mouseover/mouseout, relatedTarget:
 
 Для события mouseover:
-event.target – это элемент на который курсор перешел
-event.relatedTarget – это элемент с которого курсор ушел
-Для события mouseout наоборот
+
+- event.target – это элемент на который курсор перешел
+- event.relatedTarget – это элемент с которого курсор ушел
+- Для события mouseout наоборот
 
 ```html
 <body>

@@ -210,12 +210,14 @@ document.open("https://www.github.com", "", "noopener=true");
 # события
 
 - afterscriptexecute - Non-standard Deprecated - окончание работы скрипта
+- beforeonload/unload – покидает страницу
 - beforescriptexecute - Non-standard Deprecated - старт работы скрипта
 - copy - ClipboardEvent - при копировании
 - cut
-- DOMContentLoaded - документ загружен без ожидания стилей, изображений, фреймов
+- DOMContentLoaded - документ загружен без ожидания стилей, изображений, фреймов. браузер полностью загрузил HTML, но без внешних ресурсов
 - fullscreenchange - переход в fullscreen режим
 - fullscreenerror - если браузер не умеет в fullscreen
+- load – Браузер загрузил внешние ресурсы
 - paste - при вставки
 - pointerlockchange - заблокирован ли указатель
 - pointerlockerror
@@ -252,4 +254,5 @@ window.addEventListener("scroll", function (e) {
 - scrollsnapchanging- Experimental
 - securitypolicyviolation - при нарушении CSP
 - selectionchange - при изменении выделения
+- transitioned – CSS анимация завершилась
 - visibilitychange - при смене видимости вкладки
