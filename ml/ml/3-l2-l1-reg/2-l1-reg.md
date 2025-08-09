@@ -58,6 +58,7 @@ for _ in range(N):
     w1 = np.array(w)
     w1[0] = 0
 
+    # l1-reg
     w -= nt * (df(w, x_batch, y_batch).mean(axis=1) + lm_l1 * np.sign(w1))
 
 Q = (x_train @ w * y_train < 0).mean()
@@ -67,7 +68,7 @@ Q = (x_train @ w * y_train < 0).mean()
 - l1 в построении модели
 
 ```python
-```python
+
 import numpy as np
 
 
@@ -119,13 +120,11 @@ for _ in range(n_iter):
 
     w1 = np.array(w)
     w1[0] = 0
-
+    # l1-reg
     w -= eta * (dL(w, x_batch, y_batch).mean(axis=1) + lm_l1 * np.sign(w1))
 
 Q = loss(w, coord_x, coord_y).mean()
 
 print(Qe)
-
-```
 
 ```

@@ -1,3 +1,5 @@
+# вычисление показателя качества
+
 - вычислить значение показателя качества Q
 
 ```python
@@ -55,6 +57,8 @@ print(model(coord_x))
 Q = np.abs(coord_y - model(coord_x)).mean()
 ```
 
+# вычисление разделяющий гиперплоскости
+
 - вычисление значения w для квадратичной функции
 
 ```python
@@ -85,5 +89,20 @@ X = train_x
 y = train_y
 
 w = np.linalg.inv(X.T @ X) @ X.T @ y
+```
 
+Пример 2
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+x_train = [[10, 50], [20, 30], [25, 30], [20, 60], [15, 70], [40, 40], [30, 45], [20, 45], [40, 30], [7, 35]]
+x_train = [x + [1] for x in x_train]
+x_train = np.array(x_train)
+y_train = np.array([-1, 1, 1, -1, -1, 1, 1, -1, 1, -1])
+
+pt = np.sum([x * y for x, y in zip(x_train, y_train)], axis=0)
+xxt = np.sum([np.outer(x, x) for x in x_train], axis=0)
+w = np.dot(pt, np.linalg.inv(xxt))
 ```

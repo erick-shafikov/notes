@@ -1,4 +1,23 @@
-- sdg
+# принцип градиентного спуска
+
+```python
+import numpy as np
+
+def f(x):
+    return x*x - 5*x + 5
+
+def df(x):
+    return 2*x - 5
+
+N = 20     # число итераций
+xx = 0      # начальное значение
+lmd = 0.9  # шаг сходимости
+
+for i in range(N):
+    xx = xx - lmd*df(xx)    # изменение аргумента на текущей итерации
+```
+
+# градиентный спуск sqrt loose
 
 ```python
 import numpy as np
