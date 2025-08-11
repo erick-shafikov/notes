@@ -1,8 +1,4 @@
-<!--ulbi------------------------------------------------------------------------------------------------------------------------------------------>
-
-# Ulbi
-
-## Ulbi. Настройка Webpack
+# Ulbi. Настройка Webpack
 
 Запуск проекта осуществляется с помощью команды webpack
 
@@ -131,7 +127,7 @@ export interface BuildOptions {
 }
 ```
 
-### Настройка Webpack. Плагины
+## Настройка Webpack. Плагины
 
 ```ts
 // config/build/buildPlugins.ts
@@ -216,7 +212,7 @@ export function buildPlugins({
 }
 ```
 
-### Настройка Webpack. Модули
+## Настройка Webpack. Модули
 
 builder для модулей, для разделения файлов в bundle
 
@@ -417,7 +413,7 @@ export function buildDevServer(options: BuildOptions): DevServerConfiguration {
 }
 ```
 
-### Настройка vite
+## Настройка vite
 
 ```ts
 import { defineConfig } from "vite";
@@ -439,7 +435,7 @@ export default defineConfig({
 
 <!-- ULBI. REDUX -->
 
-## ULBI. REDUX
+# ULBI. REDUX
 
 Основа - метод code splitting https://redux.js.org/usage/code-splitting
 
@@ -473,7 +469,7 @@ export const StoreProvider = (props: StoreProviderProps) => {
 };
 ```
 
-### createReduxStore
+## createReduxStore
 
 ```tsx
 //src/app/providers/StoreProvider/ui/store.tsx
@@ -948,11 +944,11 @@ export const { reducer: articlesPageReducer, actions: articlesPageActions } =
   articlesPageSlice;
 ```
 
-## ULBI. Стилизация
+# ULBI. Стилизация
 
-### Темы
+## Темы
 
-#### Тема. Контекст
+## Тема. Контекст
 
 ```tsx
 import React, { ReactNode, useEffect, useMemo, useState } from "react";

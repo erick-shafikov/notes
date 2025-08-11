@@ -6,6 +6,7 @@
 function App() {
   const [name, setName] = useState("");
   const [headingText, setHeading] = useState("");
+
   function handleChange(e) {
     setName(e.target.value);
   }
@@ -13,6 +14,7 @@ function App() {
     setHeading(name);
     e.preventDefault();
   };
+
   return (
     <div className="container">
       <h1>Hello {headingText}</h1> 

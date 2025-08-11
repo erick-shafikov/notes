@@ -1,6 +1,8 @@
 # Reflect
 
-Reflect – предоставляет объект с методами, которые позволяют выполнять действия над объектом
+Reflect – предоставляет объект с методами, которые позволяют выполнять стандартные действия над объектом
+
+- возвращают true/false если операция прошла успешно
 
 ```js
 let user = {
@@ -121,7 +123,6 @@ alert(proxy.get("test")); //1
 ```
 
 ```js
-// ----------------------------------------------------------------------
 class User {
   #name = "Гость";
 
@@ -146,16 +147,62 @@ let user = new Proxy(user, {
 
 alert(user.getName());
 
-
-let proxy {proxy, revoke} = Proxy.revocable(target, handler)
+let { proxy, revoke } = Proxy.revocable(target, handler);
 
 let object = {
-data: "Важные Данные",
+  data: "Важные Данные",
 };
 
-let {proxy, revoke} = Proxy.revocable(object, {});
+let { proxy, revoke } = Proxy.revocable(object, {});
 alert(proxy.data);
-revoke()
-alert(proxy.data)//ошибка
+revoke();
+alert(proxy.data); //ошибка
+```
 
+# observable на proxy и reflect
+
+```js
+// Хранилище подписчиков
+const subscribers = new Map();
+
+// Функция добавления подписчика на свойство
+function subscribe(property, callback) {
+  if (!subscribers.has(property)) {
+    subscribers.set(property, []);
+  }
+  subscribers.get(property).push(callback);
+}
+
+const reactiveHandler = {
+  get(target, prop, receiver) {
+    console.log(`Чтение свойства "${prop}"`);
+    // Используем Reflect для делегирования стандартной операции get
+    return Reflect.get(target, prop, receiver);
+  },
+  set(target, prop, value, receiver) {
+    console.log(`Изменение свойства "${prop}" на "${value}"`);
+    const result = Reflect.set(target, prop, value, receiver);
+    if (result && subscribers.has(prop)) {
+      // Уведомляем подписчиков об изменении свойства
+      subscribers.get(prop).forEach((callback) => callback(value));
+    }
+    return result;
+  },
+};
+
+const data = {
+  name: "Иван",
+  age: 30,
+};
+
+// Создаем Proxy
+const reactiveData = new Proxy(data, reactiveHandler);
+
+// Подписываемся на изменения свойства name
+subscribe("name", (newValue) => {
+  console.log(`Имя изменилось на: ${newValue}`);
+});
+
+console.log(reactiveData.name);
+reactiveData.name = "Алексей";
 ```
