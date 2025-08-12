@@ -4,59 +4,62 @@
     
     То есть есть объект с методами, а объект фасад принимает в конструктор экземпляр объекта и объединяет 
     Разные методы в один
+
+    Предоставляет унифицированный интерфейс для включения других интерфейсов в подсистеме. 
+    Façade.MethodFromObjA(); Façade.MethodFromObjB();
 */
 
 // есть компьютер со множеством функции
 class Computer {
-    public getElectricShock() {
-        console.log('Ouch!');
-    }
+  public getElectricShock() {
+    console.log("Ouch!");
+  }
 
-    public makeSound() {
-        console.log('Beep beep!');
-    }
+  public makeSound() {
+    console.log("Beep beep!");
+  }
 
-    public showLoadingScreen() {
-        console.log('Loading..');
-    }
+  public showLoadingScreen() {
+    console.log("Loading..");
+  }
 
-    public bam() {
-        console.log('Ready to be used!');
-    }
+  public bam() {
+    console.log("Ready to be used!");
+  }
 
-    public closeEverything() {
-        console.log('Bup bup bup buzzzz!');
-    }
+  public closeEverything() {
+    console.log("Bup bup bup buzzzz!");
+  }
 
-    public sooth() {
-        console.log('Zzzzz');
-    }
+  public sooth() {
+    console.log("Zzzzz");
+  }
 
-    public pullCurrent() {
-        console.log('Haaah!');
-    }
+  public pullCurrent() {
+    console.log("Haaah!");
+  }
 }
 
 // у компьютера есть функции включения, выключения и другие, которые объединяют некоторые ф-ции компьютера
 class ComputerFacade {
-    protected computer: Computer;
+  protected computer: Computer;
 
-    constructor(computer: Computer) {
-        this.computer = computer;
-    }
+  constructor(computer: Computer) {
+    this.computer = computer;
+  }
 
-    public turnOn() {
-        this.computer.getElectricShock();
-        this.computer.makeSound();
-        this.computer.showLoadingScreen();
-        this.computer.bam();
-    }
+  public turnOn() {
+    this.computer.getElectricShock();
+    this.computer.makeSound();
+    this.computer.showLoadingScreen();
+    this.computer.bam();
+  }
 
-    public turnOff() {
-        this.computer.closeEverything();
-        this.computer.pullCurrent();
-        this.computer.sooth();
-    }
+  public turnOff() {
+    this.computer.closeEverything();
+    this.computer.pullCurrent();
+    this.computer.sooth();
+  }
 }
 
 //использование

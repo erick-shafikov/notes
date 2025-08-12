@@ -7,71 +7,77 @@
     поскольку позволяет разделить функциональность между классами для решения конкретных задач.
 
     Т.е. создается базовый объект, потом создается объект обложка, который принимает в конструктор оборачиваемый
-    объект, имея те же поля, но модифицируя методы принятого в конструктор объекта  
+    объект, имея те же поля, но модифицируя методы принятого в конструктор объекта
+
+    Динамически расширяет используемый объект. 
+    obj.SetDecorator(decA); 
+    obj.DoDecoration(); 
+    obj.SetDecorator(decB); 
+    obj.DoDecoration();
 */
 
 interface Coffee {
-    getCost: () => number;
-    getDescription: () => string;
+  getCost: () => number;
+  getDescription: () => string;
 }
 // Базовый класс кофе
 class SimpleCoffee implements Coffee {
-    public getCost() {
-        return 10;
-    }
+  public getCost() {
+    return 10;
+  }
 
-    public getDescription() {
-        return 'Simple coffee';
-    }
+  public getDescription() {
+    return "Simple coffee";
+  }
 }
 //Разновидности
 class MilkCoffee implements Coffee {
-    protected coffee;
+  protected coffee;
 
-    //в конструктор идет экземпляр базового класса
-    constructor(coffee: Coffee) {
-        this.coffee = coffee;
-    }
+  //в конструктор идет экземпляр базового класса
+  constructor(coffee: Coffee) {
+    this.coffee = coffee;
+  }
 
-    public getCost() {
-        return this.coffee.getCost() + 2;
-    }
+  public getCost() {
+    return this.coffee.getCost() + 2;
+  }
 
-    public getDescription() {
-        return this.coffee.getDescription() + ', milk';
-    }
+  public getDescription() {
+    return this.coffee.getDescription() + ", milk";
+  }
 }
 
 class WhipCoffee implements Coffee {
-    protected coffee;
+  protected coffee;
 
-    constructor(coffee: Coffee) {
-        this.coffee = coffee;
-    }
+  constructor(coffee: Coffee) {
+    this.coffee = coffee;
+  }
 
-    public getCost() {
-        return this.coffee.getCost() + 5;
-    }
+  public getCost() {
+    return this.coffee.getCost() + 5;
+  }
 
-    public getDescription() {
-        return this.coffee.getDescription() + ', whip';
-    }
+  public getDescription() {
+    return this.coffee.getDescription() + ", whip";
+  }
 }
 
 class VanillaCoffee implements Coffee {
-    protected coffee;
+  protected coffee;
 
-    constructor(coffee: Coffee) {
-        this.coffee = coffee;
-    }
+  constructor(coffee: Coffee) {
+    this.coffee = coffee;
+  }
 
-    public getCost() {
-        return this.coffee.getCost() + 3;
-    }
+  public getCost() {
+    return this.coffee.getCost() + 3;
+  }
 
-    public getDescription() {
-        return this.coffee.getDescription() + ', vanilla';
-    }
+  public getDescription() {
+    return this.coffee.getDescription() + ", vanilla";
+  }
 }
 
 const someCoffee1 = new SimpleCoffee();

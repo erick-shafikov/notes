@@ -3,65 +3,69 @@
 без указания для них конкретных классов.
 Шаблон «Абстрактная фабрика» описывает способ инкапсулирования группы индивидуальных фабрик, 
 объединённых некой темой, без указания для них конкретных классов.
+
+Предоставляет метод фабрики для создания объектов или классов, которые связаны или зависимы, 
+не уточняя конкретный класс. 
+Factory.CreateProductA(); Factory.CreateProductB();
 */
 // разные типы дверей
 interface Door {
-    getDescription: VoidFunction;
+  getDescription: VoidFunction;
 }
 
 class WoodenDoor implements Door {
-    public getDescription() {
-        console.log('I am a wooden door');
-    }
+  public getDescription() {
+    console.log("I am a wooden door");
+  }
 }
 
 class IronDoor implements Door {
-    public getDescription() {
-        console.log('I am an iron door');
-    }
+  public getDescription() {
+    console.log("I am an iron door");
+  }
 }
 // разные типы специалистов
 interface DoorFittingExpert {
-    getDescription: VoidFunction;
+  getDescription: VoidFunction;
 }
 
 class Welder implements DoorFittingExpert {
-    public getDescription() {
-        console.log('I can only fit iron doors');
-    }
+  public getDescription() {
+    console.log("I can only fit iron doors");
+  }
 }
 
 class Carpenter implements DoorFittingExpert {
-    public getDescription() {
-        console.log('I can only fit wooden doors');
-    }
+  public getDescription() {
+    console.log("I can only fit wooden doors");
+  }
 }
 
 interface DoorFactory {
-    makeDoor: () => Door;
-    makeFittingExpert: () => DoorFittingExpert;
+  makeDoor: () => Door;
+  makeFittingExpert: () => DoorFittingExpert;
 }
 
 // Фабрика деревянных дверей возвращает плотника и деревянную дверь
 class WoodenDoorFactory implements DoorFactory {
-    public makeDoor(): Door {
-        return new WoodenDoor();
-    }
+  public makeDoor(): Door {
+    return new WoodenDoor();
+  }
 
-    public makeFittingExpert(): DoorFittingExpert {
-        return new Carpenter();
-    }
+  public makeFittingExpert(): DoorFittingExpert {
+    return new Carpenter();
+  }
 }
 
 // Фабрика стальных дверей возвращает стальную дверь и сварщика
 class IronDoorFactory implements DoorFactory {
-    public makeDoor(): Door {
-        return new IronDoor();
-    }
+  public makeDoor(): Door {
+    return new IronDoor();
+  }
 
-    public makeFittingExpert(): DoorFittingExpert {
-        return new Welder();
-    }
+  public makeFittingExpert(): DoorFittingExpert {
+    return new Welder();
+  }
 }
 // использование
 const woodenFactory = new WoodenDoorFactory();

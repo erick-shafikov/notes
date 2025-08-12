@@ -1,40 +1,45 @@
 /* СТРАТЕГИЯ 
     Шаблон «Стратегия» позволяет переключаться между алгоритмами или стратегиями в зависимости от ситуации.
     Шаблон «Стратегия» позволяет при выполнении выбирать поведение алгоритма.
+
+    
+Strategy Определяет несколько алгоритмов для работы с наборами объектов. 
+List.Add(ObjA); List.Add(ObjB); List.SortStrategy(Ascending); List.SortStrategy(Descending);
+
 */
 
 interface SortStrategy {
-    sort(dataset: any[]): any[];
+  sort(dataset: any[]): any[];
 }
 
 class BubbleSortStrategy implements SortStrategy {
-    public sort(dataset: any[]): any[] {
-        console.log('Sorting using bubble sort');
+  public sort(dataset: any[]): any[] {
+    console.log("Sorting using bubble sort");
 
-        // Do sorting
-        return dataset;
-    }
+    // Do sorting
+    return dataset;
+  }
 }
 
 class QuickSortStrategy implements SortStrategy {
-    public sort(dataset: any[]): any[] {
-        console.log('Sorting using quick sort');
+  public sort(dataset: any[]): any[] {
+    console.log("Sorting using quick sort");
 
-        // Do sorting
-        return dataset;
-    }
+    // Do sorting
+    return dataset;
+  }
 }
 
 class Sorter {
-    protected sorter: BubbleSortStrategy | QuickSortStrategy;
+  protected sorter: BubbleSortStrategy | QuickSortStrategy;
 
-    constructor(sorter: SortStrategy) {
-        this.sorter = sorter;
-    }
+  constructor(sorter: SortStrategy) {
+    this.sorter = sorter;
+  }
 
-    public sort(dataset: any[]): any[] {
-        return this.sorter.sort(dataset);
-    }
+  public sort(dataset: any[]): any[] {
+    return this.sorter.sort(dataset);
+  }
 }
 
 const dataset = [1, 5, 4, 3, 2, 8];
