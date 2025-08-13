@@ -121,6 +121,8 @@ document.getElementById(id) или просто id Если у элемента 
 
 <!-- querySelector ------------------------------------------------------------------------------------------------------------------------->
 
+# querySelector
+
 ```js
 elem.querySelector("css-rule"); //возвращает первый элемент соответствующий CSS-селектору
 elem.querySelectorAll("css-rule")[0] == elem.querySelector("css-rule");

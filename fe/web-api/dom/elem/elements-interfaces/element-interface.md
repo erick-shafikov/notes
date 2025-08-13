@@ -4,7 +4,7 @@
 
 все html элементы (HTMLElement) наследуются от Element
 
-## свойства экземпляра
+# свойства экземпляра
 
 - aria-свойства: ariaActiveDescendantElement, ariaAtomic, ariaAutoComplete, ariaBrailleLabel, ariaBrailleRoleDescription, ariaBusy, ariaChecked, ariaColCount, ariaColIndex, ariaColIndexText, ariaColSpan, ariaControlsElements, ariaCurrent, ariaDescribedByElements, ariaDescription, ariaDetailsElements, ariaDisabled, ariaErrorMessageElements, ariaExpanded, ariaFlowToElements, ariaHasPopup, ariaHidden, ariaInvalid, ariaKeyShortcuts, ariaLabel, ariaLabelledByElements, ariaLevel, ariaLive, ariaModal, ariaMultiLine, ariaMultiSelectable, ariaOrientation, ariaOwnsElements, ariaPlaceholder, ariaPosInSet, ariaPressed, ariaReadOnly, ariaRelevantНе стандартно, ariaRequired, ariaRoleDescription, ariaRowCount, ariaRowIndex, ariaRowIndexText, ariaRowSpan, ariaSelected, ariaSetSize, ariaSort, ariaValueMax, ariaValueMin, ariaValueNow, ariaValueText
 
@@ -51,7 +51,7 @@ console.log(p.nodeName); // всё ещё "P";
 - slot - имя тенового слота
 - tagName ⇒ имя элемента
 
-## методы экземпляра
+# методы экземпляра
 
 - after(node1, node2, nodeN) - вставляет после Element
 - animate(keyframes, options) - создает и запускает анимацию
@@ -150,7 +150,7 @@ newspaper.addEventListener("click", () => {
 - setPointerCapture() - сделать элемент target для Pointer Events
 - toggleAttribute(name, force) - для boolean атрибутов
 
-## события
+# события
 
 - afterscriptexecute (Нестандартный Устаревший) - загрузка скрипта
 - animationcancel (-ch,-ed) - незапланированное прерывание анимации

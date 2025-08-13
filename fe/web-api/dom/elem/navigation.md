@@ -43,6 +43,7 @@ childNodes похож на массив, но это просто перебир
 - children – коллекция детей, которые являются элементами
 - firstElementChild, LastElementChild – первый и последний дочерние элементы
 - parentElement – родитель-элемент, тоже самое что и parentNode, исключение document.documentElement
+- !!! childNodes, firstChild, lastChild - могут вернуть пробелы, переносы строк, лучше использовать element-поисковики
 
 ```js
 for (let node of document.body.childNodes) {
@@ -84,29 +85,7 @@ alert(document.head.nextSibling); //HTMLBodyElement <body> идет после <
 alert(document.body.previousSibling); //HTMLHeadElement
 ```
 
-```html
-<body>
-  <div> Начало </div>
-  <ul>
-    <li>
-      <b> Информация </b>
-      </li>
-      <ul>
-</body>
-
-
-<!-- childNodes содержит список всех детей, включая текстовые узлы
-//[object Text]
-//[object HTMLDivElement]
-//[object Text]</div>
-//[object HTMLUlListElement]
-//[object Text] </li>
-<//[object Text] Конец //[object Text] </div>
-//[object HTMLScriptElement]
-//childNodes не массив, а перебираемый объект
-//text, DIV, Text, UL, … SCRIPT
--->
-```
+проход по всем родителям
 
 ```js
 document.documentElement.parentNode; //document
@@ -120,45 +99,30 @@ while ((elem = elem.parentElement)) {
 
 ```html
 <body>
+    <!-- [object HTMLDivElement] -->
+    <div> Начало </div>
+  <ul>
+    <li> Информация </li>
+    <!-- [object HTMLUlListElement] -->
+  <ul>
   <!-- [object HTMLDivElement] -->
-  <div> Начало </div>
-<ul>
-  <li> Информация </li>
-  <!-- [object HTMLUlListElement] -->
-<ul>
-<!-- [object HTMLDivElement] -->
-<div> Конец </div>
+  <div> Конец </div>
 </body>
 <script>
 for (elem of document.body.children) {
   alert(elem); //DIV, UL, DIV, SCRIPT
 }
-</script>
-
-```
-
-```html
-<body>
-  <div> Начало </div>
-  <ul>
-    <li>
-      <b> Информация </b>
-      </li>
-      <ul>
-</body>
-
-
-<!-- childNodes содержит список всех детей, включая текстовые узлы
 //[object Text]
 //[object HTMLDivElement]
 //[object Text]</div>
 //[object HTMLUlListElement]
 //[object Text] </li>
-<//[object Text] Конец //[object Text] </div>
+//[object Text] Конец //[object Text] </div>
 //[object HTMLScriptElement]
 //childNodes не массив, а перебираемый объект
 //text, DIV, Text, UL, … SCRIPT
--->
+</script>
+
 ```
 
 - !!!Все коллекции только для чтения и отражают текущее состояние DOM

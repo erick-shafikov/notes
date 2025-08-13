@@ -80,7 +80,8 @@ document.body.style = 20; //проигнорирует
 
 # Вычисляемые стили: getComputedStyle
 
-При необходимости узнать размер, отступы, цвет элемента из CSS, а не только из атрибута style. Свойство Style оперирует только значением атрибута style бtз учета CSS-каскада. Есть два типа значений стиля:
+При необходимости узнать размер, отступы, цвет элемента из CSS, а не только из атрибута style.
+Свойство Style оперирует только значением атрибута style бtз учета CSS-каскада. Есть два типа значений стиля:
 
 - Вычисленное (computed) - это вычисленные значения после применения всех CSS правил но в относительных единицах, если такие есть rem, em
 - Окончательное (resolved) - это значения в пикселях
@@ -110,15 +111,20 @@ pseudo – указывается, если нужен стиль псевдоэ
 
 ```html
 <head>
-  <style> body {color:red; margin: 5px} </style>
+  <style>
+    body {
+      color: red;
+      margin: 5px;
+    }
+  </style>
 </head>
 <body>
-
   <script>
-    let computedStyle = getComputedStyle(document.body)
-    alert( computedStyle.marginTop); //5px
-    alert( computedStyle.color); //rgb(255, 0, 0)
-  <script>
+    let computedStyle = getComputedStyle(document.body);
+    alert(computedStyle.marginTop); //5px
+    alert(computedStyle.color); //rgb(255, 0, 0)
+  </script>
+</body>
 ```
 
 Вычисленное (computed) значение – это, то которое получено после применения всех CSS правил и CSS свойств наследования в относительных величинах
