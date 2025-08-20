@@ -185,3 +185,9 @@ function areEqual(array1, array2) {
   );
 }
 ```
+
+# bp. автофокус
+
+```tsx
+const Ref = () => <input ref={(node) => node && node.focus()} />;
+```
