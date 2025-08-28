@@ -23,4 +23,5 @@ self.addEventListener("install", (event) => {
 });
 ```
 
--tree shaking в скриптах (настройка в бандлере)
+- tree shaking в скриптах (настройка в бандлере)
+- использование сборщиков
