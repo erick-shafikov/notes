@@ -34,6 +34,60 @@ p::before {
 }
 ```
 
+Использование с атрибутами - свойствами
+
+```html
+<body>
+  <div class="awesome-block" data-rotation="45deg"></div>
+</body>
+```
+
+```scss
+.awesome-block {
+  width: 200px;
+  height: 200px;
+  background-color: purple;
+  // type поможет распознать, что rotation - angle
+  rotate: attr(data-rotation type(<angle>));
+}
+```
+
+```html
+<div class="awesome-block" data-size="450px"></div>
+<div class="awesome-block" data-size="10rem"></div>
+```
+
+```scss
+.awesome-block {
+  width: attr(data-size type(<length-percentage>));
+  height: attr(data-size type(<length-percentage>));
+  background-color: purple;
+}
+```
+
+```html
+<div class="awesome-block" data-size="450"></div>
+<div class="awesome-block" data-size="10"></div>
+```
+
+```scss
+.awesome-block {
+  width: attr(data-size px);
+  height: attr(data-size px);
+  background-color: purple;
+}
+```
+
+резервные значения
+
+```scss
+.awesome-block {
+  width: attr(data-size type(<length-percentage>), 50px);
+  height: attr(data-size type(<length-percentage>), 50px);
+  background-color: purple;
+}
+```
+
 <!-- calc-size()---------------------------------------------------------------------------------------------------------------------------->
 
 # calc-size() (-ff -safari)
@@ -116,6 +170,30 @@ body {
 - safe-area-inset-top, safe-area-inset-right, safe-area-inset-bottom, safe-area-inset-left
 - titlebar-area-x, titlebar-area-y, titlebar-area-width, titlebar-area-height
 - keyboard-inset-top, keyboard-inset-right, keyboard-inset-bottom, keyboard-inset-left, keyboard-inset-width, keyboard-inset-height
+
+# if
+
+```scss
+body {
+  // media(), style(), supports()
+  background-color: if(media(width < 600px): tomato; else: purple);
+}
+```
+
+c переменными
+
+```scss
+body {
+  background-color: if(style(--color: white): tomato; else: purple;);
+  --color: black;
+}
+
+@media (width < 1000px) {
+  body {
+    --color: white;
+  }
+}
+```
 
 <!-- is() ---------------------------------------------------------------------------------------------------------------------------------->
 
