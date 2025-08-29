@@ -142,6 +142,8 @@ section {
 }
 ```
 
+- !!! Типы должны сходится
+
 <!-- fit-content()  ------------------------------------------------------------------------------------------------------------------------>
 
 # fit-content()
@@ -317,7 +319,7 @@ li:nth-of-type(3n + 1) {
   content: url(star.svg) url(star.svg) url(star.svg) url(star.svg) url(star.svg);
 
   /* at-rules */
-  @document url('https://www.example.com/')
+  @document url(https://www.example.com/)
   {
     /* … */
   }

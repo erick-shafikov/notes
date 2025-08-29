@@ -243,9 +243,19 @@ body :not(p) {
 
 - допустимо работать с of
 
+выделит 3 элемент
+
+```html
+<div class="awesome-box">1</div>
+<div>2</div>
+<div class="awesome-block">3</div>
+<div class="awesome-box">4</div>
+<div class="awesome-block">5</div>
+```
+
 ```scss
-:nth-child(2 of .awesome-block) {
-  background-color: lightblue;
+:nth-child(2 of .awesome-box, .awesome-block) {
+  outline: 0.3rem dashed lightblue;
 }
 ```
 

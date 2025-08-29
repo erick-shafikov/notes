@@ -1,6 +1,13 @@
 # единицы измерения
 
-Типы значений: integer, number, dimension, percentage, color
+Типы значений:
+
+- integer - целые числа
+- number - integer допускающие экспоненциальную запись
+- length - числа с единицей измерения
+- dimension
+- percentage
+- color
 
 Единицы измерения:
 
