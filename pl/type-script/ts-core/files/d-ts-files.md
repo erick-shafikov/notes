@@ -22,3 +22,57 @@ export default LibName;
 ```ts
 /// <reference path="./lib-path"
 ```
+
+Файловая структура project/:
+
+- src/
+- - index.ts
+- types/
+- - globals.d.ts
+- - extra.d.ts
+
+Глобальный типы
+
+```ts
+// файл: types/globals.d.ts
+declare global {
+  const API_URL: string;
+}
+```
+
+экстра типы + глобальные
+
+```ts
+// файл: types/extra.d.ts
+/// <reference path="./globals.d.ts" />
+
+declare global {
+  function logApiUrl(): void;
+}
+```
+
+подключение типов
+
+```ts
+// файл: src/index.ts
+/// <reference path="../types/extra.d.ts" />
+
+logApiUrl(); // работает
+console.log(API_URL); // работает
+```
+
+# объявление в window
+
+```ts
+export {};
+
+interface DeepAnalytics {
+  reachGoal: (goal: string) => void;
+}
+
+declare global {
+  interface Window {
+    deepAnalytics: DeepAnalytics;
+  }
+}
+```
