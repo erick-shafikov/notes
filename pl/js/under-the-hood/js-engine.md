@@ -62,7 +62,7 @@ JRE - js runtime
 - Таблица событий;
 - Цикл событий.
 
-## Сборщик мусора
+# Сборщик мусора
 
 Памятью управляет Garbage Collector.
 
@@ -79,7 +79,7 @@ const registry = new FinalizationRegistry((heldValue) => {
 registry.register(target, "some value");
 ```
 
-# Деоптимизация
+# Де-оптимизация
 
 Операции могут быть непредсказуемыми
 
