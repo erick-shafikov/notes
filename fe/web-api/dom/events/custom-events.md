@@ -165,3 +165,38 @@ document.addEventLIstener("menu-open", () => alert("вложенное собы�
 <script>
 
 ```
+
+# использование Event вместо CustomEvent
+
+что бы не использовать details и не использовать в ts
+
+```ts
+type CustomEvent<MyDetailType>;
+```
+
+```ts
+export class MyEvent extends Event {
+  static readonly eventName = "my-event";
+
+  readonly foo: number;
+  readonly bar: string;
+
+  constructor(foo: number, bar: string) {
+    super(MyEvent.eventName, { bubbles: true, composed: true });
+    this.foo = foo;
+    this.bar = bar;
+  }
+}
+
+someElement.addEventListener(MyEvent.eventName, (e: MyEvent) => {
+  // Выглядит намного чище.
+  const { foo, bar } = e;
+  // ...
+});
+
+declare global {
+  interface GlobalEventHandlersEventMap {
+    "my-event": MyEvent;
+  }
+}
+```
