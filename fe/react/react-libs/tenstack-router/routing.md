@@ -166,7 +166,7 @@ routes/
 │ ├─login.tsx
 │ ├─register.tsx
 
-№ пример
+- пример
 
 /routes
 ├─\_\_root.tsx

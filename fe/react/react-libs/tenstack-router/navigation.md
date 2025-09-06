@@ -101,6 +101,14 @@ const link = () => (
       ...prev,
       page: prev.page + 1,
     })}
+    //расширенный поиск
+    ///shop?pageIndex=3&includeCategories=%5B%22electronics%22%2C%22gifts%22%5D&sortBy=price&desc=true
+    search={{
+      pageIndex: 3,
+      includeCategories: ["electronics", "gifts"],
+      sortBy: "price",
+      desc: true,
+    }}
     //к определенному id
     hash="section-1"
   >
@@ -108,6 +116,8 @@ const link = () => (
   </Link>
 );
 ```
+
+работа с префиксами
 
 ```tsx
 const LinkWithPrefix = () => (
