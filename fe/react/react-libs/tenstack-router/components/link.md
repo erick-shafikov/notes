@@ -7,6 +7,11 @@ const dashboardLinkOptions = linkOptions({
   search: { search: "" },
 });
 
+// или
+const props = {
+  to: "/posts/",
+} as const satisfies LinkProps;
+
 // использования для Link
 function DashboardComponent() {
   return <Link {...dashboardLinkOptions} />;
@@ -86,4 +91,68 @@ const CreatedLinkComponent = createLink(BasicLinkComponent);
 export const CustomLink: LinkComponent<typeof BasicLinkComponent> = (props) => {
   return <CreatedLinkComponent preload={"intent"} {...props} />;
 };
+```
+
+# типизация пропсов с помощью ValidateLinkOptions
+
+Есть так же:
+
+- ValidateLinkOptionsArray
+- ValidateRedirectOptions
+- ValidateNavigateOptions
+
+```tsx
+export interface HeaderLinkProps<
+  TRouter extends RegisteredRouter = RegisteredRouter,
+  TOptions = unknown
+> {
+  title: string;
+  linkOptions: ValidateLinkOptions<TRouter, TOptions>;
+}
+
+export function HeadingLink<TRouter extends RegisteredRouter, TOptions>(
+  props: HeaderLinkProps<TRouter, TOptions>
+): React.ReactNode;
+// перегрузка
+export function HeadingLink(props: HeaderLinkProps): React.ReactNode {
+  return (
+    <>
+      <h1>{props.title}</h1>
+      <Link {...props.linkOptions} />
+    </>
+  );
+}
+```
+
+# маскировка путей
+
+```tsx
+// скроет modal
+const MaskLinkComponent = () => (
+  <Link
+    to="/photos/$photoId/modal"
+    params={{ photoId: 5 }}
+    mask={{
+      to: "/photos/$photoId",
+      params: {
+        photoId: 5,
+      },
+    }}
+  >
+    Open Photo
+  </Link>
+);
+// навигация
+function onOpenPhoto() {
+  navigate({
+    to: "/photos/$photoId/modal",
+    params: { photoId: 5 },
+    mask: {
+      to: "/photos/$photoId",
+      params: {
+        photoId: 5,
+      },
+    },
+  });
+}
 ```

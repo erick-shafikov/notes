@@ -110,3 +110,5 @@ function AboutComponent() {
   );
 }
 ```
+
+# маскировка путей

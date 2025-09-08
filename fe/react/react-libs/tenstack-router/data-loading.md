@@ -2,7 +2,7 @@
 
 - встроенное кеширование
 
-Жизненный цикл:
+Жизненный цикл роута:
 
 - Сопоставление маршрутов:
 - - route.params.parse
@@ -136,5 +136,106 @@ function PostComponent() {
   const data = routeApi.useLoaderData();
 
   return <></>;
+}
+```
+
+# взаимодействие с tenstack-query
+
+```tsx
+// src/routes/posts.$postId.tsx
+import { createFileRoute } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { slowDataOptions, fastDataOptions } from "~/api/query-options";
+
+export const Route = createFileRoute("/posts/$postId")({
+  loader: async ({ context: { queryClient } }) => {
+    // Kick off the fetching of some slower data, but do not await it
+    queryClient.prefetchQuery(slowDataOptions());
+
+    // Fetch and await some data that resolves quickly
+    await queryClient.ensureQueryData(fastDataOptions());
+  },
+  component: PostIdComponent,
+});
+
+function PostIdComponent() {
+  const fastData = useSuspenseQuery(fastDataOptions());
+
+  // do something with fastData
+
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SlowDataComponent />
+    </Suspense>
+  );
+}
+
+function SlowDataComponent() {
+  const data = useSuspenseQuery(slowDataOptions());
+
+  return <div>{data}</div>;
+}
+```
+
+```tsx
+export const Route = createFileRoute("/posts/$postId/deep")({
+  // плохо
+  loader: ({ context: { queryClient }, params: { postId } }) =>
+    queryClient.ensureQueryData(postQueryOptions(postId)),
+  component: PostDeepComponent,
+  // хорошо, выведет точный тип без промиса
+  loader: async ({ context: { queryClient }, params: { postId } }) => {
+    await queryClient.ensureQueryData(postQueryOptions(postId));
+  },
+});
+function PostDeepComponent() {
+  const params = Route.useParams();
+  const data = useSuspenseQuery(postQueryOptions(params.postId));
+
+  return <></>;
+}
+```
+
+принудительная предзагрузка
+
+```tsx
+function Component() {
+  const router = useRouter();
+
+  useEffect(() => {
+    async function preload() {
+      try {
+        const matches = await router.preloadRoute({
+          to: postRoute,
+          params: { id: 1 },
+        });
+      } catch (err) {
+        // Failed to preload route
+      }
+    }
+
+    preload();
+  }, [router]);
+
+  // несколько
+
+  useEffect(() => {
+    async function preloadRouteChunks() {
+      try {
+        const postsRoute = router.routesByPath["/posts"];
+        await Promise.all([
+          router.loadRouteChunk(router.routesByPath["/"]),
+          router.loadRouteChunk(postsRoute),
+          router.loadRouteChunk(postsRoute.parentRoute),
+        ]);
+      } catch (err) {
+        // Failed to preload route chunk
+      }
+    }
+
+    preloadRouteChunks();
+  }, [router]);
+
+  return <div />;
 }
 ```
