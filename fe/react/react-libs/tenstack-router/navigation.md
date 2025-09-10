@@ -219,3 +219,18 @@ function Component() {
   );
 }
 ```
+
+# Предотвращение навигации
+
+Варианты:
+
+- [с помощью хука](./hooks/useBlocker.md)
+- [с помощью компонента Block](./components/block.md)
+
+# история
+
+для нативного управления можно использовать:
+
+- createBrowserHistory - по умолчанию.
+- createHashHistory - использует хеш для отслеживания истории.
+- createMemoryHistory - сохраняет историю в памяти.

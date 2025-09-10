@@ -1,11 +1,36 @@
 # Route
 
 ```tsx
+import {
+  createRouter,
+  parseSearchWith,
+  stringifySearchWith,
+} from "@tanstack/react-router";
+
 export const Route = createFileRoute("/posts/$postId")({
   component: PostComponent,
-  // предзагрузка данных
+  // пред-загрузка данных
   defaultPreload: "intent",
   // управление head компонентом [1]
+  head: () => ({}),
+  // управление парсингом поисковой строки
+  parseSearch: parseSearchWith(JSON.parse),
+  stringifySearch: stringifySearchWith(JSON.stringify),
+  //управление временем лоудеров
+  preloadStaleTime: 10_000,
+  defaultPreloadStaleTime: 10_000,
+});
+```
+
+# управление head
+
+если нужно управлять заголовками в документ нужно подключить HeadContent
+
+```tsx
+//page.tsx
+export const Route = createFileRoute("/posts/$postId")({
+  //...
+  // переопределяем в заголовке данные
   head: () => ({
     meta: [
       {
@@ -32,22 +57,10 @@ export const Route = createFileRoute("/posts/$postId")({
       },
     ],
   }),
-  preloadStaleTime: 10_000,
-  defaultPreloadStaleTime: 10_000,
 });
-```
 
-# заголовки
-
-если нужно управлять заголовками в документ нужно подключить HeadContent
-
-```tsx
-function PostComponent() {
-  // получить параметры строки
-  const { postId } = Route.useParams();
-  return <div>Post {postId}</div>;
-}
-
+//корневой компонент
+//что бы заработали заголовки нужно в корневой компонент добавить HeadContent
 import { HeadContent } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
