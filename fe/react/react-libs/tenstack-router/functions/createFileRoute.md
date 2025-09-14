@@ -1,4 +1,6 @@
-# Route
+# createFileRoute
+
+с помощью этой функции создаются и регистрируются роуты, принимает один параметр - путь
 
 ```tsx
 import {
@@ -75,4 +77,87 @@ export const Route = createRootRoute({
     </html>
   ),
 });
+```
+
+# функция loader
+
+```tsx
+export const Route = createFileRoute("/posts")(
+  // интерфейс routeOptions
+  {
+    component: PostComponent,
+    // интерфейс обработчика
+    loader: ({
+      abortController,
+      cause, //'preload' | 'enter' | 'stay' - причина совпадения маршрута
+      // в контекст можно передавать функции обработки данных
+      context: { fetchPosts }, // использует контекст родителя и свой из beforeLoad [2]
+      deps,
+      path,
+      location,
+      parentMatchPromise,
+      preload, //bool
+      route,
+    }) =>
+      fetchPosts({
+        // использование abortController
+        signal: abortController.signal,
+      }),
+    //использование контекста с beforeLoad [2]
+    beforeLoad: () => ({
+      fetchPosts: () => console.info("foo"),
+    }),
+    loader: ({ context: { fetchPosts } }) => {
+      console.info(fetchPosts()); // 'foo'
+    },
+    // Управление зависимостями для лоудера, для управления кешем
+    loaderDeps: ({ search: { pageIndex, pageSize } }) => ({
+      pageIndex,
+      pageSize,
+    }),
+    //
+    //обработка ошибок
+    onError: ({ error }) => {
+      // Log the error
+      console.error(error);
+    },
+    onCatch: ({ error, errorInfo }) => {
+      // Log the error
+      console.error(error);
+    },
+    errorComponent: ({ error, reset }) => {
+      const router = useRouter();
+
+      return (
+        <div>
+          {error.message}
+          <button
+            onClick={() => {
+              // ревалидировать после ошибки
+              router.invalidate();
+            }}
+          >
+            retry
+          </button>
+        </div>
+      );
+    },
+    // актуальность данных
+    staleTime: 0, //Infinity - отключение кеширования
+    defaultStaleTime: 0,
+    // актуальность предзагруженных данных
+    preloadStaleTime: 30,
+    defaultPreloadStaleTime: 30,
+    //хранение перед удалением gc
+    gcTime: 30 * 60 * 60,
+    defaultGcTime: 30 * 60 * 60,
+    //отказ от кеширования
+    shouldReload: false,
+    //оптимистическое пороговое значение
+    pendingMs: 1,
+    defaultPendingMs,
+    pendingMinMs: 500,
+    defaultPendingMinMs,
+  }
+);
 ```

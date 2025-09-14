@@ -1,6 +1,11 @@
-Встроенное кеширование:
+# загрузка данных
 
-- встроенное кеширование
+Существуют следующие варианты загрузки данных:
+
+- [опция loader в createFileRoute](./functions/createFileRoute.md)
+- [функция getRouteApi](./functions/getRouteApi.md)
+
+# жизненный цикл
 
 Жизненный цикл роута:
 
@@ -23,6 +28,12 @@
 - - - parentRoute.errorComponent
 - - - router.defaultErrorComponent
 
+в рамках TSQ существует встроенное кеширование
+
+# api в контексте
+
+возможно передать функцию по загрузке данных через контекст
+
 ```tsx
 //router.tsx
 // передать контекст вниз по всем роутам [2]
@@ -42,104 +53,9 @@ const router = createRouter({
     return <ErrorComponent error={error} />;
   },
 });
-// page.tsx
-import { getRouteApi } from "@tanstack/react-router"; // доступ к данным [1]
-
-export const Route = createFileRoute("/posts")(
-  // интерфейс routeOptions
-  {
-    component: PostComponent,
-    // интерфейс обработчика
-    loader: ({
-      abortController,
-      cause, //'preload' | 'enter' | 'stay' - причина совпадения маршрута
-      // в контекст можно передавать функции обработки данных
-      context: { fetchPosts }, // использует контекст родителя и свой из beforeLoad [2]
-      deps,
-      path,
-      location,
-      parentMatchPromise,
-      preload, //bool
-      route,
-    }) =>
-      fetchPosts({
-        // использование abortController
-        signal: abortController.signal,
-      }),
-    //использование контекста с beforeLoad [2]
-    beforeLoad: () => ({
-      fetchPosts: () => console.info("foo"),
-    }),
-    loader: ({ context: { fetchPosts } }) => {
-      console.info(fetchPosts()); // 'foo'
-    },
-    // Управление зависимостями для лоудера, для управления кешем
-    loaderDeps: ({ search: { pageIndex, pageSize } }) => ({
-      pageIndex,
-      pageSize,
-    }),
-    //
-    //обработка ошибок
-    onError: ({ error }) => {
-      // Log the error
-      console.error(error);
-    },
-    onCatch: ({ error, errorInfo }) => {
-      // Log the error
-      console.error(error);
-    },
-    errorComponent: ({ error, reset }) => {
-      const router = useRouter();
-
-      return (
-        <div>
-          {error.message}
-          <button
-            onClick={() => {
-              // ревалидировать после ошибки
-              router.invalidate();
-            }}
-          >
-            retry
-          </button>
-        </div>
-      );
-    },
-    // актуальность данных
-    staleTime: 0, //Infinity - отключение кеширования
-    defaultStaleTime: 0,
-    // актуальность предзагруженных данных
-    preloadStaleTime: 30,
-    defaultPreloadStaleTime: 30,
-    //хранение перед удалением gc
-    gcTime: 30 * 60 * 60,
-    defaultGcTime: 30 * 60 * 60,
-    //отказ от кеширования
-    shouldReload: false,
-    //оптимистическое пороговое значение
-    pendingMs: 1,
-    defaultPendingMs,
-    pendingMinMs: 500,
-    defaultPendingMinMs,
-  }
-);
-
-//[1]
-const routeApi = getRouteApi("/posts");
-
-function PostComponent() {
-  const {
-    //получение данных
-  } = Route.useLoaderData();
-
-  //[1]
-  const data = routeApi.useLoaderData();
-
-  return <></>;
-}
 ```
 
-# взаимодействие с tenstack-query
+# взаимодействие с TSQ
 
 ```tsx
 // src/routes/posts.$postId.tsx
@@ -196,46 +112,8 @@ function PostDeepComponent() {
 }
 ```
 
-принудительная предзагрузка
+# принудительная пред-загрузка
 
-```tsx
-function Component() {
-  const router = useRouter();
+Принудительную пред-загрузку можно реализовать с помощью хука useRouter:
 
-  useEffect(() => {
-    async function preload() {
-      try {
-        const matches = await router.preloadRoute({
-          to: postRoute,
-          params: { id: 1 },
-        });
-      } catch (err) {
-        // Failed to preload route
-      }
-    }
-
-    preload();
-  }, [router]);
-
-  // несколько
-
-  useEffect(() => {
-    async function preloadRouteChunks() {
-      try {
-        const postsRoute = router.routesByPath["/posts"];
-        await Promise.all([
-          router.loadRouteChunk(router.routesByPath["/"]),
-          router.loadRouteChunk(postsRoute),
-          router.loadRouteChunk(postsRoute.parentRoute),
-        ]);
-      } catch (err) {
-        // Failed to preload route chunk
-      }
-    }
-
-    preloadRouteChunks();
-  }, [router]);
-
-  return <div />;
-}
-```
+- [preloadRoute](./hooks/useRouter.md)

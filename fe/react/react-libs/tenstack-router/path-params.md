@@ -1,3 +1,5 @@
+# параметры строки
+
 /$id - параметры строки
 
 # суффиксы
@@ -78,7 +80,13 @@ export const Route = createFileRoute("/users/$id/{-$tab}")({
 });
 ```
 
-# i18n
+# сопоставление пути
+
+сопоставление пути можно осуществить с помощью:
+
+- [useMatchRoute](./hooks/useMatchRoute.md)
+
+# path-params и i18n
 
 ```tsx
 // Route: /{-$locale}/about
@@ -110,5 +118,3 @@ function AboutComponent() {
   );
 }
 ```
-
-# маскировка путей

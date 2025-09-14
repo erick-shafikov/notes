@@ -1,64 +1,13 @@
 # createFileRoute
 
-с помощью этой функции создаются и регистрируются роуты, принимает один параметр - путь
+за создание корневых роутов отвечают:
 
-```tsx
-import { createFileRoute } from "@tanstack/react-router";
+- [createRootRoute](./functions/createRootRoute.md)
+- [createRootRouter](./functions/createRootRouter.md)
 
-export const Route = createFileRoute("/")({
-  component: PostsComponent,
-});
-```
+Компоненты роутинг создаются с помощью:
 
-# createRootRoute
-
-```tsx
-// без контекста
-import { createRootRoute } from "@tanstack/react-router";
-import { createRootRouteWithContext } from "@tanstack/react-router";
-
-export const Route = createRootRoute();
-
-//с контекстом
-export interface MyRouterContext {
-  //типизация
-}
-
-// компонент созданный createRootRoute всегда отображается
-// доступны компоненты, загрузка, проверка параметров
-export const Route = createRootRouteWithContext<MyRouterContext>()({
-  component: () => <>...</>,
-  // ...
-});
-```
-
-```tsx
-//в main.tsx
-const router = createRouter({
-  routeTree,
-  context: {
-    //контекст для роутинга
-   },
-});
-
-// регистрация типов (по умолчанию)
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router;
-  }
-}
-
-const rootElement = document.getElementById("root")!;
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
-    <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </StrictMode>,
-  );
-```
+- [createFileRoute](./functions/createFileRoute.md)
 
 # маршруты
 

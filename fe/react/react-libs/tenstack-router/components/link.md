@@ -1,128 +1,93 @@
-# linkOptions
+# Link компонент
+
+пример ссылки с параметрами
 
 ```tsx
-// так как если создать dashboardLinkOptions с помощью объекта, то придется подгонять поля под типизацию
-const dashboardLinkOptions = linkOptions({
-  to: "/dashboard",
-  search: { search: "" },
-});
-
-// или
-const props = {
-  to: "/posts/",
-} as const satisfies LinkProps;
-
-// использования для Link
-function DashboardComponent() {
-  return <Link {...dashboardLinkOptions} />;
-}
-
-// использования для перенаправления
-export const Route = createFileRoute("/dashboard")({
-  component: DashboardComponent,
-  validateSearch: (input) => ({ search: input.search }),
-  beforeLoad: () => {
-    // can used in redirect
-    throw redirect(dashboardLinkOptions);
-  },
-});
-```
-
-```tsx
-// поддерживается массив
-const options = linkOptions([
-  {
-    to: "/dashboard",
-    label: "Summary",
-    activeOptions: { exact: true },
-  },
-  {
-    to: "/dashboard/invoices",
-    label: "Invoices",
-  },
-  {
-    to: "/dashboard/users",
-    label: "Users",
-  },
-]);
-
-function DashboardComponent() {
-  return (
-    <>
-      {options.map((option) => {
-        return (
-          <Link
-            {...option}
-            key={option.to}
-            activeProps={{ className: `font-bold` }}
-            className="p-2"
-          >
-            {option.label}
-          </Link>
-        );
-      })}
-    </>
-  );
-}
-```
-
-# createLink
-
-позволяет создать пользовательскую ссылку
-
-```tsx
-import * as React from "react";
-import { createLink, LinkComponent } from "@tanstack/react-router";
-
-interface BasicLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  // Add any additional props you want to pass to the anchor element
-}
-
-const BasicLinkComponent = React.forwardRef<HTMLAnchorElement, BasicLinkProps>(
-  (props, ref) => {
-    return (
-      <a ref={ref} {...props} className={"block px-3 py-2 text-blue-700"} />
-    );
-  }
+const link = () => (
+  <Link
+    to="/blog/post/$postId"
+    params={{
+      postId: "my-first-blog-post",
+    }}
+    //удаление параметров
+    params={{ category: undefined }}
+    params={{}}
+    //необязательные
+    params={{ category: undefined, slug: undefined }}
+    //функционально обновление, императивная навигация
+    params={(prev) => ({ ...prev, category: undefined })}
+    //
+    //параметры поиска
+    search={{
+      query: "tanstack",
+    }}
+    // обновить точечно один параметр
+    search={(prev) => ({
+      ...prev,
+      page: prev.page + 1,
+    })}
+    //расширенный поиск
+    ///shop?pageIndex=3&includeCategories=%5B%22electronics%22%2C%22gifts%22%5D&sortBy=price&desc=true
+    search={{
+      pageIndex: 3,
+      includeCategories: ["electronics", "gifts"],
+      sortBy: "price",
+      desc: true,
+    }}
+    //к определенному id
+    hash="section-1"
+  >
+    Blog Post
+  </Link>
 );
-
-const CreatedLinkComponent = createLink(BasicLinkComponent);
-
-export const CustomLink: LinkComponent<typeof BasicLinkComponent> = (props) => {
-  return <CreatedLinkComponent preload={"intent"} {...props} />;
-};
 ```
 
-# типизация пропсов с помощью ValidateLinkOptions
-
-Есть так же:
-
-- ValidateLinkOptionsArray
-- ValidateRedirectOptions
-- ValidateNavigateOptions
+работа с префиксами
 
 ```tsx
-export interface HeaderLinkProps<
-  TRouter extends RegisteredRouter = RegisteredRouter,
-  TOptions = unknown
-> {
-  title: string;
-  linkOptions: ValidateLinkOptions<TRouter, TOptions>;
-}
-
-export function HeadingLink<TRouter extends RegisteredRouter, TOptions>(
-  props: HeaderLinkProps<TRouter, TOptions>
-): React.ReactNode;
-// перегрузка
-export function HeadingLink(props: HeaderLinkProps): React.ReactNode {
-  return (
-    <>
-      <h1>{props.title}</h1>
-      <Link {...props.linkOptions} />
-    </>
-  );
-}
+const LinkWithPrefix = () => (
+  <Link to="/files/prefix{-$name}.txt" params={{ name: undefined }}>
+    Default File
+  </Link>
+);
 ```
+
+```tsx
+const StyledLink = () => (
+  <Link
+    to="/blog/post/$postId"
+    params={{
+      postId: "my-first-blog-post",
+    }}
+    activeProps={{
+      style: {
+        fontWeight: "bold",
+      },
+    }}
+    activeOptions={{
+      exact: true,
+      includeHash: false,
+      includeSearch: false,
+      explicitUndefined: true,
+    }}
+  >
+    Section 1
+  </Link>
+);
+```
+
+специальные параметры to:
+
+- . - перезагрузка текущего
+- .. - назад на один
+
+# вспомогательные функции
+
+Функции, для работы с компонентом Link:
+
+- [linkOptions - позволяет создать пропсы для Link](../functions/linkOptions.md)
+- [createLink - позволяет создать компонент Link](../functions/createLink.md)
+- [дженерик-функция, которая поможет вывести тип пропсов для пользовательского компонента Link](../types.md#ValidateLinkOptions)
 
 # маскировка путей
 
