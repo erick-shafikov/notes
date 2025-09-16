@@ -134,101 +134,52 @@ routes/
 ├─files/
 │ ├─$.tsx
 
-# code splitting
+# 404
 
-- автоматически в vite.config.ts autoCodeSplitting: true,
-- использование lazy файлов
+Режимы отображения 404:
+
+- foozy-mode - ближайший маршрут с компонентом 404 (по умолчанию)
+- root-mode - все будет обработано notFoundComponent корневым компонентом
+
+Реализация:
+
+- [notFoundComponent в createFileRoute](./functions/createFileRoute.md)
+- [компонент по умолчанию в createRouter](./functions/createRouter.md)
+
+Можно пробросить ошибку notFound с помощью [notFound](./functions/notFound.md)
+
+# авторизация
+
+Основной вариант Опция route.beforeLoad c помощью функции redirect
 
 ```tsx
-// src/routes/posts.tsx
-// файл с loader, в последствии можно без него если ненужен loader
-import { createFileRoute } from "@tanstack/react-router";
-import { fetchPosts } from "./api";
-
-export const Route = createFileRoute("/posts")({
-  loader: fetchPosts,
+export const Route = createFileRoute("/_authenticated")({
+  beforeLoad: async ({ location }) => {
+    if (!isAuthenticated()) {
+      throw redirect({
+        to: "/login",
+        search: {
+          // Use the current location to power a redirect after login
+          // (Do not use `router.state.resolvedLocation` as it can
+          // potentially lag behind the actual current location)
+          redirect: location.href,
+        },
+      });
+    }
+  },
 });
-
-//lazy компонент в отдельном .lazy файле
-// src/routes/posts.lazy.tsx
-import { createLazyFileRoute } from "@tanstack/react-router";
-
-export const Route = createLazyFileRoute("/posts")({
-  component: Posts,
-});
-
-function Posts() {
-  // ...
-}
 ```
 
-разделение на основе кода
+без перенаправления
 
 ```tsx
-// src/posts.lazy.tsx
-export const Route = createLazyRoute("/posts")({
-  component: MyComponent,
+export const Route = createFileRoute("/_authenticated")({
+  component: () => {
+    if (!isAuthenticated()) {
+      return <Login />;
+    }
+
+    return <Outlet />;
+  },
 });
-
-function MyComponent() {
-  return <div>My Component</div>;
-}
-
-// src/app.tsx
-const postsRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/posts",
-}).lazy(() => import("./posts.lazy").then((d) => d.Route));
-```
-
-файл загрузки
-
-```tsx
-import { lazyFn } from "@tanstack/react-router";
-
-const route = createRoute({
-  path: "/my-route",
-  component: MyComponent,
-  loader: lazyFn(() => import("./loader"), "loader"),
-});
-
-// In another file...a
-export const loader = async (context: LoaderContext) => {
-  /// ...
-};
-```
-
-Вынос логики
-
-```tsx
-//my-route.tsx
-import { createRoute } from "@tanstack/react-router";
-import { MyComponent } from "./MyComponent";
-
-const route = createRoute({
-  path: "/my-route",
-  loader: () => ({
-    foo: "bar",
-  }),
-  component: MyComponent,
-});
-
-//my-component.tsx
-import { getRouteApi } from "@tanstack/react-router";
-
-const route = getRouteApi("/my-route");
-// доступны
-// useLoaderData
-// useLoaderDeps
-// useMatch
-// useParams
-// useRouteContext
-// useSearch
-
-export function MyComponent() {
-  const loaderData = route.useLoaderData();
-  //    ^? { foo: string }
-
-  return <div>...</div>;
-}
 ```

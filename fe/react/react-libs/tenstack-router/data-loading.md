@@ -55,6 +55,16 @@ const router = createRouter({
 });
 ```
 
+# принудительная пред-загрузка
+
+Принудительную пред-загрузку можно реализовать с помощью хука useRouter:
+
+- [preloadRoute](./hooks/useRouter.md)
+
+# статические данные
+
+[Можно передать в createFileRoute статические данные](./functions/createFileRoute.md#staticdata)
+
 # взаимодействие с TSQ
 
 ```tsx
@@ -111,9 +121,3 @@ function PostDeepComponent() {
   return <></>;
 }
 ```
-
-# принудительная пред-загрузка
-
-Принудительную пред-загрузку можно реализовать с помощью хука useRouter:
-
-- [preloadRoute](./hooks/useRouter.md)

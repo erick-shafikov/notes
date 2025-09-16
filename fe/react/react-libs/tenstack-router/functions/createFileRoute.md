@@ -21,6 +21,13 @@ export const Route = createFileRoute("/posts/$postId")({
   //управление временем лоудеров
   preloadStaleTime: 10_000,
   defaultPreloadStaleTime: 10_000,
+  // корневой notFoundComponent
+  notFoundComponent: ({
+    //есть доступ к данным
+    data,
+  }) => {
+    return <p>This setting page doesn't exist!</p>;
+  },
 });
 ```
 
@@ -158,6 +165,55 @@ export const Route = createFileRoute("/posts")(
     defaultPendingMs,
     pendingMinMs: 500,
     defaultPendingMinMs,
+    //управление скроллом
+    scrollToTopSelectors: ["#main-scrollable-area"], //id к которому нужно прокрутить
+    scrollRestoration: true, //восстановление позиции прокрутки
+    getScrollRestorationKey: (location) => location.pathname,
+    scrollRestorationBehavior: "instant",
   }
 );
+```
+
+# staticData
+
+Можно передать в createFileRoute статические данные
+
+```tsx
+//как положить
+import { createFileRoute } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/posts")({
+  staticData: {
+    customData: "Hello!",
+  },
+});
+```
+
+```tsx
+//как получить
+import { createRootRoute } from "@tanstack/react-router";
+
+export const Route = createRootRoute({
+  component: () => {
+    const matches = useMatches();
+
+    return (
+      <div>
+        {matches.map((match) => {
+          return <div key={match.id}>{match.staticData.customData}</div>;
+        })}
+      </div>
+    );
+  },
+});
+```
+
+Типизация
+
+```ts
+declare module "@tanstack/react-router" {
+  interface StaticDataRouteOption {
+    customData?: string; //сделать необязательным
+  }
+}
 ```
