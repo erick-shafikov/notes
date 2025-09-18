@@ -16,18 +16,6 @@ export const Route = createFileRoute("/posts/$postId")({
   // управление head компонентом [1]
   head: () => ({}),
   // управление парсингом поисковой строки
-  parseSearch: parseSearchWith(JSON.parse),
-  stringifySearch: stringifySearchWith(JSON.stringify),
-  //управление временем лоудеров
-  preloadStaleTime: 10_000,
-  defaultPreloadStaleTime: 10_000,
-  // корневой notFoundComponent
-  notFoundComponent: ({
-    //есть доступ к данным
-    data,
-  }) => {
-    return <p>This setting page doesn't exist!</p>;
-  },
 });
 ```
 
@@ -115,9 +103,11 @@ export const Route = createFileRoute("/posts")(
       fetchPosts: () => console.info("foo"),
     }),
     loader: ({ context: { fetchPosts } }) => {
+      //loader всегда перезапускается при изменении params и search.
       console.info(fetchPosts()); // 'foo'
     },
     // Управление зависимостями для лоудера, для управления кешем
+    //loaderDeps нужен, если  есть внешние зависимости, не привязанные напрямую к маршруту.
     loaderDeps: ({ search: { pageIndex, pageSize } }) => ({
       pageIndex,
       pageSize,
