@@ -87,7 +87,7 @@ const StyledLink = () => (
 
 - [linkOptions - позволяет создать пропсы для Link](../functions/linkOptions.md)
 - [createLink - позволяет создать компонент Link](../functions/createLink.md)
-- [дженерик-функция, которая поможет вывести тип пропсов для пользовательского компонента Link](../types.md#ValidateLinkOptions)
+- [дженерик-функция, которая поможет вывести тип пропсов для пользовательского компонента Link](../types/ValidateLinkOptions.md)
 
 # маскировка путей
 
