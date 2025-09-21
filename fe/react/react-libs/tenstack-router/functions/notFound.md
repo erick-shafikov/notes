@@ -1,3 +1,7 @@
+# notFound
+
+Позволяет эмитировать notFound ошибку
+
 ```tsx
 export const Route = createFileRoute("/posts/$postId")({
   loader: async ({ params: { postId } }) => {

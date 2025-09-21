@@ -1,5 +1,12 @@
 # getRouteApi
 
+позволяет получить экземпляр Route на любой из страниц
+
+Параметры:
+
+- принимает - строку
+- [возвращает](../types/RouteApi.md)
+
 ```tsx
 // page.tsx
 import { getRouteApi } from "@tanstack/react-router"; // доступ к данным [1]

@@ -1,4 +1,16 @@
+# createRouter
+
+создает экземпляр роутера
+
+Параметры:
+
+- [принимает](../types/RouteOptions.md)
+- [возвращает](../types/Route.md)
+
 ```tsx
+import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { routeTree } from "./routeTree.gen";
+
 const router = createRouter({
   defaultNotFoundComponent: () => {
     return (
@@ -9,4 +21,8 @@ const router = createRouter({
     );
   },
 });
+
+export default function App() {
+  return <RouterProvider router={router} />;
+}
 ```

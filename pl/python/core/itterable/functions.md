@@ -30,8 +30,8 @@ def fun(x):
     pass
 
 
-b = map(fun, [some_iterable])
-b = (fun(x) for x in [some_iterable])
+b = map(fun, some_iterable)
+b = (fun(x) for x in some_iterable)
 b = (lambda s: print(s), some_iterable)
 ```
 
@@ -89,7 +89,7 @@ for x in z:
 ```python
 a = [1, 2, 3, 4]
 b = [5, 6, 7, 8, 9, 10]
-с = 'python'
+c = 'python'
 
 z = zip(a, b, c)
 t1, t2, t3 = zip(*z)
@@ -99,5 +99,3 @@ print(t1, t2, t3)
 # (5, 6, 7, 8)
 # (p, y, t, h)
 ```
-
-
