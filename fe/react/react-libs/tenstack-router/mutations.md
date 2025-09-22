@@ -17,7 +17,7 @@ const router = createRouter();
 const coolMutationCache = createCoolMutationCache();
 
 const unsubscribeFn = router.subscribe("onResolved", () => {
-  // Reset mutation states when the route changes
+  // сброс мутации
   coolMutationCache.clear();
 });
 ```

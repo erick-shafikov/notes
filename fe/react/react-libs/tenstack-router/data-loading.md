@@ -2,7 +2,7 @@
 
 Существуют следующие варианты загрузки данных:
 
-- [опция loader в createFileRoute](./functions/createFileRoute.md)
+- [опция loader в createFileRoute](./functions/createFileRoute.md#функция-loader)
 - [функция getRouteApi](./functions/getRouteApi.md)
 
 # жизненный цикл
@@ -75,10 +75,10 @@ import { slowDataOptions, fastDataOptions } from "~/api/query-options";
 
 export const Route = createFileRoute("/posts/$postId")({
   loader: async ({ context: { queryClient } }) => {
-    // Kick off the fetching of some slower data, but do not await it
+    // начните загрузку, но не дожидайтесь ее если это долгие данные
     queryClient.prefetchQuery(slowDataOptions());
 
-    // Fetch and await some data that resolves quickly
+    // дожидайтесь данные которые быстро загружаются
     await queryClient.ensureQueryData(fastDataOptions());
   },
   component: PostIdComponent,
@@ -86,8 +86,6 @@ export const Route = createFileRoute("/posts/$postId")({
 
 function PostIdComponent() {
   const fastData = useSuspenseQuery(fastDataOptions());
-
-  // do something with fastData
 
   return (
     <Suspense fallback={<div>Loading...</div>}>

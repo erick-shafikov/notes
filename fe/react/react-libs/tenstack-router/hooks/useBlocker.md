@@ -7,9 +7,29 @@ function MyComponent() {
   const [formIsDirty, setFormIsDirty] = useState(false);
 
   //коллбеки на выполнение перехода
-  const { proceed, reset, status } = useBlocker({
+  const {
+    proceed,
+    reset,
+    // 'blocked' or 'idle'
+    status,
+    // Объект локации
+    next,
+    action,
+    reset,
+  } = useBlocker({
     // shouldBlockFn должна возвращать true - разрешить переход или false - не разрешать
-    shouldBlockFn: ({ current, next }) => {
+    shouldBlockFn: ({
+      current,
+      /* next = {
+        routeId: TRouteId,
+        fullPath: TFullPath,
+        pathname: string,
+        params: TAllParams,
+        search: TFullSearchSchema,
+      }*/
+      next,
+      action,
+    }) => {
       //пример реализации с помощью промиса
       const shouldBlock = new Promise<boolean>((resolve) => {
         modals.open({
@@ -29,6 +49,7 @@ function MyComponent() {
             />
           ),
           onClose: () => resolve(true),
+          disable: false,
         });
       });
       return shouldBlock;

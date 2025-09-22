@@ -1,7 +1,7 @@
 Предотвращение рендеринга с помощью useSearch
 
 ```ts
-// component won't re-render when `bar` changes
+// компонент не поменяется если `bar` поменяется
 const foo = Route.useSearch({ select: ({ foo }) => foo });
 ```
 

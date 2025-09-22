@@ -76,6 +76,8 @@ export const Route = createRootRoute({
 
 # функция loader
 
+[loader](../types/RouteOptions.md#loader)
+
 ```tsx
 export const Route = createFileRoute("/posts")(
   // интерфейс routeOptions

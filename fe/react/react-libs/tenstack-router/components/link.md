@@ -1,6 +1,8 @@
 # Link компонент
 
-пример ссылки с параметрами
+пример ссылки с параметрами:
+
+- [LinkProps](../types/LinkProps.md)
 
 ```tsx
 const link = () => (
@@ -90,6 +92,8 @@ const StyledLink = () => (
 - [дженерик-функция, которая поможет вывести тип пропсов для пользовательского компонента Link](../types/ValidateLinkOptions.md)
 
 # маскировка путей
+
+- [creteRouteMask](../functions/createRouteMask.md)
 
 ```tsx
 // скроет modal

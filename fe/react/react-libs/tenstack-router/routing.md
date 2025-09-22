@@ -2,12 +2,13 @@
 
 за создание корневых роутов отвечают:
 
-- [createRootRoute](./functions/createRootRoute.md)
-- [createRootRouter](./functions/createRootRouter.md)
+- [createRootRoute - создаст корневой компонент роутинга](./functions/createRootRoute.md)
+- [createRootRouter - создаст конфигурацию роутинга](./functions/createRootRouter.md)
 
 Компоненты роутинг создаются с помощью:
 
 - [createFileRoute](./functions/createFileRoute.md)
+- [createRoute](./functions/createRoute.md)
 
 # маршруты
 

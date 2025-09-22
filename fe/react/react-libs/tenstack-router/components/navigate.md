@@ -1,6 +1,6 @@
 # Navigate
 
-при необходимости навигации при монтировании компонента
+при необходимости навигации при монтировании компонента, принимает [NavigateOptions](../types/NavigateOptions.md)
 
 ```tsx
 function Component() {
