@@ -189,6 +189,8 @@ type loader = (
 ) => Promise<TLoaderData> | TLoaderData | void;
 ```
 
+[RouteMatch](./RouteMatch.md)
+
 - ориентируется на состояние промиса
 - - при ожидании pendingComponent
 - - при ошибки onError

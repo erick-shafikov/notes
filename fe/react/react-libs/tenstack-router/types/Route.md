@@ -28,6 +28,6 @@ type TLazy = (
 
 добавляет lazy-роут
 
-# другие методы
+# RouteApi
 
 [доступны и другие методы](../types/RouteApi.md)

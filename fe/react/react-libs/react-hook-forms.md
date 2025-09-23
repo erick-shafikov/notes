@@ -456,7 +456,7 @@ function FieldArray() {
     name: "test", // unique name for your Field Array
   });
 
-  React.useEffect(() => {
+ useEffect(() => {
   remove(0);
 }, [remove])
 
