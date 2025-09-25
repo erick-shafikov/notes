@@ -300,3 +300,14 @@ function getByTestId(
 # custom queries
 
 [См в документации](https://testing-library.com/docs/dom-testing-library/api-custom-queries)
+
+# within
+
+для поиска внутри контейнера
+
+```js
+import { within } from "@testing-library/dom";
+
+const messages = document.getElementById("messages");
+const helloMessage = within(messages).getByText("hello");
+```

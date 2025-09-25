@@ -73,7 +73,7 @@ routes/
 
 # маршруты \_layout
 
-отобразится лишь только в том случае если перейдем на \_pathlessLayout.a или \_pathlessLayout.b
+отобразится лишь только в том случае если перейдем на \_pathlessLayout.a или \_pathlessLayout.b. \_pathlessLayout - будет оберткой
 
 routes/
 ├─_pathlessLayout.tsx

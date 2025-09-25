@@ -65,11 +65,15 @@ export const Route = createFileRoute("/users")({
 });
 ```
 
-### search.validate
+## params
 
-### search.parse
+### params.parse
 
-### search.stringify
+Type: (rawParams: Record<string, string>) => TParams для получения строки
+
+### params.stringify
+
+Type: (params: TParams) => Record<string, string> дял получения параметров в виде объекта
 
 ## staleTime
 
@@ -140,16 +144,6 @@ type CodeSplitGroupings = Array<
 ## parseParams
 
 (params: TParams) => Record<string, string> (обязательный если есть parseParams) - для парсинга строк поиска
-
-## params
-
-### params.parse
-
-Type: (rawParams: Record<string, string>) => TParams для получения строки
-
-### params.stringify
-
-Type: (params: TParams) => Record<string, string> дял получения параметров в виде объекта
 
 ## beforeLoad
 
