@@ -1,4 +1,4 @@
-# __init__
+# init
 
 - вызывается перед созданием экземпляра
 
@@ -23,7 +23,13 @@ class Point:
 pt = Point(1, 2)
 ```
 
-# __del__
+Использование init:
+
+- установка атрибутов
+- работа с мутирующими объектами
+- обычная инициализация классов, стандартный флоу
+
+# del
 
 финализатор
 
@@ -52,14 +58,14 @@ class Point:
 pt = Point(1, 2)
 ```
 
-# __new__
+# new
 
 Вызывается после создания класса.
 
 ```python
 class Point:
     # cls ссылается на класс Point
-    # должен возвращать адрес нового объекта 
+    # должен возвращать адрес нового объекта
     # аргументы обязательные
     def __new__(cls, *args, **kwargs):
         # super() - базовый класс
@@ -110,11 +116,73 @@ class DataBase:
 
 db = DataBase('user', 'pass', 2000)
 db2 = DataBase('user2', 'pass2', 2001)  # db1 == db2
-
-
 ```
 
-# dunder - методы (__getattribute__, __setattr__, __getattr__, __delattr__)
+PositiveInt пример
+
+```python
+class PositiveInt(int):
+    def __init__(cls. value:int) -> int:
+        if value < 0:
+            raise ValueError("must be > 0")
+        else:
+            return super().__new__(cls, value)
+```
+
+Shape пример
+
+```python
+from typing import Union, Any
+
+class Shape:
+    def __new__(cls, shaper_type: str, *args: Any, **kwargs: Any) -> Union['Circle', 'Rectangle']:
+        if shape_type == 'circle':
+            return Circle(*args, **kwargs)
+        elif shape_type == 'rectangle':
+            return Rectangle(*args, **kwargs)
+        else:
+            raise ValueError('Unknown shape')
+
+class Circle:
+    def __init__(self, radius:float) -> None:
+        self.radius: float = radius
+        self.area: float = 3.14 * radius ** 2
+
+class Rectangle:
+    def __init__(self, width:float, height:float) -> None:
+        self.width: float = width
+        self.height: float = height
+        self.area: float = width * height
+```
+
+```python
+class HTTPStatus(Enum):
+    OK = (200, 'OK', True)
+    NOT_FOUND = (404, 'Not Found', False)
+    INTERNAL_ERROR = (500, 'Internal server error')
+
+    def __new__(cls, code:int, message:str, is_success:bool) -> 'HTTPStatus':
+        obj = object.__new__(cls)
+        obj._value_ = code
+        obj.code = code
+        obj.message = message
+        obj.is_success = is_success
+
+        return obj
+```
+
+- !!! Должен возвращать что-либо отличное от None - ошибка
+
+Использование new:
+
+- singleton
+- фабричный метод
+- контроль экземпляра
+- мета-классы, мета-программирование
+- если нужно вернуть другой тип
+- для классов унаследованных от не мутирующих классов
+
+# dunder - методы (**getattribute**, **setattr**, **getattr**, **delattr**)
 
 ```python
 class Point:
@@ -144,7 +212,7 @@ class Point:
 
     # если идет обращение идет к несуществующему атрибуту
     def __getattr__(self, item):
-        # предотвратит ошибку при обращении к несуществующему атрибуту 
+        # предотвратит ошибку при обращении к несуществующему атрибуту
         return False
 
     # при удалении
@@ -154,7 +222,7 @@ class Point:
 
 ```
 
-# __call__
+# **call**
 
 Вызывается при создании экземпляра класса именно он позволяет вызывать класс со скобками.
 Такие классы называются функторы
@@ -231,7 +299,7 @@ def df_sin(x):
 df_sin = Derivate(df_sin)
 ```
 
-# __str__()
+# **str**()
 
 Отображает информацию об объекте
 
@@ -243,10 +311,10 @@ class Cat:
     # отобразится в print
     # отобразиться в str(instance)
     def __str__(self):
-        return f'{self.name}' 
+        return f'{self.name}'
 ```
 
-# __repr__()
+# **repr**()
 
 Как будет отображаться во время отладки экземпляры класса
 
@@ -260,7 +328,7 @@ class Cat:
         return f'{self.__class__}: {self.name}'
 ```
 
-# __len__()
+# **len**()
 
 Позволит применять функцию len к экземплярам
 
@@ -280,7 +348,7 @@ len(p)  # 3
 
 Позволит применять функцию abs к экземплярам
 
-# __abs__()
+# **abs**()
 
 ```python
 class Point:
@@ -297,7 +365,7 @@ abs(p)  # [1,2,3]
 
 # Математические операции
 
-## __add__()
+## **add**()
 
 ```python
 class Clock:
@@ -350,20 +418,20 @@ c5 = 100 + c1
 c1 += 100
 ```
 
-- __sub__() - для вычитания,
-- __mul__() - для умножения,
-- __truediv__() - для деления
-- __floordiv__() - x // y
-- __mod__() - x % y
+- **sub**() - для вычитания,
+- **mul**() - для умножения,
+- **truediv**() - для деления
+- **floordiv**() - x // y
+- **mod**() - x % y
 
 # методы сравнения
 
-- __eq__() - равенство ==
-- __ne__() - != вызывает __eq__() если неопределённа и значение инвертируется
-- __lt__() - <
-- __le__() - <=
-- __gt__() - > - взывает __lt__() если неопределённа и инвертирует результат
-- __ge__() - >=
+- **eq**() - равенство ==
+- **ne**() - != вызывает **eq**() если неопределённа и значение инвертируется
+- **lt**() - <
+- **le**() - <=
+- **gt**() - > - взывает **lt**() если неопределённа и инвертирует результат
+- **ge**() - >=
 
 ```python
 class Clock:
@@ -420,7 +488,7 @@ class Point:
 # bool
 
 - преобразование к логическому типу
-- если этого метода нет, то используется __len__()
+- если этого метода нет, то используется **len**()
 - должен возвращать bool
 
 ```python
@@ -442,7 +510,7 @@ if a:
     print('true')
 ```
 
-# __getitem__(self, item), __setitem__(self, key, value), __delitem__(self, key)
+# **getitem**(self, item), **setitem**(self, key, value), **delitem**(self, key)
 
 - позволяет обращаться по индексу к экземпляру класса
 
@@ -482,7 +550,7 @@ print(s1[2])  # 4
 del s1[2]
 ```
 
-# __iter__ и __next__
+# **iter** и **next**
 
 - позволит перебирать объекта
 
@@ -551,4 +619,3 @@ for row in fr:
 ```python
 
 ```
-
