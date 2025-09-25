@@ -1,3 +1,15 @@
+# useParams
+
+Параметры:
+
+- Принимает (объект):
+- - strict - true, если false from будет проигнорирован
+- - shouldThrow - если false не прокинет ошибку
+- - select - (params: AllParams) => TSelected
+- - structuralSharing - bool
+- Возвращает:
+- - объект с параметрами
+
 ```tsx
 function PostComponent() {
   // получить параметры

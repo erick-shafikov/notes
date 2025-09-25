@@ -1,5 +1,18 @@
 # useMatchRoute
 
+Параметры:
+
+- Принимает (объект):
+- -
+- Возвращает:
+- - matchRoute - функция, которая возвращает информацию о текущей локации или загружаемой локации, параметры:
+- - - Принимает:
+- - - - [UseMatchRouteOptions](../types/UseMatchRouteOptions.md)
+- - - Возвращает:
+- - - - boolean - конфигурацию роута
+
+---
+
 ```tsx
 function Component() {
   const matchRoute = useMatchRoute();
@@ -29,5 +42,95 @@ function Component() {
       </Link>
     </div>
   );
+}
+```
+
+```tsx
+import { useMatchRoute } from "@tanstack/react-router";
+
+// Current location: /posts/123
+function Component() {
+  const matchRoute = useMatchRoute();
+  const params = matchRoute({ to: "/posts/$postId" });
+  //    ^ { postId: '123' }
+}
+
+// Current location: /posts/123
+function Component() {
+  const matchRoute = useMatchRoute();
+  const params = matchRoute({ to: "/posts" });
+  //    ^ false
+}
+
+// Current location: /posts/123
+function Component() {
+  const matchRoute = useMatchRoute();
+  const params = matchRoute({ to: "/posts", fuzzy: true });
+  //    ^ {}
+}
+
+// Current location: /posts
+// Pending location: /posts/123
+function Component() {
+  const matchRoute = useMatchRoute();
+  const params = matchRoute({ to: "/posts/$postId", pending: true });
+  //    ^ { postId: '123' }
+}
+
+// Current location: /posts/123/foo/456
+function Component() {
+  const matchRoute = useMatchRoute();
+  const params = matchRoute({ to: "/posts/$postId/foo/$fooId" });
+  //    ^ { postId: '123', fooId: '456' }
+}
+
+// Current location: /posts/123/foo/456
+function Component() {
+  const matchRoute = useMatchRoute();
+  const params = matchRoute({
+    to: "/posts/$postId/foo/$fooId",
+    params: { postId: "123" },
+  });
+  //    ^ { postId: '123', fooId: '456' }
+}
+
+// Current location: /posts/123/foo/456
+function Component() {
+  const matchRoute = useMatchRoute();
+  const params = matchRoute({
+    to: "/posts/$postId/foo/$fooId",
+    params: { postId: "789" },
+  });
+  //    ^ false
+}
+
+// Current location: /posts/123/foo/456
+function Component() {
+  const matchRoute = useMatchRoute();
+  const params = matchRoute({
+    to: "/posts/$postId/foo/$fooId",
+    params: { fooId: "456" },
+  });
+  //    ^ { postId: '123', fooId: '456' }
+}
+
+// Current location: /posts/123/foo/456
+function Component() {
+  const matchRoute = useMatchRoute();
+  const params = matchRoute({
+    to: "/posts/$postId/foo/$fooId",
+    params: { postId: "123", fooId: "456" },
+  });
+  //    ^ { postId: '123', fooId: '456' }
+}
+
+// Current location: /posts/123/foo/456
+function Component() {
+  const matchRoute = useMatchRoute();
+  const params = matchRoute({
+    to: "/posts/$postId/foo/$fooId",
+    params: { postId: "789", fooId: "456" },
+  });
+  //    ^ false
 }
 ```

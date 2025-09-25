@@ -1,5 +1,9 @@
 # preloadRoute
 
+вернет экземпляр [Router](../types/Router.md), полезен для доступа к экземпляру роута в компонентах
+
+Использование router.preloadRoute
+
 ```tsx
 function Component() {
   const router = useRouter();
