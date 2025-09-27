@@ -4,7 +4,7 @@
 
 Параметры:
 
-- [принимает](../types/RouteOptions.md)
+- [принимает](../types/RouterOptions.md)
 - [возвращает](../types/Route.md)
 
 ```tsx

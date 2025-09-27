@@ -7,6 +7,8 @@
 ```tsx
 const link = () => (
   <Link
+    //PARAMS
+    //передача динамических параметров
     to="/blog/post/$postId"
     params={{
       postId: "my-first-blog-post",
@@ -18,7 +20,7 @@ const link = () => (
     params={{ category: undefined, slug: undefined }}
     //функционально обновление, императивная навигация
     params={(prev) => ({ ...prev, category: undefined })}
-    //
+    //SEARCH PARAMS
     //параметры поиска
     search={{
       query: "tanstack",
@@ -54,6 +56,8 @@ const LinkWithPrefix = () => (
 );
 ```
 
+# активная ссылка
+
 ```tsx
 const StyledLink = () => (
   <Link
@@ -78,10 +82,44 @@ const StyledLink = () => (
 );
 ```
 
-специальные параметры to:
+рендер-пропс подход
+
+```tsx
+const link = (
+  <Link to="/blog/post">
+    {({ isActive }) => {
+      return (
+        <>
+          <span>My Blog Post</span>
+          <icon className={isActive ? "active" : "inactive"} />
+        </>
+      );
+    }}
+  </Link>
+);
+```
+
+# специальные параметры to:
 
 - . - перезагрузка текущего
 - .. - назад на один
+- компонент Route
+
+```tsx
+import { Route as aboutRoute } from "./routes/about.tsx";
+
+function Comp() {
+  return <Link to={aboutRoute.to}>About</Link>;
+}
+
+//или
+
+const link = (
+  <Link from={aboutRoute.fullPath} to="../categories">
+    Categories
+  </Link>
+);
+```
 
 # вспомогательные функции
 

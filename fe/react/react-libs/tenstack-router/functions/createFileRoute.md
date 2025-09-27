@@ -170,6 +170,8 @@ export const Route = createFileRoute("/posts")(
     scrollRestoration: true, //восстановление позиции прокрутки
     getScrollRestorationKey: (location) => location.pathname,
     scrollRestorationBehavior: "instant",
+    //управление разделением кода
+    codeSplitGroupings: [["loader", "component"]],
   }
 );
 ```

@@ -8,20 +8,38 @@
 - [возвращает](../types/RouteApi.md)
 
 ```tsx
-// page.tsx
-import { getRouteApi } from "@tanstack/react-router"; // доступ к данным [1]
+//my-route.tsx
+import { createRoute } from "@tanstack/react-router";
+import { MyComponent } from "./MyComponent";
 
-//[1]
+const route = createRoute({
+  path: "/my-route",
+  loader: () => ({
+    foo: "bar",
+  }),
+  component: MyComponent,
+});
+```
+
+```tsx
+// page.tsx
+import { getRouteApi } from "@tanstack/react-router"; // доступ к данным
 const routeApi = getRouteApi("/posts");
 
 function PostComponent() {
-  const {
-    //получение данных
-  } = Route.useLoaderData();
+  const {} = Route.useLoaderData();
 
-  //[1]
   const data = routeApi.useLoaderData();
 
   return <></>;
 }
 ```
+
+Доступны:
+
+- useLoaderData
+- useLoaderDeps
+- useMatch
+- useParams
+- useRouteContext
+- useSearch

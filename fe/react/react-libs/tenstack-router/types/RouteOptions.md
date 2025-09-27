@@ -65,6 +65,20 @@ export const Route = createFileRoute("/users")({
 });
 ```
 
+```ts
+search: {
+    middlewares: [
+      ({ search, next }) => {
+        const result = next(search)
+        return {
+          rootValue: search.rootValue,
+          ...result,
+        }
+      },
+    ],
+  },
+```
+
 ## params
 
 ### params.parse

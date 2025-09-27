@@ -86,3 +86,11 @@ function (opts?: {filter?: (d: MakeRouteMatchUnion<TRouter>) => boolean}) => voi
 ## dehydrate
 
 ## hydrate
+
+## parseSearch
+
+parseSearch: parseSearchWith(JSON.parse),
+
+## stringifySearch
+
+stringifySearch: stringifySearchWith(JSON.stringify),

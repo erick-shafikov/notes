@@ -116,25 +116,6 @@ routes/
 │ ├─login.tsx
 │ ├─register.tsx
 
-- пример
-
-/routes
-├─\_\_root.tsx
-├─index.tsx
-├─about.tsx
-├─posts/
-│ ├─index.tsx
-│ ├─$postId.tsx
-├─posts.$postId.edit.tsx
-├─settings/
-│ ├─profile.tsx
-│ ├─notifications.tsx
-├─_pathlessLayout/
-│ ├─route-a.tsx
-├─├─route-b.tsx
-├─files/
-│ ├─$.tsx
-
 # 404
 
 Режимы отображения 404:
@@ -183,4 +164,31 @@ export const Route = createFileRoute("/_authenticated")({
     return <Outlet />;
   },
 });
+```
+
+# .lazy-файлы
+
+```tsx
+// src/routes/posts.tsx
+
+import { createFileRoute } from "@tanstack/react-router";
+import { fetchPosts } from "./api";
+
+export const Route = createFileRoute("/posts")({
+  loader: fetchPosts,
+});
+```
+
+```tsx
+// src/routes/posts.lazy.tsx
+
+import { createLazyFileRoute } from "@tanstack/react-router";
+
+export const Route = createLazyFileRoute("/posts")({
+  component: Posts,
+});
+
+function Posts() {
+  // ...
+}
 ```

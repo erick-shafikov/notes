@@ -1,5 +1,7 @@
 # LinkProps
 
+наследуется от [NavigateOptions](./NavigateOptions.md)
+
 ```ts
 export type LinkProps<
   TFrom extends RoutePaths<RegisteredRouter["routeTree"]> | string = string,
@@ -12,5 +14,7 @@ export type LinkProps<
   inactiveProps?:
     | FrameworkHTMLAnchorAttributes
     | (() => FrameworkHTMLAnchorAttributes);
+  preload: "intent";
+  preloadDelay: 100;
 };
 ```

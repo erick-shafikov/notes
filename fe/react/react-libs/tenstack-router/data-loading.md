@@ -65,6 +65,23 @@ const router = createRouter({
 
 [Можно передать в createFileRoute статические данные](./functions/createFileRoute.md#staticdata)
 
+# разделение loader-а
+
+```tsx
+import { lazyFn } from "@tanstack/react-router";
+
+const route = createRoute({
+  path: "/my-route",
+  component: MyComponent,
+  loader: lazyFn(() => import("./loader"), "loader"),
+});
+
+// In another file...a
+export const loader = async (context: LoaderContext) => {
+  /// ...
+};
+```
+
 # взаимодействие с TSQ
 
 ```tsx

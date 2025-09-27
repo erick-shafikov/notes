@@ -2,6 +2,10 @@
 
 регистрирует корневой роут
 
+Принимает:
+
+- TypeRootRoute [RootOPtions](../types/RouteOptions.md)
+
 ```ts
 type TypeRootRoute = Omit<
   RouteOptions,
