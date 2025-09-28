@@ -1,5 +1,6 @@
-```python
 # Аппроксимация данных ядерным сглаживанием
+
+```python
 
 import numpy as np
 
@@ -21,12 +22,12 @@ ro = lambda xx, xi: np.abs(xx - xi)  # метрика
 w = lambda xx, xi: K(ro(xx, xi) / h)  # веса
 
 # варианты для разных h
-# for h in [0.1, 0.3, 1, 10]:
-y_est = []
-for xx in x_est:
-    ww = np.array([w(xx, xi) for xi in x])
-    yy = np.dot(ww, y) / sum(ww)  # формула Надарая-Ватсона
-    y_est.append(yy)
+for h in [0.1, 0.3, 1, 10]:
+    y_est = []
+    for xx in x_est:
+        ww = np.array([w(xx, xi) for xi in x])
+        yy = np.dot(ww, y) / sum(ww)  # формула Надарая-Ватсона
+        y_est.append(yy)
 
 
 ```
