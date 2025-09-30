@@ -3,12 +3,12 @@
 за создание корневых роутов отвечают:
 
 - [createRootRoute - создаст корневой компонент роутинга](./functions/createRootRoute.md)
-- [createRootRouter - создаст конфигурацию роутинга](./functions/createRootRouter.md)
+- [createRootRouter - создаст конфигурацию роутинга](./functions/createRouter.md)
 
 Компоненты роутинг создаются с помощью:
 
-- [createFileRoute](./functions/createFileRoute.md)
-- [createRoute](./functions/createRoute.md)
+- [createFileRoute для файлового роутинга](./functions/createFileRoute.md)
+- [createRoute для программного роутинга](./functions/createRoute.md)
 
 # маршруты
 
@@ -54,7 +54,9 @@ function PostComponent() {
 }
 ```
 
-# маршруты layout
+# file-based подход
+
+## маршруты layout
 
 вариант 1
 
