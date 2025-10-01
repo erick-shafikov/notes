@@ -1,4 +1,4 @@
-# queryClients
+# queryClient
 
 Позволяет взаимодействовать с query клиентом
 
