@@ -16,6 +16,18 @@ const mutationCache = new MutationCache({
 конструктор принимает объект с полями:
 
 - onError
+
+```js
+// пример с 401
+const queryClient = new QueryClient({
+  onError: (error) => {
+    if (error.status === 401) {
+      localStorage.removeItem("token");
+    }
+  },
+});
+```
+
 - onSuccess
 - onSettled
 - onMutate

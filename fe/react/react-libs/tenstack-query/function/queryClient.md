@@ -20,7 +20,7 @@ await queryClient.prefetchQuery({ queryKey: ["posts"], queryFn: fetchPosts });
 
 - Принимает (объект):
 - - queryCache? - объект с кешем вида [QueryCache](./queryCache.md)
-- - mutationCache? - объект кеша мутаций [MutationCache](./mutationCache.md)
+- - mutationCache? - объект кеша мутаций [MutationCache](./cache/mutationCache.md)
 - - defaultOptions? - опции по умолчанию для всех query и мутаций, используется для гидратации
 
 # методы экземпляра
