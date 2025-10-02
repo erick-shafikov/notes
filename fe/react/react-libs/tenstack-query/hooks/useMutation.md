@@ -1,5 +1,146 @@
 # useMutation
 
+Параметры:
+
+# принимает
+
+два параметра, второй - контекст, первый объект с полями:
+
+## mutationFn
+
+```ts
+mutationFn: (variables: TVariables, context: MutationFunctionContext) =>
+  Promise<TData>;
+```
+
+[MutationFunctionContext можно использовать](#использование-meta-полей)
+
+## gcTime
+
+number | Infinity - время в кеше (максимум 24 дня)
+
+## meta
+
+Произвольные данные прокидываемые в запрос
+
+```ts
+type Meta = Record<string, unknown>;
+```
+
+## mutationKey
+
+```ts
+type MutationKey = unknown[];
+```
+
+## networkMode
+
+'online' | 'always' | 'offlineFirst'
+
+## onError
+
+```ts
+type onError = (
+  err: TError,
+  variables: TVariables,
+  onMutateResult: TOnMutateResult | undefined,
+  context: MutationFunctionContext
+) => Promise<unknown> | unknown;
+```
+
+## onMutate
+
+```ts
+type onMutate = (
+  variables: TVariables
+) => Promise<TOnMutateResult | void> | TOnMutateResult | void;
+```
+
+## onSettled
+
+```ts
+type onSettled = (
+  data: TData,
+  error: TError,
+  variables: TVariables,
+  onMutateResult: TOnMutateResult | undefined,
+  context: MutationFunctionContext
+) => Promise<unknown> | unknown;
+```
+
+## onSuccess
+
+```ts
+type OnSuccess = (
+  data: TData,
+  variables: TVariables,
+  onMutateResult: TOnMutateResult | undefined,
+  context: MutationFunctionContext
+) => Promise<unknown> | unknown;
+```
+
+## retry
+
+```ts
+type Retry = boolean | number | (failureCount: number, error: TError) => boolean
+```
+
+## retryDelay
+
+```ts
+type RetryDelay = number | (retryAttempt: number, error: TError) => number
+```
+
+## scope
+
+мутации с одним id будут идти последовательно
+
+```ts
+type Scope = { id: string };
+```
+
+## throwOnError
+
+если true пробросит ошибку до ближайшего errorBoundary
+
+```ts
+type ThrowOnError = undefined | boolean | (error: TError) => boolean
+```
+
+<!--  -->
+
+# возвращает
+
+## data
+
+## error
+
+## isError
+
+## isIdle
+
+## isPending
+
+## isPaused
+
+## isSuccess
+
+## failureCount
+
+## failureReason
+
+## mutate
+
+## mutateAsync
+
+## reset
+
+## status
+
+## submittedAt
+
+## variables
+
 # использование meta-полей
 
 можно прописать автоматическую ре-валидацию queryClient при мутации
