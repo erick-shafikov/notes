@@ -9,8 +9,10 @@
 ## mutationFn
 
 ```ts
-mutationFn: (variables: TVariables, context: MutationFunctionContext) =>
-  Promise<TData>;
+type MutationFn = (
+  variables: TVariables,
+  context: MutationFunctionContext
+) => Promise<TData>;
 ```
 
 [MutationFunctionContext можно использовать](#использование-meta-полей)
@@ -113,31 +115,88 @@ type ThrowOnError = undefined | boolean | (error: TError) => boolean
 
 ## data
 
+undefined - результат мутации
+
 ## error
+
+null | TError
 
 ## isError
 
+boolean
+
 ## isIdle
+
+boolean
 
 ## isPending
 
+boolean
+
 ## isPaused
+
+boolean
 
 ## isSuccess
 
+boolean
+
 ## failureCount
+
+number - 0 когда мутация успешная
 
 ## failureReason
 
+null | TError - причина перезапуска мутации
+
 ## mutate
+
+```ts
+type Mutate = (
+  variables: TVariables,
+  options: {
+    onSuccess: (
+      data: TData,
+      variables: TVariables,
+      onMutateResult: TOnMutateResult | undefined,
+      context: MutationFunctionContext
+    ) => void;
+    onSettled: (
+      data: TData | undefined,
+      error: TError | null,
+      variables: TVariables,
+      onMutateResult: TOnMutateResult | undefined,
+      context: MutationFunctionContext
+    ) => void;
+    onError: (
+      err: TError,
+      variables: TVariables,
+      onMutateResult: TOnMutateResult | undefined,
+      context: MutationFunctionContext
+    ) => void;
+  }
+) => void;
+```
 
 ## mutateAsync
 
+как и mutate но вернет промис
+
 ## reset
+
+сброс мутации
+
+```ts
+type Reset = () => void;
+```
 
 ## status
 
+idle | pending | error | success
+
 ## submittedAt
+
+0 - timestamp отправки мутации
 
 ## variables
 
