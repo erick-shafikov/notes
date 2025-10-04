@@ -24,6 +24,31 @@ type QueryFn = (context: QueryFunctionContext) => Promise<TData>;
 
 [контекст который принимает QueryFunctionContext](../types/QueryFunctionContext.md)
 
+использование signal
+
+```js
+const query = useQuery({
+  queryKey: ["todos"],
+  queryFn: async ({ signal }) => {
+    const todosResponse = await fetch("/todos", {
+      // Pass the signal to one fetch
+      signal,
+    });
+    const todos = await todosResponse.json();
+
+    const todoDetails = todos.map(async ({ details }) => {
+      const response = await fetch(details, {
+        // Or pass it to several
+        signal,
+      });
+      return response.json();
+    });
+
+    return Promise.all(todoDetails);
+  },
+});
+```
+
 ### gcTime
 
 30_000 - сколько по времени данные хранятся в кеше
@@ -39,6 +64,8 @@ type NetworkMode = "online" | "always" | "offlineFirst";
 ```
 
 ### initialData
+
+Хранится в кеше
 
 ```ts
 type InitialData = TData | () => TData
@@ -77,7 +104,19 @@ type NotifyOnChangeProps =
 type PlaceholderData = TData | (previousValue: TData | undefined, previousQuery: Query | undefined) => TData
 ```
 
-данные которые будут отображаться при pending статусе
+данные которые будут отображаться при pending статусе, не хранятся в кеше
+
+```jsx
+function Todos() {
+  // стоит использовать useMemo
+  const placeholderData = useMemo(() => generateFakeTodos(), []);
+  const result = useQuery({
+    queryKey: ["todos"],
+    queryFn: () => fetch("/todos"),
+    placeholderData,
+  });
+}
+```
 
 ### queryKeyHashFn
 

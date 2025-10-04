@@ -126,6 +126,33 @@ try {
 - - - throwOnError? - если true то пробросит ошибку если есть хоть одна
 - - - cancelRefetch? - true, если false не будет запускать запрос, если он уже выполняется
 
+Функция predicate
+
+```js
+queryClient.invalidateQueries({
+  predicate: (query) =>
+    query.queryKey[0] === "todos" && query.queryKey[1]?.version >= 10,
+});
+
+// пере-валидация
+const todoListQuery = useQuery({
+  queryKey: ["todos", { version: 20 }],
+  queryFn: fetchTodoList,
+});
+
+// пере-валидация
+const todoListQuery = useQuery({
+  queryKey: ["todos", { version: 10 }],
+  queryFn: fetchTodoList,
+});
+
+// пере-валидации не будет
+const todoListQuery = useQuery({
+  queryKey: ["todos", { version: 5 }],
+  queryFn: fetchTodoList,
+});
+```
+
 ## refetchQueries
 
 для перезапуска запроса на определенных условиях, параметры:

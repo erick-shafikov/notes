@@ -101,6 +101,15 @@ type RetryDelay = number | (retryAttempt: number, error: TError) => number
 type Scope = { id: string };
 ```
 
+```js
+const mutation = useMutation({
+  mutationFn: addTodo,
+  scope: {
+    id: "todo",
+  },
+});
+```
+
 ## throwOnError
 
 если true пробросит ошибку до ближайшего errorBoundary

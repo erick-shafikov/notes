@@ -10,9 +10,21 @@ getCommentsForPost(user.id, post.id) {...} // TS это пропустит
 ```
 
 ```ts
+type Kilometer = number & {
+  __brand: "Kilometer";
+};
+```
+
+```ts
 declare const __brand: unique symbol;
 
 type Branded<T, UniqueKey> = T & { [__brand]: UniqueKey };
+```
+
+```ts
+declare const kmBrand: unique symbol;
+
+type Branded<T, UniqueKey> = T & { [__brand]: never };
 ```
 
 - Мы принимаем тип T и расширяем его уникальным свойством \_\_brand.
@@ -35,4 +47,12 @@ const postId: PostID = "456" as PostID;
 async function getCommentsForPost(postId: PostID, authorId: UserID) {...}
 
 getCommentsForPost(userId, postId); // Ошибка: Аргументы типа 'UserID' и 'PostID' в данном контексте несовместимы.
+```
+
+# Фабрика
+
+```ts
+type Brand<T, B extends symbol> = T & { [key in B]: never };
+
+type BrandNumber<B extends symbol> = Brand<number, T>;
 ```
