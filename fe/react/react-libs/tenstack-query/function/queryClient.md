@@ -22,6 +22,56 @@ await queryClient.prefetchQuery({ queryKey: ["posts"], queryFn: fetchPosts });
 - - queryCache? - объект с кешем вида [QueryCache](./queryCache.md)
 - - mutationCache? - объект кеша мутаций [MutationCache](./cache/mutationCache.md)
 - - defaultOptions? - опции по умолчанию для всех query и мутаций, используется для гидратации
+- - - queries (объект):
+- - - - experimental_prefetchInRender
+- - - - queryFn
+
+можно задать функцию по-умолчанию
+
+```js
+const defaultQueryFn = async ({ queryKey }) => {
+  const { data } = await axios.get(
+    `https://jsonplaceholder.typicode.com${queryKey[0]}`
+  );
+  return data;
+};
+
+// provide the default query function to your app with defaultOptions
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      queryFn: defaultQueryFn,
+    },
+  },
+});
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <YourApp />
+    </QueryClientProvider>
+  );
+}
+
+// All you have to do now is pass a key!
+function Posts() {
+  const { status, data, error, isFetching } = useQuery({
+    queryKey: ["/posts"],
+  });
+
+  // ...
+}
+
+// You can even leave out the queryFn and just go straight into options
+function Post({ postId }) {
+  const { status, data, error, isFetching } = useQuery({
+    queryKey: [`/posts/${postId}`],
+    enabled: !!postId,
+  });
+
+  // ...
+}
+```
 
 # методы экземпляра
 

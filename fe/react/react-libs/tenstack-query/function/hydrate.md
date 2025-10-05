@@ -32,3 +32,5 @@ const dehydratedState = dehydrate(queryClient, {
 - - options: HydrateOptions
 - - - defaultOptions: DefaultOptions
 - - - queryClient?: QueryClient
+
+- !!! при гидратации в качестве пропсов не поддерживаются undefined, Error, Date, Map, Set, BigInt, Infinity, NaN, -0
