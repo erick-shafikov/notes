@@ -1,6 +1,4 @@
-# Хуки
-
-## хук useForms
+# useForms
 
 Позволяет отслеживать и управлять формой, в которую передан control
 
@@ -72,7 +70,9 @@ const {
 });
 ```
 
-### const { register } = useForms()
+# Объект возврата
+
+## register
 
 Метод позволяет регистрировать поля формы
 
@@ -117,11 +117,11 @@ const { onChange, onBlur, name, ref } = register('firstName');
 })} />
 ```
 
-### const { unregister } = useForms()
+## unregister
 
 Функция. которая позволяет открепить от контекста
 
-### const { formState } = useForms()
+## formState
 
 Объект, который содержит информацию о форме
 
@@ -150,7 +150,7 @@ const formState: {
 }
 ```
 
-### const { watch } = useForms()
+## watch
 
 Функция которая позволяет отслеживать значение полей
 
@@ -165,7 +165,7 @@ const fieldValue = watch((data, { name, type }) =>
 ); // вернет	функцию для отписки { unsubscribe: () => void }
 ```
 
-### const { handleSubmit } = useForms()
+## handleSubmit
 
 Функция для подтверждения формы, выполниться только при успешной валидации
 
@@ -184,7 +184,7 @@ const onSubmit = async () => {
 <form onSubmit={handleSubmit(onSubmit)} />;
 ```
 
-### const { reset } = useForms()
+## reset
 
 Функция для сброса значений формы
 
@@ -209,7 +209,7 @@ reset({
 });
 ```
 
-### const { resetField } = useForms()
+## resetField
 
 Позволяет осуществить сброс конкретного поля
 
@@ -224,7 +224,7 @@ const handleClick = () =>
   });
 ```
 
-### const { setError } = useForms()
+## setError
 
 позволяет поставить ошибку
 
@@ -241,7 +241,7 @@ setError('__inputName__', {
 });
 ```
 
-### const { clearErrors } = useForms()
+## clearErrors
 
 позволяет удалить ошибку
 
@@ -252,7 +252,7 @@ clearErrors("yourDetails.firstName"); //уберет ошибки конкрет
 clearErrors(["yourDetails.lastName"]); //уберет ошибки из указанных полей
 ```
 
-### const { setValue } = useForms()
+## setValue
 
 Императивно установит значение в поле
 
@@ -270,7 +270,7 @@ setValue('yourDetails.firstName', 'value');
 setValue('nestedValue', { test: 'updatedData' } );
 ```
 
-### const { setFocus } = useForms()
+## setFocus
 
 Позволяет установить фокус
 
@@ -282,7 +282,7 @@ setFocus("__fieldName__", {
 });
 ```
 
-### const { getValues } = useForms()
+## getValues
 
 функция, позволяющая получить значение поля
 
@@ -294,7 +294,7 @@ getValue("__fieldValue_"); //вернет значение конкретног�
 getValue(["__fieldValue_", "__fieldValue_"]); //вернет значение конкретных полей
 ```
 
-### const { getFieldState } = useForms()
+## getFieldState
 
 функция, при вызове которой можно получить состояние поля
 
@@ -309,7 +309,7 @@ const {
 } = getFieldState("__fieldName__", { formState });
 ```
 
-### const { trigger } = useForms()
+## trigger
 
 Функция позволяет инициализировать валидацию
 
@@ -321,7 +321,7 @@ trigger("__fieldName__"); //на конкретном
 trigger(["__fieldName__", "__fieldName__"]); //на конкретных
 ```
 
-### const { control } = useForms()
+## control
 
 объект содержит методы для регистрации поля
 
@@ -339,331 +339,4 @@ const { control } = useForms();
 />;
 
 //...
-```
-
-## useController
-
-Кастомный хук для активации Controller компонента. для создания переиспользуемого контролируемого input
-
-```js
-const {
-  onChange,
-  onBlur,
-  value,
-  disabled,
-  name,
-  ref,
-  invalid,
-  isTouched,
-  isDirty,
-  error,
-} = useController({
-  control: control, //объект контроля
-  defaultValue: "__someDefaultValue__",
-  rules: {},
-  shouldUnregister: boolean,
-  disabled: boolean,
-});
-```
-
-## useFormContext
-
-для передачи контекст формы
-
-```js
-const methods = useForm()
-
-<FormProvider {...methods} /> // all the useForm return props
-
-const methods = useFormContext() // useForm для вложенных компонентов
-```
-
-## useWatch
-
-хук подобный watch, но с лучшей производительностью
-
-```js
-const {} = useWatch({
-  name: "__fieldName__" | ["__fieldName__", "__fieldName__"],
-  control: control,
-  defaultValue: "__fieldName__",
-  disabled: boolean, //false
-  exact: boolean, //false
-});
-```
-
-## useFromState
-
-позволяет получить состояние формы
-
-```js
-import * as React from "react";
-import { useForm, useFormState } from "react-hook-form";
-
-export default function App() {
-  const { register, handleSubmit, control } = useForm({
-    defaultValues: {
-      firstName: "firstName",
-    },
-  });
-  const onSubmit = (data) => console.log(data);
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("firstName")} placeholder="First Name" />
-      {/* передаем control*/}
-      <Child control={control} />
-
-      <input type="submit" />
-    </form>
-  );
-}
-// получаем control
-function Child({ control }) {
-  const { dirtyFields } = useFormState({
-    control,
-  });
-
-  return dirtyFields.firstName ? <p>Field is dirty.</p> : null;
-}
-```
-
-## useFieldArray
-
-Хук позволяет работать с динамическими формами
-
-```js
-const {
-  fields,
-  append,
-  prepend,
-  insert,
-  swap,
-  update,
-  replace,
-  remove
-} = useFieldArray({
-  name: "__someArrayName__",
-  control: control, //если нужно передать контекст какой-либо формы
-  shouldUnregister: boolean, //будет снят с регистрации после анмаунта
-  rules: object, //Объект с правилами валидации
-});
-
-function FieldArray() {
-  const { control, register } = useForm();
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
-    control, // control props comes from useForm (optional: if you are using FormProvider)
-    name: "test", // unique name for your Field Array
-  });
-
- useEffect(() => {
-  remove(0);
-}, [remove])
-
-onClick={() => {
-  append({ test: 'test' });
-}}
-
-  return (
-    {fields.map((field, index) => (
-      <input
-        key={field.id} // important to include key with field's id
-        {...register(`test.${index}.value`)}
-      />
-    ))}
-  );
-}
-```
-
-для ts
-
-```ts
-<input key={field.id} {...register(`test.${index}.test` as const)} />;
-
-const { fields } = useFieldArray({
-  name: `test.${index}.keyValue` as "test.0.keyValue",
-});
-```
-
-# Компоненты
-
-## Controller
-
-Компонент для подключения инпутов у react hook forms
-
-```js
-import ReactDatePicker from "react-datepicker"
-import { TextField } from "@material-ui/core"
-import { useForm, Controller } from "react-hook-form"
-
-type FormValues = {
-  ReactDatePicker: string
-}
-
-function App() {
-  const { handleSubmit, control } = useForm<FormValues>()
-
-  return (
-    <form onSubmit={handleSubmit((data) => console.log(data))}>
-      <Controller
-        control={control}
-        name="ReactDatePicker"
-        render={({ field: { onChange, onBlur, value, ref } }) => (
-          <ReactDatePicker
-            onChange={onChange} // send value to hook form
-            onBlur={onBlur} // notify when input is touched/blur
-            selected={value}
-          />
-        )}
-      />
-
-      <input type="submit" />
-    </form>
-  )
-}
-```
-
-## Form
-
-```js
-<Form
-  control={control}
-  children={}
-  // для headless компонентов
-  render={({ submit }) => <View/>}
-  onSubmit={() => {}} // Функция вызываемая перед запросом
-  onSuccess={() => {}} // при успешно валидации
-  onError={() => {}} // при валидации с ошибками
-  // для заголовков
-  headers={{ accessToken:  'xxx', 'Content-Type':  'application/json'  }}
-  action="/api"
-  method="post" // default to post
-  validateStatus={(status) => status >= 200} // validate status code
-/>
-```
-
-## FormProvider
-
-позволяет обернуть в контекст
-
-```js
-import React from "react";
-
-import { useForm, FormProvider, useFormContext } from "react-hook-form";
-
-export default function App() {
-  // достаем методы для работы с формой
-  const methods = useForm();
-
-  const onSubmit = (data) => console.log(data);
-
-  return (
-    // передаем в Provider
-    <FormProvider {...methods}>
-      // pass all methods into the context
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <NestedInput />
-        <input type="submit" />
-      </form>
-    </FormProvider>
-  );
-}
-
-function NestedInput() {
-  // можем использовать во вложенных
-  const { register } = useFormContext(); // retrieve all hook methods
-
-  return <input {...register("test")} />;
-}
-```
-
-# React Native
-
-## React Native и Form компонент
-
-```js
-// react native
-import { useForm, Form } from "react-hook-form";
-function App() {
-  const {
-    control,
-    register,
-    formState: { isSubmitSuccessful, errors },
-  } = useForm();
-
-  return (
-    <Form
-      action="/api"
-      control={control}
-      render={({ submit }) => {
-        <View>
-          {isSubmitSuccessful && <Text>Form submit successful.</Text>}
-
-          {errors?.root?.server && <Text>Form submit failed.</Text>}
-          <Button onPress={() => submit()} />
-        </View>;
-      }}
-    />
-  );
-}
-```
-
-## React Native и Controller компонент
-
-```js
-import { Text, View, TextInput, Button, Alert } from "react-native";
-import { useForm, Controller } from "react-hook-form";
-
-export default function App() {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-    },
-  });
-  const onSubmit = (data) => console.log(data);
-
-  return (
-    <View>
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            placeholder="First name"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-        name="firstName"
-      />
-      {errors.firstName && <Text>This is required.</Text>}
-
-      <Controller
-        control={control}
-        rules={{
-          maxLength: 100,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            placeholder="Last name"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-        name="lastName"
-      />
-
-      <Button title="Submit" onPress={handleSubmit(onSubmit)} />
-    </View>
-  );
-}
 ```
