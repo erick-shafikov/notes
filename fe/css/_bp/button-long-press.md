@@ -69,7 +69,7 @@ btn.onmouseleave = () => {
 ```
 
 ```js
-btn.onclick = () => console.log("Сlick Handler");
+btn.onclick = () => console.log("Click Handler");
 
 // обработчик сработает по окончанию анимации
 btn.onanimationend = () => console.log("Long Press Handler");

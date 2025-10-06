@@ -46,4 +46,4 @@
 }
 ```
 
-Источник курс Shmidtman, там grid, проект nexter
+Источник курс Shmidtman, grid, проект nexter

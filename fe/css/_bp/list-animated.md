@@ -1,5 +1,4 @@
 ```html
-HTML CSS JSResult Skip Results Iframe EDIT ON
 <div class="container">
   <ul class="items">
     <li class="item">
