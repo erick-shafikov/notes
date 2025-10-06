@@ -44,14 +44,14 @@ activeClassName : '' - для отключения фокусировки
 
 для добавления breakpoint-ов
 
-## colors
+## colors и primaryColor
 
 для добавления цветов
 
 ```ts
 const theme = createTheme({
   colors: {
-    // Add your color
+    // добавление
     deepBlue: [
       "#eef3ff",
       "#dce4f5",
@@ -64,7 +64,7 @@ const theme = createTheme({
       "#39588f",
       "#2d4b81",
     ],
-    // or replace default theme color
+    // замена цветов по-умолчанию
     blue: [
       "#eef3ff",
       "#dee2f2",
@@ -79,6 +79,57 @@ const theme = createTheme({
     ],
   },
 });
+```
+
+для добавления цветов с учетом темы
+
+```ts
+const theme = createTheme({
+  colors: {
+    primary: virtualColor({
+      // название
+      name: "primary",
+      dark: "pink",
+      light: "cyan",
+    }),
+  },
+});
+```
+
+добавление нового цвета без оттенков
+
+```ts
+import { colorsTuple, createTheme } from "@mantine/core";
+
+const theme = createTheme({
+  colors: {
+    custom: colorsTuple("#FFC0CB"),
+    dynamic: colorsTuple(Array.from({ length: 10 }, (_, index) => "#FFC0CB")),
+  },
+});
+```
+
+использование добавленного цвета
+
+```tsx
+const RouteComponent = () => <Text c="test-green.1">custom color test</Text>;
+```
+
+типизация
+
+```ts
+import { DefaultMantineColor, MantineColorsTuple } from "@mantine/core";
+
+type ExtendedCustomColors =
+  | "primaryColorName"
+  | "secondaryColorName"
+  | DefaultMantineColor;
+
+declare module "@mantine/core" {
+  export interface MantineThemeColorsOverride {
+    colors: Record<ExtendedCustomColors, MantineColorsTuple>;
+  }
+}
 ```
 
 ## components
@@ -120,6 +171,12 @@ const theme = {
         },
       }),
     }),
+    // для compound компонентов
+    TabsList: Tabs.List.extend({
+      defaultProps: {
+        justify: "center",
+      },
+    }),
   },
 };
 ```
@@ -140,6 +197,10 @@ const theme = {
   },
 };
 ```
+
+primaryColor - цвет по умолчанию для многих компонентов
+
+!!! нельзя присвоить что то отлично от полей в colors
 
 ## cursorType
 
@@ -220,10 +281,6 @@ const theme = createTheme({
 
 Позволяет добавить любые значения в тему, которые будут доступны в теме
 
-## primaryColor
-
-цвет по умолчанию
-
 ## primaryShade
 
 { light: 6, dark: 8 }, индекс из theme.colors[color]
@@ -240,7 +297,7 @@ const theme = {
 
 для добавления border-radius компонентам
 
-# respectReducedMotion
+## respectReducedMotion
 
 false
 
@@ -267,9 +324,25 @@ const theme = createTheme({
 
 добавление вариантов отступа
 
-# variantColorResolver
+## variantColorResolver
 
 функция, которая возвращает цвет в зависимости от варианта. (Button, ActionIcon, ThemeIcon)
+
+```ts
+type VariantColorResolver = (params: {
+  /*проп переданный в компонент*/
+  color: MantineColor | undefined;
+  variant: string;
+  gradient?: MantineGradient;
+
+  theme: MantineTheme;
+}) => {
+  background: string;
+  hover: string;
+  color: string;
+  border: string;
+};
+```
 
 <!-- --------------------------------------------------- -->
 
