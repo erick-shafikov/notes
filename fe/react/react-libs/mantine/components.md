@@ -22,7 +22,7 @@ const PhoneInput = InputBase.withProps({
 
 const Demo = () => (
   <>
-    <LinkButton href="https://mantine.dev">Mantine website</LinkButton>
+    <LinkButton href="">Mantine website</LinkButton>
     <PhoneInput placeholder="Personal phone" />
   </>
 );
