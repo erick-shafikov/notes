@@ -230,13 +230,40 @@ type DefaultGradient = {
 
 шрифты по умолчанию
 
+Пример fallback для шрифтов
+
+```ts
+import { createTheme, DEFAULT_THEME } from "@mantine/core";
+
+const theme = createTheme({
+  fontFamily: `Roboto, ${DEFAULT_THEME.fontFamily}`,
+});
+```
+
 ## fontFamilyMonospace
 
 для Monospace шрифтов
 
 ## fontSizes
 
-добавления вариантов шрифтов
+добавления вариантов шрифтов, fz styles-проп
+
+--mantine-font-size-xs = 0.75rem (12px)
+--mantine-font-size-sm = 0.875rem (14px)
+--mantine-font-size-md = 1rem (16px)
+--mantine-font-size-lg = 1.125rem (18px)
+--mantine-font-size-xl = 1.25rem (20px)
+
+можно добавлять в тему любые значения
+
+```ts
+const theme = createTheme({
+  fontSizes: {
+    xxs: "0.125rem",
+    xxl: "2rem",
+  },
+});
+```
 
 ## fontSmoothing
 
