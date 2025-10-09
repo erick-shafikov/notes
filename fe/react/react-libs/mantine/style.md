@@ -123,3 +123,73 @@ function Demo() {
   );
 }
 ```
+
+# адаптивные стили
+
+Варианты адаптивных стилей:
+
+- @media
+- hiddenFrom и visibleFrom
+
+```tsx
+import { Button, Group } from "@mantine/core";
+
+const X = () => (
+  <Group justify="center">
+    <Button hiddenFrom="sm" color="orange">
+      Hidden from sm
+    </Button>
+    <Button visibleFrom="sm" color="cyan">
+      Visible from sm
+    </Button>
+    {/* в виде классов */}
+    <div className="mantine-hidden-from-md">Hidden from md</div>
+    <div className="mantine-visible-from-xl">Visible from xl</div>
+  </Group>
+);
+```
+
+- size нельзя сделать адаптивным, только через hiddenFrom и visibleFrom
+- breakpoint-ы можно изменить в [теме](./objects/theme.md#breakpoints)
+- c помощью хуков:
+- - [useMediaQueryHook вернет значение breakpoint](./hooks/useMediaQueryHook.md)
+- - [useMatches вернет настройки для компонента](./hooks/useMatches.md)
+- Container queries
+
+```scss
+.child {
+  @container (max-width: 500px) {
+    background-color: var(--mantine-color-blue-filled);
+  }
+
+  @container (max-width: 300px) {
+    background-color: var(--mantine-color-red-filled);
+  }
+}
+```
+
+- адаптивные styles-пропсы, со значениями base,xs, sm, md, lg, xl
+
+```tsx
+const X = () => <Box w={{ base: 320, sm: 480, lg: 640 }} />;
+```
+
+элемент будет иметь стили
+
+```scss
+.element {
+  width: 20rem;
+}
+
+@media (min-width: 48em) {
+  .element {
+    width: 30rem;
+  }
+}
+
+@media (min-width: 75em) {
+  .element {
+    width: 40rem;
+  }
+}
+```
