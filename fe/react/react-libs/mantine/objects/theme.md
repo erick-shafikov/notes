@@ -210,9 +210,39 @@ const theme = {
 };
 ```
 
-primaryColor - цвет по умолчанию для многих компонентов
+### добавление варианта компонента
 
-!!! нельзя присвоить что то отлично от полей в colors
+```ts
+import classes from "./Demo.module.css";
+
+const theme = createTheme({
+  components: {
+    Input: Input.extend({ classNames: classes }),
+  },
+});
+```
+
+```scss
+.input {
+  &[data-variant="underline"] {
+    //  ...
+  }
+}
+```
+
+типизация
+
+```ts
+import { ButtonVariant, MantineSize } from "@mantine/core";
+
+type ExtendedButtonVariant = ButtonVariant | "contrast" | "radial-gradient";
+
+declare module "@mantine/core" {
+  export interface ButtonProps {
+    variant?: ExtendedButtonVariant;
+  }
+}
+```
 
 ## cursorType
 
@@ -320,6 +350,12 @@ const theme = createTheme({
 
 Позволяет добавить любые значения в тему, которые будут доступны в теме
 
+## primaryColor
+
+primaryColor - цвет по умолчанию для многих компонентов
+
+!!! нельзя присвоить что то отлично от полей в colors
+
 ## primaryShade
 
 { light: 6, dark: 8 }, индекс из theme.colors[color]
@@ -412,6 +448,23 @@ function Demo() {
 # Использование темы в компонентах
 
 с помощью [useMantineThemeHook](../hooks/useMantineThemeHook.md)
+
+# применение переменных темы
+
+- в css модулях
+
+```scss
+.example {
+  // theme.colors.red[5]
+  background: var(--mantine-color-red-5);
+
+  // theme.spacing.md
+  margin-top: var(--mantine-spacing-md);
+
+  // theme.headings.fontFamily
+  font-family: var(--mantine-font-family-headings);
+}
+```
 
 # тема по умолчанию
 

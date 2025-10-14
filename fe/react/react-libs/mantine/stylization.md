@@ -2,43 +2,34 @@
 
 Стилизация может осуществляться за счет:
 
-- style-props - перечень пропсов, которые применимы к каждому компоненту, контролируют одно css свойство, вставляются в style атрибут
-- style-prop - атрибут style
-- css-modules - у каждого компонента есть собственный api
+- style-props - перечень пропсов-сокращений (mb, fz...), которые применимы к каждому компоненту, контролируют одно css свойство, вставляются в style атрибут
+- [styles-prop - атрибут styles аналог style](./styles-api.md#styles)
+- [css-modules - у каждого компонента есть собственный api](./styles-api.md)
 
-# применение темы
+# style-props
 
-- в css модулях
+- [полный перечень](https://mantine.dev/styles/style-props/#supported-props)
 
-```scss
-.example {
-  // theme.colors.red[5]
-  background: var(--mantine-color-red-5);
-
-  // theme.spacing.md
-  margin-top: var(--mantine-spacing-md);
-
-  // theme.headings.fontFamily
-  font-family: var(--mantine-font-family-headings);
-}
-```
-
-- в styles-prop
+- могут принимать значения из темы
 
 ```tsx
 const Ex = () => (
-  <Box bg="red.5" mt="xl">
+  <Box bg="red.5" mt="xl"
+  {/* адаптивные стили */}
+   w={{ base: 200, sm: 400, lg: 500 }}>
     My box
   </Box>
 );
 ```
+
+# style-атрибут
 
 - в style-атрибуте может быть:
 - - статичный объект стилей
 - - функция, которая принимает в аргумент объект темы
 - - массив
 
-```tsx
+```jsx
 const Ex = () => (
   <>
     <Box
@@ -46,25 +37,18 @@ const Ex = () => (
         margin: "var(--mantine-spacing-xl)",
         color: "var(--mantine-color-orange-5)",
       }}
-    >
-      ...
-    </Box>
-
+    />
     <Box
     {/* вариант с функцией */}
       _style={(theme) => ({
         margin: theme.spacing.xl,
         color: theme.colors.orange[5],
       })}
-    >
-      ...
-    </Box>
-
+    />
     <Box
     {/* вариант с функцией */}
-      _style={[{ color: 'red' }, style]
+      style={[{ color: 'red' }, style]
     >
-      ...
     </Box>
   </>
 );
@@ -74,23 +58,9 @@ const Ex = () => (
 
 Возможны два варианта применения css модулей^
 
-- classNames - специальный слоты компонентов
+- [classNames - специальный слоты компонентов](./styles-api.md#classnames)
 - className - применения ко всему
 - - при выборе селектора, будут применены ко всем компонентам
-
-```tsx
-const X = () => (
-  <>
-    <TextInput
-      classNames={{
-        root: classes.root,
-        input: classes.input,
-        label: classes.label,
-      }}
-    />
-  </>
-);
-```
 
 # статичные стили
 
@@ -168,7 +138,7 @@ const X = () => (
 }
 ```
 
-- адаптивные styles-пропсы, со значениями base,xs, sm, md, lg, xl
+- адаптивные styles-пропсы, со значениями base, xs, sm, md, lg, xl
 
 ```tsx
 const X = () => <Box w={{ base: 320, sm: 480, lg: 640 }} />;
