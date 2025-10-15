@@ -56,7 +56,7 @@ const Ex = () => (
 
 # className и classNames
 
-Возможны два варианта применения css модулей^
+Возможны два варианта применения css модулей:
 
 - [classNames - специальный слоты компонентов](./styles-api.md#classnames)
 - className - применения ко всему
@@ -64,12 +64,12 @@ const Ex = () => (
 
 # статичные стили
 
-- mantine-active – contains :active styles
-- mantine-focus-auto – contains :focus-visible styles
-- mantine-focus-always – contains :focus styles
-- mantine-focus-never – removes default browser focus ring
-- mantine-visible-from-{breakpoint} – shows element when screen width is greater than breakpoint, for example mantine-visible-from-sm
-- mantine-hidden-from-{breakpoint} – hides element when screen width is greater than breakpoint, for example mantine-hidden-from-sm
+- mantine-active – :active
+- mantine-focus-auto – :focus-visible
+- mantine-focus-always – :focus
+- mantine-focus-never – убирает кольцо фокуса
+- mantine-visible-from-{breakpoint} – сделать элемент видимым mantine-visible-from-sm
+- mantine-hidden-from-{breakpoint} – сделать элемент невидимым mantine-hidden-from-sm
 
 ```jsx
 import { Group } from "@mantine/core";
@@ -163,3 +163,12 @@ const X = () => <Box w={{ base: 320, sm: 480, lg: 640 }} />;
   }
 }
 ```
+
+# rtl
+
+направление текста управляется:
+
+- DirectionProvider - обертка над MantineProvider
+- атрибут dir на html теге
+- useDirection
+- rtl mixin

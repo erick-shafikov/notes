@@ -16,3 +16,25 @@
 
 - data-mantine-color-scheme атрибут на теге html
 - lightHidden и darkHidden пропсы на компонентах позволяют скрывать компоненты при определенной теме
+
+# функции
+
+- darken - darken('rgb(245, 159, 0)', 0.5) - на 50% темнее
+- lighten - lighten('#228BE6', 0.1) на 10% ярче
+- alpha
+- parseThemeColor - вернет объект вида
+
+```ts
+interface ParseThemeColorResult {
+  isThemeColor: boolean;
+  color: string;
+  value: string;
+  shade: MantineColorShade | undefined;
+  variable: CssVariable | undefined;
+}
+```
+
+- getThemeColor
+- getGradient
+- isLightColor
+- luminance
