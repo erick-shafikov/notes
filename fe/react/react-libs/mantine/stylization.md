@@ -5,6 +5,7 @@
 - style-props - перечень пропсов-сокращений (mb, fz...), которые применимы к каждому компоненту, контролируют одно css свойство, вставляются в style атрибут
 - [styles-prop - атрибут styles аналог style](./styles-api.md#styles)
 - [css-modules - у каждого компонента есть собственный api](./styles-api.md)
+- !!! рекомендуется использовать className и classNames взамен style-props, styles, style
 
 # style-props
 
@@ -172,3 +173,9 @@ const X = () => <Box w={{ base: 320, sm: 480, lg: 640 }} />;
 - атрибут dir на html теге
 - useDirection
 - rtl mixin
+
+# headless
+
+достигается за счет использования:
+
+- HeadlessMantineProvider

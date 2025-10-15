@@ -1,5 +1,3 @@
-<!-- open ---------------------------------------------------------------------------------------------------------------------------------->
-
 # open
 
 ```ts
@@ -16,7 +14,7 @@ function open(
 - popup
 - width или innerWidth
 - height или innerHeight
-- left илиs creenX
+- left или screenX
 - top или screenY
 - noopener
 - noreferrer
