@@ -2,8 +2,8 @@
 
 за создание корневых роутов отвечают:
 
-- [createRootRoute - создаст корневой компонент роутинга](./functions/createRootRoute.md)
-- [createRootRouter - создаст конфигурацию роутинга](./functions/createRouter.md)
+- [createRootRoute - создаст корневой компонент роутинга, создается в \_\_root](./functions/createRootRoute.md)
+- [createRouter - создаст конфигурацию роутинга вызывается в main и передается в провайдер](./functions/createRouter.md)
 
 Компоненты роутинг создаются с помощью:
 
@@ -61,26 +61,30 @@ function PostComponent() {
 вариант 1
 
 routes/
-├─app.tsx - здесь должен быть outlet компонент
-├─app.dashboard.tsx
-├─app.settings.tsx
+├─app.tsx ⇒ AppLayout здесь должен быть outlet компонент
+├─app.dashboard.tsx ⇒ AppLayout[Dashboard]
+├─app.settings.tsx ⇒ AppLayout[Settings]
 
 вариант 2
 
 routes/
 ├─ app/
-│ ├─route.tsx - здесь должен быть outlet компонент
+│ ├─route.tsx - здесь должен быть outlet компонент, это файл конфигурации
 │ ├─dashboard.tsx
 │ ├─settings.tsx
 
 # маршруты \_layout
 
-отобразится лишь только в том случае если перейдем на \_pathlessLayout.a или \_pathlessLayout.b. \_pathlessLayout - будет оберткой
+отобразится лишь только в том случае если перейдем на \_pathlessLayout.a или \_pathlessLayout.b. \_pathlessLayout - будет оберткой. Если есть route будет внутри него
 
 routes/
-├─_pathlessLayout.tsx
-├─_pathlessLayout.a.tsx
-├─_pathlessLayout.b.tsx
+├─_pathlessLayout.tsx ⇒ index
+├─_pathlessLayout.a.tsx ⇒ PathlessLayout[A]
+├─_pathlessLayout.b.tsx ⇒ PathlessLayout[B]
+
+- !!! нельзя \_$postId/
+- ├── $postId/ можно
+  ├── \_postPathlessLayout/
 
 если с директорией route
 
@@ -93,9 +97,9 @@ routes/
 если вынести определенный файл posts\_ из layout
 
 routes/
-├─posts.tsx
-├─posts.$postId.tsx
-├─posts_.$postId.edit.tsx
+├─posts.tsx ⇒ Posts
+├─posts.$postId.tsx  ⇒ Posts[Post postId="123"]
+├─posts_.$postId.edit.tsx ⇒ PostEditor postId="123" вне Posts
 
 # исключения из маршрутизации
 
@@ -117,6 +121,44 @@ routes/
 ├─(auth)/
 │ ├─login.tsx
 │ ├─register.tsx
+
+\_\_root.tsx ⇒ Root
+index.tsx ⇒ exact Root[RootIndex] (/)
+about.tsx ⇒ Root[About] (/about)
+posts.tsx ⇒ Root[Posts] (/posts)
+
+# дерево
+
+📂 posts:
+
+- index.tsx ⇒ exact Root[Posts[PostsIndex]] (/posts)
+- $postId.tsx ⇒ Root[Posts[Post]] (/posts/$postId)
+
+📂 posts\_:
+
+- 📂 $postId:
+- - edit.tsx ⇒ Root[EditPost] (/posts/$postId/edit)
+
+settings.tsx ⇒ Root[Settings] /settings
+📂 settings Root[Settings] :
+
+- profile.tsx ⇒ Root[Settings[Profile]] (/settings/profile)
+- notifications.tsx ⇒ Root[Settings[Notifications]] (/settings/notifications)
+
+\_pathlessLayout.tsx ⇒Root[PathlessLayout]
+📂 \_pathlessLayout:
+
+- route-a.tsx ⇒ Root[PathlessLayout[RouteA]] (/route-a)
+- route-b.tsx ⇒ Root[PathlessLayout[RouteB]] (/route-b)
+
+📂 files:
+
+- $.tsx ⇒ Root[Files] (/files/$)
+
+📂 account:
+
+- route.tsx ⇒ Root[Account] (/account)
+- overview.tsx ⇒ Root[Account[Overview]] (/account/overview)
 
 # 404
 
