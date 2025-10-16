@@ -1,6 +1,6 @@
 # createPolymorphicComponent
 
-оборачивает компонент и добавляет ему поддержку component пропа с правильными типами
+оборачивает компонент и добавляет ему поддержку component пропа с правильными типами, основная задача - фабрика полиморфных компонентов с поддержкой ts
 
 ```ts
 createPolymorphicComponent<DefaultElement, Props>(Component);
@@ -19,7 +19,7 @@ interface CustomButtonProps extends ButtonProps {
   label: string;
 }
 
-// Default root element is 'button', but it can be changed with 'component' prop
+// объект по умолчанию - button, но можно исправить с помощью пропса component
 const CustomButton = createPolymorphicComponent<"button", CustomButtonProps>(
   forwardRef<HTMLButtonElement, CustomButtonProps>(
     ({ label, ...others }, ref) => (
@@ -30,7 +30,7 @@ const CustomButton = createPolymorphicComponent<"button", CustomButtonProps>(
   )
 );
 
-// Default root element is 'a', but it can be changed with 'component' prop
+// здесь компонент по умолчанию - a
 const CustomButtonAnchor = createPolymorphicComponent<"a", CustomButtonProps>(
   forwardRef<HTMLAnchorElement, CustomButtonProps>(
     ({ label, ...others }, ref) => (
@@ -41,54 +41,43 @@ const CustomButtonAnchor = createPolymorphicComponent<"a", CustomButtonProps>(
   )
 );
 
-function Demo() {
-  return (
-    <Group>
-      <CustomButton label="Button by default" color="cyan" />
-      <CustomButtonAnchor
-        label="Anchor by default"
-        href="https://mantine.dev"
-        target="_blank"
-      />
-    </Group>
-  );
-}
+const X = () => (
+  <>
+    {/* кнопка */}
+    <CustomButton label="Button by default" color="cyan" />
+    {/* ссылка */}
+    <CustomButtonAnchor
+      label="Anchor by default"
+      href="https://mantine.dev"
+      target="_blank"
+    />
+  </>
+);
 ```
 
-Кастомные компоненты
+# динамически определяемые компоненты
 
 ```tsx
-import { forwardRef } from "react";
-import {
-  Box,
-  BoxProps,
-  createPolymorphicComponent,
-  Group,
-} from "@mantine/core";
+import { Box } from "@mantine/core";
 
-interface MyButtonProps extends BoxProps {
-  label: string;
-}
-
-const MyButton = createPolymorphicComponent<"button", MyButtonProps>(
-  forwardRef<HTMLButtonElement, MyButtonProps>(({ label, ...others }, ref) => (
-    <Box component="button" {...others} ref={ref}>
-      {label}
-    </Box>
-  ))
-);
-
-function Demo() {
+function KeepTypes() {
   return (
-    <Group>
-      <MyButton label="Button by default" />
-      <MyButton
-        label="MyButton as anchor"
-        component="a"
-        href="https://mantine.dev"
-        target="_blank"
-      />
-    </Group>
+    <Box<"input"> component={(Math.random() > 0.5 ? "input" : "div") as any} />
   );
 }
+
+const x = () => <Box<any> component={Math.random() > 0.5 ? "input" : "div"} />;
+```
+
+# Преобразование компонентов mantine в полиморфные
+
+```tsx
+import { createPolymorphicComponent, Group, GroupProps } from "@mantine/core";
+
+const PolymorphicGroup = createPolymorphicComponent<"button", GroupProps>(
+  // не полиморфный компонент
+  Group
+);
+
+const X = () => <PolymorphicGroup component="a" href="https://mantine.dev" />;
 ```

@@ -31,11 +31,12 @@ const Demo = () => (
 # полиморфные компоненты
 
 - проп component - принимает имя тега
-- renderRoot prop
-- [функция createPolymorphicComponent](./functions/createPolymorphicComponent.md)
+- renderRoot prop или generic компоненты
+- [функция createPolymorphicComponent позволяет создавать фабрику полиморфных компонентов](./functions/createPolymorphicComponent.md)
 
 ```tsx
 //проп component
+// модно пробрасывать и Link из библиотек
 const X = () => <Button component="a">Mantine website</Button>;
 ```
 
@@ -54,7 +55,7 @@ const X = () => (
 );
 ```
 
-типизация
+Пример компонента оборачиваемого с ref, так как ref должен быть определенного HTMLElement - типа
 
 ```tsx
 import { forwardRef } from "react";
