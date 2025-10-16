@@ -63,6 +63,7 @@ import { Button, ButtonProps } from "@mantine/core";
 
 interface LinkButtonProps
   extends ButtonProps,
+    // из a убрать button-пропсы, что бы была совместимость с button
     Omit<React.ComponentPropsWithoutRef<"a">, keyof ButtonProps> {}
 
 const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
