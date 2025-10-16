@@ -69,11 +69,9 @@ const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
   (props, ref) => <Button {...props} ref={ref} component="a" />
 );
 
-function Demo() {
-  return (
-    <LinkButton href="https://mantine.dev" target="_blank">
-      Mantine website
-    </LinkButton>
-  );
-}
+const X = () => (
+  <LinkButton href="https://mantine.dev" target="_blank">
+    Mantine website
+  </LinkButton>
+);
 ```
