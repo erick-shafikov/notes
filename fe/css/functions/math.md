@@ -33,6 +33,18 @@ html {
 - hypot() - квадратные корень
 - log()
 - max(first value, second value, third value, ...)
+
+```scss
+.element {
+  width: 50%;
+  max-width: 10rem;
+}
+// =>
+.element {
+  width: min(50%, 20rem);
+}
+```
+
 - min(first value, second value, third value, ...)
 - minmax() - определяет диапазон больший или равный меньшему, но не больше максимального
 - mod()
