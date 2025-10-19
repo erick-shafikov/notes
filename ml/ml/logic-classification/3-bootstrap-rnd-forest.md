@@ -10,7 +10,6 @@ x = x.reshape(-1, 1)
 
 T = 5  # число деревьев
 
-# здесь продолжайте программу
 rf = RandomForestRegressor(max_depth=8, n_estimators=T, random_state=1)
 clf = rf.fit(x, y)
 pr_y = rf.predict(x)
