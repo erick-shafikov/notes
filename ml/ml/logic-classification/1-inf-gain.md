@@ -1,27 +1,29 @@
-- расчет коэффициента Джини
+# Inf gain
+
+расчет коэффициента IG с помощью коэффициент Джинни
 
 ```python
 import numpy as np
 
 np.random.seed(0)
-X = np.random.randint(0, 2, size=200)
+X = np.random.randint(0, 2, size=200) # генерация выборки
 
 t = 150
 
 
-def get_gini(x):
+def get_gini(x): # расчет коэффициента Джинни
     _, counts = np.unique(x, return_counts=True)
     p = counts / counts.sum()
 
     return 1 - np.sum(p ** 2)
 
 
-x11 = X[:t]
-x12 = X[t:]
+x11 = X[:t] # берем до критерия
+x12 = X[t:] # после критерия
 
-S1 = len(x11) / len(X) * get_gini(x11) + len(x12) / len(X) * get_gini(x12)
+S1 = len(x11) / len(X) * get_gini(x11) + len(x12) / len(X) * get_gini(x12) # расчет после сортировки
 
-IG = get_gini(X) - S1
+IG = get_gini(X) - S1 # расчет суммарного коэффициент
 ```
 
 - вычисление наибольшего информационного выигрыша на одной итерации, с учетом признака (первая или вторая координата)
@@ -50,7 +52,6 @@ x_train = np.array(data_x)
 y_train = np.array(data_y)
 
 
-# здесь продолжайте программу
 def get_gini(x):
     _, counts = np.unique(x, return_counts=True)
     p = counts / counts.sum()

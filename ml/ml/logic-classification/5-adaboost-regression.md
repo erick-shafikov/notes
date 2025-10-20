@@ -1,6 +1,5 @@
 ```python
 # Алгоритм регрессии AdaBoost на решающих деревьях
-
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.tree import DecisionTreeRegressor
@@ -31,9 +30,9 @@ for n in range(1, T):
     yy += algs[n].predict(x)
 
 # отображаем результаты в виде графиков
-plt.plot(x, y)  # исходный график
-plt.plot(x, yy)  # восстановленный график
-plt.plot(x, s)  # остаточный сигнал
-plt.grid()
-plt.show()
+# plt.plot(x, y)  # исходный график
+# plt.plot(x, yy)  # восстановленный график
+# plt.plot(x, s)  # остаточный сигнал
+# plt.grid()
+# plt.show()
 ```
