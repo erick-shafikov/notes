@@ -194,3 +194,18 @@ funcOne(); //Last line! Promise! Timeout! если вызвать только f
 funcTwo(); //Promise, Last line, Timeout! если вызвать только funcTwo()
 //D: Last line! Promise! Promise! Last line! Timeout! Timeout! если одновременно
 ```
+
+```js
+// Что выведется в консоль?
+(function () {
+  console.log(1); // 1
+  setTimeout(() => console.log(2), 1000); // 7
+  setTimeout(() => console.log(3), 0); // 6
+  Promise.resolve(5).then(console.log); // 4
+  new Promise((resolve) => {
+    console.log(6); // 2
+    resolve(7);
+  }).then(console.log); // 5
+  console.log(4); // 3
+})();
+```

@@ -172,3 +172,22 @@ const obj = { a: 666, f, g };
 obj.f(); //666
 obj.g(); //777 если window.a = 777 или var a = 777, если поменять на let то undefined
 ```
+
+# задачи на this
+
+```js
+var myObject = {
+  foo: "bar",
+  func: function () {
+    var self = this;
+    console.log("outer func: this.foo = " + this.foo); // 1 "bar"
+    console.log("outer func: self.foo = " + self.foo); // 2 "bar"
+    (function () {
+      console.log("inner func: this.foo = " + this.foo); //undefined т.к. в IIFE this === undefined
+      console.log("inner func: self.foo = " + self.foo); //"bar"
+    })();
+  },
+};
+
+myObject.func();
+```
