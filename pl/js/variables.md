@@ -98,6 +98,7 @@ console.log(y); // ReferenceError
 # со скобками
 
 ```js
+// здесь ошибка синтаксиса, поддерживаемого только в ff let (block)
 var x = 5;
 var y = 0;
 
