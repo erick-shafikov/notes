@@ -28,8 +28,10 @@
 для асинхронных операций - появление на экране, промисы итд
 
 ```js
+//без промиса
 const button = screen.getByRole("button", { name: "Click Me" });
 fireEvent.click(button);
+//с промисом
 await screen.findByText("Clicked once");
 fireEvent.click(button);
 await screen.findByText("Clicked twice");
