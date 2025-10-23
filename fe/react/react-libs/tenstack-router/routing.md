@@ -61,9 +61,9 @@ function PostComponent() {
 вариант 1
 
 routes/
-├─app.tsx ⇒ AppLayout здесь должен быть outlet компонент
-├─app.dashboard.tsx ⇒ AppLayout[Dashboard]
-├─app.settings.tsx ⇒ AppLayout[Settings]
+├─app.tsx ⇒ app здесь должен быть outlet компонент
+├─app.dashboard.tsx ⇒ app[dashboard]
+├─app.settings.tsx ⇒ app[settings]
 
 вариант 2
 
@@ -72,6 +72,14 @@ routes/
 │ ├─route.tsx - здесь должен быть outlet компонент, это файл конфигурации
 │ ├─dashboard.tsx
 │ ├─settings.tsx
+
+вариант 3
+
+routes/
+├─app.tsx - здесь должен быть outlet компонент, это файл конфигурации
+├─ app/
+│ ├─dashboard.tsx ⇒ app[dashboard]
+│ ├─settings.tsx ⇒ app[settings]
 
 # маршруты \_layout
 
