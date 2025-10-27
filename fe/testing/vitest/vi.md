@@ -28,7 +28,7 @@ vi.mock(import("./path/to/module.js"), async (importOriginal) => {
 
 # методы vi.methods
 
-## vo.doMock
+## vi.doMock
 
 ```ts
 import { beforeEach, test } from "vitest";
@@ -58,9 +58,10 @@ test("importing the next module imports mocked one", async () => {
 });
 ```
 
-## vi.mocked
-
-## vi.doUnmock
+- vi.mocked - вернет объект который был прокинут в vi функцию
+- vi.importActual - для частичного мокирования модулей
+- vi.unmock
+- vi.doUnmock
 
 # мок для функций и объектов
 
