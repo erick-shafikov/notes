@@ -1,5 +1,22 @@
 # test
 
+```ts
+import { test } from "vitest";
+
+test("name", async () => {
+  /* ... */
+}, 1000); //возможность добавить timeout
+```
+
+# контекст
+
+```ts
+it("should work", ({ task, expect, skip, annotate, signal, onTestFailed }) => {
+  // prints name of the test
+  console.log(task.name);
+});
+```
+
 # методы (test.method)
 
 ## extends
@@ -13,7 +30,12 @@ import { expect, test } from "vitest";
 const todos: number[] = [];
 const archive: number[] = [];
 
-const myTest = test.extend({
+interface MyFixtures {
+  todos: number[];
+  archive: number[];
+}
+
+const myTest = test.extend<MyFixtures>({
   todos: async ({ task }, use) => {
     // изменение дополнительных данных
     todos.push(1, 2, 3);
@@ -24,6 +46,9 @@ const myTest = test.extend({
   },
   //тоже будет передано как archive
   archive,
+  // scope-context
+  perFile: [({}, use) => use([]), { scope: "file" }],
+  perWorker: [({}, use) => use([]), { scope: "worker" }],
 });
 
 myTest("add item", ({ todos }: { todos: number[]; archive: number[] }) => {
@@ -203,11 +228,15 @@ bench(
 ```ts
 import { beforeEach } from "vitest";
 
-beforeEach(async () => {
-  // Clear mocks and add some testing data before each test run
-  await stopMocking();
-  await addUser({ name: "John" });
-});
+beforeEach(
+  async () => {
+    // Clear mocks and add some testing data before each test run
+    await stopMocking();
+    await addUser({ name: "John" });
+  },
+  //возможность добавить таймаут
+  1000
+);
 ```
 
 # beforeAll, afterAll
