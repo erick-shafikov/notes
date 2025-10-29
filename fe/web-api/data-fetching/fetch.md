@@ -19,15 +19,13 @@ if (response.ok) {
 }
 ```
 
-**через await**
-
 ```js
 let url = "...";
 let response = await fetch(url);
 let commits = await response.json(); // читаем ответ в формате JSON
 alert(commits[0].author.login);
 
-// без await
+// через цепочку промисов
 fetch(
   "https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits"
 )
@@ -35,7 +33,7 @@ fetch(
   .then((commits) => alert(commits[0].author.login));
 ```
 
-## POST запрос
+# POST запрос
 
 ```js
 let user = {
@@ -54,7 +52,7 @@ let result = await response.json();
 alert(result.message);
 ```
 
-## заголовки
+# заголовки
 
 Заголовки ответов хранятся в объекте похожем на Map
 
@@ -70,5 +68,24 @@ let response = fetch(protectedUrl, {
   headers: {
     Authentication: "secret",
   },
+});
+```
+
+# Файлы
+
+при передачи фалов все тело должно быть представлено в виде FormData
+
+```ts
+const formData = new FormData();
+formData.append("some_field", "some_value");
+formData.append("avatar", fileInput.files[0]);
+
+fetch("/api/upload", {
+  method: "POST",
+  body: formData, // тело одно, типа multipart/form-data
+  // Заголовки не нужно указывать, подставит автоматически
+  // headers: {
+  //   "Content-Type": "multipart/form-data",
+  // },
 });
 ```
