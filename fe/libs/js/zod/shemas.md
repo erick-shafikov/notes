@@ -411,6 +411,11 @@ type ReadonlyUser = z.infer<typeof ReadonlyUser>;
 ```ts
 const fileSchema = z.file();
 
+z.file()
+  .min(1)
+  .max(1024 * 1024)
+  .mime("image/png");
+
 fileSchema.min(10_000); // minimum .size (bytes)
 fileSchema.max(1_000_000); // maximum .size (bytes)
 fileSchema.mime("image/png"); // MIME type
@@ -587,7 +592,7 @@ const stringToLength = z.string().pipe(z.transform((val) => val.length));
 stringToLength.parse("hello"); // => 5
 ```
 
-# Transforms
+## Transforms
 
 [для преобразования в обе стороны](#codecs)
 
@@ -635,7 +640,7 @@ const coercedInt = z.preprocess((val) => {
 
 # Утилиты
 
-# Defaults, Prefaults
+## Defaults, Prefaults
 
 значение по умолчанию дял undefined
 
@@ -664,4 +669,81 @@ const numberWithCatch = z.number().catch(42);
 
 numberWithCatch.parse(5); // => 5
 numberWithCatch.parse("tuna"); // => 42
+```
+
+# метаданные
+
+Можно определить метаданные для экземпляра zod
+
+```ts
+import * as z from "zod";
+//регистрация
+const myRegistry = z.registry<{ description: string }>();
+
+const mySchema = z.string();
+//регистрация
+myRegistry.add(mySchema, { description: "A cool schema!" });
+myRegistry.has(mySchema); // => true
+myRegistry.get(mySchema); // => { description: "A cool schema!" }
+myRegistry.remove(mySchema);
+myRegistry.clear(); // wipe registry
+```
+
+## register
+
+определение глобальных полей
+
+```ts
+import * as z from "zod";
+
+//вариант 2 через register функцию
+const mySchema = z.string();
+
+mySchema.register(myRegistry, { description: "A cool schema!" });
+
+const emailSchema = z.email().register(z.globalRegistry, {
+  id: "email_address",
+  title: "Email address",
+  description: "Your email address",
+  examples: ["first.last@example.com"],
+});
+
+//ts стандартные
+export interface GlobalMeta {
+  id?: string;
+  title?: string;
+  description?: string;
+  deprecated?: boolean;
+  [k: string]: unknown;
+}
+
+declare module "zod" {
+  interface GlobalMeta {
+    // add new fields here
+    examples?: unknown[];
+  }
+}
+```
+
+## .meta()
+
+```ts
+const emailSchema = z.email().meta({
+  id: "email_address",
+  title: "Email address",
+  description: "Please enter a valid email address",
+});
+
+emailSchema.meta();
+// => { id: "email_address", title: "Email address", ... }
+```
+
+## .describe()
+
+```ts
+const emailSchema = z.email();
+emailSchema.describe("An email address");
+
+// equivalent to
+emailSchema.meta({ description: "An email address" });
 ```
