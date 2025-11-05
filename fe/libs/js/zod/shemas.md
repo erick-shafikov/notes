@@ -101,31 +101,19 @@ px.parse("42vw"); // throws;
 - - - z.string().toUpperCase();
 - - - z.string().normalize();
 - - валидация разных типов строк по содержанию для каждой предусмотрены доп настройки и расширения шаблона:
-- - - email()
-- - - uuid()
-- - - url()
-- - - httpUrl()
-- - - hostname()
-- - - emoji()
-- - - base64()
-- - - base64url()
-- - - hex()
-- - - jwt()
-- - - nanoid()
-- - - cuid()
-- - - cuid2()
-- - - ulid()
-- - - ipv4()
-- - - ipv6()
-- - - cidrv4()
-- - - cidrv6()
-- - - hash("sha256") - "sha1", "sha384", "sha512", "md5"
-- - - iso.date()
-- - - iso.time()
-- - - iso.datetime()
-- - - iso.duration()
+- - - email(), uuid(), url(), httpUrl(), hostname(), emoji(), base64(), base64url(), hex(), jwt(), nanoid(), cuid(), cuid2(), ulid(), ipv4(), ipv6(), cidrv4(), cidrv6(), hash("sha256" ["sha1", "sha384", "sha512", "md5"] ), iso.date(), iso.time(), iso.datetime(), iso.duration()
 - - кастомные проверки:
 - - - z.stringFormat
+
+      ```ts
+      const coolId = z.stringFormat("cool-id", (val) => {
+        return val.length === 100 && val.startsWith("cool-");
+      });
+
+      // a regex is also accepted
+      z.stringFormat("cool-id", /^cool-[a-z0-9]{95}$/);
+      ```
+
 - - строки-шаблоны
 - - - z.literal() - литеральный тип
 
@@ -485,6 +473,7 @@ type MyFunction = z.infer<typeof MyFunction>;
 ## .refine()
 
 ```ts
+//ошибка
 const myString = z.string().refine((val) => val.length <= 255, {
   error: "Too short!",
 });
@@ -493,7 +482,11 @@ const myString = z.string().refine((val) => val.length <= 255, {
 const myString = z
   .string()
   .refine((val) => val.length > 8, { error: "Too short!" })
-  .refine((val) => val === val.toLowerCase(), { error: "Must be lowercase" });
+  .refine((val) => val === val.toLowerCase(), {
+    error: "Must be lowercase",
+    // если нужно остановить на первой ошибке, по умолчанию соберутся все ошибки
+    abort: true,
+  });
 
 // c объектом
 const passwordForm = z
@@ -503,7 +496,7 @@ const passwordForm = z
   })
   .refine((data) => data.password === data.confirm, {
     message: "Passwords don't match",
-    path: ["confirm"], // path of error
+    path: ["confirm"], // путь для ошибки, каком полю определить
   });
 
 // с объектом если основная проверка прошла
@@ -540,15 +533,24 @@ const userId = z.string().refine(async (id) => {
 
 ## .superRefine(), .check()
 
+Принимает аргумент ctx:
+
+- addIssue = (issue) => {}
+- issues = []
+- value
+
 ```ts
 const UniqueStringArray = z.array(z.string()).superRefine((val, ctx) => {
   if (val.length > 3) {
     ctx.addIssue({
+      // обязательные (есть в типе)
       code: "too_big",
+      message: "Too many items 😡",
+      path: "some_field",
+      // [key: string]: any дополнительные данные (зависят от кода)
       maximum: 3,
       origin: "array",
       inclusive: true,
-      message: "Too many items 😡",
       input: val,
     });
   }
@@ -638,6 +640,8 @@ const coercedInt = z.preprocess((val) => {
 }, z.int());
 ```
 
+<!-- utils -->
+
 # Утилиты
 
 ## Defaults, Prefaults
@@ -649,9 +653,9 @@ const defaultTuna = z.string().default("tuna");
 defaultTuna.parse(undefined); // => "tuna"
 
 const randomDefault = z.number().default(Math.random);
-randomDefault.parse(undefined); // => 0.4413456736055323
-randomDefault.parse(undefined); // => 0.1871840107401901
-randomDefault.parse(undefined); // => 0.7223408162401552
+randomDefault.parse(undefined); // => 0.4...
+randomDefault.parse(undefined); // => 0.1...
+randomDefault.parse(undefined); // => 0.7...
 
 const schema = z
   .string()
@@ -671,6 +675,8 @@ numberWithCatch.parse(5); // => 5
 numberWithCatch.parse("tuna"); // => 42
 ```
 
+<!-- метаданные -->
+
 # метаданные
 
 Можно определить метаданные для экземпляра zod
@@ -689,7 +695,7 @@ myRegistry.remove(mySchema);
 myRegistry.clear(); // wipe registry
 ```
 
-## register
+## .register()
 
 определение глобальных полей
 
