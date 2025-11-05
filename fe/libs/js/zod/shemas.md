@@ -281,7 +281,7 @@ type Category = z.infer<typeof Category>;
 // { name: string; subcategories: Category[] }
 ```
 
-## Массивы
+## arrays
 
 ```ts
 const stringArray = z.array(z.string()); // or z.string().array()
@@ -318,7 +318,7 @@ z.set(z.string()).max(5); // must contain 5 or fewer items
 z.set(z.string()).size(5); // must contain 5 items exactly
 ```
 
-## TS-like
+## ts-like
 
 ### Tuples
 
