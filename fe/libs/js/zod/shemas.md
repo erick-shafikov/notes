@@ -594,9 +594,13 @@ const stringToLength = z.string().pipe(z.transform((val) => val.length));
 stringToLength.parse("hello"); // => 5
 ```
 
-## Transforms
+## .transform()
 
 [для преобразования в обе стороны](#codecs)
+
+```ts
+const stringToLength = z.string().transform((val) => val.length);
+```
 
 ```ts
 const castToString = z.transform((val) => String(val));
@@ -621,12 +625,6 @@ const coercedInt = z.transform((val, ctx) => {
     return z.NEVER;
   }
 });
-```
-
-## .transform()
-
-```ts
-const stringToLength = z.string().transform((val) => val.length);
 ```
 
 ## .preprocess()
