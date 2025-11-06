@@ -96,7 +96,7 @@ async function getData() {
 
 unknown требует проверку типов, any нет
 
-### never
+# never
 
 ```ts
 function generateError(message: string): never {

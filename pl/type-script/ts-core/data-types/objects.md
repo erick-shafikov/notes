@@ -51,7 +51,7 @@ foo = null; //error
 foo = undefined; //error
 foo = 42; //error
 foo = "bar"; //error
-//{}
+//{} - любое значение но не undefined или null
 let foo: {};
 
 foo = { hello: 0 }; //ok

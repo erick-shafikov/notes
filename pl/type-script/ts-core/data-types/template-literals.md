@@ -1,4 +1,4 @@
-## template literal types
+# template literal types
 
 ```ts
 type ReadOrWrite = "read" | "write";

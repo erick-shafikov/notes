@@ -1,6 +1,21 @@
 # Enum
 
-нужен для того, чтобы задать неизменяющийся список, значения которых невозможно переопределить
+Использование
+
+```ts
+enum Role {
+  Admin,
+  Editor,
+  Guest,
+}
+
+const userRole: Role = Role.Admin;
+const userRole: Role = Role.Editor;
+//
+const userRole: Role = 0; //ок
+```
+
+нужен для того, чтобы задать не изменяющийся список, значения которых невозможно переопределить
 
 ```ts
 ProfessionAction.doctor = "teach";

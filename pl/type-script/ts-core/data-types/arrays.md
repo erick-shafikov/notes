@@ -1,6 +1,14 @@
+# нюансы поведения
+
+```ts
+const stringArray = ["x", "y"];
+stringArray.push(1); //error
+```
+
 # типизация массивов
 
 ```ts
+// порядок имеет значения, если разные типы
 const numTriplet: [number, number, number] = [7, 7, 7];
 numTriplet.length; //3
 numTriplet.pop();
