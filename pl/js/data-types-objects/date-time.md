@@ -64,6 +64,8 @@ alert(date);
 
 # Методы экземпляра
 
+## получение частей даты
+
 - getFullYear() Получить год (4 цифры) вместе getYear() - проблема 2000
 - getMonth() Получить месяц, от 0 до 11.
 - getDate() Получить день месяца, от 1 до 31, что несколько противоречит названию метода.
@@ -81,22 +83,22 @@ alert(date.getHours());
 alert(date.getUTCHours());
 ```
 
-# Установка компонента даты
+Помимо вышеупомянутых существуют utc аналоги getUTCHours, getUTCTime...
 
-Следующие методы позволяют установить компоненты даты и времени:
-
-- setFullYear(year, [month], [date]) setMonth(month, [date]) setDate(date)
-- setHours(hour, [min], [sec], [ms])
-- setMinutes(min, [sec], [ms]) setSeconds(sec, [ms]) setMilliseconds(ms)
-- setTime(milliseconds) (устанавливает дату в виде целого количества миллисекунд, прошедших с 01.01.1970 UTC)
-
-# методы
+## приведение к строке
 
 ```js
 //toString
-date.toString(); // напечатает Wed Jul 28 1993 14:39:07 GMT-0600 (PDT)
-date.toDateString(); // напечатает Wed Jul 28 1993
-date.toISOString(); // вернёт 2011-10-05T14:48:00.000Z
+date.toDateString(); //Fri Nov 07 2025
+date.toISOString(); //2025-11-07T10:05:09.957Z
+date.toJSON(); //2025-11-07T10:05:09.957Z
+date.toLocaleDateString(); //07.11.2025
+date.toLocaleString(); //07.11.2025, 15:05:09
+date.toLocaleTimeString(); //15:05:09
+date.toString(); //Fri Nov 07 2025 15:05:09 GMT+0500 (Узбекистан, стандартное время)
+date.toTimeString(); //15:05:09 GMT+0500 (Узбекистан, стандартное время)
+date.toUTCString(); //Fri, 07 Nov 2025 10:05:09 GMT
+
 //toLocaleDateString
 date.toLocaleDateString("en-US"); // "12/19/2012"
 date.toLocaleDateString("en-GB"); // "20/12/2012"
@@ -105,6 +107,15 @@ date.toLocaleDateString("ar-EG"); // "٢٠/١٢/٢٠١٢"
 date.toLocaleDateString("ja-JP-u-ca-japanese"); // "24/12/20"
 date.toLocaleDateString(["ban", "id"]); // "20/12/2012"
 ```
+
+## Установка компонента даты
+
+Следующие методы позволяют установить компоненты даты и времени:
+
+- setFullYear(year, [month], [date]) setMonth(month, [date]) setDate(date)
+- setHours(hour, [min], [sec], [ms])
+- setMinutes(min, [sec], [ms]) setSeconds(sec, [ms]) setMilliseconds(ms)
+- setTime(milliseconds) (устанавливает дату в виде целого количества миллисекунд, прошедших с 01.01.1970 UTC)
 
 ```js
 let today = new Date();
@@ -135,29 +146,34 @@ for (let i=0; i<10000, i++){
 # Бенчмаркинг
 
 ```js
-function diffSubtract(date1, date2){// функция использует преобразование даты к строке
-return date2 – date1;
+function diffSubtract(date1, date2) {
+  // функция использует преобразование даты к строке
+  return date2 - date1;
 }
 
-function diffGetTime(date1, date2){ // функция использует преобразование даты в объект
-return date2.getTime() – date1.getTime();
+function diffGetTime(date1, date2) {
+  // функция использует преобразование даты в объект
+  return date2.getTime() - date1.getTime();
 }
 
-function bench(f){
-let date1 = newDate(0);
-let Date2 = newDate()
+function bench(f) {
+  let date1 = new Date(0);
+  let date2 = new Date();
 
-let start = date.now();
-for(let i = 0; i < 1000; i++) {f(date1, date2)};
+  let start = date.now();
+  for (let i = 0; i < 1000; i++) {
+    f(date1, date2);
+  }
 
-return Date.now() – start;
+  return Date.now() - start;
 }
 
 alert(` Время diffSubtract:" + ${bench(diffSubtract)}+mс`);
 alert(` Время diffSubtract:" + ${bench(diffGetTime)}+mс`);
-
 ```
 
 # performance.now()
 
-performance.now() – возвращает количество мс с начала загрузки сайта
+```js
+performance.now(); // возвращает количество мс с начала загрузки сайта
+```
