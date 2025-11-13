@@ -6,6 +6,12 @@ class Coord {
   lat!: number;
   long: number;
 
+  constructor(lat: number, long: number) {
+    this.lat = lat;
+    this.long = long;
+    console.log(this.message);
+  }
+
   protected test() {
     if (this.lat > 0) {
       //доступен только внутри класса (**),
@@ -17,12 +23,6 @@ class Coord {
 
   computeDistance(newLat: number, newLong: number) {
     this.test(); //доступен в классе Coord
-  }
-
-  constructor(lat: number, long: number) {
-    this.lat = lat;
-    this.long = long;
-    console.log(this.message);
   }
 } //демонстрация взаимодействия с private свойствами класса
 
@@ -55,7 +55,7 @@ let m = new MapLocation(1, 1, "sdf");
 m.test(); //Property 'test' is protected and only accessible within class 'Coord' and its subclasses.ts(2445)(**)
 ```
 
-## static
+# static
 
 Статический метод – метод, не имеющий доступа к состоянию (полям) объекта, то есть к переменной this. Слово «статический» используется в том смысле, что статические методы не относятся к динамике объекта, не используют и не меняют его состояния.
 
@@ -77,7 +77,7 @@ UserService.dbStaticOnLy; //доступен из класса
 
 Если задать static constructor() { } , тогда экземпляр класса будет недоступен для создания, можно будет только пользоваться его статичными полями
 
-## override
+# override
 
 ```ts
 class Coord {

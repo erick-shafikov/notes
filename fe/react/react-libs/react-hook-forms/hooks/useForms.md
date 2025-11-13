@@ -19,7 +19,6 @@ const {
   getFieldState,
   trigger,
   control,
-  Form,
 } = useForms({
   /* Валидация полей до подтверждения формы
    'onChange' - на каждое изменение формы (бьет по производительности)
@@ -50,13 +49,13 @@ const {
   //режим отображения ошибки firstError - только первая, all - все
   criteriaMode: firstError | all,
   // Наведет на первую ошибку
-  shouldFocusError: (boolean = true),
+  shouldFocusError: true,
   //отображение ошибки через мс
   delayError: number,
   // поведение при отключении поля от формы
-  shouldUnregister: (boolean = false),
+  shouldUnregister: false,
   // нативная валидация элементов
-  shouldUseNativeValidation: (boolean = false),
+  shouldUseNativeValidation: false,
   // для валидации
   resolver: Resolver({
     values: object, //содержит значения формы
@@ -70,7 +69,9 @@ const {
 });
 ```
 
-# Объект возврата
+# Хук возвращает
+
+Объект с полями:
 
 ## register
 

@@ -18,7 +18,7 @@ class BaseExtended extends Base {
 new BaseExtended().print("s");
 ```
 
-## абстракции и implements
+# абстракции и implements
 
 Имплементация - взаимодействие интерфейса и класса связать не через два класса, а через адаптер
 

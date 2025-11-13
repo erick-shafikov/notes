@@ -1,4 +1,6 @@
-Позволяет управлять потоком в двух направлениях в пространстве (в горизонтальном и вертикальном). Создание grid макета с помощью display: grid или display: inline-grid. При активации grid на контейнере, создаются линии - границы grid-сетки. Grid- ячейка это часть сетки разделенная линиями, grid-область - это объединенные части сетки.Grid поддерживает направление письма
+# grid
+
+Позволяет управлять потоком в двух направлениях в пространстве (в горизонтальном и вертикальном). Создание grid макета с помощью display: grid или display: inline-grid. При активации grid на контейнере, создаются линии - границы grid-сетки. Grid-ячейка это часть сетки разделенная линиями, grid-область - это объединенные части сетки. Grid поддерживает направление письма
 
 - при указании высоты height для контейнера с элементами расположенными друг за другом - высота будет делится на кол-во контейнеров
 
@@ -75,6 +77,12 @@ grid-template-areas + grid-template-rows + grid-template-columns
 }
 ```
 
+```scss
+.container {
+  grid-template: repeat(7, 5vw) / repeat(8, 1fr);
+}
+```
+
 ### grid-template-rows и grid-template-columns
 
 grid-template-rows - определяет имена и размеры рядов
@@ -103,12 +111,6 @@ grid-template-columns - определяет имена и размер коло
   grid-template-columns:
     [line-name1 line-name2] 100px
     repeat(auto-fit, [line-name1] 300px) [line-name3];
-}
-```
-
-```scss
-.container {
-  grid-template: repeat(7, 5vw) / repeat(8, 1fr);
 }
 ```
 
@@ -244,6 +246,7 @@ grid-auto-columns - длины элемента
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+  // ***
   grid-auto-rows: minmax(100px, auto);
 }
 ```
@@ -1297,12 +1300,23 @@ p {
 }
 ```
 
-## Равная ширина для всех элементов
+## BP. minmax + repeat + auto-fit + auto-fill
 
 - для flex так не получится так как он распределяет свободное место равномерно
 
 ```scss
 .grid-container {
+  display: grid;
   grid: none / auto-flow minmax(min-content, 1fr);
+}
+```
+
+- максимальная ширина 500, распределяется ужмется до элемента
+
+```scss
+.grid {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(min(500px, 100%), 1fr));
 }
 ```
