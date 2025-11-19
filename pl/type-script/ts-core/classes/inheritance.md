@@ -1,9 +1,37 @@
 # inheritance
 
 ```ts
-# constructor
+class User {
+  private _firstName: string = "";
+  private _secondName: string = "";
 
+  set firstName(name: string) {
+    this._firstName = name;
+  }
 
+  set secondName(name: string) {
+    this._secondName = name;
+  }
+
+  get fullName() {
+    return this._firstName + this._secondName;
+  }
+}
+
+class Employee extends User {
+  constructor(public jobTitle: string) {
+    super();
+  }
+
+  work() {
+    //console.log(this._firstName); // Ошибка нет доступа к private
+  }
+}
+```
+
+Инициализация наследованных конструкторов
+
+```ts
 class Coord {
   long: number;
   lat!: number;
@@ -16,8 +44,6 @@ class Coord {
 
     console.log(this.message); //так как это конструктор запуститься раньше конструктора mapLocation, то в консоль всегда будет выводится 1(*)}
   }
-
-
 }
 //tsconfig - strictPropertyInitialization
 const point = new Coord(0, 1); //экземпляр класса

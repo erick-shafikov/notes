@@ -18,7 +18,7 @@ class BaseExtended extends Base {
 new BaseExtended().print("s");
 ```
 
-# абстракции и implements
+# interface
 
 Имплементация - взаимодействие интерфейса и класса связать не через два класса, а через адаптер
 
@@ -27,6 +27,7 @@ interface LoggerService {
   //абстракция как должен работать класс, там должен быть метод log,который ничего не возвращает
   log: (s: string) => void;
 }
+
 class Logger implements LoggerService {
   public log(s: string) {
     //без указания типа, по умолчанию тип s будет any, сам метод публичный по умолчанию - public
@@ -35,6 +36,7 @@ class Logger implements LoggerService {
   private error() {} //приватный метод, который не даст доступ l.error(); - Property 'error' is private and only accessible within class 'Logger'.ts(2341)
   private a = ""; //пример приватного
 }
+
 const l = new Logger();
 l.log("d");
 ```

@@ -33,9 +33,14 @@ class Vehicle {
   }
 }
 
+vh = new Vehicle();
+// vh.run //ошибка так как run protected
+
 class EuroTruck extends Vehicle {
   setRun(km: number) {
+    // нет ошибки так как protected
     this.run = km / 0.62; //this.damage - error
+    // console(_model) //ошибка
   }
 }
 ```

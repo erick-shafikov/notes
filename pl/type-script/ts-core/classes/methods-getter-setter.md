@@ -15,6 +15,7 @@ class MapLocation {
   }
 
   set name(s: string) {
+    // проверка
     this._name = s;
   }
 }
