@@ -1,0 +1,19 @@
+body {
+  display: flex;
+  padding: 1em;
+
+  --bg: white;
+  --shadow: 1px solid #eee;
+  --slider--gap: 1em;
+}
+
+.slider {
+  width: 305px;
+}
+
+.slider__item {
+  background-color: #eee;
+  width: 80px;
+  height: 80px;
+  border-radius: 0.8em;
+}

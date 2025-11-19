@@ -1,0 +1,57 @@
+:host {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 1em;
+  box-sizing: border-box;
+}
+
+.slides {
+  display: flex;
+  gap: var(--slider--gap, 1em);
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+::slotted(.slider__item) {
+  flex-shrink: 0;
+  scroll-snap-align: center;
+}
+
+:host::-webkit-scrollbar {
+  display: none;
+}
+
+.navigation-control {
+  position: absolute;
+  width: 2em;
+  height: 2em;
+  background-color: var(--bg);
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  outline: none;
+  transition: 0.3s;
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+.navigation-control__left {
+  left: 0.3em;
+}
+
+.navigation-control__right {
+  right: 0.3em;
+}
