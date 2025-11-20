@@ -81,6 +81,8 @@ const dog: Dog = {
 
 # Оператор & с объектами и строками
 
+& - intersection type
+
 для объектов – создает объединение, для примитивов ищет пересечение
 
 ```ts
@@ -95,13 +97,28 @@ const objTAandTB: TAandTB = {
   b1: "b1",
   b2: "b2",
 };
+```
 
+```ts
+// аналогия interface
+interface TA {
+  a1: "a1";
+  a2: "a2";
+}
+interface TB {
+  b1: "b1";
+  b2: "b2";
+}
+interface TAandTB extends TA, TB;
+```
+
+```ts
 // оператор & для строковых
 type TC = "c1" | "c2";
 type TD = "d1" | "d2";
 type TE = "c1" | "d2";
 type TCandTD = TC & TD; //TCandTD === never так как нет общего
-type TCandTCD = TC & TE; //c1 - Общее между 'c1' | 'c2' и 'c1' | 'd2‘
+type TCandTD = TC & TE; //c1 - Общее между 'c1' | 'c2' и 'c1' | 'd2‘
 ```
 
 # Оператор | с объектами и строками
@@ -134,6 +151,78 @@ type TE = "c1" | "d2";
 type TCandTD = TC | TD;
 const TCandTD = "c1"; //один из типов c1, c2, d1, d2
 type TCandTCD = TC | TE; //"c1" | "c2" | "d2" - объединил все типы
+```
+
+# проверка типов type guards
+
+Первый вариант - проверка с помощью in
+Второй вариант discrimination union
+
+```ts
+type FileSource = { type: "file"; path: string };
+type DBSource = { type: "db"; connectionUrl: string };
+
+type Source = FileSource | DBSource;
+
+function checkType(src: Source) {
+  if (type === "file") {
+  } else {
+    // type === 'db'
+  }
+}
+```
+
+# typeGuard
+
+```ts
+// продолжение предыдущего примера
+// Source is FileSource
+function isFile(src: Source) {
+  return source.type === "file";
+}
+```
+
+```ts
+interface User {
+  name: string;
+  email: string;
+  login: string;
+}
+interface Admin {
+  name: string;
+  role: number;
+}
+const user: User = {
+  name: "name",
+  email: "email",
+  login: "login",
+};
+//функция для проверки примитивов
+function logId(id: string | number) {
+  if (isString(id)) {
+    //функция для для проверки typeGuard
+    console.log(id);
+  } else {
+    console.log(id);
+  }
+}
+function isString(x: string | number): x is string {
+  //приведения
+  return typeof x === "string";
+}
+
+//typeGuard для Объектов
+function isAdmin(user: User | Admin) : user is Admin{user явно приравняло к админу
+    return 'role' in user
+}
+function setRole(user: User | Admin){
+    if(isAdmin(user)) {
+        user.role = 0;
+    } else {
+        throw new Error("user isn't admin")
+    }
+}
+
 ```
 
 # рекурсивные типы

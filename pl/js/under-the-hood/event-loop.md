@@ -209,3 +209,83 @@ funcTwo(); //Promise, Last line, Timeout! если вызвать только f
   console.log(4); // 3
 })();
 ```
+
+## рекурсивные вставки в el
+
+```js
+// стандартная задача 1 4 6 | 3 | 2 5
+console.log(1);
+
+setTimeout(function () {
+  console.log(2);
+});
+
+Promise.resolve(3).then(console.log);
+
+console.log(4);
+
+setTimeout(function () {
+  console.log(5);
+}, 0);
+
+console.log(6);
+```
+
+```js
+// рекурсивно вызванная 1 4 6 | foo1 3 foo1 foo1 ...
+console.log(1);
+
+setTimeout(function () {
+  console.log(2);
+});
+
+Promise.resolve(3).then(console.log);
+
+console.log(4);
+
+setTimeout(function () {
+  console.log(5);
+}, 0);
+
+console.log(6);
+
+const foo1 = () => {
+  console.log("foo1");
+
+  // поставит в очередь мт foo1, которая вызовет foo1, которая опять foo1
+  return Promise.resolve().then(foo1);
+
+  // вызовет foo1
+  foo1();
+};
+
+// первый вызов
+foo1();
+```
+
+```js
+// рекурсивно вызванная 1 4 6 | foo2 3 4 5 foo2 foo2 ...
+console.log(1);
+
+setTimeout(function () {
+  console.log(2);
+});
+
+Promise.resolve(3).then(console.log);
+
+console.log(4);
+
+setTimeout(function () {
+  console.log(5);
+}, 0);
+
+console.log(6);
+
+const fool2 = () => {
+  console.log("foo2");
+
+  setTimeout(foo2);
+};
+
+foo2();
+```

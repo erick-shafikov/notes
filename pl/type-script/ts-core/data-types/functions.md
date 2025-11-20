@@ -41,42 +41,35 @@ f(); // OK
 f(10); // OK
 ```
 
-## Перегрузка методов с Conditional types
+# перегрузка методов
+
+Последняя должна быть обобщающая
 
 ```ts
-// перегрузку методов с
-class User {
-  id: number;
-  name: string;
-}
-class UserPersistent extends User {
-  dbId: string;
-}
-// В случае перегрузки
-function getUser(id: number): User;
-function getUser(dbId: string): UserPersistent;
-function getUser(dbIDorId: string | number): User | UserPersistent {
-  if (typeof dbIDorId === "number") {
-    return new User();
-  } else {
-    return new UserPersistent();
+// проблема вернет string | number
+function getLength(val: string: any[]){
+  if(typeof val === 'string'){
+    return `${val.split(' ').length} words`
   }
+
+  return val.length
 }
 
-const res = getUser2(1); //const res: User
-const res2 = getUser2("user"); //const res2: UserPersistent
+const numberOfWords = getLength('aaa bbb ccc')
+numberOfWords.length //ошибка так как length нет на number
+```
 
-type UserOrUserPersistent<T extends string | number> = T extends number
-  ? User
-  : UserPersistent;
-
-function getUser2<T extends string | number>(id: T): UserOrUserPersistent<T> {
-  if (typeof id === "number") {
-    return new User() as UserOrUserPersistent<T>;
-  } else {
-    return new UserPersistent();
+```ts
+function getLength(val: any[]):number;
+function getLength(val: string):string;
+function getLength(val: string: any[]){
+  if(typeof val === 'string'){
+    return `${val.split(' ').length} words`
   }
+
+  return val.length
 }
-const res = getUser2(1); //const res: User
-const res2 = getUser2("user"); //const res2: UserPersistent
+
+const numberOfWords = getLength('aaa bbb ccc')
+numberOfWords.length //ок, знает что string
 ```
