@@ -17,6 +17,8 @@ const notOK = longest(10, 100);
 // Argument of type 'number' is not assignable to parameter of type '{ length: number; }'.
 ```
 
+# c классами
+
 ```ts
 class Vehicle {
   //объект
@@ -25,7 +27,7 @@ class Vehicle {
 
 function kmToMiles<T extends Vehicle>(vehicle: T): T {
   //без расширения не определит тип
-  vehicle.run = vehical.run / 0.62;
+  vehicle.run = vehicle.run / 0.62;
   return vehicle;
 }
 
@@ -37,9 +39,4 @@ const vehicle = kmToMiles(new Vehicle());
 const lvc = kmToMiles(new LCV());
 
 kmToMiles({ run: 1 }); // тоже сработает так как интерфейс схож
-
-function logId<T extends string | number>(id: T): T {
-  console.log(id);
-  return id;
-}
 ```

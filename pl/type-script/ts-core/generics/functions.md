@@ -1,20 +1,3 @@
-# Использование generic с interface
-
-```ts
-interface ILogLine<T> {
-  //в объект кладется в data определенный тип
-  timeStamp: Date;
-  data: T;
-}
-const logLine: ILogLine<{ a: number }> = {
-  //в данном случае положим {a : 1}
-  timeStamp: new Date(),
-  data: {
-    a: 1,
-  },
-};
-```
-
 # generic-функции
 
 функция, которая получает разные типы аргументов и возвращает разные типы, при одинаковом функционале

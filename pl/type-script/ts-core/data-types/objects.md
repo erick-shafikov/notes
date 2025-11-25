@@ -40,6 +40,10 @@ const person: Person = {
 
 # {}, object, Object
 
+- object - «любой НЕ-примитив» объекты, функции, массивы Не включает string, number, boolean, symbol, bigint, null, undefined
+- Object - «любой JavaScript объект» все, кроме null и undefined, включая примитивы, Практически бесполезен, слишком широкий |
+- {} - «пустой тип объекта» всё, кроме null undefined Почти то же что Object, но строже в структурировании |
+
 ```ts
 //object
 let foo: object;
