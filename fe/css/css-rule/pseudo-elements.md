@@ -16,6 +16,32 @@ p.new:after {
 <p class="new"></p>
 ```
 
+Пример с маской на элементе
+
+```html
+<div class="awesome-container">
+  <div class="awesome-block">
+    <span>волшебный текст</span>
+  </div>
+</div>
+```
+
+```scss
+// сломается если поменять фон awesome-block
+.awesome-block {
+  position: relative;
+}
+
+.awesome-block::after {
+  content: "";
+  background-color: green;
+
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+```
+
 [Совмещение с пользовательскими data- атрибутами](#bp-подсказка-с-помощью-after)
 
 ## ::content
