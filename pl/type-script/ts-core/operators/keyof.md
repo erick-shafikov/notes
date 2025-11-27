@@ -1,4 +1,4 @@
-# keyof
+# keyof и массив
 
 ```ts
 //Тип для массива
@@ -8,7 +8,11 @@ type A = keyof ArrayLike; //number
 
 type MapLike = { [k: string]: boolean };
 type M = keyof MapLike; //number | string - так как ключ [0] превратится в ["0"]
+```
 
+# keyof и interface
+
+```ts
 interface IUser {
   name: string;
   age: number;

@@ -5,6 +5,10 @@ type OptionsFlags<Type> = {
   [Property in keyof Type]: boolean; // тип достающий из дженерика все ключи со значением boolean
 };
 
+type OptionsFlags<Type> = {
+  [Property in keyof Type]?: boolean; // тип достающий из дженерика все ключи со значением boolean но необязательные
+};
+
 type Concrete<Type> = {
   -readonly [Property in keyof Type]-?: Type[Property]; // для обязательных свойств и readonly свойств
 };
@@ -33,6 +37,8 @@ interface Person {
 }
 type LazyPerson = Getters<Person>; //type LazyPerson = { getName: () => string; getAge: () => number; getLocation: () => string }
 ```
+
+# Exclude
 
 исключение свойств из объекта с помощью утилиты Exclude
 

@@ -1,5 +1,7 @@
 # typeof
 
+typeof из js возвращает строковое представление типа объекта. В ts typeof позволяет достать тип ts
+
 ```ts
 let strOnNum: string | number;
 
@@ -16,6 +18,11 @@ if (typeof strOnNum === "string") {
 }
 
 let strOnNum2: typeof strOnNum; //let strOnNum2: string | number
+```
+
+# typeof и keyof
+
+```ts
 //совмещение typeof и keyof
 const user = {
   name: "Vasya",
@@ -23,6 +30,11 @@ const user = {
 
 // type keyofUser = keyof user; так нельзя так как user это не тип
 type keyofUser = keyof typeof user; //type keyofUser = "name"
+```
+
+# keyof typeof и enum
+
+```ts
 enum Direction {
   Up,
   Down,

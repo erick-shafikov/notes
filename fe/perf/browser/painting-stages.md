@@ -43,7 +43,7 @@
 - интеграция V8 (запуск js)
 - отрисовка графики Skia
 - сетевые запросы
-- выстраивание DOM CSSOM REnder tree
+- выстраивание DOM CSSOM Render tree
 - Chrome compositor (CC)
 
 ## Chrome compositor

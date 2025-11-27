@@ -2,7 +2,7 @@
 
 это интерфейс, реализуемый объектами, которые могут генерировать события и могут иметь подписчиков на эти события
 
-## конструктор
+# конструктор
 
 ```js
 class MyEventTarget extends EventTarget {
@@ -27,7 +27,7 @@ myEventTarget.dispatchEvent(event);
 let newValue = myEventTarget.secret; // == 7
 ```
 
-## методы экземпляра
+# методы экземпляра
 
 - addEventListener(type, listener, useCapture)
 - - type - название события

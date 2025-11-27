@@ -13,9 +13,14 @@ type TArrString = [string, boolean];
 const array: TArrString = ["x", false];
 const t3: Flatten<TArrString> = "y"; //t3: string | boolean
 const t4: Flatten<TArrString> = false; //t3: string | boolean
+```
 
+# infer и функции
+
+```ts
 //пример 2 достать из функции тип, который она возвращает
-type ReturnType2<Func> = Func extends () => infer X ? X : never; //залезли в тип на возврат
+type ReturnType2<Func> = Func extends (...args: any[]) => infer X ? X : never; //залезли в тип на возврат
+
 //аргументы
 type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any
   ? A
