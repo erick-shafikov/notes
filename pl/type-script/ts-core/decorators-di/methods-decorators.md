@@ -7,6 +7,23 @@
 Типизация
 
 ```ts
+// типизация декоратора метода
+type ClassMethodDecorator = (
+  target: Function, //ссылка на метод
+  context: {
+    //описание метода
+    kind: "method";
+    name: string | symbol; //имя метода
+    static: boolean;
+    private: boolean;
+    access: { get: () => unknown };
+    addInitializer(initializer: () => void): void;
+    metadata: Record<PropertyKey, unknown>;
+  }
+) => Function | void;
+```
+
+```ts
 function decorator<This, Args extends any[], Return>(
   target: (this: This, ...args: Args) => Return,
   context: ClassMethodDecoratorContext<
@@ -26,21 +43,6 @@ function decorator<This, Args extends any[], Return>(
 ```
 
 ```ts
-// типизация декоратора метода
-type ClassMethodDecorator = (
-  target: Function, //ссылка на метод
-  context: {
-    //описание метода
-    kind: "method";
-    name: string | symbol; //имя метода
-    static: boolean;
-    private: boolean;
-    access: { get: () => unknown };
-    addInitializer(initializer: () => void): void;
-    metadata: Record<PropertyKey, unknown>;
-  }
-) => Function | void;
-
 // создаем декоратор target - ссылка на оригинальную функцию
 function myDecorator(target, context) {
   return function (this, ...args) {

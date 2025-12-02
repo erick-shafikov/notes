@@ -15,3 +15,11 @@ TSP-рукопожатие, установка соединения, по сое
 # ответ на запрос
 
 Первый пакет данных 14кб - проверка скорости соединения, будет увеличивать в 2 раза окно
+
+# типы сетей
+
+lan - local network
+wan - wide area network
+man - metropolitan network
+can - campus network
+pan - personal network
