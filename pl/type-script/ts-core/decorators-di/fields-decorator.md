@@ -2,47 +2,36 @@
 
 ```ts
 //декоратор для свойства принимает следующие параметры
-function Method(
-  target: Object,
-  propertyKey: string,
-  propertyDescriptor: PropertyDescriptor
-) {
-  console.log(propertyKey);
-  const oldValue = propertyDescriptor.value;
-  //propertyDescriptor имеет свойства get, set, value и дескрипторы свойств
-  propertyDescriptor.value = function (...args: any) {
-    return args[0] * 10;
-  };
+function fieldDecorator(value: any, context: ClassFieldDecoratorContext) {
+  console.log("field =", context.name);
+
+  //новое значение
+  return (initialValue: any) => initialValue;
 }
+
+type ClassFieldDecoratorContext = {
+  kind: "field";
+  name: string; //имя поля
+  static: boolean;
+  private: boolean;
+  acc: {
+    has: Function;
+    get: Function;
+    set: Function;
+  };
+  metadata?: any;
+  addInitializer: Function;
+};
 ```
 
-Декораторы могут быть методом классов
-
-Можно составлять цепочки декораторов
-
 ```ts
-function decorator1(target: any, context: any) {}
-function decorator2(target: any, context: any) {}
-function decorator3(target: any, context: any) {}
-
-class SomeClass {
-  @decorator1
-  @decorator2
-  @decorator3
-  someMethod() {}
-}
-// можно объединить
-
-function multipleDecorator(targe: any, context: any) {
-  const res1decorator = decorator1(targe, context);
-  const res2decorator = decorator2(res1decorator, context);
-  const res3decorator = decorator3(res2decorator, context);
-
-  return res3decorator;
+// value === undefined так как при инициализации
+function fieldDecorator(value: undefined, context: ClassFieldDecoratorContext) {
+  console.log("field =", context.name);
 }
 
-class SomeClass {
-  @multipleDecorator
-  someMethod() {}
+class Person {
+  @fieldDecorator
+  name = "Max";
 }
 ```
