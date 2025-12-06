@@ -1,6 +1,6 @@
 # Element
 
-наследуются от [Node](./node-intreface.md)
+наследуются от [Node](./node-i.md)
 
 все html элементы (HTMLElement) наследуются от Element
 
@@ -49,7 +49,7 @@ console.log(p.nodeName); // всё ещё "P";
 - scrollWidth (readonly) - сколько невидно
 - shadowRoot - Element.createShadowRoot() создаст shadow элемент
 - slot - имя тенового слота
-- tagName ⇒ имя элемента
+- tagName ⇒ имя элемента, есть только у элементов Element
 
 # методы экземпляра
 
@@ -285,8 +285,8 @@ newspaper.addEventListener("click", () => {
 - transitionend
 - transitionrun
 - transitionstart
-- webkitmouseforcechangedНестандартный
-- webkitmouseforcedownНестандартный
-- webkitmouseforceupНестандартный
-- webkitmouseforcewillbeginНестандартный
+- webkitmouseforcechanged- Нестандартный
+- webkitmouseforcedown- Нестандартный
+- webkitmouseforceup- Нестандартный
+- webkitmouseforcewillbegin- Нестандартный
 - wheel

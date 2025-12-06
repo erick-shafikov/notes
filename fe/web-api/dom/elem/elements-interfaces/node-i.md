@@ -1,6 +1,6 @@
 # Node
 
-наследует [EventTarget](./event-target-interface.md)
+наследует [EventTarget](./event-target-i.md)
 
 # свойства экземпляра
 
@@ -10,8 +10,28 @@
 - isConnected ⇒ boolean прикреплен ли элемент к dom (read-only)
 - lastChild ⇒ Node возвращает последнего потомка (readonly)
 - nextSibling ⇒ Node соседа
-- nodeName - название узла
-- nodeType - тип узла
+- nodeName - название узла, определено для любых узлов Node
+- nodeType - тип узла:
+- - elem.nodeType == 1 для узлов – элементов
+- - elem.nodeType == 3 для текстовых узлов
+- - elem.nodeType == 9 Для объектов документа
+
+  ```html
+   
+  <body>
+    <!-- document - корневой элемент, element- узел dom -->
+    <!-- комментарий-->
+     
+    <script>
+      alert(document.body.firstChild.tagName); //undefined (не элемент)
+      alert(document.body.firstChild.nodeName); // comment
+      alert(document.tagName); //undefined (не элемент)
+      alert(document.nodeName); // document
+    </script>
+     
+  </body>
+  ```
+
 - nodeValue - вернет value если есть у узла
 - ownerDocument - document
 - parentElement ⇒ Node родительский

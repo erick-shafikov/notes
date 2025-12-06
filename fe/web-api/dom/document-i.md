@@ -1,3 +1,7 @@
+# Document
+
+наследует [Node](./elem/elements-interfaces/node-i.md)
+
 window.document - входная точка в dom
 
 # статические методы
