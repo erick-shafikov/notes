@@ -1,18 +1,26 @@
 # namespace
 
-Объекты – области кода, которые предоставляю скрытые методы, типы
+Объекты – области кода, которые предоставляю скрытые методы, типы. При компиляции собираются в один объект
 
 ```ts
+// nameSpaceFile.ts
 namespace NewNameSpace {
+  // если не добавить export, то TNameSpaceType будет доступен только внутри NewNameSpace
   export type TNameSpaceType = {
     // Тип в namespace
   };
   export function funcFromNameSpace() {}
-} // Обращение
-NewNameSpace.funcFromNameSpace();
+}
+```
+
+```ts
+/// <reference path="nameSpaceFile.ts" />
+// если в разных модулях содержатся элементы одного namespace
+// Обращение
+funcFromNameSpace();
 // или
-import externalFunc = NewNameSpace.funcFromNameSpace; /// <reference path="nameSpaceFile.ts" /> - если в разных модулях содержатся элементы одного namespace
-// но тогда в исходном фале нужно будет указать <script src="nameSpaceFile.js" type="text/javascript" /> для всех файлов
+import externalFunc = funcFromNameSpace;
+// но тогда в исходном файле нужно будет указать <script src="nameSpaceFile.js" type="text/javascript" /> для всех файлов
 ```
 
 # ambient namespaces
