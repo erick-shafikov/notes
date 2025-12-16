@@ -11,3 +11,11 @@ const obj: Props = { a: 5 };
 const obj2: Required<Props> = { a: 5 };
 // Property 'b' is missing in type '{ a: number; }' but required in type 'Required<Props>'.
 ```
+
+# реализация
+
+```ts
+type Required<T> = {
+  [K in keyof T]-?: T[K];
+};
+```

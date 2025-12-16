@@ -1,20 +1,20 @@
 # Структура папок
 
 - dataset_reg
-    - train
-        - file1.ext
-        - file2.ext
-        - format.json
-    - test
-        - file1.ext
-        - file2.ext
-        - format.json
+  - train
+    - file1.ext
+    - file2.ext
+    - format.json
+  - test
+    - file1.ext
+    - file2.ext
+    - format.json
 
 # Dataset
 
-Класс, который формирует выборку и отдает
+Класс, который формирует выборку и отдает данные. Позволит организовать загрузку данных для выборки
 
-[Dataset](../pytorch/models/dataset.md)
+[Dataset](../../libs/pytorch/models/dataset.md)
 
 ```python
 # Dataset - универсальное представление обучающих и тестовых данных
@@ -47,8 +47,6 @@ data_size = len(d_train)
 
 ```python
 from torch.utils import data
-
-# Dataloader - итератор для извлечения данных
 
 # Dataloader помогает перемещать объекты выборки
 # drop_last - если размер выборки не кратен размеру пакетов

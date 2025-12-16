@@ -1,3 +1,9 @@
+# основные виды
+
+задачи регрессии - nn.MSELoss, nn.L1Loss
+задачи бинарной классификации - nn.BCELoss, nn.BCEWithLogitsLoss
+задачи многоклассовой классификации - nn.CrossEntropyLoss, nn.NLLLoss
+
 # Квадратичная функция потерь
 
 ```python

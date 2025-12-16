@@ -27,7 +27,7 @@ model = Model()  # здесь создавайте объект модели
 model.eval()
 
 batch_size = 16
-x = torch.rand(batch_size, 10)  # этот тензор в программе не менять
+x = torch.rand(batch_size, 10)
 
 # здесь продолжайте программу
 predict = model(x)

@@ -23,5 +23,6 @@ torch.cuda.manual_seed_all(123)  # для всех
 # сбрасывать настройки при обучении
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
-
 ```
+
+!!! тензоры должны быть на одном устройстве

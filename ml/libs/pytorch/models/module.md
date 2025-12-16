@@ -1,6 +1,20 @@
 # Module
 
 ```python
+import torch.nn as nn
+
+
+class MyModule(nn.Module):
+    def __init__(self, params):
+        super().__init__()  # вызов инициализатора базового класса
+        # создание и инициализация переменных модуля
+
+    def forward(self, x):
+        # реализация прямого прохода вектора x по нейронной сети
+        return  # возврат тензора с выходными значениями нейронной сети
+```
+
+```python
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -23,7 +37,7 @@ model2 = Model()
 model = Model()
 
 # ПРИВЕДЕНИЕ ПАРАМЕТРОВ К ТИПАМ
-# приведет все параметры к bfloat16 
+# приведет все параметры к bfloat16
 model.bfloat16()
 model.double()
 model.float()
@@ -79,20 +93,13 @@ model.train()
 model.eval()
 # включение отключение градиентного спуска
 model.requires_grad_()
-###################################
-
-# РАЗНОЕ
-# добавить модель
-model.add_module('model_name', model2)
-# добавить модели рекурсивно, принимает функцию
-model.apply(lambda x: x)
-
-# доп информация
-model.extra_repr()
 # выполнить
 model.forward(torch.tensor([1, 2, 3]))
-# вернет состояние
-model.get_extra_state()
+###################################
+
+# УПРАВЛЕНИЕ СЛОЯМИ И ВЕСАМИ
+# добавить модель
+model.add_module('model_name', model2)
 # параметры
 model.get_parameter('model2')
 # вернет вложенные
@@ -110,6 +117,16 @@ model.register_module('model2', model2)
 model.register_parameter('model2')
 # дополнительные данные для state_dict
 model.set_extra_state({'some': 'thing'})
+
+
+# РАЗНОЕ
+# добавить модели рекурсивно, принимает функцию
+model.apply(lambda x: x)
+
+# доп информация
+model.extra_repr()
+# вернет состояние
+model.get_extra_state()
 # выполнение
 model.set_submodule(nn.Linear(1, 1))
 # выполнение

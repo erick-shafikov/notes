@@ -1,8 +1,9 @@
 # Виды ф-ций оптимизации
 
-задачи регрессии - nn.MSELoss, nn.L1Loss
-задачи бинарной классификации - nn.BCELoss, nn.BCEWithLogitsLoss
-задачи многоклассовой классификации - nn.CrossEntropyLoss, nn.NLLLoss
+- SGD
+- RMSprop
+- Adadelta
+- Adam
 
 ```python
 import torch
@@ -74,15 +75,17 @@ optimizer = optim.Adam(params=[w], lr=0.01)  # параметры ф-ции дл
 for _ in range(1000):
     k = randint(0, total - 1)
     y = model(x_train[k], w)  # выбор batch
-    loss = loss_func(y, y_train[k])  # использование оптимизатора
+    loss = loss_func(y, y_train[k])  # использование оптимизатора  (y, y_train[k]) ** 2
 
     loss.backward()  # вычисление градиента
     optimizer.step()  # w.data = w.data - lr * w.grad
-    optimizer.zero_grad()  # w.grad.zero_() 
+    optimizer.zero_grad()  # w.grad.zero_()
 
 print(w)
 predict = model(x_train, w)
 ```
+
+пример 2
 
 ```python
 import numpy as np
@@ -130,7 +133,7 @@ for _ in range(N):
     k = np.random.randint(0, total)
     y = model(x_train[k], W1, W2, bias1, bias2)
     loss = loss_func(y[0], y_train[k])
-    
+
     loss.backward()
     optimizer.step()
     optimizer.zero_grad()

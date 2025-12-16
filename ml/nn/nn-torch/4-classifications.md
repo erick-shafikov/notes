@@ -25,7 +25,7 @@ class DigitDataset(data.Dataset):
 
         self.length = 0
         self.files = []
-        self.targets = torch.eye(10)
+        self.targets = torch.eye(10) # ответы
 
         for _dir, _target in self.format.items():
             path = os.path.join(self.path, _dir)

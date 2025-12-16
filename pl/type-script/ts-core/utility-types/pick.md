@@ -12,3 +12,11 @@ type PaymentRequisite = Pick<PaymentPersistent, "from" | "to">;
     to: string;
 } */
 ```
+
+# реализация
+
+```ts
+type Pick<T, K extends keyof T> = {
+  [P in K]: T[P];
+};
+```

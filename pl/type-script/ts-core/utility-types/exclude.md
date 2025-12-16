@@ -13,3 +13,9 @@ type ExcludeEx = Exclude<"from" | "to" | Payment, string>;
     to: string;
 } */
 ```
+
+# реализация
+
+```ts
+type Exclude<T, U> = T extends U ? never : T;
+```

@@ -1,6 +1,7 @@
 # VGG-16
 
 Обученная на 1000 классификации
+На вход подается 3х канальное изображение разрешением 224x224
 
 Структура:
 
@@ -58,15 +59,15 @@ from torchvision import models
 
 # обращение к предобученным весам
 vgg_weights = models.VGG16_Weights.DEFAULT
-# vgg_weights = models.VGG16_Weights.IMAGENET1K_V1 # то же самое, что и models.VGG16_Weights.DEFAULT
+vgg_weights = models.VGG16_Weights.IMAGENET1K_V1 # то же самое, что и models.VGG16_Weights.DEFAULT
 
-# categories = vgg_weights.meta['categories'] # ссылка на категории
-# transforms = vgg_weights.transforms() # ссылка на категории
+categories = vgg_weights.meta['categories'] # ссылка на категории
+transforms = vgg_weights.transforms() # ссылка на категории
 # модель vgg16
 model = models.vgg16(weights='DEFAULT')
-# model = model.features  # ссылка на сверточные
-# model = model.classifier  # ссылка на полносвязные
-# models.vgg16(weights=vgg_weights) # другой вариант применения
+model = model.features  # ссылка на сверточные
+model = model.classifier  # ссылка на полносвязные
+models.vgg16(weights=vgg_weights) # другой вариант применения
 img = Image.open('img_224.jpg').convert('RGB')
 img = tfs.ToTensor()(img)
 

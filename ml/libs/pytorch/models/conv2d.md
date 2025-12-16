@@ -16,7 +16,7 @@
 
 ```python
 x = lambda input_size_x, padding, kernel_size, stride, dilation: (
-        (input_size_x + 2 * padding[0] - dilation[0] * (kernel_size[0] - 1) - 1) / stride[0] + 1) 
+    (input_size_x + 2 * padding[0] - dilation[0] * (kernel_size[0] - 1) - 1) / stride[0] + 1)
 ```
 
 Вычисление размерности выходного тензора выходного тензора
@@ -28,7 +28,7 @@ import math
 def conv2d_output_shape(H_in, W_in, kernel_size, stride, padding):
     """
     Вычисляет размеры выхода Conv2d.
-    
+
     H_in, W_in : int
         Размеры входного изображения (высота, ширина)
     kernel_size : (int, int)

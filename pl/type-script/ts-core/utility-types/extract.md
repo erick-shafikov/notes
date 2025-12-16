@@ -9,3 +9,9 @@ interface PaymentPersistent {
 type ExtractEx = Extract<"from" | "to" | Payment, string>;
 /* type ExtractEx = "from" | "to" */
 ```
+
+# реализация
+
+```ts
+type Extract<T, U> = T extends U ? T : never;
+```

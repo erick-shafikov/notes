@@ -15,3 +15,28 @@ type Payment = Omit<PaymentPersistent, "id">;
     to: string;
 } */
 ```
+
+# реализация
+
+```ts
+type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
+```
+
+# особенности поведения
+
+Omit юнион-типа будет пустым объектом
+
+```ts
+type A = { a: string; b: string };
+type B = { c: string; d: string };
+
+type Result = Omit<A | B, "c">;
+```
+
+Исправленный тип
+
+```ts
+type DistributiveOmit<T, K extends keyof any> = T extends any
+  ? Omit<T, K>
+  : never;
+```

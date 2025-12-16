@@ -1,6 +1,6 @@
 # Conv2d
 
-[Сигнатура класса и нативная реализация](../_libs/pytorch/models/conv2d.md)
+[Сигнатура класса и нативная реализация](../../libs/pytorch/models/conv2d.md)
 
 Пример использования
 
@@ -18,14 +18,20 @@ padding = 0  # размер нулевой области вокруг изоб�
 x = torch.randint(0, 255, (C, H, W), dtype=torch.float32)
 
 # здесь продолжайте программу
-layer_nn = nn.Conv2d(in_channels=C, out_channels=1, kernel_size=kernel_size, stride=stride, padding=padding)
+layer_nn = nn.Conv2d(
+    in_channels=C,
+    out_channels=1,
+    kernel_size=kernel_size,
+    stride=stride,
+    padding=padding
+)
 # ожидает всегда четырёхмерный тензор с размерностью (batch_size, channels, height, width)
 t_out = layer_nn(x.unsqueeze(0))
 ```
 
 # Работа с MaxPool2d
 
-[Сигнатура класса и нативная реализация](../_libs/pytorch/models/maxPool.md)
+[Сигнатура класса и нативная реализация](../../libs/pytorch/models/maxPool.md)
 
 ```python
 import torch
@@ -130,15 +136,15 @@ class SunDataset(data.Dataset):
 
 
 model = nn.Sequential(
-    nn.Conv2d(3, 32, 3, padding='same'),
+    nn.Conv2d(3, 32, 3, padding='same'), # (b, 32, 256, 256)
     nn.ReLU(),
-    nn.MaxPool2d(2),
+    nn.MaxPool2d(2), # (b, 32, 128, 128)
     nn.Conv2d(32, 8, 3, padding='same'),
     nn.ReLU(),
-    nn.MaxPool2d(2),
+    nn.MaxPool2d(2), # (b, 8, 64, 64)
     nn.Conv2d(8, 4, 3, padding='same'),
     nn.ReLU(),
-    nn.MaxPool2d(2),
+    nn.MaxPool2d(2), # (b, 4, 32, 32)
     nn.Flatten(),
     nn.Linear(4096, 128),
     nn.ReLU(),

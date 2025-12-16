@@ -20,3 +20,11 @@ const todo2 = updateTodo(todo1, {
   description: "throw out trash",
 });
 ```
+
+# реализация
+
+```ts
+type Partial<T> = {
+  [K in keyof T]?: T[K];
+};
+```

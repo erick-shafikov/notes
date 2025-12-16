@@ -20,3 +20,9 @@ async function getArray<T>(x: T) {
   return [await x];
 }
 ```
+
+# Реализация
+
+```ts
+type Awaited<T> = T extends PromiseLike<infer U> ? Awaited<U> : T;
+```

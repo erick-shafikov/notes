@@ -1,21 +1,8 @@
 # Реализация нейронов
 
-Для создания нейронов используется класс [Linear](../_libs/pytorch/models/linear.md)
+Для создания нейронов используется класс [Linear](../../libs/pytorch/models/linear.md)
 
-Пример присвоения весов
-
-```python
-import torch
-import torch.nn as nn
-
-# тензор x в программе не менять
-x = torch.tensor(list(map(float, input().split())), dtype=torch.float32)
-
-# здесь продолжайте программу
-layer = nn.Linear(16, 1, bias=False)
-layer.weight.data = torch.ones_like(layer.weight.data)
-print(f"{layer(x).item():.1f}")
-```
+Пример работы с весами присвоения весов
 
 ```python
 import torch
@@ -63,21 +50,7 @@ print(y.data)
 
 # nn.Module
 
-Краткое описание
-
-```python
-import torch.nn as nn
-
-
-class MyModule(nn.Module):
-    def __init__(self, params):
-        super().__init__()  # вызов инициализатора базового класса
-        # создание и инициализация переменных модуля
-
-    def forward(self, x):
-        # реализация прямого прохода вектора x по нейронной сети
-        return  # возврат тензора с выходными значениями нейронной сети
-```
+[](../../libs/pytorch/models/module.md)
 
 - двухслойная нс
 

@@ -1,5 +1,9 @@
 # Dropout
 
+- nn.Dropout() - для полносвязных слоев nn.Linear
+- nn.Dropout1d() - Conv1d
+- nn.Dropout2d() - Conv2d
+
 Пример добавления
 
 ```python
@@ -67,10 +71,14 @@ class DigitNN(nn.Module):
 
 model = DigitNN(28 * 28, 128, 10)
 
-transforms = tfs.Compose([tfs.ToImage(), tfs.Grayscale(),
-                          tfs.ToDtype(torch.float32, scale=True),
-                          RavelTransform(),
-                          ])
+transforms = tfs.Compose(
+    [
+        tfs.ToImage(),
+        tfs.Grayscale(),
+        tfs.ToDtype(torch.float32, scale=True),
+        RavelTransform(),
+    ]
+)
 
 dataset_mnist = torchvision.datasets.MNIST(r'C:\datasets\mnist', download=True, train=True, transform=transforms)
 

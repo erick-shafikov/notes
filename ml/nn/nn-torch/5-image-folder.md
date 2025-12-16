@@ -34,14 +34,14 @@ model = DigitNN(28 * 28, 32, 10)
 # трансформация каждого изображения
 transforms = tfs.Compose(
     [
-        tfs.ToImage(),
+        tfs.ToImage(), # перевод в тензор
         tfs.Grayscale(),
-        tfs.ToDtype(torch.float32, scale=True),
+        tfs.ToDtype(torch.float32, scale=True), # scale => [0, 1]
         RavelTransform(),
     ]
 )
-# замена datafolder-а
-d_train = ImageFolder("dataset/train", transform=transforms)
+# замена DataFolder-а
+d_train = ImageFolder("dataset/train", transform=transforms) # вернет [3,x,x] для 3 цветовых каналов
 train_data = data.DataLoader(d_train, batch_size=32, shuffle=True)
 
 optimizer = optim.Adam(params=model.parameters(), lr=0.01)
