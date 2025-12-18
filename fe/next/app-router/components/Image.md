@@ -67,7 +67,10 @@ contentDispositionType
 
 ## width hright
 
-размер в пикселях
+внутренний размер в пикселях, нужны если:
+
+- это НЕ статический импорт изображения
+- НЕТ fill
 
 ## alt
 
@@ -100,9 +103,16 @@ export default function Page() {
 
 ## fill
 
+Растянет по родителю
+
 - если hright и width неизвестны.
 - Родитель должен быть position равный relative, fixed или absolute, так как у img position === absolute.
 - object-fit === contain что бы вписать в контейнер, cover для обрезки но сохранения соотношения сторон
+
+Взаимодействие с objectFit:
+
+- contain - будет растягиваться
+- cover - будет обрезаться
 
 Отзывчивое изображение с помощью fill
 
@@ -128,7 +138,14 @@ export default function Page({ photoUrl }) {
 
 ## size:
 
-srcset строка для разных viewport
+srcset строка для разных viewport. Должен использоваться если:
+
+- fill проп установлен
+- используется CSS для отзывчивого стиля
+
+По умолчанию 100wv
+
+Ненужно устанавливать если есть height и width
 
 ```tsx
 //пример
@@ -177,6 +194,21 @@ placeholder = "empty"; // "empty" | "blur" | "data:image/..."
 ```
 
 если blur то blurDataUrl будет использовано как заполнитель, нужно для удаленных изображений, в случае "data:image/..." - адрес данных
+
+# preload
+
+для предзагрузки изображения
+
+Установить true, если:
+
+- если картинка lcp
+- главная картинка
+- в header или body
+
+Установить false, если:
+
+- если loader
+- если есть fetchPriority
 
 ## style
 

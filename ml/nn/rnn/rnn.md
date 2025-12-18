@@ -1,8 +1,10 @@
 # RNN
 
-[RNN](../_libs/pytorch/models/rnn.md)
+[RNN](../../libs/pytorch/models/rnn.md)
 
 # MTO, MTM
+
+## mto
 
 модель model структуры типа Many-to-One,
 
@@ -18,7 +20,7 @@ x = torch.rand(batch_size, seq_length, in_features)
 
 class GetOutput(nn.Module):
     def forward(self, x):
-        _, h = x
+        _, h = x # вернем результат
         return h
 
 
@@ -40,13 +42,13 @@ import torch
 import torch.nn as nn
 
 
-# здесь объявляйте класс OutputToLinear
+
 class OutputToLinear(nn.Module):
     def forward(self, x):
-        return x[1][1]
+        return x[1][1] # берем последний с последнего
 
 
-# тензор x в программе не менять
+
 batch_size = 18
 seq_length = 21
 in_features = 5
@@ -65,6 +67,8 @@ predict = model(x)
 
 ```
 
+## mtm
+
 модель model структуры типа Many-to-Many
 
 ```python
@@ -80,10 +84,10 @@ class OutputModule(nn.Module):
         self.act = nn.ReLU(inplace=True)
 
     def forward(self, x):
-        return self.layer(self.act(x[0]))
+        return self.layer(self.act(x[0])) # вернем все скрытые
 
 
-# тензор x в программе не менять
+
 batch_size = 7
 seq_length = 5
 in_features = 15
@@ -96,14 +100,14 @@ model = nn.Sequential(
 )
 
 model.eval()
-out = model(x)
+out = model(x) # [7, 5, 10]
 ```
 
 # Примеры работы с RNN
 
 ## Вычисление по формуле (одномерной)
 
-x[t] = tanh(r * x[t-1] + sigma * sigma_noise)
+x[t] = tanh(r _ x[t-1] + sigma _ sigma_noise)
 
 ```python
 import torch
@@ -129,8 +133,8 @@ x, _ = model(noise, x0)
 ## Вычисление по формуле (двумерной)
 
 [
-x[t] = tanh(r * x[t-1] + sigma * sigma_noise),
-y[t] = tanh(r * y[t-1] + sigma * sigma_noise)
+x[t] = tanh(r _ x[t-1] + sigma _ sigma*noise),
+y[t] = tanh(r * y[t-1] + sigma \_ sigma_noise)
 ]
 
 ```python

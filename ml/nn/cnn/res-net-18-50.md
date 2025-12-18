@@ -18,7 +18,7 @@
   -- Layer4(512, H/8, W/8) (2, 3, 3, 3)
 - выходной слой - общий для всех
   -- AdaptiveAvgPool2d() - усредняет, 512 каналов, h/8, w/8 разрешение - формирует для каждого канала одно значение 1х1
-  -- Linear(512*factor, out=1000, b=True) - factor == 1 в случае resnet18
+  -- Linear(512\*factor, out=1000, b=True) - factor == 1 в случае resnet18
 
 ## Layer 1
 
@@ -131,7 +131,7 @@ factor == 4
 
 ## Layer 1
 
-Bottleneck_1(64, h, w | 64 * 4, h, w):
+Bottleneck_1(64, h, w | 64 \* 4, h, w):
 
 - Основной путь:
   -- Conv2d(64, 1x1, s=1, p=0, b=False)
@@ -140,15 +140,15 @@ Bottleneck_1(64, h, w | 64 * 4, h, w):
   -- Conv2d(64, 3x3, s=1, p=1, b=False)
   -- BatchNorm(64)
   -- ReLU()
-  -- Conv2d(64 * 4, 1x1, s=1, p=0, b=False)
-  -- BatchNorm(64 * 4)
+  -- Conv2d(64 _ 4, 1x1, s=1, p=0, b=False)
+  -- BatchNorm(64 _ 4)
 - Побочный:
-  -- Conv2d(64 * 4, 1x1, s=1, p=0, b=False)
-  -- BatchNorm(64 * 4)
+  -- Conv2d(64 _ 4, 1x1, s=1, p=0, b=False)
+  -- BatchNorm(64 _ 4)
 - сумма
 - Relu()
 
-Bottleneck_2(64 * 4, h, w | 64 * 4, h, w)
+Bottleneck*2(64 * 4, h, w | 64 \_ 4, h, w)
 
 - Основной путь:
   -- Conv2d(64, 1x1, s=1, p=0, b=False)
@@ -157,8 +157,8 @@ Bottleneck_2(64 * 4, h, w | 64 * 4, h, w)
   -- Conv2d(64, 3x3, s=1, p=1, b=False)
   -- BatchNorm(64)
   -- ReLU()
-  -- Conv2d(64 * 4, 1x1, s=1, p=0, b=False)
-  -- BatchNorm(64 * 4)
+  -- Conv2d(64 _ 4, 1x1, s=1, p=0, b=False)
+  -- BatchNorm(64 _ 4)
 - Побочный:
   -- копия
 - сумма
@@ -167,7 +167,7 @@ Bottleneck_2(64 * 4, h, w | 64 * 4, h, w)
 
 ## Layer 2
 
-Bottleneck_1(64 * 4, h, w | 128 * 4, h/2, w/2):
+Bottleneck*1(64 * 4, h, w | 128 \_ 4, h/2, w/2):
 
 - Основной путь:
   -- Conv2d(128, 1x1, s=1, p=0, b=False)
@@ -176,15 +176,15 @@ Bottleneck_1(64 * 4, h, w | 128 * 4, h/2, w/2):
   -- Conv2d(128, 3x3, s=2, p=1, b=False)
   -- BatchNorm(128)
   -- ReLU()
-  -- Conv2d(128 * 4, 1x1, s=1, p=0, b=False)
-  -- BatchNorm(128 * 4)
+  -- Conv2d(128 _ 4, 1x1, s=1, p=0, b=False)
+  -- BatchNorm(128 _ 4)
 - Побочный:
-  -- Conv2d(128 * 4, 1x1, s=2, p=0, b=False)
-  -- BatchNorm(128 * 4)
+  -- Conv2d(128 _ 4, 1x1, s=2, p=0, b=False)
+  -- BatchNorm(128 _ 4)
 - сумма
 - Relu()
 
-Bottleneck_2, Bottleneck_3, Bottleneck_4(128 * 4, h/2, w/2 | 128 * 4, h/2, w/2):
+Bottleneck*2, Bottleneck_3, Bottleneck_4(128 * 4, h/2, w/2 | 128 \_ 4, h/2, w/2):
 
 - Основной путь:
   -- Conv2d(128, 1x1, s=1, p=0, b=False)
@@ -193,8 +193,8 @@ Bottleneck_2, Bottleneck_3, Bottleneck_4(128 * 4, h/2, w/2 | 128 * 4, h/2, w/2):
   -- Conv2d(128, 3x3, s=2, p=1, b=False)
   -- BatchNorm(128)
   -- ReLU()
-  -- Conv2d(128 * 4, 1x1, s=1, p=0, b=False)
-  -- BatchNorm(128 * 4)
+  -- Conv2d(128 _ 4, 1x1, s=1, p=0, b=False)
+  -- BatchNorm(128 _ 4)
 - Побочный:
   -- копия
 - сумма
@@ -204,15 +204,15 @@ Bottleneck_2, Bottleneck_3, Bottleneck_4(128 * 4, h/2, w/2 | 128 * 4, h/2, w/2):
 
 Аналогично Layer 2
 
-Bottleneck_1(128 * 4, h/2, w/2 | 256 * 4, h/4, w/4)
-Bottleneck_2-6(256, h/4, w/4 | 256 * 4, h/4, w/4)
+Bottleneck*1(128 * 4, h/2, w/2 | 256 \_ 4, h/4, w/4)
+Bottleneck_2-6(256, h/4, w/4 | 256 \* 4, h/4, w/4)
 
 ## Layer 3
 
 Аналогично Layer 2, Layer 3
 
-Bottleneck_1(512, h/2, w/2 | 512 * 4, h/8, w/8)
-Bottleneck_2-6(512 * 4, h/8, w/8 | 512 * 4, h/8, w/8)
+Bottleneck*1(512, h/2, w/2 | 512 * 4, h/8, w/8)
+Bottleneck*2-6(512 * 4, h/8, w/8 | 512 \* 4, h/8, w/8)
 
 # использование
 
@@ -237,6 +237,10 @@ img = transforms(img).unsqueeze(0)  # (1, 3, 224, 224)
 
 # Перевод модели в режим оценки
 model.eval()
+
+p = model(img).squeeze() # прогон и результат
+
+res = p.softmax(dim=0).sort(descending=True) # прогон через softmax что бы найти вероятность самого вероятного варианта
 
 # Прямой проход (инференс)
 with torch.no_grad():

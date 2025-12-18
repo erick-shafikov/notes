@@ -82,7 +82,7 @@ out:
 
 - Conv2d: num_classes, 1x1, s=1, p=0
 
-Реализация
+# Маски и автомобили
 
 ```python
 import os
@@ -104,12 +104,12 @@ class SegmentDataset(data.Dataset):
         self.path = path
         self.transform_img = transform_img
         self.transform_mask = transform_mask
-
+        # достаем изображение автомобилей
         path = os.path.join(self.path, 'images')
         list_files = os.listdir(path)
         self.length = len(list_files)
         self.images = list(map(lambda _x: os.path.join(path, _x), list_files))
-
+        # изображение маск
         path = os.path.join(self.path, 'masks')
         list_files = os.listdir(path)
         self.masks = list(map(lambda _x: os.path.join(path, _x), list_files))
@@ -122,6 +122,7 @@ class SegmentDataset(data.Dataset):
         if self.transform_img:
             img = self.transform_img(img)
 
+        # преобразование маски в градацию серого
         if self.transform_mask:
             mask = self.transform_mask(mask)
             mask[mask < 250] = 1
@@ -134,6 +135,7 @@ class SegmentDataset(data.Dataset):
 
 
 class UNetModel(nn.Module):
+    # вспомогательны класс для реализации одного сверточного слоя
     class _TwoConvLayers(nn.Module):
         def __init__(self, in_channels, out_channels):
             super().__init__()
@@ -149,6 +151,7 @@ class UNetModel(nn.Module):
         def forward(self, x):
             return self.model(x)
 
+    # левая ветка состоит из элементов
     class _EncoderBlock(nn.Module):
         def __init__(self, in_channels, out_channels):
             super().__init__()
@@ -160,6 +163,7 @@ class UNetModel(nn.Module):
             y = self.max_pool(x)
             return y, x
 
+    # вспомогательный класс для правой ветки
     class _DecoderBlock(nn.Module):
         def __init__(self, in_channels, out_channels):
             super().__init__()
@@ -203,7 +207,7 @@ class UNetModel(nn.Module):
 
         return self.out(x)
 
-
+# реализацию коэффициента Дайса
 class SoftDiceLoss(nn.Module):
     def __init__(self, smooth=1):
         super().__init__()
