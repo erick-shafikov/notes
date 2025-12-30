@@ -204,7 +204,7 @@ const [model, modifiers] = defineModel({
 </template>
 ```
 
-# как работает
+# uth
 
 Под капотом в родительском компоненте
 

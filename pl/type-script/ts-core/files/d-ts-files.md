@@ -76,3 +76,7 @@ declare global {
   }
 }
 ```
+
+# сторонние библиотеки
+
+Устанавливаются в node_modules/@types
