@@ -29,7 +29,7 @@ cte2 AS (
 
 рекурсивные
 
-```sql
+```sql 
 WITH RECURSIVE cte_name AS (
   -- anchor member
   SELECT columns
