@@ -504,9 +504,9 @@ Apple Tags
 
 Атрибуты:
 
-- async - Это логический атрибут, указывающий браузеру, если возможно, загружать скрипт, указанный в атрибуте src, асинхронно.
-- crossorigin
+- async - Это логический атрибут, указывающий браузеру, если возможно, загружать скрипт, указанный в атрибуте src, асинхронно. Не останавливает парсинг HTML
 - defer - Это логический атрибут, указывающий браузеру, что скрипт должен выполняться после разбора документа, но до события DOMContentLoaded. Скрипты с атрибутом defer будут предотвращать запуск события DOMContentLoaded до тех пор, пока скрипт не загрузится полностью и не завершится его инициализация.
+- crossorigin
 - integrity - для безопасности, содержит метаданные
 - nomodule - отключает возможность использования ES-6 модулей, можно использовать для старых браузеров
 - nonce - криптографический одноразовый номер
@@ -519,8 +519,69 @@ Apple Tags
 
 - text - текстовое содержание
 - type - по умолчанию js:
-- - module - скрипт является модулем
+- - module - скрипт является модулем, ведут себя как defer модули
 - - importmap - скрипт является алиасом импортов
+- - speculationrules - скрипты для внедрения спекулятивного режима
+
+            ```js
+            <script type="speculationrules">
+              {
+                "prefetch": [
+                  {
+                    "where": {
+                      "and": [
+                        //исключения
+                        { "href_matches": "/*" },
+                        { "not": { "href_matches": "/logout" } }
+                      ]
+                    },
+                    "eagerness": "moderate" // moderate  - при наведении, conservative - при клике
+                  }
+                ]
+              }
+            </script>
+            ```
+
+            ```js
+            <!-- вариант с пре-рендером -->
+              <script type="speculationrules">
+                {
+                  "prerender": [{
+                    "where": {
+                      "and": [
+                        { "href_matches": "/*" },
+                        { "not": {"href_matches": "/logout"}}
+                      ]
+                    },
+                    "eagerness": "moderate"
+                  }]
+                }
+              </script>
+            ```
+
+
+            ```js
+            <!-- вариант с пре-рендером -->
+
+
+            <script type="speculationrules">
+              {
+                "prefetch": [{
+                  "urls": ["next.html", "next2.html"],
+                  "eagerness": "eager"
+                }],
+                "prerender": [{
+                  "where": {
+                    "and": [
+                      { "href_matches": "/*" },
+                      { "not": {"href_matches": "/logout"}}
+                    ]
+                  },
+                  "eagerness": "moderate"
+                }]
+              }
+            </script>
+            ```
 
 разница между async и defer
 
