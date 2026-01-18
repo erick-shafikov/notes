@@ -36,6 +36,30 @@ font-variant-alternates + font-variant-caps + font-variant-east-asian + font-var
 }
 ```
 
+## font-variant-numeric
+
+управляет использованием альтернативных начертаний для цифр, дробей и порядковых числительных.
+
+```scss
+.font-variant-numeric{
+
+font-variant-numeric: normal;
+font-variant-numeric: ordinal; // 1st, 2nd, 3rd, 4t
+font-variant-numeric: slashed-zero; // 0 с черточкой
+font-variant-numeric: lining-nums; // заглавные цифры
+font-variant-numeric: oldstyle-nums; // цифры уходят вниз строки
+font-variant-numeric: proportional-nums; // разная ширина
+font-variant-numeric: tabular-nums; // одиннаковая ширина
+font-variant-numeric: diagonal-fractions; // дроби с косой чертой
+font-variant-numeric: stacked-fractions; // дроби с горизонтальной чертой
+font-variant-numeric: oldstyle-nums stacked-fractions;
+
+font-variant-numeric: initial
+font-variant-numeric: inherit
+font-variant-numeric: unset
+}
+```
+
 # font-weight
 
 жирность
