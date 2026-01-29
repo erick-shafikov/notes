@@ -245,7 +245,9 @@ export const StringsInput: FC<StringsInputProps> = ({ value, onChange }) => {
     </div>
   );
 };
+```
 
+```tsx
 export const ExampleCaching: FC = () => {
   const [value, setValue] = useState<StringsInputItem[]>();
   return (
@@ -254,27 +256,4 @@ export const ExampleCaching: FC = () => {
 };
 ```
 
-# BP. Event switch
 
-```tsx
-const AddressInput = ({ value, onChange }) => {
-  const handleChange = (e) =>
-    onChange({ ...value, [e.target.name]: e.target.value });
-  return (
-    <div>
-      <div>
-        <div>city</div>
-        <input name="city" value={value?.city} onChange={handleChange} />
-      </div>
-      <div>
-        <div>street</div>
-        <input name="street" value={value?.street} onChange={handleChange} />
-      </div>
-      <div>
-        <div>house</div>
-        <input name="house" value={value?.house} onChange={handleChange} />
-      </div>
-    </div>
-  );
-};
-```

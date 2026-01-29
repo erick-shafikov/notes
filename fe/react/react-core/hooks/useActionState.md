@@ -2,8 +2,8 @@
 
 это хук, который позволяет обновлять состояние на основе результата действия формы.
 
-```js
-const [state, formAction] = useActionState(fn, initialState, permalink?);
+```tsx
+const [state, formAction, isPending] = useActionState(fn, initialState, permalink?);
 //fn - функция при вызове отправки
 //initialState - начальное состояние формы
 // state - текущее состояние
