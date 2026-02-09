@@ -47,17 +47,83 @@ runTransaction(transaction);
 
 # BP
 
-## url-parser
+## tuples
+
+### достать все кроме первого элемента из массива
+
+задачи из типа Variadic Tuple Hell
+
+```ts
+type Tail<T extends any[]> = T extends [any, ...infer R] ? R : never;
+type A = Tail<[1, 2, 3]>;
+// [2, 3]
+```
+
+### перевернуть массив
+
+```ts
+type Reverse<T extends any[]> = T extends [infer H, ...infer R]
+  ? [...Reverse<R>, H]
+  : [];
+type R = Reverse<[1, 2, 3]>;
+// [3, 2, 1]
+```
+
+### zip двух tuple
+
+```ts
+type Zip<A extends any[], B extends any[]> = A extends [infer AH, ...infer AR]
+  ? B extends [infer BH, ...infer BR]
+    ? [[AH, BH], ...Zip<AR, BR>]
+    : []
+  : [];
+type Z = Zip<[1, 2], ["a", "b"]>;
+// [[1, 'a'], [2, 'b']]
+```
+
+### tuple + overload API
+
+```ts
+type Pipe<T extends any[]> = T extends [infer A, infer B, ...infer R]
+  ? Pipe<[(x: A) => B, ...R]>
+  : T;
+```
+
+## строки
+
+### SnakeToCamel
+
+```ts
+type SnakeToCamel<S extends string> = S extends `${infer H}_${infer R}`
+  ? `${H}${Capitalize<SnakeToCamel<R>>}`
+  : S;
+
+type C = SnakeToCamel<"user_profile_id">;
+// 'userProfileId'
+```
+
+### url-parser 1
+
+```ts
+type ParseRoute<T extends string> = T extends `${infer Param}/${infer Rest}`
+  ? Param | ParseRoute<Rest>
+  : T;
+
+type R = ParseRoute<"users/:id/posts/:postId">;
+// 'users' | ':id' | 'posts' | ':postId'
+```
+
+### url-parser 2
 
 ```ts
 type UrlParamsToUnion<
   URL,
-  Acc = never
+  Acc = never,
 > = URL extends `${string}:${infer Parameter}/${infer Rest}`
   ? UrlParamsToUnion<Rest, Acc | Parameter>
   : URL extends `${string}:${infer Parameter}`
-  ? Acc | Parameter
-  : Acc;
+    ? Acc | Parameter
+    : Acc;
 
 // Полученный union тип затем легко преобразовать в тип объекта с помощью следующего кода:
 type ParamsUnionToObj<T extends string> = {

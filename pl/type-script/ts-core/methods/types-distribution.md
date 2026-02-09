@@ -9,12 +9,24 @@ const strArrOrNumArr2: StrArrOrNumArr1 = [1];
 const strArrOrNumArr3: StrArrOrNumArr1 = ["s", 1]; //ошибка
 
 // при Distributive  разбивается
-type ToArrayNonDist<Type> = [Type] extends [any] ? Type[] : never;
+type ToArrayNonDist<Type> = [Type] extends [any] ? Type[] : never; //разница в том что обернули [Type]
 // 'StrArrOrNumArr' is no longer a union.
 type StrArrOrNumArr = ToArrayNonDist<string | number>; //type StrArrOrNumArr = (string | number)[]
 const strArrOrNumArr4: StrArrOrNumArr = ["s", 1]; //ошибки нет
 
 type TToArray<T> = T[]; //тоже самое
+```
+
+Пример нарушения логики 2
+
+```ts
+type OnlyFunctions<T> = T extends (...args: any) => any ? T : never;
+type X = OnlyFunctions<string | (() => void)>;
+// () => void
+
+// НО
+type OnlyFunctionsSafe<T> = [T] extends [(...args: any) => any] ? T : never;
+type Y = OnlyFunctionsSafe<string | (() => void)>; // never
 ```
 
 # types distribution
@@ -29,7 +41,7 @@ type ToArray2<T> = T extends any ? T[] : never;
 // ToArray2<string | number> => string[] | number[]
 ```
 
-Использование
+# BP. пример с фильтрами в таблице
 
 ```ts
 type Filter =
