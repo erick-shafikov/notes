@@ -39,13 +39,16 @@
 # addEventListener
 
 ```js
-element.addEventListener(event, handler, {
-  //дополнительный объект со свойствами
-  once: false, //при true Обработчик сразу будет удален,
-  capture: capturePhase, //фраза на которой должен сработать обработчик,
-  passive: true, //при true указывает на то, что обработчик никогда не вызовет preventDefault()
-});
-// event – событие, handler – ссылка на функцию обработчик
+element.addEventListener(
+  event, //  событие,
+  handler, // ссылка на функцию обработчик,
+  {
+    //дополнительный объект со свойствами
+    once: false, //при true Обработчик сразу будет удален,
+    capture: capturePhase, // фаза на которой должен сработать обработчик,
+    passive: true, //при true указывает на то, что обработчик никогда не вызовет preventDefault()
+  },
+);
 
 // Удаление требует ту же функцию, не сработает:
 elem.addEventListener("click", () => alert("message"));
