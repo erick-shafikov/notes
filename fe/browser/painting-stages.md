@@ -14,7 +14,7 @@
 
 Первая цикл стадий это Layout -> Reflow -> Composition.
 
-## layout (reflow, layout calculation, компановка)
+## layout (reflow, layout calculation, компоновка)
 
 Стадии:
 
