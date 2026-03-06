@@ -1,6 +1,8 @@
 # Событие мыши MouseEvent
 
-свойства:
+# event
+
+свойства event:
 
 - altKey - нажат ли alt
 
@@ -39,12 +41,39 @@
 - x, y - clintX, clientY
 
 ```html
-<input
-  onmousemove="this.value.clientX + ':' + event.clientY" value="Наведи на меня мышь"
-/>
 <!-- окно с формой ввода с начальным текстом наведи на меня…, в котором при
 наведении отображаются координаты Отключаем выделение -->
+<input
+  onmousemove="this.value.clientX + ':' + event.clientY"
+  value="Наведи на меня мышь"
+/>
+```
 
+методы:
+
+- MouseEvent.getModifierState() - вернет состояние
+- MouseEvent.initMouseEvent()
+
+константы:
+
+- MouseEvent.WEBKIT_FORCE_AT_MOUSE_DOWN
+- MouseEvent.WEBKIT_FORCE_AT_FORCE_MOUSE_DOWN
+
+# Типы событий мыши
+
+Простые события:
+
+- mousedown/mouseup – кнопка мыши нажата/опущена
+- mouseover/mouseup – курсор мыши появляется над элементом и уходит с него
+- mousemove – каждое движение над этим элементом генерирует это событие
+- contextmenu – ПКМ или вызов контекстного меню с клавиатуры
+
+Комплексные события:
+
+- click – вызывает при mousedown а затем mouseup над одним и тем же элементом
+- dbclick – вызывает при двойном клике на элементе
+
+```html
 <span ondbclick="alert('dbclick')">Сделай двойной клик</span>
 <!-- alert выведет текст, но также выделится слово на котором произведен двойной клик -->
 
@@ -59,31 +88,7 @@
 </div>
 ```
 
-методы:
-
-- MouseEvent.getModifierState() - вернет состояние
-- MouseEvent.initMouseEvent()
-
-константы:
-
-- MouseEvent.WEBKIT_FORCE_AT_MOUSE_DOWN
-- MouseEvent.WEBKIT_FORCE_AT_FORCE_MOUSE_DOWN
-
-## Типы событий мыши
-
-Простые события:
-
-- mousedown/mouseup – кнопка мыши нажата/опущена
-- mouseover/mouseup – курсор мыши появляется над элементом и уходит с него
-- mousemove – каждое движение над этим элементом генерирует это событие
-- contextmenu – ПКМ или вызов контекстного меню с клавиатуры
-
-Комплексные события:
-
-- click – вызывает при mousedown а затем mouseup над одним и тем же элементом
-- dbclick – вызывает при двойном клике на элементе
-
-Движение мыши События mouseover/mouseout, relatedTarget:
+## Движение мыши События mouseover/mouseout, relatedTarget:
 
 Для события mouseover:
 
@@ -132,6 +137,7 @@ function str(el) {
 }
 
 function handler(event) {
+  // что бы показать откуда ушел фокус и куда пришел
   log.value +=
     event.type +
     ": " +
@@ -153,28 +159,7 @@ function handler(event) {
 }
 ```
 
-### Событие mouse при переходе не потомка
-
-Событие mouseout генерируется в том числе, когда указатель переходит с элемента на его потомка. Визуально курсор еще на элементе но мы получим mouseout. Курсор может быть над одним элементом над самым глубоко вложенным и верхнем z-index
-
-Событие mouseover происходящее на потомке всплывает, если на родительском элементе есть такой обработчик то он его вызовет
-
-```js
-parent.onmouseout = function (event) {
-  /_event.target: внешний элемент_/;
-};
-
-parent.onmouseover = function (event) {
-  /_event.target: внутренний элемент всплыло_/;
-};
-```
-
-### mouseenter mouseleave
-
-Отличия от mouseover и mouseout в том, что переходы внутри элемента на его потомки и с них не считаются
-mouseenter и mouseleave не всплывают
-
-### Делегирование
+С использованием делегирования
 
 ```js
 // Обработчик под указателем мыши
@@ -182,7 +167,7 @@ mouseenter и mouseleave не всплывают
 table.onmouseover = function (event) {
   //закрасим
   let target = event.target;
-  target.style = background = "pink";
+  target.style.background = "pink";
 };
 table.onmouseout = function (event) {
   let target = event.target;
@@ -221,50 +206,45 @@ table.onmouseout = function (event) {
 };
 ```
 
-### BP. улучшенная подсказка
+Событие mouseout генерируется в том числе, когда указатель переходит с элемента на его потомка. Визуально курсор еще на элементе но мы получим mouseout. Курсор может быть над одним элементом над самым глубоко вложенным и верхнем z-index
+
+Событие mouseover происходящее на потомке всплывает, если на родительском элементе есть такой обработчик то он его вызовет
 
 ```js
-let tooltip;
-
-document.onmouseover = function (event) {
-  let anchorElem = event.target.closest("[data-tooltip]");
-  //ищем предков по классу, у которого есть атрибут data-tooltip
-  if (!anchorElem) return;
-  tooltip = showTooltip(anchorElem, anchorElem.dataset.tooltip);
-};
-document.onmouseout = function () {
-  if (tooltip) {
-    tooltip.remove();
-    tooltip = false;
-  }
+parent.onmouseout = function (event) {
+  /_event.target: внешний элемент_/;
 };
 
-function showTooltip(anchorElem, html) {
-  let tooltipElem = document.createElement("div");
-  tooltipElem.className = "tooltip";
-  tooltipElem.innerHTML = html;
-  document.body.append(tooltipElem);
-
-  let coords = anchorElem.getBoundingClientRect();
-
-  let left = coords.left + (anchor.offsetWidth - tooltipElem.offsetWidth) / 2;
-  if (left < 0) left = 0;
-  let top = coords.top - tooltipElem.offsetHeight - 5;
-  if (top < 0) {
-    coords.top + anchorElem.offsetHeight + 5;
-  }
-  tooltipElem.style.left = left + "px";
-  tooltipElem.style.top = top + "px";
-  return tooltipElem;
-}
+parent.onmouseover = function (event) {
+  /_event.target: внутренний элемент всплыло_/;
+};
 ```
 
-## Drag'n'Drop с событиями мыши
+## mouseenter mouseleave
+
+Отличия от mouseover и mouseout в том, что переходы внутри элемента на его потомки и с них не считаются. mouseenter и mouseleave не всплывают
+
+## getCoalescedEvents
+
+События при 60fps могут объединяться, для приложений рисования, можно использовать getCoalescedEvents
 
 ```js
-// Алгоритм Drag"n"Drop
+window.addEventListener("pointermove", (event) => {
+  const events = event.getCoalescedEvents();
+  for (let event of events) {
+    const x = event.pageX;
+    const y = event.pageY;
+    // draw a line using x and y coordinates.
+  }
+});
+```
 
+# Drag'n'Drop с событиями мыши
+
+```js
+// как только произошел захват
 ball.onmousedown = function (event) {
+  // измерение куда перетащить мяч
   let shiftX = event.clientX - ball.getBoundingClientRect().left;
   let shiftY = event.clientY - ball.getBoundingClientRect().top;
 
@@ -275,6 +255,8 @@ ball.onmousedown = function (event) {
   moveAt(event.pageX, event.pageY); //координаты курсора мыши
 
   function moveAt(pageX, pageY) {
+    // pageX, pageY - координаты страницы
+    // shiftX, shiftY - смещение вычисленное выше
     ball.style.left = pageX - shiftX + "px";
     ball.style.top = pageY - shiftY + "px";
   }
@@ -283,7 +265,7 @@ ball.onmousedown = function (event) {
     moveAt(event.pageX, event.pageY);
   }
 
-  document.addEventLIstener("mousemove", onMOuseMove);
+  document.addEventLIstener("mousemove", onMouseMove);
   ball.onmouseup = null;
 };
 
@@ -292,7 +274,7 @@ ball.ondragstart = function () {
 };
 ```
 
-### Цели переноса
+## Цели переноса
 
 При перетаскивании элементов, перетаскиваемый элемент находится выше остальных
 
@@ -306,6 +288,7 @@ ball.ondragstart = function () {
 ```js
 ball.hidden = true;
 let elemBelow = document.elementFromPoint(event.clientX, event.clientY); //elemBelow - элемент под мячом
+
 ball.hidden = false;
 
 let currentDroppable = null; //потенциальная цель переноса
@@ -352,18 +335,17 @@ draggableElement.addEventListener("drop", (e) => {
   functionThatFiresWhenDragAndDrop()
 });
 
-
 // вешаем на контейнер
 document.querySelectorAll().forEach((row) => {
   row.addEventListener('dragstart' (e) => {
     e.dataTransfer.setData('text/plain')
   })
 })
-
-
 ```
 
-### BP. Slider
+# BP
+
+## BP. Slider
 
 ```html
 <body>
@@ -407,4 +389,42 @@ document.querySelectorAll().forEach((row) => {
     };
   </script>
 </body>
+```
+
+## BP. улучшенная подсказка
+
+```js
+let tooltip;
+
+document.onmouseover = function (event) {
+  let anchorElem = event.target.closest("[data-tooltip]");
+  //ищем предков по классу, у которого есть атрибут data-tooltip
+  if (!anchorElem) return;
+  tooltip = showTooltip(anchorElem, anchorElem.dataset.tooltip);
+};
+document.onmouseout = function () {
+  if (tooltip) {
+    tooltip.remove();
+    tooltip = false;
+  }
+};
+
+function showTooltip(anchorElem, html) {
+  let tooltipElem = document.createElement("div");
+  tooltipElem.className = "tooltip";
+  tooltipElem.innerHTML = html;
+  document.body.append(tooltipElem);
+
+  let coords = anchorElem.getBoundingClientRect();
+
+  let left = coords.left + (anchor.offsetWidth - tooltipElem.offsetWidth) / 2;
+  if (left < 0) left = 0;
+  let top = coords.top - tooltipElem.offsetHeight - 5;
+  if (top < 0) {
+    coords.top + anchorElem.offsetHeight + 5;
+  }
+  tooltipElem.style.left = left + "px";
+  tooltipElem.style.top = top + "px";
+  return tooltipElem;
+}
 ```

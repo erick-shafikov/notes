@@ -5,7 +5,7 @@
 - Ноды собираются в dom DOM (или DOM-дерево) - это представление страницы в памяти компьютера
 - Во время прохождения по DOM браузер встречает скрипты и таблицы стилей. Скачиваются все внешние ресурсы
 - Параллельно происходит парсинг CSS, выстраивается CSSOM
-- CSSOM и DOM объединяются в Render-tree, в котором скрываются невидимые элементы meta, script, link, display:none и добавляются псевдоэлементы before, after
+- CSSOM и DOM объединяются в Render-tree, в котором скрываются невидимые элементы meta, script, link, display:none (однако элемент с visibility: hidden находится в дереве макета) и добавляются псевдоэлементы before, after
 - CSSOM и DOM формируются в основном потоку
 - создается render tree / style calculation «формированием дерева представления» или «формированием дерева рендеринга»
 - Переход на стадию Layout, Reflow, Repaint, Composition
@@ -14,7 +14,7 @@
 
 Первая цикл стадий это Layout -> Reflow -> Composition.
 
-## layout (reflow, layout calculation)
+## layout (reflow, layout calculation, компановка)
 
 Стадии:
 
