@@ -88,6 +88,7 @@ document.adoptedStyleSheets = [sheet];
 - URL ⇒ строку URL документа HTML.
 - visibilityState ⇒ 'visible' | 'hidden' если страница в фоне или свернута (readonly)
 - vlinkColor (Устарело)
+- wasDiscarded (+ch) ⇒ была ли страница закрыта в скрытом состоянии
 - xmlEncoding (Устарело)
 - xmlVersion (Устарело)
 
