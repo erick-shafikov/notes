@@ -5,6 +5,7 @@
 На этой стадии формируется виртуальный dom
 
 Ниже callstack функций:
+
 - root
 - legacyRenderSubtreeContainer (неконкурентный режим)
 - - legacyCreateRootFromDOMContainer
@@ -24,11 +25,32 @@
 # Стадия scheduled renders
 
 Callstack:
+
 - performSyncWorkOnRoot
 - - flushPassiveEffects
 - renderRootSync
 - workLoopSync
-- - performUnitOfWork
+  ```js
+  // псевдокод
+  function workLoop(isYieldy) {
+    if (!isYieldy) {
+      while (nextUnitOfWork !== null) {
+        nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
+      }
+    } else {...}
+  }
+  ```
+- - performUnitOfWork - получает fiber узел дерева workInProgress
+    ```js
+    //
+    function performUnitOfWork(workInProgress) {
+      let next = beginWork(workInProgress);
+      if (next === null) {
+        next = completeUnitOfWork(workInProgress);
+      }
+      return next;
+    }
+    ```
 - - workInProgress
 - - workLoopSync (цикл)
 - - - workInProgress.alternate
@@ -39,7 +61,13 @@ Callstack:
 
 # Стадия commit
 
+Два прохода по дереву работ:
+
+- выполняет все вставки, обновления, удаления и размонтирования DOM (хоста)
+- Затем React назначает дерево finishedWork на FiberRoot, помечая дерево workInProgress как current
+
 CallStack:
+
 - commitRoot
 - - flushPassiveEffects
 - - workInProgressRoot
@@ -49,5 +77,3 @@ CallStack:
 - - finishedWork.flags
 - - stateNode
 - insertOrAppendPlacementNodeIntoContainer
-
-
