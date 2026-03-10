@@ -1,34 +1,48 @@
 Порядок вызовов внутренних функций React, по стадиям
 
+- render(element, container, callback)
+- legacyRenderSubtreeContainer(parentComponent. children, container) (неконкурентный режим) - вызывает весь цикл рендера в react, далее выполняются основные стадии
+
 # Стадия виртуального dom
 
 На этой стадии формируется виртуальный dom
 
-Ниже callstack функций:
+Глобальные переменные:
 
 - root
-- legacyRenderSubtreeContainer (неконкурентный режим)
-- - legacyCreateRootFromDOMContainer
-- unbatchedUpdates
-- - executionContext
-- updateContainer
+- lane
+- fiber, свойства:
+- - child
+- workInProgressRoot
+- fiberNode
+- executionContext
+- entangleTransition
+
+Ниже callstack функций которые вызываются при подготовке:
+
+- legacyCreateRootFromDOMContainer
 - - requestUpdateLane
-- - - lane
-- - enqueueUpdate
-- - fiber
-- - - fiber.child
-- - entangleTransition
-- scheduleUpdateOnFiber
-- - workInProgressRoot
-- - fiberNode
+- - enqueueUpdate (fiber, update, lane)
+
+Далее вызываются функции для основного цикла react:
+
+- unbatchedUpdates
+- updateContainer(element, container, parentChildren, callback) - рендерит в FiberRoot
+- - scheduleUpdateOnFiber(fiber, lane, eventTime) - в функции помечается время
+- - - performSyncWorkOnRoot
+
+Далее параллельно вызываются две функции, которые обозначают две стадии работы react
 
 # Стадия scheduled renders
 
-Callstack:
+Основная задача посчитать разницу между текущим состоянием и следующим
 
-- performSyncWorkOnRoot
+Callstack функций:
+
+- renderRootSync(root, lanes)
+- - prepareFreshStack(root, lanes)
 - - flushPassiveEffects
-- renderRootSync
+
 - workLoopSync
   ```js
   // псевдокод
@@ -61,19 +75,24 @@ Callstack:
 
 # Стадия commit
 
+Основная задача отобразить дерево компонентов
+
 Два прохода по дереву работ:
 
 - выполняет все вставки, обновления, удаления и размонтирования DOM (хоста)
 - Затем React назначает дерево finishedWork на FiberRoot, помечая дерево workInProgress как current
 
+глобальные переменные:
+
+- finishedWork.flags
+- stateNode
+
 CallStack:
 
 - commitRoot
 - - flushPassiveEffects
-- - workInProgressRoot
+
 - commitMutationEffects
 - commitMutationEffectsOnFiber
 - commitPlacement
-- - finishedWork.flags
-- - stateNode
-- insertOrAppendPlacementNodeIntoContainer
+- insertOrAppendPlacementNodeIntoContainer - функция которая вызывает размещение элемента в дереве

@@ -69,7 +69,7 @@ class V3D:
 
     # здесь вычисляемые свойства не могут быть определены
 
-    # метод __post_init__ вызывается после инициализации статических параметров 
+    # метод __post_init__ вызывается после инициализации статических параметров
     def __post_init__(self, calc_len: bool):
         # в repr не передавать
         if calc_len:
@@ -80,13 +80,13 @@ class V3D:
 
 - field имеет параметры:
 
-- repr (True) - использовать ли параметр в __repr__
+- repr (True) - использовать ли параметр в **repr**
 - compare (True) - использовать ли при сравнении
 - default - значение по умолчанию
 
 # Параметры @dataclass
 
-- init (True) - вызывать или нет инициализатор (без __init__) для базовых классов
+- init (True) - вызывать или нет инициализатор (без **init**) для базовых классов
 - repr (True) - формировать ли repr
 - eq (True) - формировать ли eq
 - order (False) - сравнения объектов, добавится < > <= >=, нельзя переопределять методы сравнения
@@ -143,7 +143,7 @@ class Book(Goods):
 
 альтернативный вариант создания data classes
 
-make_dataclass(cls_name, fields, *, bases=(), namespace=None, init=True)
+make_dataclass(cls_name, fields, \*, bases=(), namespace=None, init=True)
 
 - cls_name - название
 - fields - поля
@@ -169,4 +169,3 @@ CarData = make_dataclass("CarData", [("model", str),
                                      ("price", field(default=0))],
                          namespaces={'get_max_speed': lambda self: self.max_speed})
 ```
-
