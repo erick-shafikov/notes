@@ -5,7 +5,8 @@
 - те которые относятся к запросам и ответам
 - заголовки запроса
 - заголовки ответа
-- заголовки сущности
+- заголовки репрезентативные
+- заголовки тела запроса (payload)
 
 Второй вариант группировки - как обрабатывают их прокси
 
@@ -23,7 +24,7 @@ Accept-Encoding: br;q=1.0, gzip;q=0.8, \;q=0.1
 
 ## Accept
 
-какие типы контента MIME может понять, сервер возвращая Content-Type сообщает о наличие:
+клиент сообщает какие типы понимает. какие типы контента MIME может понять, сервер возвращая Content-Type сервер сообщает какой тип отправил:
 
 ```bash
 Accept: text/html, application/xhtml+xml, application/xml;q=0.9, _/_;q=0.8
@@ -41,7 +42,7 @@ Accept-Language: de
 
 ## Alt-Used
 
-для альтернативных сервисов
+сообщает какой альтернативный сервис был использован используется вместе с Alt-Svc
 
 ## Authorization
 
@@ -70,7 +71,7 @@ Authorization: Digest username=<username>,
 
 ## Available-Dictionary
 
-base-64 хеш контента
+Это ID словаря, а не хеш
 
 <!------------------------------------------------------------>
 
@@ -91,8 +92,8 @@ CH - client hint
 Пример запроса:
 
 ```bash
-Accept-CH: Sec-CH-Viewport-Width, Sec-CH-Width - отправил сервер
-Vary: Sec-CH-Viewport-Width, Sec-CH-Width - какие vary заголовки ждет сервер
+Accept-CH: Sec-CH-Viewport-Width, Sec-CH-Width # отправил сервер
+Vary: Sec-CH-Viewport-Width, Sec-CH-Width # какие vary заголовки ждет сервер
 ```
 
 ## Activate-Storage-Access
@@ -144,7 +145,7 @@ Clear-Site-Data: "*"
 
 ## Accept-Encoding
 
-сохранить одну копию, сжатую с помощью gzip, и другую — с помощью brotli. В паре Content-Encoding могут сгенерировать 415 ошибку. Варианты по алгоритмам, могут использоваться с ;q=:
+сохранить одну копию, сжатую с помощью gzip, и другую — с помощью brotli. В паре Content-Encoding могут сервер может вернуть 406 Not Acceptable. Варианты по алгоритмам, могут использоваться с ;q=:
 
 - - gzip - LZ77
 - - compress - LZW
@@ -235,7 +236,7 @@ Cache-Control: public, max-age=31536000
 
 ## Content-Digest
 
-алгоритм хеширования примененный к содержимому. Заголово Want-Content-Digest запрашивает данные с хешированием, базируясь на Content-Encoding и Content-Range
+алгоритм хеширования примененный к содержимому. Заголовок Want-Content-Digest запрашивает данные с хешированием, базируясь на Content-Encoding и Content-Range
 
 ```bash
 # digest-algorithm - sha-512 and sha-256. Небезопасные - md5, sha (SHA-1), unixsum, unixcksum, adler (ADLER32) and crc32c.
@@ -259,9 +260,85 @@ Content-Digest: sha-256=:RK/0qy18MlBSVnWgjwz6lZEWjP/lF5HF9bvEF8FabDg=:
 # {"hello": "world"}
 ```
 
+# Content-Disposition
+
+В случае ответа, то как будет отображаться в браузере ответ
+В случае запроса, то как интерпретировать каждую часть бинарных данных
+
+Директивы:
+
+- name - атрибут поля формы
+- filename - Content-Disposition: attachment будет интерпретироваться "сохранить как"
+- filename\* - filename но только с кодированием
+
+```bash
+# заголовки ответа
+Content-Disposition: inline
+Content-Disposition: attachment
+Content-Disposition: attachment; filename="filename.jpg"
+# заголовки составного запроса
+Content-Disposition: form-data
+Content-Disposition: form-data; name="fieldName"
+Content-Disposition: form-data; name="fieldName"; filename="filename.jpg"
+```
+
+Пример ниже заставит браузер сохранить страницу под именем cool.html
+
+```bash
+# Ответ, вызывающий диалог "Сохранить как":
+200 OK
+Content-Type: text/html; charset=utf-8
+Content-Disposition: attachment; filename="cool.html"
+Content-Length: 22
+
+<HTML>Save me!</HTML>
+```
+
 <!---------------------------------------------------------------->
 
-# заголовки сущности
+# репрезентативные и контентные заголовки
+
+заголовки которые описывают как интерпретировать данные в сообщении
+
+## Content-Encoding
+
+тип сжатия body
+
+```bash
+Content-Encoding: gzip # LZ77
+Content-Encoding: compress  # LZW
+Content-Encoding: deflate  # zlib
+Content-Encoding: identity # без сжатия
+Content-Encoding: br # Brotli
+
+# последовательность сжатий
+Content-Encoding: gzip, identity
+Content-Encoding: deflate, gzip
+```
+
+вместе с [Accept-Encoding](#accept-encoding) могут договариваться с сервером по поводу сжатия
+
+## Content-Language
+
+Сообщает о том к какой языковой группе относится контент
+
+```bash
+Content-Language: de-DE
+Content-Language: en-US
+Content-Language: de-DE, en-CA
+```
+
+Может быть указан в html Документе
+
+```html
+<html lang="de"></html>
+<!-- /!\ Это плохая практика -->
+<meta http-equiv="content-language" content="de" />
+```
+
+## Content-Length (res, req, cont)
+
+размер в байтах. Передает информацию если идет стрим контента или генерация контента
 
 <!---------------------------------------------------------------->
 
@@ -337,7 +414,7 @@ Access-Control-Max-Age: 86400
 может ли быть доступен origin из источника
 
 ```bash
-Access-Control-Allow-Origin: * # все
+Access-Control-Allow-Origin: * # должен быть заголовок Vary
 Access-Control-Allow-Origin: https://developer.mozilla.org
 
 # при значении * должен быть заголовок Vary
@@ -368,38 +445,17 @@ Vary: Origin
 
 - Кеширование:
 - - Vary, значения:
-- - - Accept-Language - хранить отдельные версии для en-US и de-DE
 - - - Cookie - каждый уникальный куки создает отдельную запись в кэше (что нередко приводит к катастрофическим последствиям)
 - - - Vary: \* - означает «нельзя безопасно использовать этот ответ для других пользователей», что фактически отключает кэширование
-
-- - Cache-Control, значения:
-- - - max-age - кол-во секунд сколько считать ответ актуальным
-- - - s-maxage - для общих кешей
-- - - immutable - никогда не изменится
-- - - stale-while-revalidate - позволяет отдать устаревший, пока запрашивается актуальный
-- - - stale-if-error - отдаст устаревший, если ошибка сервера
-- - - Cache-Control, варианты для ответа:
-- - - - public — ответ может храниться любым кэшем, включая общие
-- - - - private — ответ может кэшироваться только браузером, общие кэши использовать его не могут
-- - - - no-cache — хранить, но проверять актуальность перед выдачей
-- - - - no-store — не хранить вообще
-- - - - must-revalidate — после устаревания ответ нужно обязательно проверить перед использованием
-- - - Cache-Control, варианты для запроса:
-- - - - no-cache — принудительная проверка актуальности (при этом можно использовать уже сохраненные записи)
-- - - - no-store — полностью игнорировать кэш
-- - - - only-if-cached — вернуть ответ только из кэша, если он доступен; иначе — ошибка (полезно для работы офлайн)
-- - - - max-age, min-fresh, max-stale — позволяют гибко управлять допустимым временем устаревания ответа
-- - - proxy-revalidate — то же самое, но для общих кэшей
 
 - - Expires - пример: Expires: Wed, 29 Aug 2025 12:00:00 GMT
 - - ETag - "abc123" - ресурс идентичен побайтово, W/"abc123" - семантически тот же
 - - Last-Modified
 - - Date - когда был сформирован ответ
-- - Age - у общих кешей
 
 - Критические
 - - Sec-CH-Prefers-Reduced-Motion - может использоваться в Accept-CH
-- Заголовки согласования контента - не являются частью стандарта, сервер сам определяет какой контент отдать:
+- Заголовки согласования контента, сервер сам определяет какой контент отдать:
 - - Accept - mime типы
 - - Accept-Encoding
 - - Accept-Language
@@ -413,3 +469,4 @@ Vary: Origin
 - Attribution-Reporting-Eligible
 - Attribution-Reporting-Register-Source
 - Attribution-Reporting-Register-Trigger
+- Content-DPR (RH) - подсказка для регулировки dpr изображения
