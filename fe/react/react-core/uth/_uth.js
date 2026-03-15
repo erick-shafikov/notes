@@ -7,9 +7,6 @@
 
 //<1.0> - первоначальный рендер при старте приложения
 //глобальный переменные
-var root;
-var fiberNode;
-var fiberRoot;
 var fiber;
 var workInProgressRoot; //FiberNode
 //lanes
@@ -78,7 +75,6 @@ var CacheContext;
 var suspenseStackCurrent;
 var suspenseStackCursor;
 //
-var $0;
 var jest;
 // Errors
 var RootFatalError;
