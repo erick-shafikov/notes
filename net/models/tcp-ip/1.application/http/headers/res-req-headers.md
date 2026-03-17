@@ -150,3 +150,15 @@ Content-Length: 22
 
 <HTML>Save me!</HTML>
 ```
+
+# Date
+
+дата и время когда возникло сообщение
+
+```bash
+HTTP/1.1 200
+Content-Type: text/html
+Date: Tue, 29 Oct 2024 16:56:32 GMT
+
+<html lang="en-US" …
+```

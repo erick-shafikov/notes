@@ -4,7 +4,7 @@ CH - client hint
 
 Заголовки по типу ответ от сервера:
 
-## Accept-CH
+# Accept-CH
 
 заголовок, который отправляет сервер, что бы получить CH заголовки от браузера, возможные значения: Sec-CH-UA-Model, Sec-CH-UA-Form-Factors, DPR, Viewport-Width, Width - сервер требует доп информацию, браузер на каждый запрос будет отправлять Sec-CH-UA-Model, Sec-CH-UA-Form-Factors. Поведение можно реализовать в html:
 
@@ -19,7 +19,7 @@ Accept-CH: Sec-CH-Viewport-Width, Sec-CH-Width # отправил сервер
 Vary: Sec-CH-Viewport-Width, Sec-CH-Width # какие vary заголовки ждет сервер
 ```
 
-## Activate-Storage-Access
+# Activate-Storage-Access
 
 Это позволяет серверу активировать предоставленное разрешение на доступ к своим неразделенным файлам cookie в межсайтовом запросе.
 
@@ -29,23 +29,23 @@ Activate-Storage-Access: retry; allowed-origin=*
 Activate-Storage-Access: load
 ```
 
-## Activate-Storage-Access
+# Activate-Storage-Access
 
 заголовок предоставляет доступ к своим кукам для кросс запросов, сервер использует Sec-Fetch-Storage-Access заголовок
 
-## Age
+# Age
 
 сколько объект запроса находился в кеше прокси
 
-## Allow
+# Allow
 
 Список дял доступных методов, должен возвращаться для 405 ошибки (Not Allowed)
 
-## Alt-Svc
+# Alt-Svc
 
 Приоритетный альтернативный ресурс
 
-## Clear-Site-Data
+# Clear-Site-Data
 
 клиент должен очистить все данные
 
@@ -162,4 +162,40 @@ Content-Type: text/plain
 ```bash
 Reporting-Endpoints: coep-endpoint="https://some-example.com/coep"
 Cross-Origin-Embedder-Policy: require-corp; report-to="coep-endpoint"
+```
+
+# Cross-Origin-Embedder-Policy-Report-Only
+
+конфигурация отчетов для других ресурсов
+
+# Cross-Origin-Opener-Policy
+
+Это позволяет веб-сайту контролировать, будет ли новый документ верхнего уровня, открытый с помощью Window.open() или при переходе на новую страницу, открыт в той же группе контекста просмотра (BCG) или в новой группе контекста просмотра.
+
+```bash
+Cross-Origin-Opener-Policy: unsafe-none # отказ
+Cross-Origin-Opener-Policy: same-origin-allow-popups
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Opener-Policy: noopener-allow-popups
+```
+
+# Cross-Origin-Resource-Policy
+
+сообщает браузеру что он должен блокировать междоменыне запросы к сайту
+
+```bash
+Cross-Origin-Resource-Policy: same-site | same-origin | cross-origin
+```
+
+# Dictionary-ID
+
+отправляет id [словаря](../compression-dictionary-transport.md) работает в паре с Use-As-Dictionary и с активным Available-Dictionary заголовками
+
+```bash
+# ответ сервера при запросе ресурса
+Use-As-Dictionary: match="/js/app.*.js", id="dictionary-12345"
+# при запросе из браузера ресурса указывается Dictionary-ID: "dictionary-12345"
+Accept-Encoding: gzip, br, zstd, dcb, dcz
+Available-Dictionary: :pZGm1Av0IEBKARczz7exkNYsZb8LzaMrV7J32a2fFG4=:
+Dictionary-ID: "dictionary-12345"
 ```

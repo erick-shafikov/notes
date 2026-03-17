@@ -58,7 +58,17 @@ Accept-Encoding: br;q=1.0, gzip;q=0.8, \;q=0.1
 - Attribution-Reporting-Register-Source
 - Attribution-Reporting-Register-Trigger
 - Content-DPR (RH) - подсказка для регулировки dpr изображения
+- Device-Memory (req) - CH которая подсказывает объем памяти RAM девайса
+- DNT (req) - отключает трекинг
 
 # экспериментальные
 
 - Critical-CH (res) - какие CH критичны
+- Downlink (req) - CH полоса пропускания в МБ между клиентом и сервером
+
+```bash
+# первый запрос от сервера
+Accept-CH: Downlink
+# клиент отвечает
+Downlink: 1.7
+```
