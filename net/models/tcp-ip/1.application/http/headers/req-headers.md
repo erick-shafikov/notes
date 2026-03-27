@@ -60,3 +60,20 @@ Authorization: Digest username=<username>,
 ```bash
 Cookie: PHPSESSID=298zf09hf012fh2; csrftoken=u32t4o3tb3gg43; _gat=1
 ```
+
+# Expect
+
+Указывает ожидание, которое должен выполнить сервер. Единственно значение
+
+```bash
+Expect: 100-continue
+
+# пример
+PUT /somewhere/fun HTTP/1.1
+Host: origin.example.com
+Content-Type: video/h264
+Content-Length: 1234567890987 # собираемся с клиента загрузить большой файл
+Expect: 100-continue
+```
+
+Может быть 417
