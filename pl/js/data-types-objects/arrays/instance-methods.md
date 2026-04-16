@@ -287,6 +287,28 @@ words.forEach((word) => {
 // four
 ```
 
+## второй аргумент this
+
+Одно из применений - это минимизация side-эффектов для оптимизации
+
+```js
+//с сайд эффектом, плохо оптимизируется
+const arr = [1, 2, 3];
+const acc = 0;
+
+arr.forEach((el) => (acc += el));
+```
+
+```js
+//с сайд эффектом, плохо оптимизируется
+const arr = [1, 2, 3];
+const acc = { value: 0 };
+
+arr.forEach(function (el) {
+  acc += el;
+}, acc);
+```
+
 # arr.includes
 
 arr.includes(item, from)
