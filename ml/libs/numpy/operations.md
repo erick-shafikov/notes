@@ -5,8 +5,12 @@
 ```python
 import numpy as np
 
-matrix = np.array([[1, 2, 3],
-                   [4, 5, 6]])
+matrix = np.array(
+  [
+    [1, 2, 3],
+    [4, 5, 6]
+  ]
+)
 
 print(matrix.mean())  # (1+2+3+4+5+6)/6 = 3.5
 ```
@@ -43,7 +47,7 @@ print(np.power(2, 3))  # 2³ = 8
 arr = np.array([1, 2, 3])
 print(np.power(arr, 2))  # [1², 2², 3²] = [1, 4, 9]
 
-# Вычисление значений полинома 
+# Вычисление значений полинома
 
 
 # numpy.power(x1, x2, out=None, where=True, dtype=None)
