@@ -38,6 +38,7 @@ class Carpenter implements DoorFittingExpert {
   }
 }
 
+// DoorFactory - определяет абстрактный класс, в котором есть методы makeDoor и makeFittingExpert
 interface DoorFactory {
   makeDoor: () => Door;
   makeFittingExpert: () => DoorFittingExpert;
