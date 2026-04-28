@@ -146,16 +146,17 @@ function NavigatorExample() {
 
 атрибуты:
 
-- глобальные
-- allow - какие функции доступны для frame
+- [глобальные](../atributes/global.md)
+- allow - какие функции доступны для frame, определяет Permissions Policy
 - - allow="fullscreen" - позволяет раскрыть frame на dtcm 'rhfy'
 - allowfullscreen - возможность открыть фрейм в полноэкранном режиме
 - frameborder - обозначить границу, значения 0 и 1, лучше использовать border
+- height, width
 - loading:
 - - eager - сразу ,
 - - lazy - пока не дойдет до места просмотра
-- name - для фокусировки
-- referrerpolicy:
+- name - для фокусировки с элементов a, form
+- referrerpolicy - (для iframe - родитель) :
 - - no-referrer - без заголовка Referer
 - - no-referrer-when-downgrade - Referer только по https
 - - origin - только на источник
@@ -164,23 +165,23 @@ function NavigatorExample() {
 - - strict-origin
 - - strict-origin-when-cross-origin
 - - unsafe-url
-- width, height
 - sandbox - повышает настройки безопасности
 - - allow-downloads - позволяет загрузить файлы через тег а
 - - allow-forms - отправка форм
 - - allow-modals - позволяет показывать alert
-- - allow-orientation-lock
+- - allow-orientation-lock - доступ к ориентации экрана
 - - allow-pointer-lock
 - - allow-popups - Window.open(), target="\_blank",
 - - allow-popups-to-escape-sandbox
 - - allow-presentation
 - - allow-same-origin - хранилище js
-- - allow-scripts
-- - allow-top-navigation
+- - allow-scripts - позволит выполнить скрипты
+- - allow-top-navigation - позволяет работать с контекстом навигации позволит работать с window.top.location
 - - allow-top-navigation-by-user-activation
 - - allow-top-navigation-to-custom-protocols
 - src
 - srcdoc
+- title
 
 ```html
 <iframe

@@ -64,29 +64,58 @@ Clear-Site-Data: "*"
 
 # Content-Security-Policy
 
-Определяет кто имеет доступ к ресурсу
+Определяет кто имеет доступ к ресурсу из страницы. заголовок может быть и в мета-теге
 
 ```bash
 Content-Security-Policy: <policy-directive>; <policy-directive>
 ```
 
-Директивы и значения:
+директивы:
 
-- запроса:
-- - директивы: child-src, connect-src, default-src, fenced-frame-src, font-src, frame-src, img-src, manifest-src, media-src, object-src, prefetch-src, script-src, script-src-elem, script-src-attr, style-src, style-src-elem, style-src-attr, worker-src
-- - значения:
-- - - none - полная блокировка
-- - - self - только со своего origin
-- - - host-source - url или ip адрес
-- - - scheme-source - http или ws
-- - - nonce-nonce_value,
-- - - hash_algorithm-hash_value
-- Директивы документа:
-- - base-uri, sandbox
-- Директивы навигации:
-- - form-action, frame-ancestors
-- Другие:
-- - require-trusted-types-for, trusted-types, upgrade-insecure-requests
+-child-src
+
+- connect-src
+- default-src
+- fenced-frame-src
+- font-src
+- frame-src
+- img-src
+- manifest-src
+- media-src
+- object-src
+- prefetch-src
+- script-src
+- script-src-elem
+- script-src-attr
+- style-src
+- style-src-elem
+- style-src-attr
+- worker-src
+
+значения:
+
+- none - полная блокировка
+- self - только со своего origin
+- host-source - url или ip адрес
+- scheme-source - http или ws
+- nonce-nonce_value,
+- hash_algorithm-hash_value
+
+Директивы документа:
+
+- base-uri,
+- sandbox
+
+Директивы навигации:
+
+- form-action,
+- frame-ancestors
+
+Другие:
+
+- require-trusted-types-for,
+- trusted-types,
+- upgrade-insecure-requests
 
 ```bash
 Content-Security-Policy: default-src 'self' http://example.com; connect-src 'none';
@@ -101,6 +130,13 @@ Content-Security-Policy: default-src https:
 
 ```html
 <meta http-equiv="Content-Security-Policy" content="default-src https:" />
+```
+
+!!! обязательным является default-src для все неопределенных правил
+
+```bash
+# пример разрешения только доменов и поддоменов
+Content-Security-Policy: default-src 'self'
 ```
 
 # Content-Security-Policy-Report-Only
