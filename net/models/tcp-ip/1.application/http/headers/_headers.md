@@ -44,12 +44,8 @@ Accept-Encoding: br;q=1.0, gzip;q=0.8, \;q=0.1
 - Критические
 - - Sec-CH-Prefers-Reduced-Motion - может использоваться в Accept-CH
 - Заголовки согласования контента, сервер сам определяет какой контент отдать:
-- - Accept - mime типы
-- - Accept-Encoding
-- - Accept-Language
 - - User-Agent
 - Апгрейд протокола
-- - Connection: upgrade - вернет 101 статус если изменит протокол или , также есть перечень заголовков для websocket протокола
 - - Upgrade: example/1, foo/2
 
 # устаревшие
@@ -57,10 +53,12 @@ Accept-Encoding: br;q=1.0, gzip;q=0.8, \;q=0.1
 - Attribution-Reporting-Eligible
 - Attribution-Reporting-Register-Source
 - Attribution-Reporting-Register-Trigger
-- Content-DPR (RH) - подсказка для регулировки dpr изображения
+- Content-DPR (req) - подсказка для регулировки dpr изображения
 - Device-Memory (req) - CH которая подсказывает объем памяти RAM девайса
 - DNT (req) - отключает трекинг
 - DPR (req) - о клиентском pixel ration
+- Expect-CT (res) - заголовок, который управляет сертификатами (был только в хроме)
+- Connection (req) - использует только в http1, оставить ли соединение после запроса, значения keep-alive, close
 
 # экспериментальные
 
@@ -76,3 +74,4 @@ Downlink: 1.7
 
 - Early-Data (req) - Заголовок запроса HTTP Early-Data устанавливается посредником, чтобы указать, что запрос был передан в формате ранних данных TLS, а также указать, что посредник понимает код состояния 425 Too Early.
 - ECT (req) - клиентский тип соединения slow-2g, 2g, 3g, or 4g
+- Idempotency-Key (req) - для patch и post запросов для работой с идемпотентными запросами, для которых нужен уникальный идентификатор. При нарушении - [400, 409, 422](../response-statuses.md). При 409 ответе (конфликт) в ответе желательно передать информацию

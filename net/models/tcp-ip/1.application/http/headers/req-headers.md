@@ -77,3 +77,60 @@ Expect: 100-continue
 ```
 
 Может быть 417
+
+# Forwarded
+
+Содержит информацию, которая может быть добавлена обратным прокси сервером. используется для дебага, статистики
+
+```bash
+Forwarded: by=<identifier>;for=<identifier>;host=<host>;proto=<http|https>
+
+Forwarded: for="_mdn"
+
+# case insensitive
+Forwarded: For="[2001:db8:cafe::17]:4711"
+
+# separated by semicolon
+Forwarded: for=192.0.2.60;proto=http;by=203.0.113.43
+
+# Values from multiple proxy servers can be appended using a comma
+Forwarded: for=192.0.2.43, for=198.51.100.17
+```
+
+- identifier: "hidden", "secret", IPv4, IPv4v6,"unknown"
+- host - Host заголовок
+- proto - "http", "https"
+
+Forwarded может заменить X-Forwarded-For <!-- вставить ссылку на X-Forwarded-For -->
+
+```bash
+X-Forwarded-For: 192.0.2.172
+Forwarded: for=192.0.2.172
+
+X-Forwarded-For: 192.0.2.43, 2001:db8:cafe::17
+Forwarded: for=192.0.2.43, for="[2001:db8:cafe::17]"
+```
+
+# From
+
+содержится интернет-адрес электронной почты администратора, управляющего автоматизированным пользовательским агентом. Если используется робот для запросов и количество запросов слишком большое, заголовок помогает связаться и решить проблему.
+
+# Host
+
+Устанавливает хост и номер порта сервера куда отправляется запрос, если порта нет то это будет 443 (https) и 80 (http). Если его нет, то сервер ответит 404
+
+```bash
+Host: <host>:<port>
+```
+
+# If-Match
+
+делает запрос условным позволяет сделать запрос только в том случае если [ETag](./res-headers.md#etag) совпадает со значением If-Match, в противном случае 412. Сравнение - byte-by-byte если без W\ префикса. Варианты использования:
+
+- для get и head запросов в комбинации с Range <!-- Добавить ссылку--> гарантируют что будет запрос с одного ресурса
+- для put запроса что бы узнать не изменен ди уже ресурс
+
+```bash
+If-Match: <etag_value>
+If-Match: <etag_value>, <etag_value>, …
+```

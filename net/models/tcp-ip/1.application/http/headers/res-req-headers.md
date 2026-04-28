@@ -87,10 +87,6 @@ Cache-Control: no-cache, no-store, must-revalidate
 Cache-Control: public, max-age=31536000
 ```
 
-# Connection (dep)
-
-использует только в http1, оставить ли соединение после запроса, значения keep-alive, close
-
 # Content-Digest
 
 алгоритм хеширования примененный к содержимому. Заголовок Want-Content-Digest запрашивает данные с хешированием, базируясь на Content-Encoding и Content-Range
