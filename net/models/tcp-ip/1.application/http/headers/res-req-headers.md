@@ -158,3 +158,31 @@ Date: Tue, 29 Oct 2024 16:56:32 GMT
 
 <html lang="en-US" …
 ```
+
+# Keep-Alive
+
+Заголовок HTTP Keep-Alive в запросе и ответе позволяет отправителю указать, как может использоваться соединение, например, по таймауту и ​​максимальному количеству запросов.
+
+Keep-Alive сообщение с Keep-Alive должно также содержать заголовок Connection: keep-alive.
+
+В протоколах HTTP/2 и HTTP/3 запрещены поля заголовка, специфичные для конкретного соединения, такие как Connection и Keep-Alive.
+
+```bash
+Keep-Alive: <parameters>
+
+HTTP/1.1 200 OK
+Connection: Keep-Alive
+Content-Encoding: gzip
+Content-Type: text/html; charset=utf-8
+Date: Thu, 11 Aug 2016 15:23:13 GMT
+Keep-Alive: timeout=5, max=200
+Last-Modified: Mon, 25 Jul 2016 04:32:39 GMT
+Server: Apache
+
+(body)
+```
+
+Значения:
+
+- timeout
+- max

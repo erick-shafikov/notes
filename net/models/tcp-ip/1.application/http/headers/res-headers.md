@@ -260,3 +260,36 @@ Expires: <day-name>, <day> <month> <year> <hour>:<minute>:<second> GMT
 - second: 2 цифры
 
 !!! будет игнорироваться если есть Cache-Control max-age или s-maxage
+
+# Integrity-Policy
+
+Сообщает о том, что ресурсы должны использовать [SRI](../security/sri.md). Сигнатура:
+
+```bash
+Integrity-Policy: blocked-destinations=(<destination>),sources=(<source>),endpoints=(<endpoint>)
+```
+
+blocked-destinations:
+
+- script
+- style
+
+sources:
+
+- inline
+
+endpoints - куда отправлять отчет должен быть [Reporting-Endpoints](!!!TODO link)
+
+```bash
+Reporting-Endpoints: integrity-endpoint="https://example.com/integrity", backup-integrity-endpoint="https://report-provider.example/integrity"
+Integrity-Policy: blocked-destinations=(script), endpoints=(integrity-endpoint backup-integrity-endpoint)
+```
+
+# Integrity-Policy-Report-Only
+
+Заголовок ответа HTTP Integrity-Policy-Report-Only позволяет администраторам веб-сайта сообщать о ресурсах, загружаемых пользовательским агентом, которые нарушали бы гарантии целостности подресурсов, если бы политика целостности была применена (с помощью заголовка Integrity-Policy).
+
+```bash
+Reporting-Endpoints: integrity-endpoint=https://example.com/integrity, backup-integrity-endpoint=https://report-provider.example/integrity
+Integrity-Policy-Report-Only: blocked-destinations=(script), endpoints=(integrity-endpoint, backup-integrity-endpoint)
+```
