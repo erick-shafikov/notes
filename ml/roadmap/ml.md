@@ -2,8 +2,8 @@
 
 Линейные модели и обобщения:
 
-- [] Linear Regression (с разными функциями потерь, Ridge, Lasso, Elastic Net)
-- Градиентные методы - Gradient Descent, SGD, Momentum, RMSProp, Adam / AdamW, Learning rate scheduling
+- [x] Linear Regression (с разными функциями потерь, Ridge, Lasso, Elastic Net)
+- [x] Градиентные методы - Gradient Descent, SGD, Momentum, RMSProp, Adam / AdamW, Learning rate scheduling
 - Generalized Linear Models (GLM) — расширение регрессии и классификации.
 - Softmax / Multinomial Logistic Regression — для многоклассовых задач.
 - метрики Accuracy, Precision / Recall / F1, ROC-AUC, PR-AUC, LogLoss, Calibration curves, Ranking metrics
