@@ -293,3 +293,31 @@ Integrity-Policy: blocked-destinations=(script), endpoints=(integrity-endpoint b
 Reporting-Endpoints: integrity-endpoint=https://example.com/integrity, backup-integrity-endpoint=https://report-provider.example/integrity
 Integrity-Policy-Report-Only: blocked-destinations=(script), endpoints=(integrity-endpoint, backup-integrity-endpoint)
 ```
+
+# Last-Modified
+
+Содержит дату, когда ресурс был изменен. Менее предпочтительны чем [etag](#etag) но используется когда etag недоступен. Может быть использован роботами
+
+# Location
+
+Используется для 300-ответов или 201:
+
+- 303 - для get с перенаправлением
+- 307, 308 - для инициирующего запроса
+- 301, 302 - для более старых версий
+
+```bash
+Location: /index.html
+```
+
+# Origin-Agent-Cluster
+
+сигнализирует браузеру, что браузеру нужно распределять машинную нагрузку между одним источником
+
+```bash
+Origin-Agent-Cluster: <boolean>
+```
+
+# Preference-Applied
+
+Добавляет информацию о том какие [Prefer](./req-headers.md#prefer) были применены

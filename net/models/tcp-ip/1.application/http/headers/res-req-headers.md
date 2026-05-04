@@ -186,3 +186,40 @@ Server: Apache
 
 - timeout
 - max
+
+# Link
+
+Указывает ссылку на метаданные ресурса. Семантика как link html элемента. Позволяет пред-загрузить ресурсы с preconnect и preload.
+
+```bash
+Link: <uri-reference>; param1=value1; param2="value2"
+```
+
+```bash
+Link: <https://example.com>; rel="preconnect"
+Link: <https://example.com/%E8%8B%97%E6%9D%A1>; rel="preconnect"
+# несколько
+Link: <https://one.example.com>; rel="preconnect", <https://two.example.com>; rel="preconnect", <https://three.example.com>; rel="preconnect"
+```
+
+использование для пагинации
+
+```bash
+Link: <https://api.example.com/issues?page=2>; rel="prev", <https://api.example.com/issues?page=4>; rel="next", <https://api.example.com/issues?page=10>; rel="last", <https://api.example.com/issues?page=1>; rel="first"
+```
+
+контроль приоритета загрузки
+
+```bash
+Link: </style.css>; rel=preload; as=style; fetchpriority="high"
+```
+
+# Priority
+
+определяет порядок в котором ответ должен приходить, в ответе - в каком порядке пришли
+
+```bash
+Priority: u=<priority> # u - это число от 0 (самый высокий) до 7 (самый низкий)
+Priority: i # incrementally - поступательное, по чанкам
+Priority: u=<priority>, i
+```

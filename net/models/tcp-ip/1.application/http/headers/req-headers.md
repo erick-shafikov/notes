@@ -150,3 +150,45 @@ If-Match: <etag_value>, <etag_value>, …
 # If-Unmodified-Since
 
 Условный запрос. Сервер отправит запрошенный ресурс (или примет его в случае POST-запроса или другого небезопасного метода) только в том случае, если ресурс на сервере не был изменен после даты, указанной в заголовке запроса. Сигнатура - дата
+
+# Origin
+
+определяет источник scheme, hostname, port который инициировал запрос.Заголовок Origin похож на заголовок Referer, но не раскрывает путь и может быть пустым. Предоставляет источник запроса, когда он нужен. Используется:
+
+- в cross origin запросах
+- в same-origin запросах
+
+Может быть null:
+
+- если это не http, https, ftp, ws, wss, or gopher (blob, file, data)
+- cross origin если это img, video, audio
+- документ из createDocument()
+- переправления на одном origin
+- Документы, обслуживаемые с использованием директивы песочницы Content-Security-Policy, значение которой не включает allow-same-origin.
+- iframe с атрибутом sandbox, значение которого не включает allow-same-origin. Ответы, являющиеся сетевыми ошибками.
+- Для режимов запросов, не использующих CORS (например, для отправки простых форм), параметр Referrer-Policy должен быть установлен в значение no-referrer.
+
+# Prefer
+
+определяет поведение сервера при запросе с клиента
+
+```bash
+Prefer: respond-async, return=minimal, return=representation, wait=<seconds>, handling=lenient, handling=strict
+```
+
+пример для минимального ответа
+
+```bash
+# запрос
+POST /resource HTTP/1.1
+Host: example.com
+Content-Type: application/json
+Prefer: return=minimal
+
+{"id":123, "name": "abc"}
+
+# ответ
+
+HTTP/1.1 201 Created
+Location: /resource?id=123
+```
