@@ -142,3 +142,5 @@ Content-Type: image/jpeg
 
 […]
 ```
+
+## [Sec-заголовки](./sec-headers.md)
