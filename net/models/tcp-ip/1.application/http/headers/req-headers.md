@@ -192,3 +192,15 @@ Prefer: return=minimal
 HTTP/1.1 201 Created
 Location: /resource?id=123
 ```
+
+# Proxy-Authorization
+
+Предоставляет данные авторизации если сервер ответил 407 Proxy Authentication Required с [Proxy-Authenticate](./res-headers.md#proxy-authenticate)
+
+```bash
+Proxy-Authorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l
+```
+
+# Referer
+
+Содержит абсолютный или частичный адрес откуда идет запрос. Нужен для отметки ресурсов, которые уже были посещены. Используется для кеширования, логирования

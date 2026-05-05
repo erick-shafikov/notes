@@ -321,3 +321,91 @@ Origin-Agent-Cluster: <boolean>
 # Preference-Applied
 
 Добавляет информацию о том какие [Prefer](./req-headers.md#prefer) были применены
+
+# Proxy-Authenticate
+
+определяет метод аутентификации для доступа к ресурсу за прокси-сервером. Оно отправляется в ответе 407 Proxy Authentication Required, чтобы клиент мог идентифицировать себя перед прокси-сервером, требующим аутентификации.
+
+```bash
+Proxy-Authenticate: Basic realm="Dev", charset="UTF-8"
+```
+
+# Range
+
+указывает что сервер должен вернуть часть ресурсов, сервер может вернуть часть ресурса с ответом 206 Partial Content. Если указанный диапазон неверный может вернуть 416 Range Not Satisfiable. если сервер не поддерживает отдачу контента по частям может вернуть сразу весь ресурс с 200. Требуется только порядковый номер байта
+
+```bash
+# Range: <unit>=<range-start>-
+Range: bytes=900-
+# Range: <unit>=-<range-end>
+Range: bytes=-100
+# Range: <unit>=<range-start>-<range-end>
+Range: bytes=0-499
+# Range: <unit>=<range-start>-<range-end>, …, <range-startN>-<range-endN>
+Range: bytes=200-999, 2000-2499, 9500-
+# Range: <unit>=-<suffix-length>
+```
+
+# Referrer-Policy
+
+управляет тем какую информацию должен представить [Referer](./req-headers.md#referer)
+
+```bash
+Referrer-Policy: no-referrer
+Referrer-Policy: no-referrer-when-downgrade
+Referrer-Policy: origin
+Referrer-Policy: origin-when-cross-origin
+Referrer-Policy: same-origin
+Referrer-Policy: strict-origin
+Referrer-Policy: strict-origin-when-cross-origin
+Referrer-Policy: unsafe-url
+```
+
+может быть интегрирован и в HTML
+
+```html
+<meta name="referrer" content="origin" />
+<a href="http://example.com" referrerpolicy="origin">…</a>
+<a href="http://example.com" rel="noreferrer">…</a>
+```
+
+# Refresh
+
+Сообщает браузеру, что нужно обновить страницу или перенаправить. Идентично
+
+```html
+<meta http-equiv="refresh" content="..." />
+```
+
+```bash
+# Refresh: <time>
+Refresh: 5
+# Refresh: 5; url=https://example.com/
+Refresh: <time>, url=<url>
+Refresh: <time>; url=<url>
+```
+
+# Reporting-Endpoints
+
+Определяет куда отправлять отчеты при нарушении, ошибках
+
+```bash
+Reporting-Endpoints: default="https://example.com/reports"
+Reporting-Endpoints: csp-endpoint="https://example.com/csp-reports"
+Content-Security-Policy: default-src 'self'; report-to csp-endpoint
+Reporting-Endpoints: csp-endpoint="https://example.com/csp-reports",
+                     permissions-endpoint="https://example.com/permissions-policy-reports"
+```
+
+# Retry-After
+
+Сообщает о том через сколько сделать следующий запрос:
+
+- При 503 Service Unavailable - через сколько будет готов сервере
+- При 429 Too Many Requests
+- 301 Moved Permanently через сколько будет перенаправление
+
+```bash
+Retry-After: Wed, 21 Oct 2015 07:28:00 GMT
+Retry-After: 120
+```

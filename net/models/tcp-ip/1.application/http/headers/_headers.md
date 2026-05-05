@@ -30,6 +30,7 @@ Accept-Encoding: br;q=1.0, gzip;q=0.8, \;q=0.1
 - Expect-CT (res) - заголовок, который управляет сертификатами (был только в хроме)
 - Connection (req) - использует только в http1, оставить ли соединение после запроса, значения keep-alive, close
 - Pragma (req-res) - управление кешированием HTTP/1.1
+- Report-To (res) - указывает куда отправлять отчеты об нарушении CSP, заменен на директивы csp-endpoints или Reporting-Endpoints
 
 # экспериментальные
 
@@ -57,3 +58,30 @@ Downlink: 1.7
   ```
 
 - Permissions-Policy-Report-Only (res) - для отчетов нарушений Permissions-Policy
+
+- RTT (req) - это подсказка (network client hint) сетевого клиента, которая предоставляет приблизительное время кругового пути на уровне приложения в миллисекундах. Эта подсказка позволяет серверу выбирать, какая информация будет отправлена, в зависимости от скорости отклика/задержки сети. Например, он может выбрать отправку меньшего количества ресурсов.
+
+```bash
+# request
+Accept-CH: RTT
+# response
+RTT: 125
+```
+
+- Save-Data (req) - это подсказка (network client hint) говорит о том что клиент предпочитает наименьшее потребление анных
+
+```bash
+# response
+GET /image.jpg HTTP/1.1
+Host: example.com
+Save-Data: on
+
+# request
+HTTP/1.1 200 OK
+Content-Length: 102832
+Vary: Accept-Encoding, Save-Data
+Cache-Control: public, max-age=31536000
+Content-Type: image/jpeg
+
+[…]
+```

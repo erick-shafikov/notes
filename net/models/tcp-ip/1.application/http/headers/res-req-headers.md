@@ -223,3 +223,38 @@ Priority: u=<priority> # u - это число от 0 (самый высокий
 Priority: i # incrementally - поступательное, по чанкам
 Priority: u=<priority>, i
 ```
+
+# Repr-Digest
+
+предоставляет хеш-представление ресурса. Обобщает Content-Language, Content-Type, Content-Encoding. Может быть разным в зависимости от Content-Encoding и Content-Range
+
+```bash
+# Repr-Digest: <digest-algorithm>=<digest-value>
+# Repr-Digest: <digest-algorithm>=<digest-value>,…,<digest-algorithmN>=<digest-valueN>
+
+# request:
+POST /bank_transfer HTTP/1.1
+Host: example.com
+Content-Encoding: zstd
+Content-Digest: sha-512=:ABC…=:
+Repr-Digest: sha-512=:DEF…=:
+
+{
+ "recipient": "Alex",
+ "amount": 900000000
+}
+# response:
+…
+Repr-Digest: sha-256=:AEGPTgUMw5e96wxZuDtpfm23RBU3nFwtgY5fw4NYORo=:
+Content-Digest: sha-256=:AEGPTgUMw5e96wxZuDtpfm23RBU3nFwtgY5fw4NYORo=:
+…
+Content-Type: text/yaml
+Content-Encoding: br
+Content-Length: 38054
+Content-Range: 0-38053/38054
+…
+
+[message body]
+```
+
+При успехе 201 Created, при ошибке 406 Not Acceptable
