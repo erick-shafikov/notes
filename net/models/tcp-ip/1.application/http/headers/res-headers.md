@@ -409,3 +409,96 @@ Reporting-Endpoints: csp-endpoint="https://example.com/csp-reports",
 Retry-After: Wed, 21 Oct 2015 07:28:00 GMT
 Retry-After: 120
 ```
+
+# Server
+
+описывает программное обеспечение, используемое исходным сервером, который обработал запрос и сгенерировал ответ.
+
+```bash
+Server: Apache/2.4.1 (Unix)
+```
+
+# Server-Timing
+
+передает пользовательскому агенту одну или несколько метрик производительности цикла запрос-ответ.
+
+```bash
+Server-Timing: custom-metric;dur=123.45;desc="My custom metric"
+```
+
+# Service-Worker-Allowed
+
+Серверы могут использовать заголовок чтобы разрешить сервис-воркеру управлять URL-адресами за пределами своего собственного каталога.
+
+# Service-Worker-Navigation-Preload (-ff)
+
+указывает на то, что запрос был результатом операции fetch(), выполненной во время предварительной загрузки навигации Service Worker.
+
+# Set-Cookie
+
+Используется для отправки cookie-файла с сервера в пользовательский агент, чтобы пользовательский агент мог позже отправить его обратно на сервер. Для отправки нескольких cookie-файлов необходимо отправить несколько заголовков Set-Cookie в одном ответе.
+
+```bash
+# установка куки
+Set-Cookie: <cookie-name>=<cookie-value>
+# определяет домен на который куки были отправлены
+Set-Cookie: <cookie-name>=<cookie-value>; Domain=<domain-value>
+# срок истечения
+Set-Cookie: <cookie-name>=<cookie-value>; Expires=<date>
+# запрещает fetch и XMLHttpRequest устанавливать куки
+Set-Cookie: <cookie-name>=<cookie-value>; HttpOnly
+# срок истечения
+Set-Cookie: <cookie-name>=<cookie-value>; Max-Age=<number>
+# cookie-файл следует хранить с использованием разделенного хранилища
+Set-Cookie: <cookie-name>=<cookie-value>; Partitioned
+# Указывает путь, который должен присутствовать в запрашиваемом URL-адресе, чтобы браузер мог отправить заголовок Cookie
+Set-Cookie: <cookie-name>=<cookie-value>; Path=<path-value>
+# Указывает, что cookie-файл отправляется на сервер только при запросе по схеме https: (за исключением localhost), и, следовательно, более устойчив к атакам типа «человек посередине».
+Set-Cookie: <cookie-name>=<cookie-value>; Secure
+# SameSite - Управляет отправкой или неотправкой cookie-файла с межсайтовыми запросами: то есть, с запросами, исходящими с другого сайта, включая указанную схему, и с сайта, установившего cookie-файл.
+# Файл cookie отправляется только для запросов, поступающих с того же сайта, который установил этот файл co
+Set-Cookie: <cookie-name>=<cookie-value>; SameSite=Strict
+# исключи запросы, выполненные с использованием API fetch(), или запросы к подресурсам из элементов <img> или <script>, или навигацию внутри элементов <iframe>. Запросы, выполняемые, когда пользователь переходит по ссылке в контексте просмотра верхнего уровня с одного сайта на другой, или при назначении объекта document.location, или при отправке формы.
+Set-Cookie: <cookie-name>=<cookie-value>; SameSite=Lax
+# Отправляйте cookie-файл как с межсайтовыми, так и с внутрисайтовыми запросами. При использовании этого значения также необходимо установить атрибут Secure
+Set-Cookie: <cookie-name>=<cookie-value>; SameSite=None; Secure
+
+// Multiple attributes are also possible, for example:
+Set-Cookie: <cookie-name>=<cookie-value>; Domain=<domain-value>; Secure; HttpOnly
+```
+
+Некоторые имена cookie содержат префиксы, которые накладывают определенные ограничения на атрибуты cookie при поддержке пользовательских агентов. Все префиксы cookie начинаются с двойного подчеркивания (\_\_) и заканчиваются дефисом (-). Определены следующие префиксы.
+
+```bash
+Set-Cookie: __Secure-ID=123; Secure; Domain=example.com
+Set-Cookie: __Host-ID=123; Secure; Path=/
+Set-Cookie: __Secure-id=1
+Set-Cookie: __Host-id=1; Secure
+Set-Cookie: __Host-id=1; Secure; Path=/; Domain=example.com
+Set-Cookie: __Http-ID=123; Secure; Domain=example.com
+Set-Cookie: __Host-Http-ID=123; Secure; Path=/
+```
+
+# Set-Login
+
+отправляется федеративным поставщиком идентификации (IdP) для установки статуса авторизации и указывает, вошли ли какие-либо пользователи в систему IdP в текущем браузере или нет.
+
+# SourceMap
+
+предоставляет расположение source map ресурса
+
+```bash
+HTTP/1.1 200 OK
+Content-Type: text/javascript
+SourceMap: /path/to/file.js.map
+
+<optimized-javascript>
+```
+
+# Strict-Transport-Security
+
+сообщает браузерам, что доступ к хосту следует осуществлять только по протоколу HTTPS, и что любые будущие попытки доступа к нему по протоколу HTTP должны автоматически переключаться на HTTPS.
+
+# Timing-Allow-Origin
+
+указывает, каким источникам разрешено видеть значения атрибутов, полученных с помощью функций API Resource Timing, которые в противном случае были бы указаны как нулевые из-за ограничений на междоменные запросы.

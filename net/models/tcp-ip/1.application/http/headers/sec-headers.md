@@ -198,3 +198,98 @@ Sec-Fetch-Site: cross-site
 ### Sec-Fetch-User (-sf)
 
 отправляется для запросов, инициированных активацией пользователя, и его значение всегда равно ?1.
+
+## Sec-GPC (+ff)
+
+часть Global Privacy Control апи управляет тем, дает ли пользователь согласие на продажу или передачу его персональных данных третьим лицам веб-сайтом или сервисом.
+
+## Sec-Private-State заголовки
+
+заголовки Private State Token API
+
+### Sec-Private-State-Token (req-res)
+
+Значение токена управляет генерацией необходимых данных для запросов и ответов на операции выпуска и погашения токенов в закрытом состояния
+
+### Sec-Private-State-Token-Crypto-Version
+
+управление криптографическим протоколом
+
+### Sec-Private-State-Token-Lifetime (res)
+
+как долго запись о погашении будет существовать
+
+## Sec-Purpose
+
+указывает на цель использования запрашиваемого ресурса, если эта цель не связана с непосредственным использованием пользовательским агентом.
+
+```bash
+Sec-Purpose: prefetch
+```
+
+## Sec-Redemption-Record
+
+при пересылке записей о погашении. Заголовок содержит список пар «эмитент и запись о погашении», соответствующих каждой записи о погашении.
+
+## Sec-Speculation-Tags (-ff, -sf)
+
+содержит одно или несколько значений тегов [из правил спекуляции script type="speculationrules"](../../../../../../fe/html/tags/meta-tags.md#script), которые привели к возникновению спекуляции. Это позволяет серверу определить, какое(ие) правило(а) вызвало(ли) спекуляцию, и потенциально заблокировать их.
+
+```html
+<script type="speculationrules">
+  {
+    "prefetch": [
+      {
+        "urls": ["next.html", "next2.html"]
+      }
+    ]
+  }
+</script>
+```
+
+```bash
+Sec-Speculation-Tags: null # отключение
+Sec-Speculation-Tags: "my-rule"
+```
+
+## Sec-WebSocket
+
+### Sec-WebSocket-Accept (res)
+
+используется в процессе установления соединения WebSocket для указания того, что сервер готов перейти к соединению WebSocket. В ответ приходит один раз и работает в паре с Sec-WebSocket-Key
+
+```bash
+Sec-WebSocket-Accept: <hashed key>
+```
+
+### Sec-WebSocket-Extensions (res+req)
+
+используются в процессе установления соединения WebSocket для согласования расширения протокола, используемого клиентом и сервером.
+
+### Sec-WebSocket-Key
+
+используется в процессе установления соединения WebSocket, чтобы позволить клиенту (агенту пользователя) подтвердить, что он «действительно хочет» запросить преобразование HTTP-клиента в WebSocket.
+
+```bash
+# запрос на установку соединения
+GET /chat HTTP/1.1
+Host: example.com:8000
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+Sec-WebSocket-Version: 13
+
+# ответ на базе кодирования sha-1
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+```
+
+### Sec-WebSocket-Protocol (res+req)
+
+используются в процессе установления соединения WebSocket для согласования подпротокола (soap, wamp), который будет использоваться в процессе связи.
+
+### Sec-WebSocket-Version (res+req)
+
+используется в процессе установления соединения WebSocket для указания поддерживаемого клиентом протокола WebSocket, а также версий протокола, поддерживаемых сервером, если он не поддерживает версию, указанную в запросе.
