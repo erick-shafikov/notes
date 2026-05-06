@@ -28,7 +28,7 @@ Step decay: $η = η_0 * γ^{t / k}$
 
 Exponential decay: $η = η_0 * e^{-kt}$
 
-Cosine annealing: $η = η_{min} + 1/ 2(η_{max} - η_{min}) (1 + cos(t/T\π))$
+Cosine annealing: $η = η_{min} + 1/ 2(η_{max} - η_{min}) (1 + cos(t \cdot T/π))$
 
 Linear decay: $η = η_0 (1 - t /T)$
 

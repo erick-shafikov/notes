@@ -46,7 +46,7 @@ $$a(x) = \arg\max_{y \in \mathcal{Y}} \lambda_y \cdot P(y) \cdot \prod_{i=1}^n p
 
 $$a(x) = \arg\max_{y \in \mathcal{Y}} \left(\ln \lambda_y \cdot P(y) + \sum_{i=1}^n \ln p(\xi_i \mid y)\right)$$
 
-## Пример
+## Пример Gaussian Naive Bayes
 
 Выборка объектов с двумя непрерывными признаками: ширина $\ell$ и длина $w$:
 
@@ -64,6 +64,36 @@ $$a(\ell, w \mid y = -1) = \ln\!\left(\lambda_{-1} \cdot \hat{P}(y{=}-1)\right) 
 $$a(\ell, w \mid y = +1) = \ln\!\left(\lambda_{+1} \cdot \hat{P}(y{=}+1)\right) + \ln\frac{1}{2\pi\,\hat{\sigma}_\ell^+\hat{\sigma}_w^+} - \frac{(\ell - \hat{m}_\ell^+)^2}{2{\hat{\sigma}_\ell^+}^2} - \frac{(w - \hat{m}_w^+)^2}{2{\hat{\sigma}_w^+}^2}$$
 
 Решение: объект $x = (\ell, w)$ относится к классу $y^* = \arg\max_{y} a(\ell, w \mid y)$.
+
+Если каждый признак распределён нормально при данном классе:
+
+$$p(\ell \mid y) = \frac{1}{\sqrt{2\pi}\,\sigma_\ell^y} \exp\!\left\{-\frac{(\ell - m_\ell^y)^2}{2{\sigma_\ell^y}^2}\right\}, \qquad p(w \mid y) = \frac{1}{\sqrt{2\pi}\,\sigma_w^y} \exp\!\left\{-\frac{(w - m_w^y)^2}{2{\sigma_w^y}^2}\right\}$$
+
+Параметры оцениваются по выборке отдельно для каждого класса.
+
+**Оценки математических ожиданий:**
+
+$$\hat{m}_\ell^- = \frac{\ell_1^- + \ell_2^- + \cdots + \ell_{n^-}^-}{n^-}, \qquad \hat{m}_\ell^+ = \frac{\ell_1^+ + \ell_2^+ + \cdots + \ell_{n^+}^+}{n^+}$$
+
+$$\hat{m}_w^- = \frac{w_1^- + w_2^- + \cdots + w_{n^-}^-}{n^-}, \qquad \hat{m}_w^+ = \frac{w_1^+ + w_2^+ + \cdots + w_{n^+}^+}{n^+}$$
+
+**Оценки дисперсий** (несмещённая):
+
+$$\hat{\sigma}^2 = \frac{1}{N-1}\sum_{i=1}^N (x_i - \hat{m})^2$$
+
+Для каждого признака и класса отдельно:
+
+$${\hat{\sigma}_\ell^-}^2 = \frac{(\ell_1^- - \hat{m}_\ell^-)^2 + \cdots + (\ell_{n^-}^- - \hat{m}_\ell^-)^2}{n^-}, \qquad {\hat{\sigma}_\ell^+}^2 = \frac{\cdots}{n^+}$$
+
+Аналогично ${\hat{\sigma}_w^-}^2$ и ${\hat{\sigma}_w^+}^2$.
+
+**Совместное распределение** признаков по классу (в силу независимости):
+
+$$\hat{p}(\ell, w \mid y) = \hat{p}(\ell \mid y) \cdot \hat{p}(w \mid y) = \frac{1}{2\pi\,\sigma_\ell^y\,\sigma_w^y} \exp\!\left\{-\frac{(\ell - m_\ell^y)^2}{2{\sigma_\ell^y}^2} - \frac{(w - m_w^y)^2}{2{\sigma_w^y}^2}\right\}$$
+
+**Априорные вероятности** оцениваются эмпирически:
+
+$$\hat{P}(y = -1) = \frac{n^-}{n^- + n^+}, \qquad \hat{P}(y = +1) = \frac{n^+}{n^- + n^+}$$
 
 ```python
 import numpy as np
