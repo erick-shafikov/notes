@@ -89,7 +89,7 @@ Cache-Control: public, max-age=31536000
 
 # Content-Digest
 
-алгоритм хеширования примененный к содержимому. Заголовок Want-Content-Digest запрашивает данные с хешированием, базируясь на Content-Encoding и Content-Range
+алгоритм хеширования примененный к содержимому. Заголовок [Want-Content-Digest](#want-content-digest) запрашивает данные с хешированием, базируясь на Content-Encoding и Content-Range
 
 ```bash
 # digest-algorithm - sha-512 and sha-256. Небезопасные - md5, sha (SHA-1), unixsum, unixcksum, adler (ADLER32) and crc32c.
@@ -105,6 +105,7 @@ Content-Digest: <digest-algorithm>=<digest-value>,<digest-algorithm>=<digest-val
 GET /items/123 HTTP/1.1
 Host: example.com
 Want-Content-Digest: sha-256=10, sha=
+
 # ответ с сервера
 HTTP/1.1 200 OK
 Content-Type: application/json
@@ -258,3 +259,66 @@ Content-Range: 0-38053/38054
 ```
 
 При успехе 201 Created, при ошибке 406 Not Acceptable
+
+# Transfer-Encoding
+
+Используется для определения типа кодирования сообщений. Hop-by-hop заголовок. Не рекомендуется для http2 и выше
+
+```bash
+Transfer-Encoding: chunked
+Transfer-Encoding: compress # LZW
+Transfer-Encoding: deflate # zlib
+Transfer-Encoding: gzip # LZ77
+Transfer-Encoding: gzip, chunked
+```
+
+# Upgrade
+
+Используется для изменения протокола
+
+```bash
+# запрос на смену протокола
+GET /index.html HTTP/1.1
+Host: www.example.com
+Connection: upgrade # всегда должен идти вместе Upgrade
+Upgrade: example/1, foo/2
+
+# подтверждение смены
+HTTP/1.1 101 Switching Protocols
+Upgrade: foo/2
+Connection: Upgrade
+
+# дальше идет ответ уже по новому протоколу
+```
+
+# Via
+
+добавляется прокси-серверами, как прямыми, так и обратными. Он используется для отслеживания пересылаемых сообщений, предотвращения зацикливания запросов и определения возможностей протокола отправителей в цепочке запрос/ответ.
+
+```bash
+# Via: [<protocol-name>/]<protocol-version> <host>[:<port>]
+# Via: [<protocol-name>/]<protocol-version> <pseudonym>
+Via: 1.1 vegur
+Via: HTTP/1.1 GWA
+Via: 1.0 fred, 1.1 p.example.net
+```
+
+# Want-Content-Digest
+
+Сигнал о том, что получатель рассчитывает получать [Content-Digest](#content-digest) В заголовках
+
+```bash
+# Want-Content-Digest: <algorithm>=<preference>
+# Want-Content-Digest: <algorithm>=<preference>, …, <algorithmN>=<preferenceN>
+Want-Content-Digest: sha-512=9
+Want-Content-Digest: md5=1, sha-512=2, sha-256=3
+```
+
+# Want-Repr-Digest
+
+казывает на предпочтение получателя отправлять заголовок целостности [Repr-Digest](#repr-digest) в сообщениях, связанных с URI запроса и метаданными представления.
+
+```bash
+Want-Repr-Digest: <algorithm>=<preference>
+Want-Repr-Digest: <algorithm>=<preference>, …, <algorithmN>=<preferenceN>
+```

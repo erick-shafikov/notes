@@ -502,3 +502,23 @@ SourceMap: /path/to/file.js.map
 # Timing-Allow-Origin
 
 указывает, каким источникам разрешено видеть значения атрибутов, полученных с помощью функций API Resource Timing, которые в противном случае были бы указаны как нулевые из-за ограничений на междоменные запросы.
+
+# Vary
+
+Описывает информацию о том что повлияло на формирование текущего сообщения. Используется для кеширования. Если ничего не поменялось 304 Not Modified и ответ "default"
+
+```bash
+# Vary: <header-name>, …, <header-nameN>
+Vary: * # не подлежит кешированию
+```
+
+# WWW-Authenticate
+
+Содержит информацию о методах HTTP-аутентификации (или запросах аутентификации), которые могут быть использованы для получения доступа к конкретному ресурсу. При неверной аутентификации сервер должен вернуть 401 Unauthorized
+
+```bash
+# WWW-Authenticate: <challenge>
+# challenge = <auth-scheme> <auth-param>, …, <auth-paramN>
+# challenge = <auth-scheme> <token68>
+WWW-Authenticate: Basic realm="Dev", charset="UTF-8"
+```

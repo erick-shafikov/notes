@@ -219,3 +219,25 @@ TE: deflate
 TE: gzip
 TE: trailers
 ```
+
+# Upgrade-Insecure-Requests
+
+отправляет сигнал что клиент предпочитает зашифрованный и аутентифицированный ответ
+
+# User-Agent
+
+представляет собой характерную строку, позволяющую серверам и сетевым узлам идентифицировать приложение, операционную систему, поставщика и/или версию запрашивающего пользовательского агента.
+
+```bash
+# User-Agent: <product> / <product-version> <comment>
+# Firefox UA string
+User-Agent: Mozilla/5.0 (platform; rv:gecko-version) Gecko/gecko-trail Firefox/firefox-version
+# Chrome UA string
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36
+# Opera UA string
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 OPR/124.0.0.0 (Edition developer)
+# Microsoft Edge UA string
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0
+# Safari UA string
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15
+```
