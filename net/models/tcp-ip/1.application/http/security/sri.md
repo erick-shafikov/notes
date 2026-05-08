@@ -18,4 +18,4 @@ Subresource Integrity (SRI) — это функция безопасности, 
 
 Cross-origin requests that use subresource integrity must use the Cross-Origin Resource Sharing (CORS) protocol.Это достигается путем отправки соответствующего заголовка ответа Access-Control-Allow-Origin.
 
-Заголовки [Integrity-Policy](../headers/res-headers.md#integrity-policy) and [Integrity-Policy-Report-Only](!!!TODO link) сигнализируют о том что SRI - обязательна для ресурсов
+Заголовки [Integrity-Policy](../headers/res-headers.md#integrity-policy) and [Integrity-Policy-Report-Only](../headers/res-headers.md#integrity-policy-report-only) сигнализируют о том что SRI - обязательна для ресурсов
