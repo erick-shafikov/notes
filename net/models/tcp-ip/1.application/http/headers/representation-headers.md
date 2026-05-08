@@ -38,7 +38,7 @@ Content-Language: de-DE, en-CA
 <meta http-equiv="content-language" content="de" />
 ```
 
-# Content-Length (res, req, cont)
+# Content-Length (res, req)
 
 размер в байтах. Передает информацию если идет стрим контента или генерация контента
 

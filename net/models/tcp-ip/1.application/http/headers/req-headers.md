@@ -24,7 +24,7 @@ Accept-Language: de
 
 сообщает какой альтернативный сервис был использован используется вместе с Alt-Svc
 
-##Authorization
+# Authorization
 
 предоставляет реквизиты для аутентификации на сервере
 
@@ -37,16 +37,18 @@ Authorization: <auth-scheme> <authorization-parameters>
 Authorization: Basic <credentials>
 
 # Digest authentication
-Authorization: Digest username=<username>,
+Authorization: Digest
+    username=<username> # realm
     realm="<realm>",
     uri="<url>",
     algorithm=<algorithm>,
     nonce="<nonce>",
-    nc=<nc>,
-    cnonce="<cnonce>",
-    qop=<qop>,
-    response="<response>", # hex
-    opaque="<opaque>"
+    nc=<nc>, # количество nonce
+    cnonce="<cnonce>", # текст для защиты
+    qop=<qop>, # "auth", "auth-int"
+    response="<response>", # hex для всех остальных параметров вышк
+    opaque="<opaque>" # Значение, содержащееся в соответствующем ответе WWW-Authenticate для запрашиваемого ресурса.
+
 ```
 
 # Available-Dictionary

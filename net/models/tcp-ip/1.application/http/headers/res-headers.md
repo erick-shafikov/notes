@@ -516,9 +516,73 @@ Vary: * # не подлежит кешированию
 
 Содержит информацию о методах HTTP-аутентификации (или запросах аутентификации), которые могут быть использованы для получения доступа к конкретному ресурсу. При неверной аутентификации сервер должен вернуть 401 Unauthorized
 
+в свою очередь клиент отвечает заголовком [Authorization](./req-headers.md#authorization)
+
 ```bash
+
+
 # WWW-Authenticate: <challenge>
 # challenge = <auth-scheme> <auth-param>, …, <auth-paramN>
 # challenge = <auth-scheme> <token68>
+# <auth-scheme> - Basic, Digest, Negotiate and AWS4-HMAC-SHA256
+# <auth-param> - <realm> - realm="строка которая описывает защищенную область"
+# <token68> - токен для схемы
 WWW-Authenticate: Basic realm="Dev", charset="UTF-8"
+```
+
+Варианты auth-scheme и их структура:
+
+- Basic структура:
+- - realm
+- - charset="UTF-8"
+- Digest:
+- - realm
+- - domain
+- - nonce
+- - opaque
+- - stale
+- - algorithm
+- - qop
+- - charset="UTF-8"
+- - userhash - "true" "false"
+- HTTP Origin-Bound Authentication (HOBA):
+- - challenge - len:value
+- - max-age
+- - realm
+
+```bash
+# Digest
+HTTP/1.1 401 Unauthorized
+WWW-Authenticate: Digest
+    realm="http-auth@example.org",
+    qop="auth, auth-int",
+    algorithm=SHA-256,
+    nonce="7ypf/xlj9XXwfDPEoM4URrv/xwf94BcCAzFZH4GiTo0v",
+    opaque="FQhe/qaU925kfnzjCev0ciny7QMkPqMAFRtzCUYo5tdS"
+WWW-Authenticate: Digest
+    realm="http-auth@example.org",
+    qop="auth, auth-int",
+    algorithm=MD5,
+    nonce="7ypf/xlj9XXwfDPEoM4URrv/xwf94BcCAzFZH4GiTo0v",
+    opaque="FQhe/qaU925kfnzjCev0ciny7QMkPqMAFRtzCUYo5tdS"
+
+Authorization: Digest username="Mufasa",
+    realm="http-auth@example.org",
+    uri="/dir/index.html",
+    algorithm=MD5,
+    nonce="7ypf/xlj9XXwfDPEoM4URrv/xwf94BcCAzFZH4GiTo0v",
+    nc=00000001,
+    cnonce="f2/wE4q74E6zIJEtWaHKaf5wv/H5QzzpXusqGemxURZJ",
+    qop=auth,
+    response="8ca523f5e9506fed4657c9700eebdbec",
+    opaque="FQhe/qaU925kfnzjCev0ciny7QMkPqMAFRtzCUYo5tdS"
+```
+
+HOBA
+
+```bash
+HTTP/1.1 401 Unauthorized
+WWW-Authenticate: HOBA max-age="180", challenge="16:MTEyMzEyMzEyMw==1:028:https://www.example.com:8080:3:MTI48:NjgxNDdjOTctNDYxYi00MzEwLWJlOWItNGM3MDcyMzdhYjUz"
+
+Authorization: 123.16:MTEyMzEyMzEyMw==1:028:https://www.example.com:8080:3:MTI48:NjgxNDdjOTctNDYxYi00MzEwLWJlOWItNGM3MDcyMzdhYjUz.1123123123.<signature-of-challenge>
 ```
