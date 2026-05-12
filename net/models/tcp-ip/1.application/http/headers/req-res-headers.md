@@ -1,5 +1,13 @@
 # заголовки запроса и ответа
 
+# Accept
+
+клиент сообщает какие типы понимает. Какие типы контента MIME может понять, сервер возвращая [Content-Type](./res-headers.md#content-type) сервер сообщает какой тип отправил:
+
+```bash
+Accept: text/html, application/xhtml+xml, application/xml;q=0.9, _/_;q=0.8
+```
+
 # Accept-Encoding
 
 сохранить одну копию, сжатую с помощью gzip, и другую — с помощью brotli. В паре Content-Encoding могут сервер может вернуть 406 Not Acceptable. Варианты по алгоритмам, могут использоваться с ;q=:
@@ -13,9 +21,15 @@
 - - dcz - Dictionary-Compressed Zstandard
 - - identity
 
+В случае отсутствия 415 Unsupported Media Type
+
 # Accept-Ranges
 
 поддерживаются ли range-запросы, для частей ресурса
+
+```bash
+Accept-Ranges: bytes
+```
 
 # Cache-Control
 
@@ -48,14 +62,14 @@
 - - proxy-revalidate - только для прокси
 - Другие:
 - - no-store - не должно быть кеша
-- - no-transform - не должны быть применимы преобразования
+- - no-transform - не должны быть применимы преобразования Заголовки Content-Encoding, Content-Range, Content-Type не должны изменяться прокси
 
 Значения по типу запроса:
 
-- значения для запроса: max-age=<seconds>, max-stale[=<seconds>], min-fresh=<seconds>, no-cache, no-store, no-transform, only-if-cached
-- значения для ответа:must-revalidate, no-cache, no-store, no-transform, public, private, proxy-revalidate, max-age=<seconds>, s-maxage=<seconds>
+- значения для запроса: max-age=<seconds>, max-stale[=seconds], min-fresh=seconds, no-cache, no-store, no-transform, only-if-cached
+- значения для ответа: must-revalidate, no-cache, no-store, no-transform, public, private, proxy-revalidate, max-age=seconds, s-maxage=seconds
 
-Инструкции:
+Инструкции (нестабильные):
 
 - immutable
 - stale-while-revalidate=<seconds>
@@ -89,7 +103,7 @@ Cache-Control: public, max-age=31536000
 
 # Content-Digest
 
-алгоритм хеширования примененный к содержимому. Заголовок [Want-Content-Digest](#want-content-digest) запрашивает данные с хешированием, базируясь на Content-Encoding и Content-Range
+алгоритм хеширования примененный к содержимому. Заголовок [Want-Content-Digest](#want-content-digest) запрашивает данные с хешированием, базируясь на [Content-Encoding](./representation-headers.md#content-encoding) и [Content-Range](./representation-headers.md#content-range)
 
 ```bash
 # digest-algorithm - sha-512 and sha-256. Небезопасные - md5, sha (SHA-1), unixsum, unixcksum, adler (ADLER32) and crc32c.

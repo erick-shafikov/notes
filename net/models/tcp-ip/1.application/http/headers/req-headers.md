@@ -2,14 +2,6 @@
 
 Заголовки по типу запроса клиента:
 
-# Accept
-
-клиент сообщает какие типы понимает. какие типы контента MIME может понять, сервер возвращая Content-Type сервер сообщает какой тип отправил:
-
-```bash
-Accept: text/html, application/xhtml+xml, application/xml;q=0.9, _/_;q=0.8
-```
-
 # Accept-Language
 
 какой язык предпочитает клиент, это те же значения что и генерирует navigator.languages. Сервер может вернуть 406. Пример:
@@ -22,7 +14,7 @@ Accept-Language: de
 
 # Alt-Used
 
-сообщает какой альтернативный сервис был использован используется вместе с Alt-Svc
+сообщает какой альтернативный сервис был использован используется вместе с [Alt-Svc](./res-headers#alt-svc)
 
 # Authorization
 
@@ -50,6 +42,8 @@ Authorization: Digest
     opaque="<opaque>" # Значение, содержащееся в соответствующем ответе WWW-Authenticate для запрашиваемого ресурса.
 
 ```
+
+Сервер отвечает сообщением 401 Unauthorized, содержащим как минимум один заголовок [WWW-Authenticate](./res-headers.md#www-authenticate).
 
 # Available-Dictionary
 

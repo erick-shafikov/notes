@@ -6,7 +6,7 @@ CH - client hint
 
 # Accept-CH
 
-заголовок, который отправляет сервер, что бы получить CH заголовки от браузера, возможные значения: Sec-CH-UA-Model, Sec-CH-UA-Form-Factors, DPR, Viewport-Width, Width - сервер требует доп информацию, браузер на каждый запрос будет отправлять Sec-CH-UA-Model, Sec-CH-UA-Form-Factors. Поведение можно реализовать в html:
+заголовок, который отправляет сервер, что бы получить CH заголовки от браузера, возможные значения: [Sec-CH-UA-Model](./sec-headers.md#sec-ch-ua-model), [Sec-CH-UA-Form-Factors](./sec-headers.md#sec-ch-ua-form-factors), DPR, Viewport-Width, Width - сервер требует доп информацию, браузер на каждый запрос будет отправлять Sec-CH-UA-Model, Sec-CH-UA-Form-Factors. Поведение можно реализовать в html:
 
 ```html
 <meta http-equiv="Accept-CH" content="Width, Downlink, Sec-CH-UA" />
@@ -19,6 +19,14 @@ Accept-CH: Sec-CH-Viewport-Width, Sec-CH-Width # отправил сервер
 Vary: Sec-CH-Viewport-Width, Sec-CH-Width # какие vary заголовки ждет сервер
 ```
 
+# Accept-Patch
+
+какие типы мультимедиа сервер может понимать в запросе PATCH. В случае отсутствия поддержки типа 415 Unsupported Media Type. Заголовок должен отображаться в запросах OPTIONS к ресурсу, поддерживающему метод PATCH
+
+# Accept-Post
+
+какие типы мультимедиа сервер может понимать в запросе Post. В случае отсутствия поддержки типа 415 Unsupported Media Type. Заголовок должен отображаться в запросах OPTIONS к ресурсу, поддерживающему метод Post
+
 # Activate-Storage-Access
 
 Это позволяет серверу активировать предоставленное разрешение на доступ к своим неразделенным файлам cookie в межсайтовом запросе.
@@ -29,13 +37,47 @@ Activate-Storage-Access: retry; allowed-origin=*
 Activate-Storage-Access: load
 ```
 
-# Activate-Storage-Access
+заголовок предоставляет доступ к своим кукам для кросс запросов, сервер использует [Sec-Fetch-Storage-Access](./sec-headers.md#sec-fetch-storage-access) заголовок. Управляет поведением Storage Access API, который позволяет использовать сторонние куки
 
-заголовок предоставляет доступ к своим кукам для кросс запросов, сервер использует Sec-Fetch-Storage-Access заголовок
+Принцип работы заключается в следующем:
+
+- Браузер добавляет к запросам строку Sec-Fetch-Storage-Access: inactive, когда контекст имеет разрешение, но не активен (вместе с заголовком Origin, указывающим источник запроса)
+- Если сервер получает сообщение Sec-Fetch-Storage-Access: inactive, он может ответить сообщением Activate-Storage-Access: retry; allowed-origin="<request_origin>", чтобы запросить у браузера активацию разрешения для контекста и повторную отправку запроса
+- Если браузер получает запрос на повторную отправку, он активирует разрешение и отправляет запрос снова, на этот раз с параметром Sec-Fetch-Storage-Access: active и с включением файлов cookie
+- Если сервер получает запрос с параметром Sec-Fetch-Storage-Access: active и содержит cookie-файлы, он отвечает версией ресурса с учетными данными. После загрузки браузером этот ресурс получает доступ к своим cookie-файлам так же, как если бы это был собственный ресурс
+
+```bash
+# запрос с Sec-Fetch-Storage-Access: inactive
+GET /user/profile HTTP/1.1
+Host: embedded.com
+Origin: https://mysite.example
+Sec-Fetch-Dest: iframe
+Sec-Fetch-Site: cross-site
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Storage-Access: inactive
+Credentials-Mode: include
+
+# ответ с Activate-Storage-Access: retry
+HTTP/1.1 401 Unauthorized
+Content-Type: text/html
+Vary: Sec-Fetch-Storage-Access
+Activate-Storage-Access: retry; allowed-origin="https://mysite.example"
+
+# запрос с Sec-Fetch-Storage-Access: active
+GET /user/profile HTTP/1.1
+Host: embedded.com
+Origin: https://mysite.example
+Sec-Fetch-Dest: iframe
+Sec-Fetch-Site: cross-site
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Storage-Access: active
+Credentials-Mode: include
+Cookie: sessionid=abc123
+```
 
 # Age
 
-сколько объект запроса находился в кеше прокси
+сколько объект запроса находился в кеше прокси. Если значение равно 0, объект, вероятно, был получен с исходного сервера. В противном случае значение обычно вычисляется как разница между текущей датой прокси-сервера и общим заголовком Date, включенным в HTTP-ответ.
 
 # Allow
 
@@ -44,6 +86,12 @@ Activate-Storage-Access: load
 # Alt-Svc
 
 Приоритетный альтернативный ресурс
+
+```bash
+Alt-Svc: clear
+Alt-Svc: <protocol-id>=<alt-authority>; ma=<max-age>
+Alt-Svc: <protocol-id>=<alt-authority>; ma=<max-age>; persist=1
+```
 
 # Clear-Site-Data
 

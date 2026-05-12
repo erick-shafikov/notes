@@ -1,26 +1,18 @@
-# заголовки OPTIONS (предварительного preflight-запроса)
+заголовки OPTIONS (предварительного preflight-запроса)
 
-## заголовки предварительного запроса
+# заголовки предварительного запроса
 
 ## Access-Control-Request-Headers
 
-использует в предварительном запросе, для того что бы обозначить какие заголовки будет отправлять клиент
+использует в предварительном запросе, для того что бы обозначить какие заголовки будет отправлять клиент через fetch() и XMLHttpRequest.setRequestHeader()
 
 ## Access-Control-Request-Method
 
 использует в предварительном запросе, для того что бы обозначить какие методы будет отправлять клиент
 
-## заголовки предварительного ответа
+# заголовки предварительного ответа
 
-### Accept-Patch
-
-Какие MIME типы может быть в теле PATCH запроса, должен быть в OPTIONS - запросе
-
-### Accept-Post
-
-Какие MIME типы может быть в теле POST запроса, должен быть в OPTIONS - запросе
-
-### Access-Control-Allow-Credentials
+## Access-Control-Allow-Credentials
 
 Сообщает браузеру доступны ло cross-origin http запросы
 
@@ -35,7 +27,7 @@ fetch(url, {
 });
 ```
 
-### Access-Control-Allow-Headers
+## Access-Control-Allow-Headers
 
 используется в предварительных запросах, какие http заголовки могут быть использованы. Пользовательский X-Custom-Header может быть использован:
 
@@ -61,11 +53,11 @@ Access-Control-Allow-Headers: Content-Type, x-requested-with
 Access-Control-Max-Age: 86400
 ```
 
-### Access-Control-Allow-Methods
+## Access-Control-Allow-Methods
 
 Позволяет определить http-методы доступные для запроса в предварительном запросе
 
-### Access-Control-Allow-Origin
+## Access-Control-Allow-Origin
 
 может ли быть доступен origin из источника
 
@@ -78,11 +70,11 @@ Access-Control-Allow-Origin: https://developer.mozilla.org
 Vary: Origin
 ```
 
-### Access-Control-Expose-Headers
+## Access-Control-Expose-Headers
 
 Какие заголовки ответа должны быть доступны скриптам, работающим в браузере, в ответ на междоменный запрос
 
-### Access-Control-Max-Age
+## Access-Control-Max-Age
 
 как долго живет результат предварительного запроса, значение в секундах
 
