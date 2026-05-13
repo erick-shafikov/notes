@@ -14,7 +14,7 @@
 
 ## Connection (req-res)
 
-использует только в http1, оставить ли соединение после запроса, значения keep-alive, close. Все hop-by-hop заголовки должны быть в Connection (Keep-Alive, Transfer-Encoding, TE, Connection, Trailer, Upgrade, Proxy-Authorization, Proxy-Authenticate)
+использует только в http1, оставить ли соединение после запроса, значения keep-alive, close. Все hop-by-hop заголовки должны быть в Connection (Keep-Alive, Transfer-Encoding, TE, Connection, Trailer, Upgrade, Proxy-Authorization, Proxy-Authenticate). Connection можно устанавливать только заголовки, передаваемые на каждом узле соединения.
 
 ## Content-DPR (req)
 

@@ -120,8 +120,7 @@ Content-Security-Policy: <policy-directive>; <policy-directive>
 
 директивы:
 
--child-src
-
+- child-src - Определяет допустимые источники для веб-воркеров и вложенных контекстов просмотра, загружаемых с помощью таких элементов, как frame и iframe. Значение для frame-src and worker-src
 - connect-src
 - default-src
 - fenced-frame-src
