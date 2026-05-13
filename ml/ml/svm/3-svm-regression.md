@@ -8,7 +8,7 @@
 
 $$\sum_{i=1}^l \bigl(|\langle \omega, x_i \rangle - \omega_0 - y_i| - \delta\bigr)_+ + \frac{1}{2C}\|\omega\|^2 \to \min_{\omega,\,\omega_0}$$
 
-Модуль в потерях порождает $2l$ неравенств, поэтому вводят **переменные отклонений** $\xi_i^+, \xi_i^- \geq 0$:
+Модуль $|\langle \omega, x_i \rangle - \omega_0 - y_i| - \delta$ нельзя напрямую использовать в задаче квадратичного программирования — оптимизаторы работают с неравенствами, а не с модулями. Модуль раскрывается в два неравенства: предсказание может отклоняться от $y_i$ как вверх, так и вниз. Для каждого из $l$ объектов получаем два ограничения — итого $2l$ неравенств. Чтобы ввести их в стандартную форму, вводят **переменные отклонений** $\xi_i^+, \xi_i^- \geq 0$:
 
 $$\xi_i^+ = \bigl(\langle \omega, x_i \rangle - \omega_0 - y_i - \delta\bigr)_+ \quad \text{(штраф сверху)}$$
 $$\xi_i^- = \bigl(-\langle \omega, x_i \rangle + \omega_0 + y_i - \delta\bigr)_+ \quad \text{(штраф снизу)}$$
@@ -81,4 +81,35 @@ svr.fit(x_train, y_train)
 # обучение
 predict = svr.predict(coord_x)
 Q = np.square(predict - coord_y).mean()
+```
+
+- с нелинейной
+
+```python
+import numpy as np
+from sklearn import svm
+
+
+def func(x):
+    return np.sin(0.5 * x) + 0.2 * np.cos(2 * x) - 0.1 * np.sin(4 * x) - 2.5
+
+
+def model(w, x):
+    return w[0] + w[1] * x + w[2] * x ** 2 + w[3] * x ** 3 + w[4] * np.cos(x) + w[5] * np.sin(x)
+
+
+# обучающая выборка
+coord_x = np.arange(-4.0, 6.0, 0.1)
+coord_y = func(coord_x)
+
+x_train = np.array([[x, x ** 2, x ** 3, np.cos(x), np.sin(x)] for x in coord_x])
+y_train = coord_y
+
+svr = svm.SVR(kernel='linear')
+svr.fit(x_train, y_train)
+w1 = svr.coef_[0]
+w0 = svr.intercept_[0]
+
+w = [w0, *w1]
+Q = np.square(model(w, coord_x) - coord_y).mean()
 ```
