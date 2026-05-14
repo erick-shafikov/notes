@@ -35,6 +35,11 @@ Work through the photos left-to-right, top-to-bottom. For each concept:
 
 - Convert every formula to LaTeX. Inline math: `$...$`. Display math: `$$...$$`.
   Never write math as plain text (no `omega`, no `sum_i`, no `||w||`).
+- **After every display formula** add a one-line explanation of each symbol that
+  hasn't been defined yet in the current paragraph, using the pattern:
+  `где $x$ — ..., $\omega$ — ..., $k$ — ...`
+  Skip symbols that are self-evident from context or were just introduced in the
+  preceding sentence.
 - Write **flowing prose paragraphs**, not bullet-point lists of definitions.
   A note should read like a concise textbook passage, not a PowerPoint slide.
 - If the handwriting skips a step, a proof, or a standard result that belongs
@@ -79,10 +84,11 @@ D:\dev\notes\ml\ml\svm\
     svm-hinge-loss.png
 ```
 
-Save the generated script as a temp file, run it, then delete it:
+Save the generated script as `_gen_temp.py` in the topic directory, run it, then delete it.
+Always use this exact fixed name — never invent a custom filename:
 
 ```python
-# save to: <topic-dir>/gen_<name>.py  →  run  →  delete
+# save to: <topic-dir>/_gen_temp.py  →  run  →  delete
 plt.savefig('images/name.png', dpi=140, bbox_inches='tight', transparent=True)
 ```
 

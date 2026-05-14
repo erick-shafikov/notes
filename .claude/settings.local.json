@@ -1,9 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python gen_calib.py)",
-      "Bash(python gen_pr.py)",
-      "Bash(python gen_roc.py)"
+      "Bash(python _gen_temp.py)",
+      "Bash(rm _gen_temp.py)"
     ]
   }
 }
