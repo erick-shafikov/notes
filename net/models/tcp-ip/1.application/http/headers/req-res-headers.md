@@ -101,33 +101,6 @@ Cache-Control: no-cache, no-store, must-revalidate
 Cache-Control: public, max-age=31536000
 ```
 
-# Content-Digest
-
-алгоритм хеширования примененный к содержимому. Заголовок [Want-Content-Digest](#want-content-digest) запрашивает данные с хешированием, базируясь на [Content-Encoding](./representation-headers.md#content-encoding) и [Content-Range](./representation-headers.md#content-range)
-
-```bash
-# digest-algorithm - sha-512 and sha-256. Небезопасные - md5, sha (SHA-1), unixsum, unixcksum, adler (ADLER32) and crc32c.
-# digest-value - захешированное значение
-Content-Digest: <digest-algorithm>=<digest-value>
-
-# Multiple digest algorithms
-Content-Digest: <digest-algorithm>=<digest-value>,<digest-algorithm>=<digest-value>, …
-```
-
-```bash
-# запрос с клиента
-GET /items/123 HTTP/1.1
-Host: example.com
-Want-Content-Digest: sha-256=10, sha=
-
-# ответ с сервера
-HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Digest: sha-256=:RK/0qy18MlBSVnWgjwz6lZEWjP/lF5HF9bvEF8FabDg=:
-
-# {"hello": "world"}
-```
-
 # Content-Disposition
 
 В случае ответа, то как будет отображаться в браузере ответ

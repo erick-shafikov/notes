@@ -22,6 +22,8 @@
 - - 301 - ресурс был изменен навсегда, url в заголовке Location
 - - 302 - временно изменен
 - - 303 - временно изменен
+- - 304 - не изменен, связанные заголовки:
+- - - [ETag](./headers/res-headers.md#etag)
 - - 305 - прокси
 - - 306 - для http1
 - - 307 - запросить другой ресурс
@@ -42,13 +44,15 @@
 - - 409 - конфликт
 - - 410 - контент удален с сервера
 - - 411 - сервер требует COntent-Length
-- - 412 - В заголовках невыполнимые условия
+- - 412 - В заголовках невыполнимые условия, связанные заголовки:
+- - - [if-none-match](./headers/req-headers.md#if-none-match)
 - - 413 - большое тело запроса
 - - 414 - uri слишком длинный
 - - 415 - медиа формат не поддерживается, связанные заголовки:
 - - - [Accept-Encoding](./headers/req-res-headers.md#accept-encoding)
 - - - [Accept-Patch](./headers/res-headers.md#accept-patch)
 - - - [Accept-Patch](./headers/res-headers.md#accept-post)
+- - - [Content-Type](./headers/representation-headers.md#content-type)
 - - 416 - неверный range, связанные заголовки:
 - - - [Content-Range](./headers/representation-headers.md#content-range)
 - - 417 - сервер не может обработать Expect

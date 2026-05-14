@@ -69,7 +69,7 @@ Date: Wed, 21 Oct 2015 07:28:00 GMT
 Warning: 112 - "cache down" "Wed, 21 Oct 2015 07:28:00 GMT"
 ```
 
-# Width
+## Width
 
 указывает желаемую ширину ресурса в физических пикселях — внутренний размер изображения
 
@@ -81,9 +81,39 @@ Width: 1920
 
 # экспериментальные
 
+## Available-Dictionary
+
+позволяет браузеру указать наиболее подходящий словарь, чтобы сервер мог использовать протокол Compression Dictionary Transport для запроса ресурса
+
 ## Critical-CH (res)
 
 какие CH критичны
+
+```bash
+# req
+GET / HTTP/1.1
+Host: example.com
+
+# res
+HTTP/1.1 200 OK
+Content-Type: text/html
+Accept-CH: Sec-CH-Prefers-Reduced-Motion
+Vary: Sec-CH-Prefers-Reduced-Motion
+Critical-CH: Sec-CH-Prefers-Reduced-Motion
+```
+
+# Dictionary-ID (req-res) (-ff, -sf)
+
+отправляет id [словаря](../compression-dictionary-transport.md) работает в паре с Use-As-Dictionary и с активным Available-Dictionary заголовками. Сервер отправляет [Use-As-Dictionary](#use-as-dictionary) а клиент отправляет хеш, который сервер проверяет [Available-Dictionary](#available-dictionary)
+
+```bash
+# ответ сервера при запросе ресурса
+Use-As-Dictionary: match="/js/app.*.js", id="dictionary-12345"
+# при запросе из браузера ресурса указывается Dictionary-ID: "dictionary-12345"
+Accept-Encoding: gzip, br, zstd, dcb, dcz
+Available-Dictionary: :pZGm1Av0IEBKARczz7exkNYsZb8LzaMrV7J32a2fFG4=:
+Dictionary-ID: "dictionary-12345"
+```
 
 ## Downlink (req)
 
@@ -183,7 +213,7 @@ Supports-Loading-Mode: credentialed-prerender
 
 # Use-As-Dictionary
 
-В заголовке перечислены критерии соответствия, для которых может использоваться словарь Compression Dictionary Transport, для будущих запросов. Работает в паре с [Dictionary-ID](./res-headers.md#dictionary-id)
+В заголовке перечислены критерии соответствия, для которых может использоваться словарь Compression Dictionary Transport, для будущих запросов. Работает в паре с [Dictionary-ID](./deprecated-experemental.md#dictionary-id-req-res)
 
 ```bash
 Use-As-Dictionary: match="<url-pattern>" # паттерн для пути который поддерживает вид словаря

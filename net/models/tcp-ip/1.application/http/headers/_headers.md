@@ -35,5 +35,20 @@ Accept-Encoding: br;q=1.0, gzip;q=0.8, \;q=0.1
 - - [Available-Dictionary](./req-headers.md#available-dictionary)
 - для работы с контентом:
 - - [representation заголовки](./representation-headers.md)
-- - [content-digest](./req-res-headers.md#content-digest)
 - - [content-disposition](./req-res-headers.md#content-disposition)
+- - [etag](./res-headers.md#etag)
+- для управление CSP:
+- - [content-security-policy](./res-headers.md#content-security-policy)
+- - [content-security-policy-report-only](./res-headers.md#content-security-policy-report-only)
+- - [cross-origin-embedder-policy](./res-headers.md#cross-origin-embedder-policy)
+- - [cross-origin-opener-policy](./res-headers.md#cross-origin-opener-policy)
+- - [cross-origin-resource-policy](./res-headers.md#cross-origin-resource-policy)
+- информация о запросе:
+- - [date](./req-res-headers.md#date)
+- информация о клиенте (сh)
+- - [critical-ch](./deprecated-experemental.md#critical-ch-res)
+- - [dnt-req](./deprecated-experemental.md#dnt-req)
+- - [downlink](./deprecated-experemental.md#downlink-req)
+- - [content-dpr](./deprecated-experemental.md#content-dpr-req)
+- - [](./deprecated-experemental.md#dpr-req)
+- - [](./deprecated-experemental.md#ect-req)

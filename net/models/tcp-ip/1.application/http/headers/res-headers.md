@@ -118,58 +118,68 @@ Clear-Site-Data: "*"
 Content-Security-Policy: <policy-directive>; <policy-directive>
 ```
 
-директивы:
+Если не определен заголовок CSP, то будут [использованы стандартные правила ограничения](../security/same-origin-policy.md)
+
+директивы, определяют доступ к определенным элементам и ресурсам встроенные в страницы:
 
 - child-src - Определяет допустимые источники для веб-воркеров и вложенных контекстов просмотра, загружаемых с помощью таких элементов, как frame и iframe. Значение для frame-src and worker-src
-- connect-src
-- default-src
-- fenced-frame-src
-- font-src
-- frame-src
-- img-src
-- manifest-src
-- media-src
-- object-src
-- prefetch-src
-- script-src
-- script-src-elem
-- script-src-attr
-- style-src
-- style-src-elem
-- style-src-attr
-- worker-src
+- connect-src - Ограничивает список URL-адресов, которые можно загружать с помощью скриптовых интерфейсов
+- default-src - Служит резервным вариантом для других директив выборки
+- fenced-frame-src - доступ для fencedframe.
+- font-src - источники которые могут быть использованы в качестве шрифтов
+- frame-src - источники для frame
+- img-src - источники для изображений
+- manifest-src - для манифеста
+- media-src - для тегов audio/video/track
+- object-src - для object и embed
+- prefetch-src - для prefetch и prerendered ресурсов
+- script-src - для script fallback для script-src-attr style-src-elem
+- script-src-elem - для js script
+- script-src-attr - для inline js событий
+- style-src - для стилей
+- style-src-elem - для сторонних событий стилей
+- style-src-attr - для инлайн стилей
+- worker-src - для Worker, SharedWorker, ServiceWorker
 
 значения:
 
-- none - полная блокировка
-- self - только со своего origin
+- nonce-nonce_value - работает в парсе с nonce атрибутами script и style тегами
+- hash_algorithm-hash_value - хеш значение для script и Style
 - host-source - url или ip адрес
-- scheme-source - http или ws
-- nonce-nonce_value,
-- hash_algorithm-hash_value
+- scheme-source - позволяет загружать ресурсы http или ws
+- self - только со своего origin
+- trusted-types-eval -
+- unsafe-eval
+- wasm-unsafe-eval
+- unsafe-inline
+- unsafe-hashes
+- inline-speculation-rules
+- strict-dynamic
+- none - полная блокировка
 
 Директивы документа:
 
-- base-uri,
-- sandbox
+- base-uri - редирект url, которые могут быть в base,
+- sandbox - Включает изолированную среду для запрашиваемого ресурса, аналогичную атрибуту iframe
 
 Директивы навигации:
 
-- form-action,
-- frame-ancestors
+- form-action - target значение для форм,
+- frame-ancestors - Указывает допустимые родительские элементы, которые могут встраивать страницу с помощью frame, iframe, object или embed
 
 Другие:
 
-- require-trusted-types-for,
-- trusted-types,
-- upgrade-insecure-requests
+- require-trusted-types-for - Обеспечивает использование доверенных типов в точках внедрения XSS-атак в DOM,
+- trusted-types - Используется для указания списка разрешенных политик доверенных типов. Доверенные типы позволяют приложениям блокировать механизмы внедрения DOM XSS, чтобы они принимали только неподделываемые типизированные значения вместо строк.,
+- upgrade-insecure-requests - Указывает пользовательским агентам обрабатывать все небезопасные URL-адреса сайта (те, которые передаются по протоколу HTTP) так, как если бы они были заменены безопасными URL-адресами (те, которые передаются по протоколу HTTPS).
 
 ```bash
+# Может быть несколько CSP заголовков
 Content-Security-Policy: default-src 'self' http://example.com; connect-src 'none';
 Content-Security-Policy: connect-src http://example.com/; script-src http://example.com/
 ```
 
-доступ только по http
+доступ только по https
 
 ```bash
 Content-Security-Policy: default-src https:
@@ -182,8 +192,16 @@ Content-Security-Policy: default-src https:
 !!! обязательным является default-src для все неопределенных правил
 
 ```bash
+# разрешить использовать inline-код и https-ресурсы
+Content-Security-Policy: default-src https: 'unsafe-eval' 'unsafe-inline'; object-src 'none'
 # пример разрешения только доменов и поддоменов
 Content-Security-Policy: default-src 'self'
+# источники - только исходный сервер
+Content-Security-Policy: default-src 'self'
+# с доверенного домена и поддомена
+Content-Security-Policy: default-src 'self' *.trusted.com
+# картинки из любого источника, но медиа из определенных
+Content-Security-Policy: default-src 'self'; img-src *; media-src media1.com media2.com; script-src userscripts.example.com
 ```
 
 # Content-Security-Policy-Report-Only
@@ -196,51 +214,10 @@ Content-Security-Policy-Report-Only: default-src https:; # директива
   report-to csp-endpoint;
 ```
 
-# Content-Type
-
-определяет медиа тип ресурса, при ответе с сервера. при post и put запросах определяет тип отправляемого контента. Content-Encoding говорит о том как декодировать
-
-```bash
-# ответы с сервера
-HTTP/1.1 200
-content-encoding: br
-content-type: text/javascript; charset=utf-8
-vary: Accept-Encoding
-date: Fri, 21 Jun 2024 14:02:25 GMT
-content-length: 2978
-
-const videoPlayer=document.getElementById...
-
-HTTP/3 200
-server: nginx
-date: Wed, 24 Jul 2024 16:53:02 GMT
-content-type: text/css
-vary: Accept-Encoding
-content-encoding: br
-
-.super-container{clear:both;max-width:100%}...
-```
-
-```bash
-POST /foo HTTP/1.1
-Content-Length: 68137
-Content-Type: multipart/form-data; boundary=ExampleBoundaryString
-
---ExampleBoundaryString
-Content-Disposition: form-data; name="description"
-
-Description input value
---ExampleBoundaryString
-Content-Disposition: form-data; name="myFile"; filename="foo.txt"
-Content-Type: text/plain
-
-[content of the file foo.txt chosen by the user]
----------------------------1003363413119651595289485765
-```
-
 # Cross-Origin-Embedder-Policy
 
-управляет политикой документа и встраивает cross-origin в no-cors
+управляет политикой документа и встраивает cross-origin в no-cors режиме
+Заголовок следует устанавливать только с одним токеном и необязательным адресом конечной точки report-to
 
 ```bash
 Reporting-Endpoints: coep-endpoint="https://some-example.com/coep"
@@ -270,24 +247,11 @@ Cross-Origin-Opener-Policy: noopener-allow-popups
 Cross-Origin-Resource-Policy: same-site | same-origin | cross-origin
 ```
 
-# Dictionary-ID
-
-отправляет id [словаря](../compression-dictionary-transport.md) работает в паре с Use-As-Dictionary и с активным Available-Dictionary заголовками
-
-```bash
-# ответ сервера при запросе ресурса
-Use-As-Dictionary: match="/js/app.*.js", id="dictionary-12345"
-# при запросе из браузера ресурса указывается Dictionary-ID: "dictionary-12345"
-Accept-Encoding: gzip, br, zstd, dcb, dcz
-Available-Dictionary: :pZGm1Av0IEBKARczz7exkNYsZb8LzaMrV7J32a2fFG4=:
-Dictionary-ID: "dictionary-12345"
-```
-
 # ETag
 
-является идентификатором версии ресурса. Позволяет сравнить версии ресурса. Избежать коллизий помогает <!--TODO добавить ссылку на If-Match-->If-Match, который отправляется на сервер, при изменении ресурса и он должен быть равен etag изменяемого ресурса. Если не совпадают [412 ошибка](../response-statuses.md).
+является идентификатором версии ресурса. Позволяет сравнить версии ресурса. Избежать коллизий помогает [If-Match](./req-headers.md#if-match), который отправляется на сервер, при изменении ресурса и он должен быть равен etag изменяемого ресурса. Если не совпадают [412 ошибка](../response-statuses.md).
 
-Второй вариант использования - кеширования. Клиент отправляет<!--TODO добавить ссылку на If-None-Match-->If-None-Match со значением etag. Если значения совпадают, то можно использовать закешированные данные, сервер вернет 304 статус
+Второй вариант использования - кеширования. Клиент отправляет [If-None-Match](./req-headers.md#if-none-match) со значением etag. Если значения совпадают, то можно использовать закешированные данные, сервер вернет 304 статус
 
 # Expires
 

@@ -51,7 +51,7 @@ Authorization: Digest
 
 # Cookie
 
-содержит хранимые cookie, которые были установлены Set-Cookie или js
+содержит хранимые cookie, которые были установлены [Set-Cookie](./res-headers.md#set-cookie) или js
 
 ```bash
 Cookie: PHPSESSID=298zf09hf012fh2; csrftoken=u32t4o3tb3gg43; _gat=1
