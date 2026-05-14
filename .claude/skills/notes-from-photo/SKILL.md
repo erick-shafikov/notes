@@ -66,7 +66,25 @@ Work through the photos left-to-right, top-to-bottom. For each concept:
 ## Step 3 — Generate images (when diagrams are present)
 
 If the photos contain diagrams, graphs, or architecture drawings, reproduce them
-as matplotlib `.png` files saved in the same folder as the `.md` file.
+as matplotlib `.png` files.
+
+**Image location rule:** all images for a topic go into an `images/` subfolder
+inside the same directory as the `.md` file. Always create it if it doesn't exist:
+
+```
+D:\dev\notes\ml\ml\svm\
+  1-svm-lin-kernel.md
+  images/
+    svm-margin.png
+    svm-hinge-loss.png
+```
+
+Save the generated script as a temp file, run it, then delete it:
+
+```python
+# save to: <topic-dir>/gen_<name>.py  →  run  →  delete
+plt.savefig('images/name.png', dpi=140, bbox_inches='tight', transparent=True)
+```
 
 **Every image must be dark-theme compatible:**
 
@@ -74,10 +92,13 @@ as matplotlib `.png` files saved in the same folder as the `.md` file.
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import os
 
 WHITE = '#FFFFFF'
 GRAY  = '#AAAAAA'
 DIM   = '#555555'
+
+os.makedirs('images', exist_ok=True)
 
 fig = plt.figure(figsize=(w, h))
 fig.patch.set_facecolor('none')          # transparent figure background
@@ -94,17 +115,22 @@ ax.grid(color=DIM, alpha=0.35, linewidth=0.8)
 
 # ... draw content with white/light-colored lines and text ...
 
-plt.savefig('name.png', dpi=140, bbox_inches='tight', transparent=True)
+plt.savefig('images/name.png', dpi=140, bbox_inches='tight', transparent=True)
 ```
 
 Use light accent colors for data series so they read on dark backgrounds:
 `#64B5F6` (blue), `#EF9A9A` (red), `#A5D6A7` (green), `#FFF176` (yellow),
 `#FFCC80` (orange), `#CE93D8` (purple).
 
-If images already exist in the folder (`svm-margin.png`, etc.), **regenerate**
-them with the transparent/white style above — do not leave old opaque versions.
+If images already exist in `images/`, **regenerate** them with the
+transparent/white style above — do not leave old opaque versions.
 
-Reference images in the `.md` file with a relative path: `![caption](name.png)`.
+Reference images in the `.md` file with the path `images/name.png`:
+
+```markdown
+![caption](images/name.png)
+```
+
 Place each image immediately before the paragraph it illustrates.
 
 ---
@@ -126,6 +152,8 @@ Place each image immediately before the paragraph it illustrates.
 
 - File names: kebab-case, optionally prefixed with a number (`2-svm-nonlinear-kernel.md`).
 - Image names: kebab-case, descriptive (`kernel-trick.png`, `svm-margin.png`).
+- Images always live in `images/` subfolder next to the `.md` file. Never put images directly in the topic folder.
+- Reference path in `.md`: always `images/name.png`, never just `name.png`.
 - Language of prose: **match the language already used in the target file**
   (usually Russian for this repo). LaTeX formulas are always language-neutral.
 - No YAML frontmatter in notes files.
