@@ -39,7 +39,7 @@ export async function loader({ request }) {
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} fallbackElement={<LoadingElement />} />
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 //создания роутинга

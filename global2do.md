@@ -1,55 +1,39 @@
-# front-end:
+# week (19/22)
 
-- https://developer.chrome.com/docs/web-platform?hl=ru
-- [раздел "how to" на w3c: drag&drop,...](https://www.w3schools.com/howto/default.asp)
-- mdn http
-- развертывание фронт приложений (сборщики webpack, gulp.)
+- ml research (const)
+- - сайт с теорией + исследования
+- devops course
 
-<!-- папка web-dev -->
+# weekend
 
-разбор на doc папки web-dev (все что есть с докой - разобрать, сначала фронт, потом мобилку, отдельно бек)
+- паттерны теорию перенести в конспект, с gpt попросить несколько вариантов примеров (функциональный)
 
-- front
-- - react под капотом (https://incepter.github.io/how-react-works/docs/intro/)
-- - tenStack query (4/5 v)
-- native:
+# app
+
+- discord bot 2 (fastApi+vue)
+- tournament (react native)
+- football chat (ml)
+- telegram photo detect (ml)
+
+# todo
+
+- fe (weekend):
+- - react под капотом
+- - tenStack query (перенести из doc в dev)
+- - перенести все fe-libs в dev
+- - tenStack start
+- - tailwind
+- - MOBX
+- - RxJs
+- - Web 3
+- - canvas (WYT) Минин, доделать
+- - GSAP
+- - ThreeJS
+- - Framer Motion
 - - gorhom bs дока
 - - разобрать doc react-native
-
-tg:
-
-- mdn (параллельно)
-- - переход на web api
-- - shadow dom (learnJS + MDN)
-- разбор компонентов с анимацией (code pen)
-
-новые технологии:
-
-- Vue
-- tailwind
-- MOBX
-- RxJs
-- Web 3
-  <!-- графика -->
-- canvas (WYT) Минин, доделать
-- GSAP (WD)
-- ThreeJS (WD)
-- Framer Motion
-
-# back-end
-
-DOC
-
-- socket-io (doc)
-- sequelize (doc)
-- Nginx
-- Prisma
-- Next
-
-# comp science
-
-DOC
-
-- курс яндекса
-- Грокаем алгоритмы
-- Leetcode
+- cs:
+- - курс яндекса
+- - Грокаем алгоритмы (2 LeetCode/day python+js)
+- pl:
+- - c (stepik)

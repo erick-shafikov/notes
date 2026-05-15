@@ -48,15 +48,15 @@ $\frac{\partial Q}{\partial b} = \frac{2}{l} \sum_{i=1}^l (k \cdot x_i + b - y_i
 
 ОВ представлена в виде векторов
 
-$x_i = [x_{i1}, x_{i2}, \ldots, x_{in}]^T$
+$x_i = [x_{i1}, x_{i2}, \ldots, x_{in}]$
 
-$X = [x_1, x_2, \ldots, x_l] = \begin{bmatrix} x_{11} & x_{12} & \cdots & x_{1n} \\ \vdots & \vdots & \ddots & \vdots \\ x_{l1} & x_{l2} & \cdots & x_{ln}\end{bmatrix}$
+$X = \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_l \end{bmatrix} = \begin{bmatrix} x_{11} & x_{12} & \cdots & x_{1n} \\ \vdots & \vdots & \ddots & \vdots \\ x_{l1} & x_{l2} & \cdots & x_{ln}\end{bmatrix}$
 
 $n$ — число признаков
 $l$ — число объектов
 входные данные, целевые значения
 
-$Y = [y_1, y_2, \ldots, y_l]$
+$Y = [y_1, y_2, \ldots, y_l]^T$
 
 При классификации
 
