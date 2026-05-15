@@ -147,34 +147,6 @@ Date: Tue, 29 Oct 2024 16:56:32 GMT
 <html lang="en-US" …
 ```
 
-# Keep-Alive
-
-Заголовок HTTP Keep-Alive в запросе и ответе позволяет отправителю указать, как может использоваться соединение, например, по таймауту и ​​максимальному количеству запросов.
-
-Keep-Alive сообщение с Keep-Alive должно также содержать заголовок Connection: keep-alive.
-
-В протоколах HTTP/2 и HTTP/3 запрещены поля заголовка, специфичные для конкретного соединения, такие как Connection и Keep-Alive.
-
-```bash
-Keep-Alive: <parameters>
-
-HTTP/1.1 200 OK
-Connection: Keep-Alive
-Content-Encoding: gzip
-Content-Type: text/html; charset=utf-8
-Date: Thu, 11 Aug 2016 15:23:13 GMT
-Keep-Alive: timeout=5, max=200
-Last-Modified: Mon, 25 Jul 2016 04:32:39 GMT
-Server: Apache
-
-(body)
-```
-
-Значения:
-
-- timeout
-- max
-
 # Link
 
 Указывает ссылку на метаданные ресурса. Семантика как link html элемента. Позволяет пред-загрузить ресурсы с preconnect и preload.
@@ -211,41 +183,6 @@ Priority: u=<priority> # u - это число от 0 (самый высокий
 Priority: i # incrementally - поступательное, по чанкам
 Priority: u=<priority>, i
 ```
-
-# Repr-Digest
-
-предоставляет хеш-представление ресурса. Обобщает Content-Language, Content-Type, Content-Encoding. Может быть разным в зависимости от Content-Encoding и Content-Range
-
-```bash
-# Repr-Digest: <digest-algorithm>=<digest-value>
-# Repr-Digest: <digest-algorithm>=<digest-value>,…,<digest-algorithmN>=<digest-valueN>
-
-# request:
-POST /bank_transfer HTTP/1.1
-Host: example.com
-Content-Encoding: zstd
-Content-Digest: sha-512=:ABC…=:
-Repr-Digest: sha-512=:DEF…=:
-
-{
- "recipient": "Alex",
- "amount": 900000000
-}
-# response:
-…
-Repr-Digest: sha-256=:AEGPTgUMw5e96wxZuDtpfm23RBU3nFwtgY5fw4NYORo=:
-Content-Digest: sha-256=:AEGPTgUMw5e96wxZuDtpfm23RBU3nFwtgY5fw4NYORo=:
-…
-Content-Type: text/yaml
-Content-Encoding: br
-Content-Length: 38054
-Content-Range: 0-38053/38054
-…
-
-[message body]
-```
-
-При успехе 201 Created, при ошибке 406 Not Acceptable
 
 # Transfer-Encoding
 
@@ -288,24 +225,4 @@ Connection: Upgrade
 Via: 1.1 vegur
 Via: HTTP/1.1 GWA
 Via: 1.0 fred, 1.1 p.example.net
-```
-
-# Want-Content-Digest
-
-Сигнал о том, что получатель рассчитывает получать [Content-Digest](#content-digest) В заголовках
-
-```bash
-# Want-Content-Digest: <algorithm>=<preference>
-# Want-Content-Digest: <algorithm>=<preference>, …, <algorithmN>=<preferenceN>
-Want-Content-Digest: sha-512=9
-Want-Content-Digest: md5=1, sha-512=2, sha-256=3
-```
-
-# Want-Repr-Digest
-
-казывает на предпочтение получателя отправлять заголовок целостности [Repr-Digest](#repr-digest) в сообщениях, связанных с URI запроса и метаданными представления.
-
-```bash
-Want-Repr-Digest: <algorithm>=<preference>
-Want-Repr-Digest: <algorithm>=<preference>, …, <algorithmN>=<preferenceN>
 ```

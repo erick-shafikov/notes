@@ -289,7 +289,9 @@ sources:
 
 - inline
 
-endpoints - куда отправлять отчет должен быть [Reporting-Endpoints](!!!TODO link)
+endpoints
+
+endpoints - куда отправлять отчет должен быть [Reporting-Endpoints](./res-headers.md#referrer-policy)
 
 ```bash
 Reporting-Endpoints: integrity-endpoint="https://example.com/integrity", backup-integrity-endpoint="https://report-provider.example/integrity"
@@ -311,7 +313,7 @@ Integrity-Policy-Report-Only: blocked-destinations=(script), endpoints=(integrit
 
 # Location
 
-Используется для 300-ответов или 201:
+Используется для 300-ответов или 201 и указывает перенаправление:
 
 - 303 - для get с перенаправлением
 - 307, 308 - для инициирующего запроса
@@ -339,22 +341,6 @@ Origin-Agent-Cluster: <boolean>
 
 ```bash
 Proxy-Authenticate: Basic realm="Dev", charset="UTF-8"
-```
-
-# Range
-
-указывает что сервер должен вернуть часть ресурсов, сервер может вернуть часть ресурса с ответом 206 Partial Content. Если указанный диапазон неверный может вернуть 416 Range Not Satisfiable. если сервер не поддерживает отдачу контента по частям может вернуть сразу весь ресурс с 200. Требуется только порядковый номер байта
-
-```bash
-# Range: <unit>=<range-start>-
-Range: bytes=900-
-# Range: <unit>=-<range-end>
-Range: bytes=-100
-# Range: <unit>=<range-start>-<range-end>
-Range: bytes=0-499
-# Range: <unit>=<range-start>-<range-end>, …, <range-startN>-<range-endN>
-Range: bytes=200-999, 2000-2499, 9500-
-# Range: <unit>=-<suffix-length>
 ```
 
 # Referrer-Policy

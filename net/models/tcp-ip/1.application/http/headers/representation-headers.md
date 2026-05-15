@@ -165,3 +165,53 @@ Content-Type: application/json
   }
 }
 ```
+
+# Repr-Digest
+
+предоставляет хеш-представление ресурса. Обобщает [Content-Language, Content-Type, Content-Encoding](./representation-headers.md). Может быть разным в зависимости от Content-Encoding и Content-Range
+
+```bash
+# Repr-Digest: <digest-algorithm>=<digest-value>
+# Repr-Digest: <digest-algorithm>=<digest-value>,…,<digest-algorithmN>=<digest-valueN>
+
+# request:
+POST /bank_transfer HTTP/1.1
+Host: example.com
+Content-Encoding: zstd
+Content-Digest: sha-512=:ABC…=:
+Repr-Digest: sha-512=:DEF…=:
+
+{
+ "recipient": "Alex",
+ "amount": 900000000
+}
+# response:
+…
+Repr-Digest: sha-256=:AEGPTgUMw5e96wxZuDtpfm23RBU3nFwtgY5fw4NYORo=:
+Content-Digest: sha-256=:AEGPTgUMw5e96wxZuDtpfm23RBU3nFwtgY5fw4NYORo=:
+…
+Content-Type: text/yaml
+Content-Encoding: br
+Content-Length: 38054
+Content-Range: 0-38053/38054
+…
+
+[message body]
+```
+
+При успехе 201 Created, при ошибке 406 Not Acceptable
+
+# Want-Content-Digest
+
+Сигнал о том, что получатель рассчитывает получать [Content-Digest](#repr-digest) В заголовках
+
+```bash
+# Want-Content-Digest: <algorithm>=<preference>
+# Want-Content-Digest: <algorithm>=<preference>, …, <algorithmN>=<preferenceN>
+Want-Content-Digest: sha-512=9
+Want-Content-Digest: md5=1, sha-512=2, sha-256=3
+```
+
+# Want-Repr-Digest
+
+Заголовок запроса и ответа HTTP Want-Repr-Digest указывает на предпочтение получателя отправлять заголовок целостности Repr-Digest в сообщениях, связанных с URI запроса и метаданными представления.
