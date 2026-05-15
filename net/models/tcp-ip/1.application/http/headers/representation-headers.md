@@ -31,33 +31,56 @@ Content-Digest: sha-256=:RK/0qy18MlBSVnWgjwz6lZEWjP/lF5HF9bvEF8FabDg=:
 
 # Content-Encoding
 
-тип сжатия body
+Тип сжатия тела ответа. Клиент объявляет поддерживаемые алгоритмы через [Accept-Encoding](./req-res-headers.md#accept-encoding), сервер выбирает один и сообщает его в Content-Encoding. Клиент декодирует тело перед использованием.
 
 ```bash
-Content-Encoding: gzip # LZ77
-Content-Encoding: compress  # LZW
+Content-Encoding: gzip     # LZ77
+Content-Encoding: compress # LZW
 Content-Encoding: deflate  # zlib
 Content-Encoding: identity # без сжатия
-Content-Encoding: br # Brotli
+Content-Encoding: br       # Brotli
+Content-Encoding: zstd     # Zstandard
 
-# последовательность сжатий
-Content-Encoding: gzip, identity
+# последовательное применение нескольких алгоритмов (раскодировать в обратном порядке)
 Content-Encoding: deflate, gzip
 ```
 
-вместе с [Accept-Encoding](#accept-encoding) могут договариваться с сервером по поводу сжатия
+```bash
+# клиент сообщает что понимает
+GET /page HTTP/1.1
+Accept-Encoding: br, gzip;q=0.8, deflate;q=0.6
+
+# сервер выбирает br и сжимает тело
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Encoding: br
+Vary: Accept-Encoding
+
+(brotli-сжатое тело)
+```
 
 # Content-Language
 
-Сообщает о том к какой языковой группе относится контент
+Сообщает к какой языковой аудитории предназначен контент. Клиент объявляет предпочтения через [Accept-Language](./req-headers.md#accept-language), сервер выбирает язык и отражает его в Content-Language.
 
 ```bash
 Content-Language: de-DE
 Content-Language: en-US
-Content-Language: de-DE, en-CA
+Content-Language: de-DE, en-CA  # контент на нескольких языках
 ```
 
-Может быть указан в html Документе
+```bash
+# клиент указывает предпочтительный язык
+GET /docs HTTP/1.1
+Accept-Language: fr-CH, fr;q=0.9, en;q=0.8
+
+# сервер возвращает французскую версию
+HTTP/1.1 200 OK
+Content-Language: fr-CH
+Content-Type: text/html; charset=utf-8
+```
+
+Может быть указан в html-документе:
 
 ```html
 <html lang="de"></html>
@@ -67,44 +90,88 @@ Content-Language: de-DE, en-CA
 
 # Content-Length (res, req)
 
-размер в байтах. Передает информацию если идет стрим контента или генерация контента
+Размер тела в байтах. Используется когда размер известен заранее. При стриминге или динамической генерации Content-Length опускается и вместо него используется [Transfer-Encoding: chunked](./req-res-headers.md#transfer-encoding).
+
+```bash
+# ответ со статичным файлом — размер известен
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 42
+
+{"user": "alice", "role": "admin"}
+
+# POST-запрос с известным телом
+POST /upload HTTP/1.1
+Content-Type: application/octet-stream
+Content-Length: 1048576
+
+(бинарное тело 1 МБ)
+```
 
 # Content-Location
 
-альтернативное расположение возвращаемых данных, в отличие от Location указывает прямую ссылку при [согласовании контента](../сontent-negotiation.md). Location предполагает 3ХХ код ответа для редиректа
+Указывает прямой URL возвращённого представления при [согласовании контента](../сontent-negotiation.md). Отличается от `Location`: тот предполагает 3xx-редирект, а `Content-Location` — это информация о текущем ответе (нет редиректа).
 
 ```bash
-# Запрос
-Accept: application/json, text/json
-# Ответ
+# клиент запрашивает JSON
+GET /documents/foo HTTP/1.1
+Accept: application/json
+
+# сервер сообщает конкретный URL этого представления
+HTTP/1.1 200 OK
+Content-Type: application/json
 Content-Location: /documents/foo.json
-# Запрос
-Accept: application/xml, text/xml
-# Ответ
+
+{"title": "foo", "body": "..."}
+
+# клиент запрашивает XML
+GET /documents/foo HTTP/1.1
+Accept: application/xml
+
+HTTP/1.1 200 OK
+Content-Type: application/xml
 Content-Location: /documents/foo.xml
-# Запрос
-Accept: text/plain, text/*
-# Ответ
-Content-Location: /documents/foo.txt
+
+<document><title>foo</title></document>
 ```
 
-Как пример - при создании выплаты в Content-Location может быть помещен путь где находится страница с результатом выплаты
+```bash
+# при создании ресурса — Content-Location указывает где его найти
+POST /payments HTTP/1.1
+Content-Type: application/json
+
+{"amount": 500, "to": "alice"}
+
+HTTP/1.1 201 Created
+Content-Location: /payments/txn-9921
+Content-Type: application/json
+
+{"id": "txn-9921", "status": "completed"}
+```
 
 # Content-Range
 
-показывает где находится содержимое тело ответа относительно ресурса
+Показывает положение передаваемой части ресурса относительно полного размера. Отправляется в ответах 206 Partial Content и 416 Range Not Satisfiable.
 
 ```bash
-HTTP/2 206
-content-type: image/jpeg
-content-length: 1024
-content-range: bytes 0-1023/146515
-…
+# клиент запрашивает первый мегабайт файла
+GET /video.mp4 HTTP/1.1
+Range: bytes=0-1048575
 
-(binary content)
+# сервер возвращает запрошенный диапазон
+HTTP/1.1 206 Partial Content
+Content-Type: video/mp4
+Content-Length: 1048576
+Content-Range: bytes 0-1048575/52428800
 
-# или при неопределенном размере
-Content-Range: bytes */67589
+(бинарные данные)
+
+# запрошенный диапазон выходит за пределы файла
+HTTP/1.1 416 Range Not Satisfiable
+Content-Range: bytes */52428800
+
+# общий размер файла неизвестен (например, генерируется динамически)
+Content-Range: bytes 0-1023/*
 ```
 
 # Content-Type
@@ -148,14 +215,13 @@ Content-Disposition: form-data; name="myFile"; filename="foo.txt"
 Content-Type: text/plain
 
 [content of the file foo.txt chosen by the user]
----------------------------1003363413119651595289485765
+--ExampleBoundaryString--
 
-#  application/json
+# application/json
 HTTP/1.1 201 Created
 Content-Type: application/json
 
 {
-  {
   "message": "New user created",
   "user": {
     "id": 123,
@@ -193,25 +259,60 @@ Content-Digest: sha-256=:AEGPTgUMw5e96wxZuDtpfm23RBU3nFwtgY5fw4NYORo=:
 Content-Type: text/yaml
 Content-Encoding: br
 Content-Length: 38054
-Content-Range: 0-38053/38054
+Content-Range: bytes 0-38053/38054
 …
 
 [message body]
 ```
 
-При успехе 201 Created, при ошибке 406 Not Acceptable
+При успехе 201 Created. При несовпадении дайджеста сервер может вернуть 400 Bad Request (тело запроса изменено) или 406 Not Acceptable (алгоритм не поддерживается)
 
 # Want-Content-Digest
 
-Сигнал о том, что получатель рассчитывает получать [Content-Digest](#repr-digest) В заголовках
+Запрашивает у партнёра включить [Content-Digest](#content-digest) в ответные сообщения. Числовое значение (0–9) — предпочтение алгоритма: `0` означает «не использовать», `1–9` — уровень желательности (выше = предпочтительнее).
 
 ```bash
 # Want-Content-Digest: <algorithm>=<preference>
 # Want-Content-Digest: <algorithm>=<preference>, …, <algorithmN>=<preferenceN>
-Want-Content-Digest: sha-512=9
-Want-Content-Digest: md5=1, sha-512=2, sha-256=3
+
+# запросить sha-256 с максимальным предпочтением
+Want-Content-Digest: sha-256=9
+
+# предпочесть sha-256, допустить sha-512, запретить md5
+Want-Content-Digest: sha-256=9, sha-512=3, md5=0
+```
+
+```bash
+# клиент просит включить дайджест в ответ
+GET /items/123 HTTP/1.1
+Want-Content-Digest: sha-256=9
+
+# сервер включает Content-Digest
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Digest: sha-256=:RK/0qy18MlBSVnWgjwz6lZEWjP/lF5HF9bvEF8FabDg=:
+
+{"id": 123, "name": "widget"}
 ```
 
 # Want-Repr-Digest
 
-Заголовок запроса и ответа HTTP Want-Repr-Digest указывает на предпочтение получателя отправлять заголовок целостности Repr-Digest в сообщениях, связанных с URI запроса и метаданными представления.
+Запрашивает у партнёра включить [Repr-Digest](#repr-digest) в ответные сообщения. Работает аналогично [Want-Content-Digest](#want-content-digest), но запрашивает дайджест всего представления (без учёта Content-Encoding и Content-Range), а не только передаваемого содержимого.
+
+```bash
+# Want-Repr-Digest: <algorithm>=<preference>
+Want-Repr-Digest: sha-256=9
+Want-Repr-Digest: sha-256=9, sha-512=3
+
+# клиент запрашивает дайджест представления
+GET /resource HTTP/1.1
+Want-Repr-Digest: sha-256=9
+
+# сервер отвечает дайджестом полного представления
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Encoding: gzip
+Repr-Digest: sha-256=:d435Qo...=:
+
+(gzip-сжатое тело — но дайджест считался по несжатому JSON)
+```

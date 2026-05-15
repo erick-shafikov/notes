@@ -3,58 +3,73 @@
 - Информационные ответы (100 – 199):
 - - 100 - запрос продолжается
 - - - [expect](./headers/req-headers.md#expect)
-- - 101 - смена протокола
+- - 101 - смена протокола, связанные заголовки:
+- - - [Upgrade](./headers/req-res-headers.md#upgrade)
+- - - [Connection](./headers/deprecated.md#connection-req-res)
 - - 102 - сервер обрабатывает запрос
-- - 103 - предварительная загрузка
+- - 103 - предварительная загрузка, связанные заголовки:
+- - - [Link](./headers/req-res-headers.md#link)
 - Успешные ответы (200 – 299):
 - - 200 - успех по операциям crud
 - - - [if-range](./headers/req-headers.md#if-range)
-- - 201 - создан ресурс
+- - 201 - создан ресурс, связанные заголовки:
+- - - [Location](./headers/res-headers.md#location)
 - - 202 - пока еще не обработан
 - - 203 - не соответствие метаданным
 - - 204 - для запроса нет контента для отправки
 - - 205 - сброс документа
 - - 206 - часть ресурса, заголовки связанные с ответом:
+- - - [Range](./headers/req-headers.md#range)
 - - - [Content-Range](./headers/representation-headers.md#content-range)
 - - - [if-range](./headers/req-headers.md#if-range)
 - - 207 - несколько кодов состояния
 - - 208 - для повторных данных
-- - 209 - для отправки разницы текущего и измененного документа
 - Сообщения о перенаправлении (300 – 399):
-- - 300 - более одного ответа
+- - 300 - более одного ответа, связанные заголовки:
+- - - [Location](./headers/res-headers.md#location)
 - - 301 - ресурс был изменен навсегда, url в заголовке Location, связанные заголовки:
 - - - [location](./headers/res-headers.md#location)
-- - 302 - временно изменен, связанные заголовки:
+- - 302 - временный редирект; браузеры исторически меняли метод на GET (как 303), но по спеке метод сохраняется; на практике вместо него используют 303 или 307, связанные заголовки:
 - - - [location](./headers/res-headers.md#location)
-- - 303 - временно изменен, связанные заголовки:
+- - 303 - перенаправление на GET-ресурс после POST/PUT/DELETE; метод всегда меняется на GET, связанные заголовки:
 - - - [location](./headers/res-headers.md#location)
 - - 304 - не изменен, связанные заголовки:
+- - - [Cache-Control](./headers/req-res-headers.md#cache-control)
+- - - [Vary](./headers/res-headers.md#vary)
 - - - [ETag](./headers/res-headers.md#etag)
+- - - [if-none-match](./headers/req-headers.md#if-none-match)
 - - - [if-modified-since](./headers/req-headers.md#if-modified-since)
-- - 305 - прокси
-- - 306 - для http1
-- - 307 - запросить другой ресурс, связанные заголовки:
+- - 305 - прокси (deprecated)
+- - 306 - зарезервирован, не используется
+- - 307 - временный редирект с сохранением метода и тела запроса, связанные заголовки:
 - - - [location](./headers/res-headers.md#location)
-- - 308 - ресурс находится по адресу в заголовке Location, связанные заголовки:
+- - 308 - постоянный редирект с сохранением метода и тела запроса (аналог 301 без смены метода), связанные заголовки:
 - - - [location](./headers/res-headers.md#location)
 - Ошибки клиента (400 – 499)
 - - 400 - ошибка в запросе, связанные заголовки:
 - - - [host](./headers/req-headers.md#host)
 - - 401 - не авторизован, связанные заголовки:
+- - - [WWW-Authenticate](./headers/res-headers.md#www-authenticate)
 - - - [Authorization](./headers/req-headers.md#authorization)
 - - 402 - используется редко, для платежных систем
 - - 403 - нет прав к ресурсу
 - - 404 - нет ресурса
 - - 405 - метод не поддерживается, связанные заголовки:
 - - - [Allow](./headers/res-headers.md#allow)
-- - 406 - нет контента для UA, связанные заголовки:
+- - 406 - сервер не может вернуть ответ соответствующий Accept-заголовкам запроса, связанные заголовки:
+- - - [Accept](./headers/req-res-headers.md#accept)
+- - - [Accept-Encoding](./headers/req-res-headers.md#accept-encoding)
 - - - [Accept-Language](./headers/req-headers.md#accept-language)
 - - 407 - не авторизован прокси, связанные заголовки:
-- - - [proxy-authenticate](./headers/res-headers.md#proxy-authenticate)
+- - - [Proxy-Authenticate](./headers/res-headers.md#proxy-authenticate)
+- - - [Proxy-Authorization](./headers/req-headers.md#proxy-authorization)
 - - 408 - таймаут
-- - 409 - конфликт
+- - 409 - конфликт, связанные заголовки:
+- - - [ETag](./headers/res-headers.md#etag)
+- - - [If-Match](./headers/req-headers.md#if-match)
 - - 410 - контент удален с сервера
-- - 411 - сервер требует COntent-Length
+- - 411 - сервер требует Content-Length, связанные заголовки:
+- - - [Content-Length](./headers/representation-headers.md#content-length-res-req)
 - - 412 - В заголовках невыполнимые условия, связанные заголовки:
 - - - [if-match](./headers/req-headers.md#if-match)
 - - - [if-none-match](./headers/req-headers.md#if-none-match)
@@ -62,22 +77,26 @@
 - - 413 - большое тело запроса
 - - 414 - uri слишком длинный
 - - 415 - медиа формат не поддерживается, связанные заголовки:
-- - - [Accept-Encoding](./headers/req-res-headers.md#accept-encoding)
 - - - [Accept-Patch](./headers/res-headers.md#accept-patch)
-- - - [Accept-Patch](./headers/res-headers.md#accept-post)
+- - - [Accept-Post](./headers/res-headers.md#accept-post)
 - - - [Content-Type](./headers/representation-headers.md#content-type)
 - - 416 - неверный range, связанные заголовки:
+- - - [Range](./headers/req-headers.md#range)
 - - - [Content-Range](./headers/representation-headers.md#content-range)
 - - 417 - сервер не может обработать Expect, связанные заголовки:
 - - - [expect](./headers/req-headers.md#expect)
 - - 418 - не позволяет заварить кофе в чайнике
-- - 421 - сервер не настроен
+- - 421 - запрос направлен не на тот сервер (не может обработать эту комбинацию scheme + authority)
 - - 422 - семантические ошибки запроса
 - - 423 - ресурс заблокирован
 - - 424 - проблема в предыдущем запросе
-- - 425 - ранняя отправка данных до соединения
-- - 426 - текущий протокол не подходит
-- - 428 - запрос должен содержать условия
+- - 425 - ранняя отправка данных до соединения, связанные заголовки:
+- - - [Early-Data](./headers/experemental.md#early-data-req)
+- - 426 - текущий протокол не подходит, связанные заголовки:
+- - - [Upgrade](./headers/req-res-headers.md#upgrade)
+- - 428 - запрос должен содержать условия, связанные заголовки:
+- - - [If-Match](./headers/req-headers.md#if-match)
+- - - [If-None-Match](./headers/req-headers.md#if-none-match)
 - - 429 - слишком много запросов, связанные заголовки:
 - - - [retry-after](./headers/res-headers.md#retry-after)
 - - 431 - заголовки слишком большие
@@ -94,4 +113,5 @@
 - - 507 - серверу не удалось сохранить данные
 - - 508 - бесконечный цикл обработки данных
 - - 510 - нужно расширить запрос
-- - 511 - пройти аутентификацию
+- - 511 - пройти аутентификацию (сетевую, например captive portal), связанные заголовки:
+- - - [WWW-Authenticate](./headers/res-headers.md#www-authenticate)

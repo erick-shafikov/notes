@@ -37,7 +37,6 @@ accept заголовки - для согласования контента:
 - [expires](./res-headers.md#expires)
 - [no-vary-search](./experemental.md#no-vary-search-res)
 - [pragma](./deprecated.md#pragma-req-res)
-- [Referer](./req-headers.md#referer)
 - [vary](./res-headers.md#vary)
 - [via](./req-res-headers.md#via)
 - [x-forwarded-for](./x-headers.md#x-forwarded-for-req)
@@ -84,7 +83,8 @@ accept заголовки - для согласования контента:
 - [prefer](./req-headers.md#prefer)
 - [preference-applied](./res-headers.md#preference-applied)
 - [priority](./req-res-headers.md#priority)
-- [repr-digest](./req-res-headers.md#repr-digest)
+- [repr-digest](./representation-headers.md#repr-digest)
+- [referer](./req-headers.md#referer)
 - [server](./res-headers.md#server)
 - [server-timing](./res-headers.md#server-timing)
 - [user-agent](./req-headers.md#user-agent)
@@ -126,6 +126,9 @@ hop-by-hop - для управление соединением:
 
 - [proxy-authenticate](./res-headers.md#proxy-authenticate)
 - [proxy-authorization](./req-headers.md#proxy-authorization)
+- [www-authenticate](./res-headers.md#www-authenticate)
+
+управление состоянием:
+
 - [set-cookie](./res-headers.md#set-cookie)
 - [cookie](./req-headers.md#cookie)
-- [www-authenticate](./res-headers.md#www-authenticate)
