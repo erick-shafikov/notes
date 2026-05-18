@@ -39,7 +39,9 @@ Work through the photos left-to-right, top-to-bottom. For each concept:
   hasn't been defined yet in the current paragraph, using the pattern:
   `где $x$ — ..., $\omega$ — ..., $k$ — ...`
   Skip symbols that are self-evident from context or were just introduced in the
-  preceding sentence.
+  preceding sentence. If several formulas follow in a row, each symbol is described
+  only the first time it appears — do not repeat the same description in later
+  formulas of the same block.
 - Write **flowing prose paragraphs**, not bullet-point lists of definitions.
   A note should read like a concise textbook passage, not a PowerPoint slide.
 - If the handwriting skips a step, a proof, or a standard result that belongs
