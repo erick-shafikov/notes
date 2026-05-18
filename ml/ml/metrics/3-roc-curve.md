@@ -77,7 +77,6 @@ data_y = np.hstack([np.ones(N1) * -1, np.ones(N2)])
 
 x_train, x_test, y_train, y_test = train_test_split(data_x, data_y, random_state=123, test_size=0.5, shuffle=True)
 
-# здесь продолжайте программу
 clf = svm.SVC(kernel='linear')
 clf.fit(x_train, y_train)
 predict = clf.predict(x_test)

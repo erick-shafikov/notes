@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(python _gen_temp.py)",
-      "Bash(rm _gen_temp.py)"
+      "Bash(rm _gen_temp.py)",
+      "Bash(Remove-Item \"D:\\\\dev\\\\notes\\\\ml\\\\ml\\\\logic-classification\\\\_gen_temp.py\")"
     ]
   }
 }

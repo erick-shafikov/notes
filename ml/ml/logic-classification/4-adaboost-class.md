@@ -1,3 +1,83 @@
+# Введение в бустинг. Алгоритм AdaBoost
+
+## Bagging vs Boosting
+
+Bagging строит $T$ алгоритмов с равными весами $\frac{1}{T}$: $a(x) = \frac{1}{T}\sum_{t=1}^T a_t(x)$. Проблема — алгоритмы обучаются независимо на перекрывающихся подвыборках и остаются скоррелированными: $\mathbb{E}[a_j(x) \cdot a_i(x)] \neq 0$. Дисперсия ошибки снижается, но не оптимально.
+
+**Бустинг** решает это двумя способами: разными весами $\alpha_t$ для каждого базового алгоритма и **последовательным** обучением — каждый следующий алгоритм концентрируется на объектах, которые ошибся предыдущий.
+
+## Постановка задачи
+
+Композиция базовых алгоритмов $b_t(x)$ с весами $\alpha_t$:
+
+$$a(x) = \sum_{t=1}^{T} \alpha_t\, b_t(x)$$
+
+где $b_t(x)$ — базовый алгоритм (например, решающий пень). Для бинарной классификации $y_i \in \{-1, +1\}$ определим **отступ** (margin) объекта $x_i$:
+
+$$M_i = y_i \cdot a(x_i)$$
+
+Если $M_i > 0$ — классификатор верен, $M_i < 0$ — ошибка. Эмпирический риск:
+
+$$Q_T = \sum_{i=1}^{l} [M_i < 0] = \sum_{i=1}^{l} \left[y_i \sum_{t=1}^T \alpha_t b_t(x_i) < 0\right] \to \min$$
+
+Индикатор $[\cdot]$ не дифференцируем. Заменяем его верхней оценкой — **экспоненциальной потерей**:
+
+$$[M_i < 0] \leq e^{-M_i} \implies Q_T \leq \hat{Q}_T = \sum_{i=1}^{l} \exp\!\left(-y_i \sum_{t=1}^T \alpha_t b_t(x_i)\right)$$
+
+## Последовательная минимизация
+
+Экспоненциальную потерю можно разложить в произведение:
+
+$$\hat{Q}_T = \sum_{i=1}^{l} \prod_{t=1}^{T} \exp\!\left(-y_i\, \alpha_t\, b_t(x_i)\right)$$
+
+На шаге $t$ уже построены $b_1, \ldots, b_{t-1}$ с весами $\alpha_1, \ldots, \alpha_{t-1}$. Введём **веса объектов**:
+
+$$w_i^{(t)} = \exp\!\left(-y_i \sum_{t'=1}^{t-1} \alpha_{t'} b_{t'}(x_i)\right), \quad w_i^{(1)} = 1$$
+
+Тогда задача шага $t$ — минимизировать:
+
+$$Q_t = \sum_{i=1}^{l} w_i^{(t)}\, \exp\!\left(-y_i\, \alpha_t\, b_t(x_i)\right) \to \min_{\alpha_t,\, b_t}$$
+
+Поскольку $y_i, b_t(x_i) \in \{-1, +1\}$, показатель экспоненты равен $-\alpha_t$ при верной классификации и $+\alpha_t$ при ошибке:
+
+$$Q_t = e^{-\alpha_t} \underbrace{\sum_{b_t(x_i)=y_i} w_i^{(t)}}_{1 - \epsilon_t} + e^{+\alpha_t} \underbrace{\sum_{b_t(x_i)\neq y_i} w_i^{(t)}}_{\epsilon_t}$$
+
+где $\epsilon_t = \sum_{i:\,b_t(x_i) \neq y_i} w_i^{(t)}$ — взвешенная ошибка классификации.
+
+## Оптимальные $b_t$ и $\alpha_t$
+
+Оптимальный базовый алгоритм минимизирует взвешенную ошибку:
+
+$$b_t = \operatorname{argmin}_{b}\; \sum_{i=1}^{l} w_i^{(t)}\, [b(x_i) \neq y_i]$$
+
+Оптимальный вес находится из $\partial Q_t / \partial \alpha_t = 0$:
+
+$$-e^{-\alpha_t}(1-\epsilon_t) + e^{\alpha_t}\epsilon_t = 0 \implies \alpha_t = \frac{1}{2} \ln \frac{1 - \epsilon_t}{\epsilon_t}$$
+
+где $\alpha_t > 0$ при $\epsilon_t < 0.5$ (алгоритм лучше случайного). Чем точнее базовый алгоритм, тем больше его вес.
+
+## Обновление весов
+
+После выбора $(b_t, \alpha_t)$ веса следующего шага:
+
+$$w_i^{(t+1)} = w_i^{(t)} \cdot \exp\!\left(-\alpha_t\, y_i\, b_t(x_i)\right)$$
+
+Объекты, классифицированные **верно**: $y_i b_t(x_i) = +1$ → $w$ умножается на $e^{-\alpha_t} < 1$ (вес уменьшается). Объекты с **ошибкой**: $y_i b_t(x_i) = -1$ → $w$ умножается на $e^{+\alpha_t} > 1$ (вес растёт). После обновления веса нормируются: $w_i \leftarrow w_i / \sum_j w_j$.
+
+## Алгоритм AdaBoost
+
+1. Инициализация: $w_i = \frac{1}{l}$, $i = 1, \ldots, l$
+2. Для $t = 1, \ldots, T$:
+   - Найти $b_t = \operatorname{argmin}_{b}\; \sum_i w_i\, [b(x_i) \neq y_i]$
+   - Вычислить взвешенную ошибку: $\epsilon_t = \sum_i w_i\, [b_t(x_i) \neq y_i]$
+   - Вычислить вес: $\alpha_t = \dfrac{1}{2} \ln \dfrac{1 - \epsilon_t}{\epsilon_t}$
+   - Обновить и нормировать веса: $w_i \leftarrow w_i \cdot \exp(-\alpha_t y_i b_t(x_i))$, затем $w_i \leftarrow w_i / \sum_j w_j$
+3. Итоговый классификатор: $a(x) = \mathrm{sign}\!\left(\displaystyle\sum_{t=1}^T \alpha_t\, b_t(x)\right)$
+
+![Три итерации AdaBoost: размер точки пропорционален весу w_i; ошибочно классифицированные объекты (×) получают больший вес на следующем шаге](images/adaboost-iterations.png)
+
+---
+
 - adaboost на бинарной классификации
 
 ```python
@@ -70,7 +150,7 @@ print(f"Число ошибок на обучающей выборке: {N} пр
 # predicted = alfa[0] * algs[0].predict(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
 # for n in range(1, T):
 #     predicted += alfa[n] * algs[n].predict(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
-# 
+#
 # plt.pcolormesh(xx, yy, predicted, cmap='spring', shading='auto')
 # plt.scatter(train_data[:, 0], train_data[:, 1], c=train_labels, s=5000 * w, cmap='spring', edgecolors='black',
 #             linewidth=1.5)

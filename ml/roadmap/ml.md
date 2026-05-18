@@ -8,7 +8,7 @@
 - Softmax / Multinomial Logistic Regression — для многоклассовых задач.
 - метрики Accuracy, Precision / Recall / F1, ROC-AUC, PR-AUC, LogLoss, Calibration curves, Ranking metrics
 - Multicollinearity, Feature scaling влияние, Probabilistic interpretation
-- Алгоритмы - k-NN, Naive Bayes, Decision Trees,
+- [x] Алгоритмы - k-NN, Naive Bayes, Decision Trees,
 - Регуляризация - L1 / L2, Dropout, Early stopping, Weight decay vs L2, Bayesian regularization
 - практика:
 - - Проект 1. Датасет: [Titanic](https://www.kaggle.com/c/titanic) или [Adult Census Income](https://archive.ics.uci.edu/dataset/2/adult) Методы: Логистическая регрессия, SVM(kernel trick), KNN, Bias-variance decomposition
@@ -21,7 +21,7 @@
 
 Продвинутые деревья и ансамбли:
 
-- Random Forest — очень часто применяется на практике.
+- [x] Random Forest — очень часто применяется на практике.
 - Gradient Boosting (XGBoost, LightGBM, CatBoost) — де-факто стандарт в табличных данных.
 - Extra Trees (Extremely Randomized Trees) — альтернатива RF.
 - Байесовские методы:
@@ -30,11 +30,13 @@
 
 Кластеризация и снижение размерности
 
-- PCA, SVD
+- [x] PCA, SVD
 - t-SNE, UMAP — для визуализации и нелинейного уменьшения размерности.
 - NMF (Non-negative Matrix Factorization) — часто для текстов.
 - ICA (Independent Component Analysis) — разделение независимых сигналов.
-  Методы ближайших соседей (расширения):
+
+Методы ближайших соседей (расширения):
+
 - Ball Tree, KD-Tree — для ускорения kNN.
 - Metric Learning (Siamese networks, triplet loss) — улучшение поиска ближайших объектов.
 - Проекты:
@@ -45,7 +47,9 @@
 
 - CRF (Conditional Random Fields) — для последовательностей (NLP, биоинформатика).
 - HMM (Hidden Markov Models) — временные ряды, распознавание речи.
-  Временные ряды:
+
+Временные ряды:
+
 - ARIMA / SARIMA — классика анализа рядов.
 - Prophet (от Meta) — практический инструмент.
 - VAR (Vector AutoRegression) — когда несколько временных рядов.
