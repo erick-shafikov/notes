@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+
+      .accordion-item {
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+      }
+
+      /* скрываем checkbox */
+      .accordion-toggle {
+        display: none;
+      }
+
+      /* кнопка */
+      .accordion-title {
+        display: block;
+        padding: 18px;
+        cursor: pointer;
+        background: #eee;
+        transition: 0.3s;
+      }
+
+      .accordion-title:hover {
+        background: #ddd;
+      }
+
+      /* контейнер анимации */
+      .accordion-content {
+        display: grid;
+        /* закрыто */
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.4s ease;
+      }
+
+      /* внутренний wrapper обязателен */
+      .accordion-content-inner {
+        /* без overflow: hidden работать не будет */
+        overflow: hidden;
+        padding: 0 18px;
+      }
+
+      /* открыто */
+      .accordion-toggle:checked + .accordion-title + .accordion-content {
+        grid-template-rows: 1fr;
+      }
+
+      /* активный header */
+      .accordion-toggle:checked + .accordion-title {
+        background: #ccc;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Accordion</h2>
+
+    <div class="accordion-item">
+      <input type="checkbox" id="acc1" class="accordion-toggle" />
+      <!-- при нажатии на label срабатывает checkbox-->
+      <label for="acc1" class="accordion-title">Section 1</label>
+
+      <div class="accordion-content">
+        <div class="accordion-content-inner">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <input type="checkbox" id="acc2" class="accordion-toggle" />
+
+      <label for="acc2" class="accordion-title">Section 2</label>
+
+      <div class="accordion-content">
+        <div class="accordion-content-inner">
+          <p>Another content block.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+      /* контейнер вкладок */
+      .tab {
+        display: flex;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        background: #f1f1f1;
+      }
+
+      /* кнопки */
+      .tab button {
+        border: none;
+        background: transparent;
+        padding: 14px 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 16px;
+      }
+
+      .tab button:hover {
+        background: #ddd;
+      }
+
+      .tab button.active {
+        background: #ccc;
+      }
+
+      /* контент */
+      .tabcontent {
+        display: none;
+        border: 1px solid #ccc;
+        padding: 16px;
+      }
+
+      .tabcontent.active {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Tabs</h2>
+
+    <div class="tab">
+      <button class="tablinks active" data-tab="London">London</button>
+      <button class="tablinks" data-tab="Paris">Paris</button>
+      <button class="tablinks" data-tab="Tokyo">Tokyo</button>
+    </div>
+
+    <div id="London" class="tabcontent active">
+      <h3>London</h3>
+      <p>London is the capital city of England.</p>
+    </div>
+
+    <div id="Paris" class="tabcontent">
+      <h3>Paris</h3>
+      <p>Paris is the capital of France.</p>
+    </div>
+
+    <div id="Tokyo" class="tabcontent">
+      <h3>Tokyo</h3>
+      <p>Tokyo is the capital of Japan.</p>
+    </div>
+
+    <script>
+      const tabs = document.querySelectorAll(".tablinks");
+      const contents = document.querySelectorAll(".tabcontent");
+
+      // по всем табам
+      tabs.forEach((tab) => {
+        // добавить прослушку события клик
+        tab.addEventListener("click", () => {
+          // у tablinks и tabcontent совпадают data-tab и id
+          const target = document.getElementById(tab.dataset.tab);
+
+          // у всех убрать активное состояние
+          tabs.forEach((t) => {
+            t.classList.remove("active");
+          });
+
+          contents.forEach((c) => {
+            c.classList.remove("active");
+          });
+
+          // открыть только текущий
+          tab.classList.add("active");
+          target.classList.add("active");
+        });
+      });
+    </script>
+  </body>
+</html>

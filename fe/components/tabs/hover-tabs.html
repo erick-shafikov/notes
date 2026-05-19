@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+
+      .tabs {
+        display: flex;
+        border: 1px solid #ccc;
+        min-height: 300px;
+      }
+
+      /* левая колонка */
+      .tab-menu {
+        width: 220px;
+        background: #f1f1f1;
+        border-right: 1px solid #ccc;
+
+        display: flex;
+        flex-direction: column;
+      }
+
+      .tab-button {
+        border: none;
+        background: transparent;
+        padding: 18px;
+        text-align: left;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.2s;
+      }
+
+      .tab-button:hover {
+        background: #ddd;
+      }
+
+      .tab-button.active {
+        background: #ccc;
+      }
+
+      /* правая колонка */
+      .tab-content {
+        flex: 1;
+        padding: 20px;
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Hover Tabs</h2>
+    <p>Hover over the buttons:</p>
+
+    <div class="tabs">
+      <div class="tab-menu">
+        <button class="tab-button active" data-tab="London">London</button>
+        <button class="tab-button" data-tab="Paris">Paris</button>
+        <button class="tab-button" data-tab="Tokyo">Tokyo</button>
+      </div>
+
+      <div class="tab-panels">
+        <div id="London" class="tab-content active">
+          <h3>London</h3>
+          <p>London is the capital city of England.</p>
+        </div>
+
+        <div id="Paris" class="tab-content">
+          <h3>Paris</h3>
+          <p>Paris is the capital of France.</p>
+        </div>
+
+        <div id="Tokyo" class="tab-content">
+          <h3>Tokyo</h3>
+          <p>Tokyo is the capital of Japan.</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const buttons = document.querySelectorAll(".tab-button");
+      const contents = document.querySelectorAll(".tab-content");
+
+      buttons.forEach((button) => {
+        button.addEventListener("mouseenter", () => {
+          const target = document.getElementById(button.dataset.tab);
+
+          buttons.forEach((b) => {
+            b.classList.remove("active");
+          });
+
+          contents.forEach((c) => {
+            c.classList.remove("active");
+          });
+
+          button.classList.add("active");
+          target.classList.add("active");
+        });
+      });
+    </script>
+  </body>
+</html>

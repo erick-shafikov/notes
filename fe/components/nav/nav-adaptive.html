@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: sans-serif;
+      }
+
+      /* скрытый toggle */
+      #menu-toggle {
+        display: none;
+      }
+
+      .topnav {
+        background: #333;
+      }
+
+      .topnav-inner {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-links {
+        display: flex;
+        flex: 1;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        padding: 14px 16px;
+        transition: 0.2s;
+      }
+
+      .nav-links a:hover {
+        background: #ddd;
+        color: black;
+      }
+
+      .nav-links a.active {
+        background: #04aa6d;
+      }
+
+      /* кнопка бургер скрыта*/
+      .menu-button {
+        display: none;
+        color: white;
+        font-size: 24px;
+        padding: 10px 16px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      /* mobile */
+      @media (max-width: 600px) {
+        .topnav-inner {
+          /* изменить направление */
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .menu-button {
+          display: block;
+          align-self: flex-end;
+        }
+
+        .nav-links {
+          /* скрыты */
+          display: none;
+          flex-direction: column;
+        }
+
+        /* если menu-toggle:checked, то выбор соседей */
+        #menu-toggle:checked ~ .topnav-inner .nav-links {
+          display: flex;
+        }
+
+        .nav-links a {
+          border-top: 1px solid #444;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="topnav">
+      <input type="checkbox" id="menu-toggle" />
+
+      <div class="topnav-inner">
+        <label for="menu-toggle" class="menu-button">☰</label>
+
+        <nav class="nav-links">
+          <a href="#home" class="active"> Home </a>
+          <a href="#news">News</a>
+          <a href="#contact">Contact</a>
+          <a href="#about">About</a>
+        </nav>
+      </div>
+    </div>
+
+    <div style="padding: 16px">
+      <h2>Responsive Topnav Example</h2>
+      <p>Resize the browser window to see how it works.</p>
+    </div>
+  </body>
+</html>
