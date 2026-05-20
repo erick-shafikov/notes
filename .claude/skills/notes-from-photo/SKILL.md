@@ -46,6 +46,12 @@ Work through the photos left-to-right, top-to-bottom. For each concept:
   A note should read like a concise textbook passage, not a PowerPoint slide.
 - If the handwriting skips a step, a proof, or a standard result that belongs
   here, add it. The goal is a self-contained note, not a literal transcript.
+- When adding clarifications or enriching existing content, **integrate them
+  organically into the prose flow** — never prefix with labels like "Пояснение:",
+  "Примечание:", "Уточнение:" or similar. The explanation should emerge naturally
+  from the surrounding text: continue the sentence, start a new one that follows
+  logically, or open the next paragraph with the idea. The reader should not see
+  a seam between the original content and the addition.
 - Do **not** add headers, horizontal rules, or bold section titles unless the
   existing file already uses them. Match the file's existing style.
 - **Exception — advantages/disadvantages and comparisons**: use a plain bullet

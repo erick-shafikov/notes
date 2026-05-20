@@ -32,6 +32,7 @@ CNN:
 - - Своя CNN
 - - Fine-tuning предобученной модели
 - - CIFAR-10 MLP vs CNN vs ResNet (transfer learning)
+- - Датасет: CIFAR-10 или MNIST. Методы: MLP → CNN (сравнить результаты)
 - - Классификация изображений из реального мира
 
 Последовательности и RNN:
@@ -45,6 +46,7 @@ CNN:
 - Transformer (must-have)
 - Positional encoding
 - Sequence-to-sequence
+- Bag of Words, TF-IDF
 - Проекты:
 - - TF-IDF + Naive Bayes → LSTM → GRU
 - - ARIMA → LSTM
@@ -57,12 +59,13 @@ DL-4. Transformers (современный стандарт):
 - layer normalization (pre-norm vs post-norm)
 - Positional Encoding
 - Encoder / Decoder
-- BERT vs GPT
+- Transformers (BERT, GPT, Vision Transformers,HuggingFace и др.) — современный стандарт в NLP.
 - Fine-tuning vs Feature extraction
 - Tokenization (BPE, SentencePiece)
 - KV-cache inference
 - проекты
 - - Text Classification с BERT IMDB / Toxic Comments / News classification
+- - Датасет: [IMDB Reviews](https://ai.stanford.edu/~amaas/data/sentiment/) Методы: Наивный Байес → LSTM/GRU → Transformer (BERT).
 - - NER или Question Answering
 
 DL-5. Продвинутые DL-темы (по желанию):

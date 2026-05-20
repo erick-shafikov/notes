@@ -4,12 +4,12 @@
 
 - [x] Linear Regression (с разными функциями потерь, Ridge, Lasso, Elastic Net)
 - [x] Градиентные методы - Gradient Descent, SGD, Momentum, RMSProp, Adam / AdamW, Learning rate scheduling
-- Generalized Linear Models (GLM) — расширение регрессии и классификации.
-- Softmax / Multinomial Logistic Regression — для многоклассовых задач.
-- метрики Accuracy, Precision / Recall / F1, ROC-AUC, PR-AUC, LogLoss, Calibration curves, Ranking metrics
-- Multicollinearity, Feature scaling влияние, Probabilistic interpretation
+- [x] Generalized Linear Models (GLM) — расширение регрессии и классификации.
+- [x] Softmax / Multinomial Logistic Regression — для многоклассовых задач.
+- [x] метрики Accuracy, Precision / Recall / F1, ROC-AUC, PR-AUC, LogLoss, Calibration curves, Ranking metrics
+- [x] Multicollinearity, Feature scaling влияние, Probabilistic interpretation
 - [x] Алгоритмы - k-NN, Naive Bayes, Decision Trees,
-- Регуляризация - L1 / L2, Dropout, Early stopping, Weight decay vs L2, Bayesian regularization
+- [x] Регуляризация - L1 / L2, Dropout, Early stopping, Weight decay vs L2, Bayesian regularization
 - практика:
 - - Проект 1. Датасет: [Titanic](https://www.kaggle.com/c/titanic) или [Adult Census Income](https://archive.ics.uci.edu/dataset/2/adult) Методы: Логистическая регрессия, SVM(kernel trick), KNN, Bias-variance decomposition
 - - Проект 2. [Датасет: Bank Marketing](https://archive.ics.uci.edu/dataset/222/bank+marketing) Методы: Decision Tree vs Random Forest vs Gradient Boosting (XGBoost/LightGBM/CatBoost)
@@ -55,25 +55,14 @@
 - VAR (Vector AutoRegression) — когда несколько временных рядов.
 - IoT
 - Проекты:
-- - [Датасет: Airline Passengers](https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv) Методы: ARIMA, Prophet, LSTM (если захочешь затронуть DL).
-
-Нейросетевые методы (если планируешь в DL):
-
-- Перцептрон, MLP — базовая основа.
-- Bag of Words, TF-IDF
-- CNN (свёрточные сети) — для картинок.
-- RNN, LSTM, GRU — для последовательностей.
-- Transformers (BERT, GPT, Vision Transformers,HuggingFace и др.) — современный стандарт в NLP.
-- проекты:
-- - Датасет: CIFAR-10 или MNIST. Методы: MLP → CNN (сравнить результаты)
-- - Датасет: [IMDB Reviews](https://ai.stanford.edu/~amaas/data/sentiment/) Методы: Наивный Байес → LSTM/GRU → Transformer (BERT).
+- - [Датасет: Airline Passengers](https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv) Методы: ARIMA, Prophet
 
 Гибридные и спец. техники:
 
 - Self-supervised learning — популярный тренд (SimCLR, BYOL и др.).
 - Semi-supervised learning — когда мало данных с метками.
 - Active learning — выбор данных для разметки.
-- Reinforcement Learning (RL, Q-learning, Policy Gradient, DQN) — если интересен AI-агент.
+- Reinforcement Learning (RL, Q-learning, Policy Gradient, DQN, Atari) — если интересен AI-агент.
 
 Современные ансамбли и практические алгоритмы:
 
@@ -85,12 +74,7 @@
 
 Дополнительные направления:
 
-- Reinforcement Learning (Q-learning, Policy Gradient, DQN,CartPole, Atari)
-- Semi-supervised / Self-supervised Learning (SimCLR, BYOL и др.)
-- Metric Learning (Siamese networks, triplet loss)
-- Causal ML (Bayesian Networks, Do-calculus)
-- MLP (многослойный перцептрон)
-- Методы: Q-learning, Policy Gradient, DQN.
+- Causal ML (Do-calculus)
 - Проекты:
 - - Задача: обучить агента играть в CartPole (OpenAI Gym).
 
