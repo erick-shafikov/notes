@@ -1121,7 +1121,7 @@ Content-Type: application/json
 
 # WWW-Authenticate
 
-Содержит описание методов HTTP-аутентификации, применимых к ресурсу. Отправляется в ответе **401 Unauthorized**. Клиент выбирает схему и повторяет запрос с заголовком [Authorization](./req-headers.md#authorization).
+Содержит описание методов HTTP-аутентификации, применимых к ресурсу. Отправляется в ответе 401 Unauthorized. Клиент выбирает схему и повторяет запрос с заголовком [Authorization](./req-headers.md#authorization).
 
 ```bash
 # WWW-Authenticate: <scheme> realm="<realm>"
