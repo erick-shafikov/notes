@@ -1,12 +1,34 @@
-# week (19/22)
+# week
 
-- ml research (const)
-- - сайт с теорией + исследования
-- devops course
+1921 (ml):
+
+- теория (закреп)
+- сайт с теорией + исследования
+- kaggle
+
+2224 (course):
+
+- devops
+- курс яндекса
+- c (stepik)
 
 # weekend
 
 - паттерны теорию перенести в конспект, с gpt попросить несколько вариантов примеров (функциональный)
+- react под капотом
+- tenStack query (перенести из doc в dev)
+- перенести все fe-libs в dev
+- tenStack start
+- tailwind
+- MOBX
+- RxJs
+- Web 3
+- canvas (WYT) Минин, доделать
+- GSAP
+- ThreeJS
+- Framer Motion
+- gorhom bs дока
+- разобрать doc react-native
 
 # app
 
@@ -14,26 +36,12 @@
 - tournament (react native)
 - football chat (ml)
 - telegram photo detect (ml)
+- kiss js
+
+# book
+
+- Грокаем алгоритмы
 
 # todo
 
-- fe (weekend):
-- - react под капотом
-- - tenStack query (перенести из doc в dev)
-- - перенести все fe-libs в dev
-- - tenStack start
-- - tailwind
-- - MOBX
-- - RxJs
-- - Web 3
-- - canvas (WYT) Минин, доделать
-- - GSAP
-- - ThreeJS
-- - Framer Motion
-- - gorhom bs дока
-- - разобрать doc react-native
-- cs:
-- - курс яндекса
-- - Грокаем алгоритмы (2 LeetCode/day python+js)
-- pl:
-- - c (stepik)
+- 1 LeetCode/day
