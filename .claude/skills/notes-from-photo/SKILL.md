@@ -73,6 +73,10 @@ Work through the photos left-to-right, top-to-bottom. For each concept:
   (e.g. L1 vs L2 vs ElasticNet) — one bullet per method, no prose sentences.
 - Preserve all code blocks in the existing file exactly. Append new code only
   if the photos contain code or pseudocode.
+- When referencing another note in the repo, use a standard relative Markdown
+  link: `[текст ссылки](относительный/путь/к/файлу.md)`. Example:
+  `[теореме Лейбница](../../../math/math-an/leibniz.md)`. Never use absolute
+  paths or bare filenames without the `.md` extension.
 
 ---
 

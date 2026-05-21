@@ -5,6 +5,8 @@
 - [x] Linear Regression (с разными функциями потерь, Ridge, Lasso, Elastic Net)
 - [x] Градиентные методы - Gradient Descent, SGD, Momentum, RMSProp, Adam / AdamW, Learning rate scheduling
 - [x] Generalized Linear Models (GLM) — расширение регрессии и классификации.
+- [x] Stochastic Variance Reduced Gradient (SVRG), AdaGrad — развитие SGD.
+- Second-order методы (Newton’s method, LBFGS) — когда нужно быстрое сходимое обучение.
 - [x] Softmax / Multinomial Logistic Regression — для многоклассовых задач.
 - [x] метрики Accuracy, Precision / Recall / F1, ROC-AUC, PR-AUC, LogLoss, Calibration curves, Ranking metrics
 - [x] Multicollinearity, Feature scaling влияние, Probabilistic interpretation
@@ -12,12 +14,7 @@
 - [x] Регуляризация - L1 / L2, Dropout, Early stopping, Weight decay vs L2, Bayesian regularization
 - практика:
 - - Проект 1. Датасет: [Titanic](https://www.kaggle.com/c/titanic) или [Adult Census Income](https://archive.ics.uci.edu/dataset/2/adult) Методы: Логистическая регрессия, SVM(kernel trick), KNN, Bias-variance decomposition
-- - Проект 2. [Датасет: Bank Marketing](https://archive.ics.uci.edu/dataset/222/bank+marketing) Методы: Decision Tree vs Random Forest vs Gradient Boosting (XGBoost/LightGBM/CatBoost)
-
-Оптимизация и обучение:
-
-- Stochastic Variance Reduced Gradient (SVRG), AdaGrad — развитие SGD.
-- Second-order методы (Newton’s method, LBFGS) — когда нужно быстрое сходимое обучение.
+- - [Датасет: Bank Marketing](https://archive.ics.uci.edu/dataset/222/bank+marketing) Методы: Decision Tree vs Random Forest vs Gradient Boosting (XGBoost/LightGBM/CatBoost)
 
 Продвинутые деревья и ансамбли:
 
@@ -80,7 +77,7 @@
 
 # Инструменты
 
-- PyTorch (рекомендую) или TensorFlow
+- PyTorch, TensorFlow
 - - nn.Module
 - - Dataset / DataLoader
 - - Optimizers
