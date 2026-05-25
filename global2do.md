@@ -31,11 +31,16 @@
 
 # app
 
+dev:
+
 - discord bot 2 (fastApi+vue)
 - tournament (react native)
+- kiss js
+
+ml:
+
 - football chat (ml)
 - telegram photo detect (ml)
-- kiss js
 
 # book
 
