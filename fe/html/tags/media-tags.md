@@ -1,5 +1,3 @@
-<!-- audio ------------------------------------------------------------------------------------------------------------------->
-
 # audio (block, HTML5)
 
 теги:
@@ -559,9 +557,9 @@ area, только внутри элемента map
 </video>
 ```
 
-<!-- video ------------------------------------------------------------------------------------------------------------------->
-
 # video (HTML5)
+
+Поддерживают так же и аудио
 
 атрибуты:
 
@@ -571,10 +569,10 @@ area, только внутри элемента map
 - crossorigin: anonymous | use-credentials
 - width="400" -
 - height="400" -
-- autoplay - автозапуск видео
+- autoplay - автозапуск видео, может не работать без muted
 - loop - зацикленность
 - muted - воспроизвести без звука
-- poster - изображение до воспроизведения
+- poster - изображение до воспроизведения (повторно не отображается)
 - played - диапазоны
 - preload принимает значения:
 - - none не буферизирует файл
@@ -586,9 +584,10 @@ area, только внутри элемента map
 <video class="bg-video__content" autoplay muted loop>
   <!-- два формата для поддержке браузеров -->
   <source src="img/video.mp4" type="video/mp4" />
-  <source src="img/video.webm" type="video/webm" />
+  <!-- может быть с кодеком -->
+  <source src="img/video.webm" ype="video/webm;codecs=vp8,vorbis" />
   Your browser is not supported!
-  <!-- ссылка на титры в .vtt формате-->
+  <!-- ссылка на титры в .vtt формате, должен быть в том же домене-->
   <track kind="subtitles" src="subtitles_en.vtt" srclang="en" />
 </video>
 
@@ -604,9 +603,50 @@ area, только внутри элемента map
   muted
   poster="poster.png"
 >
+  <!-- элемент который будет отображаться при загрузке -->
   <p>
     Ваш браузер не поддерживает HTML5 видео. Используйте (это резервный контент)
     <a href="rabbit320.webm">ссылку на видео</a> для доступа.
   </p>
 </video>
+```
+
+Пример фонового видео
+
+```html
+<video playsinline autoplay loop muted poster="images/machine.jpg" role="none">
+  <source src="videos/machines.webm" type="video/webm" />
+  <source src="videos/machines.mp4" type="video/mp4" />
+  <source src="videos/machines.ogv" type="video/ogg" />
+</video>
+```
+
+Видео управляемое из js
+
+```html
+<button
+  id="playPause"
+  aria-controls="idOfAudio"
+  data-pause-text="Pause audio"
+  data-play-text="Play audio"
+>
+  Pause audio
+</button>
+<script>
+  const pauseButton = document.getElementById("playPause");
+
+  pauseButton.addEventListener("click", pauseAndPlay, false);
+
+  function pauseAndPlay() {
+    const media = document.getElementById(this.getAttribute("aria-controls"));
+
+    if (media.paused) {
+      media.play();
+      this.innerText = this.dataset.pauseText;
+    } else {
+      media.pause();
+      this.innerText = this.dataset.playText;
+    }
+  }
+</script>
 ```
