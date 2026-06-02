@@ -30,8 +30,10 @@ x_values = [0, 1, 2, 3]
 
 # Вычисление значений полинома
 y_values = np.polyval(coefficients, x_values)
+y_1 = np.polyval(coefficients, 1)
 
 print(y_values)  # Вывод: [1., 0., 3., 10.]
+print(y_1)  # Вывод: 0 значение от 1
 ```
 
 # np.power
