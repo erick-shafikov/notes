@@ -1,3 +1,30 @@
+# np.hstack
+
+Горизонтальное объединение
+
+```python
+import numpy as np
+
+a = np.array([
+    [1],
+    [2],
+    [3]
+])
+
+b = np.array([
+    [10],
+    [20],
+    [30]
+])
+
+result = np.hstack([a, b])
+# [
+#  [ 1 10]
+#  [ 2 20]
+#  [ 3 30]
+# ]
+```
+
 # np.mean
 
 Среднее арифметическое
@@ -68,4 +95,27 @@ print(np.square(5))  # 25
 # Для одномерного массива
 arr = np.array([1, 2, 3, 4])
 print(np.square(arr))  # [1, 4, 9, 16]
+```
+
+# np.vstack
+
+```python
+import numpy as np
+
+a = np.array([
+    [1, 2],
+    [3, 4]
+])
+
+b = np.array([
+    [5, 6]
+])
+
+result = np.vstack([a, b])
+# [
+#  [1 2]
+#  [3 4]
+#  [5 6]
+# ]
+
 ```
