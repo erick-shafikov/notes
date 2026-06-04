@@ -85,6 +85,7 @@ b = np.array([3, 2, 1])
 np.power(a, b) #[8, 9, 4]
 
 np.power(2, -2)# Ошибка
+np.power(2.0, -2)
 
 a = np.array([
     [1, 2],
@@ -155,6 +156,14 @@ print(np.square(5))  # 25
 # Для одномерного массива
 arr = np.array([1, 2, 3, 4])
 print(np.square(arr))  # [1, 4, 9, 16]
+```
+
+# np.tile
+
+растянет
+
+```python
+np.tile([1, 2], 50) # [1,2,1,2,1,2,...]
 ```
 
 # np.vstack
