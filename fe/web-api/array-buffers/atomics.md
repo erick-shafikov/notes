@@ -1,6 +1,6 @@
 Atomics
 
-- для работы с SharedArrayBuffer.
+- для работы с [SharedArrayBuffer](./shared-array-buffer.md).
 - не вызывается с new, все методы статические
 
 # Atomics.add()

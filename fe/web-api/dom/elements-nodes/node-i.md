@@ -1,6 +1,6 @@
 # Node
 
-наследует [EventTarget](./event-target-i.md)
+наследует [EventTarget](../events/event-target-i.md)
 
 # свойства экземпляра
 

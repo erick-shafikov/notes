@@ -1,6 +1,6 @@
 # Document
 
-наследует [Node](./elem/elements-interfaces/node-i.md)
+наследует [Node](./elements-nodes/node-i.md)
 
 window.document - входная точка в dom
 
@@ -80,9 +80,9 @@ document.adoptedStyleSheets = [sheet];
 - rootElement (Устарело)
 - scripts ⇒ HTMLCollection скриптов в документе
 - scrollingElement ⇒ Element прокрутки документа (readonly)
-- selectedStyleSheetSetНе стандартно (Устарело)
-- styleSheets ⇒ StyleSheetList
-- styleSheetSetsНе стандартно (Устарело)
+- selectedStyleSheetSet - Не стандартно (Устарело)
+- styleSheets ⇒ StyleSheetList возвращает массив объектов CSSStyleSheet
+- styleSheetSets - Не стандартно (Устарело)
 - timeline ⇒ для DocumentTimeline.
 - title ⇒ титул документа
 - URL ⇒ строку URL документа HTML.
@@ -154,7 +154,15 @@ console.log(node.getAttribute("my_attrib")); // "newVal"
 - createTouch() - Non-standard Deprecated
 - createTouchList() - Non-standard Deprecated
 - createTreeWalker() ⇒ TreeWalker
-- elementFromPoint(x, y) ⇒ Element самый верхний элемент
+
+<!--  -->
+
+# elementFromPoint(x, y)
+
+возвращает самый глубоко вложенный элементы окне находящийся по координатам (x,y)
+
+<!--  -->
+
 - elementsFromPoint() ⇒ Element[] от самого верхнего до самого нижнего
 - enableStyleSheetsForSet() - Non-standard Deprecated
 - evaluate() ⇒ XPathResult

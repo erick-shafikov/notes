@@ -1,0 +1,140 @@
+# события
+
+- afterscriptexecute (Нестандартный Устаревший) - загрузка скрипта
+- animationcancel (-ch,-ed) - незапланированное прерывание анимации
+- animationend - окончание анимации
+- animationiteration - окончание итерации анимации
+- animationstart - начало анимации
+- - свойства события:
+- - - animationName
+- - - elapsedTime
+- - - pseudoElement
+- auxclick - при клике не на основной мыши
+- - свойства:
+- - - altitudeAngle
+- - - azimuthAngle
+- - - pointerId
+- - - width
+- - - height
+- - - pressure
+- - - tangentialPressure
+- - - tiltX
+- - - tiltY
+- - - twist
+- - - pointerType
+- - - .isPrimary
+- beforeinput - при изменении в поле input, до самих изменений в dom элементе(не работаете на select)
+- - свойства:
+- - - data
+- - - dataTransfer
+- - - inputType
+- - - isComposing
+- beforematch (-ff, -sf)- для работы с hidden="until-found" срабатывает до того как найдет
+- beforescriptexecute (Нестандартный Устаревший)
+- beforexrselect (Экспериментальный) - WebXR
+- blur - при потери фокуса с элемента (не всплывает)
+- click - this - элемент на котором было вызвано = mousedown + mouseup
+- compositionend - для отмены ввода в системе написания текста
+- compositionstart
+- compositionupdate
+- contentvisibilityautostatechange - content-visibility: auto
+- contextmenu - пкм
+- copy - Clipboard API событие
+- cut
+- dblclick
+- - свойства:
+- - - altKey
+- - - button
+- - - buttons
+- - - clientX
+- - - clientY
+- - - ctrlKey
+- - - layerX
+- - - layerY
+- - - metaKey
+- - - movementX
+- - - movementY
+- - - offsetX
+- - - offsetY
+- - - pageX
+- - - pageY
+- - - relatedTarget
+- - - screenX
+- - - screenY
+- - - shiftKey
+- - - mozInputSource
+- - - webkitForce
+- - - x === MouseEvent.clientX.
+- - - y === MouseEvent.clientY.
+- DOMActivate Устаревший
+- DOMMouseScroll (Нестандартный Устаревший)
+- focus - при фокусировке (не всплывает)
+- focusin - при фокусировке (всплывает)
+- focusout - потеря фокуса (всплывает)
+- fullscreenchange - при переходе в fullscreen режим
+- fullscreenerror
+- gesturechange Нестандартный - при передвижении цифр во время касания
+- gestureend Нестандартный
+- gesturestart Нестандартный
+- gotpointercapture - срабатывает если setPointerCapture()
+- input - ввод
+- keydown - нажата клавиша
+- keypress - Устаревший - клавиши alt, enter
+- keyup - клавиша отжата
+- lostpointercapture
+
+- mousedown - нажата кнопка мыши
+- mouseenter - находится над элементом
+- mouseleave - уходит с элемента
+- mousemove - мышь внутри элемента
+- mouseout - движения не внутри элемента
+- mouseover - движения на элементе и на дочерних
+- mouseup
+- mousewheel (Нестандартный Устаревший)
+- - свойства:
+- - - deltaX
+- - - deltaY
+- - - deltaZ
+- - - deltaMode
+- MozMousePixelScroll (Нестандартный Устаревший)
+- paste - при вставке контента getData()
+- pointercancel
+- pointerdown - для мыши от состояния когда не нажаты хотя бы одна кнопка(вызовется один раз при первом нажатии), дял стилуса когда совершается контакт.Наследование от MouseEvent
+- - свойства:
+- - - altitudeAngle - угол XY со стилусом
+- - - azimuthAngle - угол YZ со стилусом
+- - - persistentDeviceId - идентификатор устройства
+- - - pointerId - идентификатор указателя
+- - - width - ширина указателя
+- - - pressure - давление от 0 до 1
+- - - tangentialPressure- давление от -1 до 1
+- - - tiltX
+- - - tiltY
+- - - twist
+- - - pointerType
+- - - isPrimary
+- pointerenter - указатель попадает в область проверки
+- pointerleave
+- pointermove
+- pointerout
+- pointerover
+- pointerrawupdate (Экспериментальный)
+- pointerup
+- scroll - при скролле
+- scrollend - (-sf)
+- scrollsnapchange (Экспериментальный)
+- scrollsnapchanging(Экспериментальный)
+- securitypolicyviolation - при нарушении CSP
+- touchcancel - отмена действий касания
+- touchend
+- touchmove
+- touchstart
+- transitioncancel - отмена анимации
+- transitionend
+- transitionrun
+- transitionstart
+- webkitmouseforcechanged- Нестандартный
+- webkitmouseforcedown- Нестандартный
+- webkitmouseforceup- Нестандартный
+- webkitmouseforcewillbegin- Нестандартный
+- wheel
