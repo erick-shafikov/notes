@@ -1,6 +1,6 @@
 # HTML интерфейс
 
-[EventTarget](../../events/event-target-i.md) <- [Node](../node-i.md) <- [Element](../element-i.md) <- HTMLElement
+[EventTarget](../../events/event-target-i.md) <- [Node](../node-i.md) <- [Element](../element-i/element-i.md) <- HTMLElement
 
 # свойства экземпляра
 
@@ -51,7 +51,7 @@
 - spellcheck
 - style
 
-# element.style
+# style
 
 - Это объект, который соответствует тому, что написано в атрибуте style но не в CSS!!!
 - elem.style.width = "100px" работает так же как наличие в атрибуте style строки width: 100px

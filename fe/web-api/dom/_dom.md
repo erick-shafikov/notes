@@ -23,3 +23,38 @@
 - откладывать невидимые изменения
 - использовать web workers для больших и сложных задач
 - использование requestAnimationFrame
+
+# иерархия наследования (!!!TODO)
+
+# Навигация по элементам (!!!TODO)
+
+# размеры элемента (!!!TODO)
+
+# стили элемента (!!!TODO)
+
+# изменение контента
+
+Методы изменения Node:
+
+- [textContent](./elements-nodes/node-i.md#textcontent)
+- [nodeValue/data](./elements-nodes/node-i.md#nodevaluedata)
+
+Методы изменения Element:
+
+- [innerHtml](./elements-nodes/element-i/instance-props.md#innerhtml)
+- [outerHTML](./elements-nodes/element-i/instance-props.md#outerhtml)
+
+Создание элементов:
+
+- [createElement](./elements-nodes/document-i.md#createelement)
+
+методы вставки:
+
+- [appendChild, insertBefore, replaceChild, removeChild](./elements-nodes/node-i.md#appendchild-insertbefore-replacechild-removechild)
+- [append, prepend, before, after, replaceWith](./elements-nodes/element-i/instance-methods.md#методы-вставки-append-prepend-before-after-replacewith)
+- [Методы вставки insertAdjacentHTML/text/Elemen](./elements-nodes/element-i/instance-methods.md#методы-вставки-insertadjacenthtmltextelement)
+- [удаление](./elements-nodes/element-i/instance-methods.md#remove)
+
+методы клонирования:
+
+- [cloneNode](./elements-nodes/node-i.md#clonenode)

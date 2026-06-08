@@ -286,13 +286,77 @@ let scrollHeight = Math.max(
 - elementTiming (Экспериментальная возможность) - дял измерения производительности
 - firstElementChild ⇒ Element первый дочерний
 - id ⇒ строку с id
-- innerHTML - устанавливает или получает внутреннюю разметку дочерних элементов
+
+# innerHtml
+
+устанавливает или получает внутреннюю разметку дочерних элементов, позволяет получить HTML – содержимое элемента в виде строки, так же выступает сеттером
+
+```html
+ 
+<body>
+     
+  <p>Параграф</p>
+     
+  <div>DIV</div>
+   
+  <script>
+    alert(document.body.innerHTML); //читаем текущее содержимое
+    document.body.innerHTML = "Новый BODY!"; //меняем содержимое
+  </script>
+</body>
+<!-- При вставке некорректного HTML браузер исправит ошибки -->
+<body>
+   
+  <script>
+    document.body.innerHTML = "<b>тест"; //забыли закрыть тег
+    alert(document.body.innerHTML); //<b>тест</b> исправлено
+  </script>
+</body>
+```
+
+!!!но если вставить тег script - он становится частью HTML но не запускается
+!!!innerHTML += осуществляет перезапись, старое содержимое удаляется на его место встает новая запись
+
+```js
+// Сортировка таблицы
+let sorted = Array.from(table.rows) //ряды таблицы в массив
+  .slice(1) //первая строка не нужна, начать сортировку со второй
+  .sort((rowA, rowB) =>
+    rowA.cells[0].innerHTML > rowB.cells[0].innerHTML ? 1 : -1,
+  ); //сортируем таблицу , где cells внутри tr
+table.tBodies[0].append(...sorted);
+```
+
+<!--  -->
+
 - lastElementChild ⇒ Element последний дочерний
 - localName - локальное название узла
 - namespaceURI ⇒ пространство имен
 - nextElementSibling ⇒ Element последний элемент перед текущем
 
-# outerHTML ⇒ включает в себя сам элемент и потомков
+# outerHTML
+
+⇒ включает в себя сам элемент и потомков. Свойство outerHTML содержит HTML элемента целиком. Это как innerHTML плюс сам элемент
+
+```html
+<div id="elem">Привет<b>Мир</b></div>
+
+<script>
+  alert(elem.outerHTML); //<div id="elem">Привет<b>Мир</b></div>
+</script>
+<!-- в отличие от innerHTML запись в outerHTML не изменяет элемент, вместо этого
+элемент заменяется во внешнем контексте -->
+<div>Привет, мир!</div>
+
+<script>
+  let div = document.querySelector("div");
+  div.outerHTML = "<p>Новый элемент</p>";
+  // 1. div был удален из документа
+  //2. Вместо него вставлен другой HTML
+  //3. в div осталось старое значение
+  alert(div.outerHTML); //<div>Привет, мир!</div>
+</script>
+```
 
 ```js
 //есть нюанс

@@ -59,6 +59,28 @@ alert(Array.from(document.body.childNodes).filter);
 !!!Лучше не использовать цикл for…in
 !!!Только для чтения
 
+```js
+// задача очистить элемент:
+function clear(elem) {
+  //не будет работать потому что каждый вызов remove() сдвинет коллекцию
+  for (let i = 0; i < elem.childNodes.length; i++) {
+    elem.childNodes[i].remove();
+  }
+}
+
+function clear(elem) {
+  //будет работать
+  while (elem.firstChild) {
+    elem.firstChild.remove();
+  }
+}
+
+function clear(elem) {
+  //также будет работать
+  elem.innerHTML = "";
+}
+```
+
 # соседи и родитель nextSibling, previousSibling
 
 Соседи – это объекты у которых один родитель
