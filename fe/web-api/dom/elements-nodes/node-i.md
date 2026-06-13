@@ -5,11 +5,16 @@
 # свойства экземпляра
 
 - baseURI - абсолютный базовый url узла при обработке img src атрибут(readonly)
-- childNodes ⇒ Node[] возвращает потомков (readonly)
 
-# firstChild
+## childNodes, firstChild, lastChild
 
-⇒ Node возвращает первого потомка (readonly)
+- childNodes ⇒ Node[] возвращает потомков (readonly) похож на массив, но это просто перебираемый объект, для перебора мы используем for…of
+- firstChild ⇒ Node возвращает первого потомка (readonly)
+- lastChild ⇒ Node возвращает последнего потомка (readonly)
+
+!!!Все коллекции только для чтения и отражают текущее состояние DOM
+!!!Лучше не использовать цикл for…in
+!!!Только для чтения
 
 ```js
 // задача список потомков в дереве
@@ -27,11 +32,75 @@ for (let li of lis) {
 }
 ```
 
-- isConnected ⇒ boolean прикреплен ли элемент к dom (read-only)
-- lastChild ⇒ Node возвращает последнего потомка (readonly)
+```js
+for (let node of document.body.childNodes) {
+  //не работают методы массивов
+  alert(node);
+}
+
+// Превратим в массив
+alert(Array.from(document.body.childNodes).filter);
+```
+
+```js
+// задача очистить элемент:
+function clear(elem) {
+  //не будет работать потому что каждый вызов remove() сдвинет коллекцию
+  for (let i = 0; i < elem.childNodes.length; i++) {
+    elem.childNodes[i].remove();
+  }
+}
+
+function clear(elem) {
+  //будет работать
+  while (elem.firstChild) {
+    elem.firstChild.remove();
+  }
+}
+
+function clear(elem) {
+  //также будет работать
+  elem.innerHTML = "";
+}
+```
+
+## isConnected
+
+⇒ boolean прикреплен ли элемент к dom (read-only)
+
+## nextSibling, previousSibling
+
+- previousSibling ⇒ Node соседа перед
 - nextSibling ⇒ Node соседа
-- nodeName - название узла, определено для любых узлов Node
-- nodeType - тип узла:
+
+```html
+<html>
+  <head>
+    <!-- ... -->
+  </head>
+  <body>
+    <!-- ... -->
+  </body>
+  <!-- head и body соседи - правый и левый -->
+</html>
+```
+
+```js
+alert(document.body.parentNode === document.documentElement); //true <html> является родителем <body>
+// .nextSibling – следующий сосед
+alert(document.head.nextSibling); //HTMLBodyElement <body> идет после <head>
+// .previousSibling – предыдущий сосед
+alert(document.body.previousSibling); //HTMLHeadElement
+```
+
+## nodeName
+
+⇒ название узла, определено для любых узлов Node
+
+## nodeType
+
+тип узла:
+
 - - elem.nodeType == 1 для узлов – элементов
 - - elem.nodeType == 3 для текстовых узлов
 - - elem.nodeType == 9 Для объектов документа
@@ -72,14 +141,61 @@ for (let li of lis) {
 </body>
 ```
 
-- ownerDocument - document
-- parentElement ⇒ Node родительский
-- parentNode ⇒ Node родительский
-- previousSibling ⇒ Node соседа перед
-- textContent ⇒ текстовое значение node
+## ownerDocument
+
+document
+
+## parentElement
+
+- parentElement ⇒ Node родитель-элемент, тоже самое что и parentNode, исключение document.documentElement
+
+проход по всем родителям
+
+```js
+document.documentElement.parentNode; //document
+document.documentElement.parentElement; //null, т.к. document – не элемент
+
+while ((elem = elem.parentElement)) {
+  //идти наверх до <html>
+  alert(elem);
+}
+```
+
+```html
+<body>
+    <!-- [object HTMLDivElement] -->
+    <div> Начало </div>
+  <ul>
+    <li> Информация </li>
+    <!-- [object HTMLUlListElement] -->
+  <ul>
+  <!-- [object HTMLDivElement] -->
+  <div> Конец </div>
+</body>
+<script>
+for (elem of document.body.children) {
+  alert(elem); //DIV, UL, DIV, SCRIPT
+}
+//[object Text]
+//[object HTMLDivElement]
+//[object Text]</div>
+//[object HTMLUlListElement]
+//[object Text] </li>
+//[object Text] Конец //[object Text] </div>
+//[object HTMLScriptElement]
+//childNodes не массив, а перебираемый объект
+//text, DIV, Text, UL, … SCRIPT
+</script>
+
+```
+
+## parentNode
+
+⇒ Node родительский
 
 ## textContent
 
+⇒ текстовое значение node
 предоставляет доступ к тексту за вычетом всех тегов
 
 ```html

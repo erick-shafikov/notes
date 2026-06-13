@@ -58,3 +58,74 @@
 методы клонирования:
 
 - [cloneNode](./elements-nodes/node-i.md#clonenode)
+
+# Работа с координатами элемента:
+
+- [вычисление позиции мыши координаты от видимой области](./events/ui-events/mouse-event/event-props.md#clintx-clienty)
+- [координаты от начала страницы](./events/ui-events/mouse-event/event-props.md#pagex-pagey)
+- [координаты от начала экрана](./events/ui-events/mouse-event/event-props.md#screenx)
+
+# работа со скроллом:
+
+- [прокрутка до определенных координат страницы](./elements-nodes/element-i/instance-methods.md#scrolltox-coord-y-coord)
+- [прокрутка на определенное количество пикселей](./elements-nodes/element-i/instance-methods.md#scroll)
+- [прокрутка до определенного элемента](./elements-nodes/element-i/instance-methods.md#scrollintoview)
+
+# Навигация:
+
+- !!!Все коллекции только для чтения и отражают текущее состояние DOM
+- !!!Лучше не использовать цикл for…in
+- !!!Только для чтения
+
+- [навигация в таблицах](./elements-nodes/html-elements/html-table-elements/table.md#навигация-в-таблицах)
+
+## навигация по элементам
+
+- [дочерние](./elements-nodes/element-i/instance-props.md#children)
+- [дочерние](./elements-nodes/element-i/instance-props.md#firstelementchild-lastelementchild)
+- [соседские](./elements-nodes/element-i/instance-props.md#previouselementsibling-nextelementsibling)
+
+В операции начинаются с объекта document из него мы можем получить доступ к любому элементу. Сверху – documentElement и body.Самый верхний узел документа доступен как свойства объекта document
+
+```html
+<html>
+  <!-- html === document.documentElement, в DOM он соответствуй тегу -->
+  <html>
+    <body>
+      <!--body ===  document.body -->
+      <head>
+        <!-- head === document.head -->
+      </head>
+    </body>
+  </html>
+</html>
+```
+
+document.body может быть равен null если скрипт находится в head, document.body в нем недоступен html. В DOM null означает - не существует
+
+```html
+<html>
+<head>
+  <script>
+    alert("Из HEAD" + document.body); //null
+  </script>
+</head>
+<body>
+  <script>
+    alert("ИЗ BODY" + document.body); // HTMLBodyElement, теперь он есть
+  </script>
+<body>
+</html>
+
+```
+
+## навигация по узлам
+
+- [дочерние](./elements-nodes/node-i.md#childnodes-firstchild-lastchild) - могут вернуть пробелы, переносы строк, лучше использовать element-поисковики
+- [соседи и родитель](./elements-nodes/node-i.md#nextsibling-previoussibling)
+
+# поиск элементов
+
+- поиск по классу [getElementsByClassName в Document](./elements-nodes/document-i/instance-methods.md#getelementsbyclassname) и в [Element](./elements-nodes/element-i/instance-methods.md#getelementsbyclassname)
+- поиск по селектору [querySelectorAll в Document](./elements-nodes/document-i/instance-methods.md#querySelectorAll) и в [Element](./elements-nodes/element-i/instance-methods.md#queryselectorall)
+- поиск первого [querySelector в Element](./elements-nodes/document-i/instance-methods.md#querySelector)

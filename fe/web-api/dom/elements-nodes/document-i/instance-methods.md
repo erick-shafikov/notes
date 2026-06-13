@@ -125,12 +125,13 @@ document.getElementById(id) или просто id Если у элемента 
 </script>
 ```
 
-<!--  -->
+# getElementsByClassName
 
-- getElementsByClassName() ⇒ Element[] с указанным классом
-- getElementsByName() ⇒ Element[] с указанным атрибутом name
+⇒ Element[] с указанным классом
 
-<!--  -->
+# getElementsByName
+
+⇒ Element[] с указанным атрибутом name
 
 ## getElementsByTagName
 
@@ -225,7 +226,13 @@ document.open("https://www.github.com", "", "noopener=true");
 - queryCommandState() - Non-standard, Deprecated
 - queryCommandSupported() - Non-standard Deprecated
 - querySelector(selectors) => первый Element в соответствии с селектором
-- querySelectorAll() => нединамически NodeList
+
+# querySelectorAll
+
+querySelectorAll() => нединамически NodeList
+
+<!--  -->
+
 - releaseCapture() - Non-standard
 - replaceChildren(param1, param2) - для замены дочерних элементов
 - requestStorageAccess({all:false, cookies, sessionStorage, localStorage, indexedDB}) - запрос для сторонних куки файлов

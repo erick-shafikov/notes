@@ -29,7 +29,10 @@ let newValue = myEventTarget.secret; // == 7
 
 # методы экземпляра
 
-- addEventListener(type, listener, useCapture)
+## addEventListener
+
+addEventListener(type, listener, useCapture):
+
 - - type - название события
 - - listener - функция обработки
 - - useCapture может быть объектом:
@@ -38,5 +41,11 @@ let newValue = myEventTarget.secret; // == 7
 - - - passive = true слушатель события не вызовет preventDefault()
 - - - signal = для AbortSignal отмены
 - - useCapture может быть boolean будет ли отправлено ниже по dom дереву
-- dispatchEvent() - запускает событие
+
+## dispatchEvent
+
+dispatchEvent() - запускает событие
+
+## removeEventListener
+
 - removeEventListener() - удалит прослушивание события

@@ -1,6 +1,6 @@
 # HTML интерфейс
 
-[EventTarget](../../events/event-target-i.md) <- [Node](../node-i.md) <- [Element](../element-i/element-i.md) <- HTMLElement
+[EventTarget](../../events/event-target-i.md) <- [Node](../node-i.md) <- [Element](../element-i/element-i.md) <- HTMLElement <- Все остальные html элементы (HTMLDivElement, HTMLInputElement, HTMLButtonElement)
 
 # свойства экземпляра
 
@@ -46,6 +46,8 @@
 
 Содержат полную высоту, включая рамки, равен нулю если создали, но не наполнили или display:none. offsetWidth = 2border + width + 2padding
 
+<!--  -->
+
 - outerText
 - popover
 - spellcheck
@@ -59,14 +61,13 @@
 - - background-color => elem.style.backgroundColor
 - - z-index => elem.style.zIndex
 - - border-left-with => elem.style.borderLeftWidth
+    стили с браузерным прификсом:
+    - moz-border-radius => button.style.MozBorderRadius = "5px";
+    - webkit-border-radius => button.style.WebkitBorderRadius ="5px";
 
 ```js
 document.body.style.backgroundColor = prompt("background color?", "green");
 ```
-
-стили с браузерным прификсом
--moz-border-radius => button.style.MozBorderRadius = "5px";
--webkit-border-radius => button.style.WebkitBorderRadius ="5px";
 
 при необходимости добавить свойство стиля а позже его убрать, то можно присвоить свойству пустую строку
 
@@ -125,6 +126,60 @@ elem.style.cssText += `
 ```js
 document.body.style = 20; //проигнорирует
 ```
+
+```js
+// Функция покажет сообщение под elem, которое будет находится на фиксированной позиции, при прокрутке
+let elem = document.getElementById("coords-show-mark");
+
+function createMessageUnder(elem, html) {
+  let message = document.createElement("div"); //создаем элемент который будет содержать сообщение
+  message.style.cssText = "position:fixed; color:red"; //добавим css стиль, из-за то, что Position:fixed то сообщение будет находится на одном месте даже при прокрутке
+  let coords = elem.getBoundingClientRect(); //устанавливаем координаты
+
+  message.style.left = coords.left + "px"; //найдем координаты элемента
+  message.style.top = coords.bottom + "px";
+
+  message.innerHTML = html;
+
+  return message;
+}
+
+let message = createMessageUnder(elem, "Hello");
+document.body.append(message);
+setTimeout(() => message.remove(), 5000);
+```
+
+```js
+// Применение absolute
+
+// pageY = clientY + высота прокрученной части документа (scrollTop)
+// pageX = clientX + ширина горизонтально прокрученной части документа
+function getCoords(elem) {
+  let box = elem.getBoundingClientRect();
+
+  return {
+    top: box.top + pageYOffset,
+    left: box.left + pageYOffset,
+    bottom: box.bottom + window.pageYOffset,
+    left: box.left + window.pageXOffset,
+  };
+}
+
+function createMessageUnder(elem, html) {
+  let message = document.createElement("div");
+  message.style.cssText = "position:absolute; color:red";
+  let coords = getCoords(elem);
+
+  message.style.left = coords.left + "px";
+  message.style.top = coords.bottom + "px";
+
+  message.innerHTML = html;
+
+  return message;
+}
+```
+
+<!--  -->
 
 - tabIndex
 - title
