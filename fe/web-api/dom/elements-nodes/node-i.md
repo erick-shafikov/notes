@@ -121,25 +121,9 @@ alert(document.body.previousSibling); //HTMLHeadElement
   </body>
   ```
 
-# nodeValue/data
+## nodeValue
 
 вернет value если есть у узла. Свойство innerHTML есть только у узлов-элементов
-
-```html
- 
-<body>
-      Привет    
-  <!-- Комментарий -->
-     
-  <script>
-    let text = document.body.firstChild;
-    alert(text.data); //Привет
-    let comment = text.nextSibling;
-    alert(comment.data); //Комментарий
-  </script>
-   
-</body>
-```
 
 ## ownerDocument
 
