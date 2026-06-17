@@ -225,10 +225,10 @@ grid-auto-columns - длины элемента
   grid-auto-columns/*rows*/: 100px 150px 390px;
   grid-auto-columns/*rows*/: 10% 33.3%;
   grid-auto-columns/*rows*/: 0.5fr 3fr 1fr;
-  grid-auto-columns/*rows*/: minmax(100px, auto) minmax(max-content, 2fr) minmax(20%, 80vmax);
-  grid-auto-columns/*rows*/: 100px minmax(100px, auto) 10% 0.5fr fit-content(
-      400px
-    );
+  grid-auto-columns/*rows*/: minmax(100px, auto) minmax(max-content, 2fr)
+    minmax(20%, 80vmax);
+  grid-auto-columns/*rows*/: 100px minmax(100px, auto) 10% 0.5fr
+    fit-content(400px);
 
   /* Global values */
   grid-auto-columns/*rows*/: inherit;
@@ -625,6 +625,15 @@ auto-fill - позволяет задать повторяемые элемен�
   // для отдельного элемента
   place-self: start end;
   background-color: maroon;
+}
+```
+
+Самый быстрый вариант центрирования
+
+```scss
+.center {
+  display: grid;
+  place-content: center;
 }
 ```
 
