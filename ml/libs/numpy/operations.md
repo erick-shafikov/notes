@@ -1,30 +1,3 @@
-# np.hstack
-
-Горизонтальное объединение
-
-```python
-import numpy as np
-
-a = np.array([
-    [1],
-    [2],
-    [3]
-])
-
-b = np.array([
-    [10],
-    [20],
-    [30]
-])
-
-result = np.hstack([a, b])
-# [
-#  [ 1 10]
-#  [ 2 20]
-#  [ 3 30]
-# ]
-```
-
 # np.mean
 
 Среднее арифметическое
@@ -166,7 +139,46 @@ print(np.square(arr))  # [1, 4, 9, 16]
 np.tile([1, 2], 50) # [1,2,1,2,1,2,...]
 ```
 
-# np.vstack
+# np.stack
+
+```python
+# сформировать массив вида [[1,1], [1, 2], [1, 3] ... [1, n]]
+import numpy as np
+
+np.stack([np.ones_like(x), x], axis=1)
+```
+
+## np.column_stack
+
+Количество строк должно совпадать.
+
+```python
+# добавить число в каждую строку массива
+import numpy as np
+
+x_test = np.array([(-5, 2), (-4, 6), (3, 2), (3, -3), (5, 5), (5, 2), (-1, 3)])
+X = np.column_stack((np.ones(len(x_test)), x_test))
+# x_test = np.array([(1, -5, 2), (1,-4, 6,1), (1,3, 2), (1,3, -3), (1,5, 5), (1,5, 2), (1,-1, 3)])
+```
+
+```python
+x = np.array([1,2,3])
+
+X = np.column_stack((
+    np.ones(len(x)),
+    x,
+    x**2
+))
+
+# [1, x, x²]
+# [
+#  [1,1,1],
+#  [1,2,4],
+#  [1,3,9]
+# ]
+```
+
+## np.vstack
 
 ```python
 import numpy as np
@@ -179,4 +191,38 @@ result = np.vstack([a, b])
 #  [3 4]
 #  [5 6]]
 
+```
+
+## np.hstack
+
+Горизонтальное объединение
+
+```python
+import numpy as np
+
+a = np.array([
+    [1],
+    [2],
+    [3]
+])
+
+b = np.array([
+    [10],
+    [20],
+    [30]
+])
+
+result = np.hstack([a, b])
+# [
+#  [ 1 10]
+#  [ 2 20]
+#  [ 3 30]
+# ]
+```
+
+```python
+# сформировать массив вида [[1,1], [1, 2], [1, 3] ... [1, n]]
+x = np.arange(-1.0, 1.0, 0.1)
+ones = np.ones((len(x), 1))
+X = np.hstack((ones, x.reshape(-1, 1)))
 ```

@@ -149,7 +149,7 @@ Q = np.mean(loss(coord_y, model(coord_x, w)))
 
 ## для бинарной классификации
 
-Выбранная функция потерь: $L(ω, x_i, y_i) = 2 / (1 + e ^ {ω^T * x_i* y_i})$
+Выбранная функция потерь: $L(\omega, x_i, y_i) = \log_2(1 + e^{-\omega^T x_i y_i})$
 
 ```python
 import numpy as np
