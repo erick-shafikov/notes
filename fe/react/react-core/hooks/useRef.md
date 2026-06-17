@@ -100,7 +100,8 @@ function UseRefHook() {
         type="text"
         onChange={(e) => setValue(e.target.value)}
         value={value}
-      ></input>        
+      ></input>
+              
     </div>
   );
 }
@@ -190,4 +191,14 @@ function areEqual(array1, array2) {
 
 ```tsx
 const Ref = () => <input ref={(node) => node && node.focus()} />;
+```
+
+```tsx
+const Component = () => {
+  const focus = (node: HTMLDivElement) => {
+    node.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return <div ref={focus} />;
+};
 ```
