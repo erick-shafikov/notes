@@ -5,12 +5,12 @@
 ```ts
 //интерфейс темы
 interface Theme {
-  getColor: VoidFunction;
+  getColor: () => string;
 }
 
 interface WebPage {
   theme: Theme;
-  getContent: VoidFunction;
+  getContent: () => string;
 }
 
 class About implements WebPage {

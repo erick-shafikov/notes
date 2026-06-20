@@ -1,7 +1,6 @@
 # ДЕКОРАТОР
 
-Шаблон «Декоратор» позволяет во время выполнения динамически изменять поведение объекта, обёртывая его в объект класса «декоратора». Шаблон «Декоратор» позволяет подключать к объекту дополнительное поведение (статически или динамически), не влияя на поведение других объектов того же класса. Шаблон часто используется для соблюдения принципа единственной обязанности (Single Responsibility Principle), поскольку позволяет разделить функциональность между классами для решения конкретных задач.
-Т.е. создается базовый объект, потом создается объект обложка, который принимает в конструктор оборачиваемый объект, имея те же поля, но модифицируя методы принятого в конструктор объекта Динамически расширяет используемый объект.
+Шаблон «Декоратор» позволяет во время выполнения динамически изменять поведение объекта, обёртывая его в объект класса «декоратора». Шаблон «Декоратор» позволяет подключать к объекту дополнительное поведение (статически или динамически), не влияя на поведение других объектов того же класса. Шаблон часто используется для соблюдения принципа единственной обязанности (Single Responsibility Principle), поскольку позволяет разделить функциональность между классами для решения конкретных задач. Т.е. создается базовый объект, потом создается объект обложка, который принимает в конструктор оборачиваемый объект, имея те же поля, но модифицируя методы принятого в конструктор объекта Динамически расширяет используемый объект.
 
 obj.SetDecorator(decA);
 obj.DoDecoration();
@@ -81,13 +80,13 @@ const someCoffee2 = new MilkCoffee(someCoffee1);
 console.log(someCoffee2.getCost()); // 12
 console.log(someCoffee2.getDescription()); // Simple Coffee, milk
 
-const someCoffee3 = new WhipCoffee(someCoffee1);
+const someCoffee3 = new WhipCoffee(someCoffee2);
 console.log(someCoffee3.getCost()); // 17
-console.log(someCoffee3.getDescription()); // Simple Coffee, milk, whip
+console.log(someCoffee3.getDescription()); // Simple coffee, milk, whip
 
-const someCoffee4 = new VanillaCoffee(someCoffee1);
+const someCoffee4 = new VanillaCoffee(someCoffee3);
 console.log(someCoffee4.getCost()); // 20
-console.log(someCoffee4.getDescription()); // Simple Coffee, milk, whip, vanilla
+console.log(someCoffee4.getDescription()); // Simple coffee, milk, whip, vanilla
 
 // каждый следующий класс оборачивает предыдущий определенной логикой
 ```
