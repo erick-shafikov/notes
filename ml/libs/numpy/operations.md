@@ -226,32 +226,3 @@ x = np.arange(-1.0, 1.0, 0.1)
 ones = np.ones((len(x), 1))
 X = np.hstack((ones, x.reshape(-1, 1)))
 ```
-
-# np.vander
-
-— создает матрицу Вандермонда
-Используется для генерации полиномиальных признаков
-
-```python
-import numpy as np
-
-x = np.array([1, 2, 3])
-
-# increasing=True:
-# [x^0, x^1, x^2]
-A = np.vander(x, 3, increasing=True)
-
-# Результат:
-# [[1 1 1]
-#  [1 2 4]
-#  [1 3 9]]
-
-# increasing=False (по умолчанию):
-# [x^2, x^1, x^0]
-B = np.vander(x, 3)
-
-# Результат:
-# [[1 1 1]
-#  [4 2 1]
-#  [9 3 1]]
-```
