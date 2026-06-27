@@ -1,0 +1,73 @@
+# Нормальный закон распределения (Закон Гаусса)
+
+НСВ $X$ имеет **нормальное распределение** с параметрами $m$ и $\sigma$ (обозначение $X \sim N(m, \sigma^2)$), если плотность распределения имеет вид:
+
+$$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\, e^{-\dfrac{(x-m)^2}{2\sigma^2}}, \quad x \in (-\infty,\, +\infty)$$
+
+## Нормировка
+
+Для всех $m$ и $\sigma$ выполняется $\displaystyle\int_{-\infty}^{+\infty} f(x)\,dx = 1$:
+
+$$\int_{-\infty}^{+\infty} f(x)\,dx = \frac{1}{\sigma\sqrt{2\pi}} \int_{-\infty}^{+\infty} e^{-\frac{(x-m)^2}{2\sigma^2}}\,dx$$
+
+Замена $t = \dfrac{x - m}{\sigma}$, $dt = \dfrac{dx}{\sigma}$:
+
+$$= \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{+\infty} e^{-\frac{t^2}{2}}\,dt = \frac{1}{\sqrt{2\pi}} \cdot \sqrt{2\pi} = 1$$
+
+где использован **интеграл Пуассона–Гаусса** $\displaystyle\int_{-\infty}^{+\infty} e^{-t^2/2}\,dt = \sqrt{2\pi}$.
+
+## Функция распределения
+
+$$F(x) = \frac{1}{\sigma\sqrt{2\pi}} \int_{-\infty}^{x} e^{-\frac{(t-m)^2}{2\sigma^2}}\,dt = \frac{1}{2} + \Phi\!\left(\frac{x-m}{\sigma}\right)$$
+
+где **функция Лапласа** $\displaystyle\Phi(x) = \frac{1}{\sqrt{2\pi}} \int_0^x e^{-t^2/2}\,dt$ — нечётная: $\Phi(-x) = -\Phi(x)$.
+
+## Математическое ожидание и дисперсия
+
+$$M(X) = \int_{-\infty}^{+\infty} x\,f(x)\,dx = m, \qquad D(X) = \int_{-\infty}^{+\infty} x^2 f(x)\,dx - m^2 = \sigma^2$$
+
+Параметры $m$ и $\sigma$ — непосредственно математическое ожидание и среднеквадратическое отклонение.
+
+## Формулы для вычисления вероятностей
+
+**1) Вероятность попадания в интервал $(\alpha, \beta)$:**
+
+$$P(\alpha < X < \beta) = F(\beta) - F(\alpha) = \Phi\!\left(\frac{\beta - m}{\sigma}\right) - \Phi\!\left(\frac{\alpha - m}{\sigma}\right)$$
+
+Если $\alpha < m < \beta$, используют симметрию $\Phi$:
+
+$$P(\alpha < X < \beta) = \Phi\!\left(\frac{\beta - m}{\sigma}\right) + \Phi\!\left(\frac{m - \alpha}{\sigma}\right)$$
+
+**2) Симметричный интервал вокруг $m$:**
+
+$$P(|X - m| < \delta) = 2\,\Phi\!\left(\frac{\delta}{\sigma}\right)$$
+
+**3) Правило трёх сигм:**
+
+$$P(|X - m| < 3\sigma) = 2\,\Phi(3) \approx 0{,}9973$$
+
+Практически все значения нормально распределённой СВ лежат в интервале $(m - 3\sigma,\; m + 3\sigma)$.
+
+## Пример 1
+
+$X \sim N(m = 5,\; \sigma = 0{,}9)$. Найти $P(4 < X < 7)$.
+
+Так как $4 < m = 5 < 7$, применяем симметрию:
+
+$$P(4 < X < 7) = \Phi\!\left(\frac{7-5}{0{,}9}\right) + \Phi\!\left(\frac{5-4}{0{,}9}\right) = \Phi(2{,}22) + \Phi(1{,}11) = 0{,}4868 + 0{,}3665 = 0{,}8533$$
+
+## Пример 2
+
+$X \sim N(m = 5,\; \sigma = 0{,}5)$. Найти $P(3{,}75 \leq X \leq 6{,}25)$.
+
+Это симметричный интервал $|X - 5| \leq 1{,}25$, поэтому $\delta = 1{,}25$:
+
+$$P(|X - 5| \leq 1{,}25) = 2\,\Phi\!\left(\frac{1{,}25}{0{,}5}\right) = 2\,\Phi(2{,}5) = 2 \times 0{,}4938 = 0{,}9876$$
+
+Сравним с правилом $k\sigma$ ($k = 1, 2, 3$):
+
+| Интервал | Вероятность |
+|----------|-------------|
+| $(4{,}5;\; 5{,}5) = m \pm \sigma$ | $2\Phi(1) \approx 0{,}6826$ |
+| $(4;\; 6) = m \pm 2\sigma$ | $2\Phi(2) \approx 0{,}9544$ |
+| $(3{,}5;\; 6{,}5) = m \pm 3\sigma$ | $2\Phi(3) \approx 0{,}9973$ |
