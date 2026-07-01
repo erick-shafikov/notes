@@ -3,7 +3,8 @@
     "allow": [
       "Bash(python _gen_temp.py)",
       "Bash(rm _gen_temp.py)",
-      "Bash(Remove-Item \"D:\\\\dev\\\\notes\\\\ml\\\\ml\\\\logic-classification\\\\_gen_temp.py\")"
+      "Bash(Remove-Item \"D:\\\\dev\\\\notes\\\\ml\\\\ml\\\\logic-classification\\\\_gen_temp.py\")",
+      "Bash(python \"C:\\\\Users\\\\Erick\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--dev-notes\\\\a008039e-209b-4252-826d-4d07e18c73dd\\\\scratchpad\\\\gen_l1l2.py\")"
     ]
   }
 }
