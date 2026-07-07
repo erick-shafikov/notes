@@ -2,7 +2,7 @@
 
 ## Многомерный случай
 
-Выборка $X^l = \{(x_i, y_i)\}_{i=1}^l$, где $x \in \mathbb{R}^n$. Предполагается, что объекты каждого класса порождены [многомерным нормальным распределением](../../../math/lin-alg/multivariate-normal.md)
+Выборка $X^l = \{(x_i, y_i)\}_{i=1}^l$, где $x \in \mathbb{R}^n$. Предполагается, что объекты каждого класса порождены [многомерным нормальным распределением](../../../math/prob-math-stat/probability/multivariate-probability/5-multivariate-normal.md)
 
 $$P(x \mid y) = \frac{1}{(2\pi)^{n/2}(\det\Sigma_y)^{1/2}} \exp\!\left\{-\frac{1}{2}(x - \mu_y)^T \Sigma_y^{-1}(x - \mu_y)\right\}$$
 
