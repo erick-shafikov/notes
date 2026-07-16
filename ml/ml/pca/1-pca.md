@@ -44,27 +44,63 @@ $$\lambda_1 = 4{,}5, \qquad \lambda_2 = 0{,}5$$
 
 **Шаг 3. Собственные векторы — главные направления.**
 
-Для $\lambda_1 = 4{,}5$:
+Собственный вектор — это ненулевой вектор $v = \begin{bmatrix}a \\ b\end{bmatrix}$, удовлетворяющий уравнению $(\hat{F} - \lambda I)\,v = 0$. Задача: найти компоненты $a$ и $b$ для каждого $\lambda$.
 
-$$(\hat{F} - 4{,}5\,I)\,u = \begin{bmatrix}-2 & 2\\ 2 & -2\end{bmatrix}u = 0 \quad\Rightarrow\quad u_1 = u_2 \quad\Rightarrow\quad u_1 = \frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix}$$
+**Для $\lambda_1 = 4{,}5$:**
 
-Для $\lambda_2 = 0{,}5$:
+$$(\hat{F} - 4{,}5\,I)\,v = \begin{bmatrix}2{,}5 - 4{,}5 & 2\\ 2 & 2{,}5 - 4{,}5\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix} = \begin{bmatrix}-2 & 2\\ 2 & -2\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix} = \begin{bmatrix}0\\0\end{bmatrix}$$
 
-$$(\hat{F} - 0{,}5\,I)\,u = \begin{bmatrix}2 & 2\\ 2 & 2\end{bmatrix}u = 0 \quad\Rightarrow\quad u_1 = -u_2 \quad\Rightarrow\quad u_2 = \frac{1}{\sqrt{2}}\begin{bmatrix}1\\-1\end{bmatrix}$$
+Расписываем систему уравнений:
+
+$$\begin{cases}-2a + 2b = 0 \\ 2a - 2b = 0\end{cases} \quad\Rightarrow\quad a = b$$
+
+Оба уравнения говорят одно и то же: компоненты вектора равны. Берём $a = b = 1$ (любое ненулевое значение), нормируем до единичной длины:
+
+$$\|v\| = \sqrt{1^2 + 1^2} = \sqrt{2}, \qquad u_1 = \frac{v}{\|v\|} = \frac{1}{\sqrt{2}}\begin{bmatrix}1\\1\end{bmatrix}$$
+
+**Для $\lambda_2 = 0{,}5$:**
+
+$$(\hat{F} - 0{,}5\,I)\,v = \begin{bmatrix}2{,}5 - 0{,}5 & 2\\ 2 & 2{,}5 - 0{,}5\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix} = \begin{bmatrix}2 & 2\\ 2 & 2\end{bmatrix}\begin{bmatrix}a\\b\end{bmatrix} = \begin{bmatrix}0\\0\end{bmatrix}$$
+
+$$\begin{cases}2a + 2b = 0 \\ 2a + 2b = 0\end{cases} \quad\Rightarrow\quad a = -b$$
+
+Берём $a = 1,\; b = -1$, нормируем:
+
+$$u_2 = \frac{1}{\sqrt{2}}\begin{bmatrix}1\\-1\end{bmatrix}$$
 
 Первая компонента $u_1 = [1,1]^T/\sqrt{2}$ — направление вдоль «диагонали» (оба признака растут вместе). Вторая $u_2 = [1,-1]^T/\sqrt{2}$ — перпендикулярное направление, несущее лишь 10% разброса.
 
 **Шаг 4. Проекции на новый базис.**
 
-$$G = F U^T, \qquad U = \frac{1}{\sqrt{2}}\begin{bmatrix}1&1\\1&-1\end{bmatrix}$$
+Из шага 3 получили два главных направления. Собираем из них матрицу $U$, укладывая $u_1$ и $u_2$ по строкам:
 
-Для каждого объекта вычисляем $g_k = U f_k^T$. Например, первая строка:
+$$U = \begin{bmatrix} — u_1 — \\ — u_2 — \end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix}1 & 1\\1 & -1\end{bmatrix}$$
 
-$$g_1 = \frac{1}{\sqrt{2}}\begin{bmatrix}1&1\\1&-1\end{bmatrix}\begin{bmatrix}2\\1\end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix}3\\1\end{bmatrix}$$
+Новые признаки объекта $x_k$ — это его проекции на каждое из главных направлений. Проекция на $u_j$ равна скалярному произведению $\langle u_j, f_k \rangle$. Для одного объекта:
 
-Аналогично для остальных строк:
+$$g_k = \begin{bmatrix}\langle u_1, f_k \rangle \\ \langle u_2, f_k \rangle\end{bmatrix} = U\, f_k$$
+
+Для всей выборки сразу (каждая строка $F$ — один объект, каждая строка $G$ — его новые признаки):
+
+$$G = F\, U^T$$
+
+Матрица $F$ имеет размер $4 \times 2$, $U^T$ — размер $2 \times 2$, результат $G$ — $4 \times 2$.
+
+**Вычисления для каждого объекта.** Раскрываем $g_k = U f_k$ явно:
+
+$$g_1 = \frac{1}{\sqrt{2}}\begin{bmatrix}1 & 1\\1 & -1\end{bmatrix}\begin{bmatrix}2\\1\end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix}1\cdot2 + 1\cdot1 \\ 1\cdot2 + (-1)\cdot1\end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix}3\\1\end{bmatrix}$$
+
+$$g_2 = \frac{1}{\sqrt{2}}\begin{bmatrix}1 & 1\\1 & -1\end{bmatrix}\begin{bmatrix}1\\2\end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix}1+2 \\ 1-2\end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix}3\\-1\end{bmatrix}$$
+
+$$g_3 = \frac{1}{\sqrt{2}}\begin{bmatrix}1 & 1\\1 & -1\end{bmatrix}\begin{bmatrix}-1\\-2\end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix}-1-2 \\ -1+2\end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix}-3\\1\end{bmatrix}$$
+
+$$g_4 = \frac{1}{\sqrt{2}}\begin{bmatrix}1 & 1\\1 & -1\end{bmatrix}\begin{bmatrix}-2\\-1\end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix}-2-1 \\ -2+1\end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix}-3\\-1\end{bmatrix}$$
+
+Складываем строки в матрицу:
 
 $$G = \frac{1}{\sqrt{2}}\begin{bmatrix}3&1\\3&-1\\-3&1\\-3&-1\end{bmatrix}$$
+
+Первый столбец $G$ — координаты вдоль $u_1$ (главная компонента с $\lambda_1 = 4{,}5$), второй — вдоль $u_2$ ($\lambda_2 = 0{,}5$).
 
 Проверка: дисперсия первого столбца $G$ равна $\frac{1}{4}\left(\frac{9}{2}+\frac{9}{2}+\frac{9}{2}+\frac{9}{2}\right) = 4{,}5 = \lambda_1$ ✓, дисперсия второго — $0{,}5 = \lambda_2$ ✓.
 
