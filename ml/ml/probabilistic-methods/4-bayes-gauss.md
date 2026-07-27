@@ -70,7 +70,17 @@ $$\hat{\Sigma}_y = \frac{1}{l_y}\sum_{i:\,y_i=y}(x_i - \hat{\mu}_y)(x_i - \hat{\
 | класс $-1$ | $0.7$ | $1.0$      | $[0,\,-3]^T$ |
 | класс $+1$ | $0.7$ | $2.0$      | $[0,\,+3]^T$ |
 
-Подставляем значения в ковариационные матрицы (внедиагональный элемент равен $\sigma^2 \cdot r$):
+Общая структура ковариационной матрицы для двух признаков с одинаковой дисперсией $\sigma^2$ и корреляцией $r$:
+
+$$\Sigma = \begin{pmatrix}\sigma^2 & r\,\sigma^2 \\ r\,\sigma^2 & \sigma^2\end{pmatrix}$$
+
+- Диагональ: $\operatorname{Cov}(x_i, x_i) = \operatorname{Var}(x_i) = \sigma^2$
+- Внедиагональ: $\operatorname{Cov}(x_1, x_2) = r \cdot \sigma_{x_1} \cdot \sigma_{x_2} = r \cdot \sigma \cdot \sigma = r\,\sigma^2$
+
+Подставляем значения из таблицы:
+
+- Класс $-1$: $\sigma^2 = 1.0$, $r = 0.7$ $\;\Rightarrow\;$ внедиагональ $= 0.7 \cdot 1.0 = 0.7$
+- Класс $+1$: $\sigma^2 = 2.0$, $r = 0.7$ $\;\Rightarrow\;$ внедиагональ $= 0.7 \cdot 2.0 = 1.4$
 
 $$\Sigma_{-1} = \begin{pmatrix}1.0 & 0.7 \\ 0.7 & 1.0\end{pmatrix}, \qquad \Sigma_{+1} = \begin{pmatrix}2.0 & 1.4 \\ 1.4 & 2.0\end{pmatrix}$$
 
@@ -112,7 +122,10 @@ $$\Sigma = V \cdot S \cdot V^T$$
 
 Применяя ковариационную матрицу $\Sigma$, мы переходим в **новую систему координат**, в которой признаки некоррелированы. В этих координатах граница классов определяется оптимальным байесовским решающим правилом.
 
+## Примеры
+
 ```python
+# 2 класса (-1, +1), 2 признака
 import numpy as np
 
 np.random.seed(0)
@@ -168,9 +181,8 @@ predict = np.array(predict)
 
 ```
 
-3 X 3
-
 ```python
+# 2 класса (-1, +1), 3 признака
 import numpy as np
 
 np.random.seed(0)
@@ -227,9 +239,8 @@ for x in x_train:
 Q = np.sum(predict != y_train)
 ```
 
-- для трех классификаций
-
 ```python
+# 3 класса (0, 1, 2), 2 признака
 import numpy as np
 
 np.random.seed(0)
