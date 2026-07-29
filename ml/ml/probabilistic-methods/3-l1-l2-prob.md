@@ -4,7 +4,7 @@
 
 $$\omega_0 = \arg\max_\omega\, p(x, y \mid \omega)$$
 
-По теореме Байеса совместное распределение раскладывается двумя способами:
+По теореме Байеса совместное распределение раскладывается двумя способами (правила перестановки условий — см. [5-bayes-formula.md](../../../math/prob-math-stat/probability/basics/5-bayes-formula.md)):
 
 $$p(x, y \mid \omega) = p(x) \cdot p(y \mid x, \omega) = p(y \mid \omega) \cdot p(x \mid y)$$
 
