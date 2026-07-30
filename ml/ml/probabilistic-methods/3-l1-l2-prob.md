@@ -4,9 +4,13 @@
 
 $$\omega_0 = \arg\max_\omega\, p(x, y \mid \omega)$$
 
-По теореме Байеса совместное распределение раскладывается двумя способами (правила перестановки условий — см. [5-bayes-formula.md](../../../math/prob-math-stat/probability/basics/5-bayes-formula.md)):
+По [цепному правилу](../../../math/prob-math-stat/probability/basics/5-bayes-formula.md) совместное распределение раскладывается двумя способами:
 
-$$p(x, y \mid \omega) = p(x) \cdot p(y \mid x, \omega) = p(y \mid \omega) \cdot p(x \mid y)$$
+$$p(x, y \mid \omega) = p(x \mid \omega) \cdot p(y \mid x, \omega) = p(y \mid \omega) \cdot p(x \mid y, \omega)$$
+
+В **дискриминативных** моделях (линейная регрессия, логистическая регрессия) признаки $x$ считаются фиксированными — модель описывает только зависимость $y$ от $x$, но не то, как генерируются сами $x$. Поэтому $p(x \mid \omega) = p(x)$ — распределение признаков не зависит от параметров $\omega$, и первое разложение принимает вид:
+
+$$p(x, y \mid \omega) = p(x) \cdot p(y \mid x, \omega)$$
 
 Из этого следует формула условной вероятности:
 

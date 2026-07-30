@@ -21,6 +21,8 @@ $$a(x) = \arg\max_{y} \lambda_y\, P(y) \cdot p(x \mid y)$$
 
 $$a(x) = \arg\max_{y} \left(\ln\lambda_y P(y) - \frac{1}{2}(x - \hat{\mu}_y)^T \Sigma_y^{-1}(x - \hat{\mu}_y) - \frac{1}{2}\ln\det\Sigma_y\right)$$
 
+Множитель $(2\pi)^{n/2}$ из знаменателя плотности здесь отсутствует: он одинаков для всех классов, поэтому при взятии $\arg\max$ сокращается — в логарифме это константа $-\frac{n}{2}\ln(2\pi)$, прибавляемая к каждому классу и не влияющая на выбор максимума.
+
 ## Связь с Наивным Байесом: диагональная ковариация
 
 Если признаки независимы, ковариационная матрица диагональна:
@@ -171,14 +173,11 @@ Py2, L2 = 1 - Py1, 1  # и величины штрафов неверной кл
 ax = lambda x, v, m, l, py: np.log(l * py) - 0.5 * (x - m) @ np.linalg.inv(v) @ (x - m).T - 0.5 * np.log(
     np.linalg.det(v))
 
-length = len(x_train)
 predict = []
 for x in x_train:
     predict.append(np.argmax([ax(x, VV1, mm1, L1, Py1), ax(x, VV2, mm2, L2, Py2)]) * 2 - 1)
 
 Q = np.sum(predict != y_train)
-predict = np.array(predict)
-
 ```
 
 ```python
