@@ -96,10 +96,8 @@ p::before {
 
 ```scss
 body {
-  padding: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 20px) env(
-      safe-area-inset-bottom,
-      20px
-    ) env(safe-area-inset-left, 20px);
+  padding: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 20px)
+    env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 20px);
 }
 ```
 
@@ -198,8 +196,6 @@ code {
 }
 ```
 
-<!-- paint() ---------------------------------------------------------------------------------------------------------------------------->
-
 # paint() (-ff -s)
 
 Декорация для PaintWorkletGlobalScope
@@ -219,7 +215,19 @@ li:nth-of-type(3n + 1) {
 }
 ```
 
-<!-- url()---------------------------------------------------------------------------------------------------------------------------->
+# style()
+
+используется в CSS Custom Properties / CSS Custom Functions для проверки значения пользовательского свойства
+
+```scss
+@container style(--theme: dark) {
+  // применить стили внутри container query, если CSS-переменная --theme имеет значение dark
+  .card {
+    background: black;
+    color: white;
+  }
+}
+```
 
 # url()
 
@@ -263,8 +271,6 @@ li:nth-of-type(3n + 1) {
   @namespace url(http://www.w3.org/1999/xhtml);
 }
 ```
-
-<!-- var() ---------------------------------------------------------------------------------------------------------------------------->
 
 # var()
 

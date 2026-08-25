@@ -7,6 +7,15 @@
 Атрибуты:
 
 - autofocus - будет ли кнопка автоматически сфокусирована после загрузки страницы
+- command - задает поведение dialog, связываются по id значения:
+- - show-modal
+- - close
+- - request-close
+- - show-popover
+- - hide-popover
+- - toggle-popover
+- - CommandEvent - можно задать произвольное событие --custom-event
+- commandfor
 - disabled
 - form - содержит id формы в которую может быть даже и не вложен, если нет, то связан с родительским
 - formaction - ссылка на обработчик формы, то есть action
@@ -18,6 +27,10 @@
 - formnovalidate - без валидации
 - formtarget: \_self, \_blank, \_parent, \_top - где отображать ответ формы, если type === submit
 - name - имя которое отправится с данными формы
+- popovertargetaction - задает поведение popover/dialog, связываются по id значения:
+- - hide
+- - show
+- - toggle
 - type:
 - - submit - значение по умолчанию
 - - reset - удалит данные с формы
