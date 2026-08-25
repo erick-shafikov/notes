@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Реактивный CSS</title>
+    <link rel="stylesheet" href="setting.css" />
+    <link rel="stylesheet" href="slider-base.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="slider" style="--current: 5">
+      <ul class="slides-list">
+        <li class="slide-item">
+          <span class="slide-image"><img src="img-1.jpg" /></span>
+        </li>
+        <li class="slide-item">
+          <span class="slide-image"><img src="img-2.jpg" /></span>
+        </li>
+        <li class="slide-item">
+          <span class="slide-image"><img src="img-3.jpg" /></span>
+        </li>
+        <li class="slide-item">
+          <span class="slide-image"><img src="img-4.jpg" /></span>
+        </li>
+        <li class="slide-item">
+          <span class="slide-image"><img src="img-5.jpg" /></span>
+        </li>
+      </ul>
+      <ul class="control-list">
+        <li class="control-item">
+          <button class="control-btn-prev" type="button">Назад</button>
+          <button class="control-btn" type="button">1</button>
+        </li>
+        <li class="control-item">
+          <button class="control-btn" type="button">2</button>
+        </li>
+        <li class="control-item">
+          <button class="control-btn" type="button">3</button>
+        </li>
+        <li class="control-item">
+          <button class="control-btn" type="button">4</button>
+        </li>
+        <li class="control-item">
+          <button class="control-btn" type="button">5</button>
+          <button class="control-btn-next" type="button">Вперёд</button>
+        </li>
+      </ul>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

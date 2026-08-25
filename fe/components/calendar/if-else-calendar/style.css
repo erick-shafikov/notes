@@ -1,0 +1,16 @@
+.day-now:nth-child(6),
+.day-now:nth-child(7) {
+  color: var(--calendar-accent);
+}
+
+.calendar {
+  --day-start: 4;
+  --day-end: 6;
+}
+
+.day-now {
+  background-color: if(
+    style(--day-start <= --day <= --day-end): #8b0000;
+      else: rgba(255, 255, 255, 0.05) ;
+  );
+}

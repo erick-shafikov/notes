@@ -1,0 +1,99 @@
+/*
+  Общие стили слайдера вынесены в slider-base.css
+*/
+
+@property --is-current-image {
+  inherits: true;
+  initial-value: 0;
+  syntax: "<number>";
+}
+
+@property --current-distance {
+  inherits: true;
+  initial-value: 0;
+  syntax: "<number>";
+}
+
+@property --is-current-control {
+  inherits: true;
+  initial-value: 0;
+  syntax: "<number>";
+}
+
+@property --is-first-control {
+  inherits: true;
+  initial-value: 0;
+  syntax: "<number>";
+}
+
+@property --is-last-control {
+  inherits: true;
+  initial-value: 0;
+  syntax: "<number>";
+}
+
+.slide-item {
+  --is-current-image: sign(sibling-index() - var(--current));
+  --current-distance: abs(sibling-index() - var(--current));
+}
+
+.control-item {
+  --is-current-control: sign(sibling-index() - var(--current));
+  --is-first-control: sign(1 - var(--current));
+  --is-last-control: sign(sibling-count() - var(--current));
+}
+
+.slide-image {
+  z-index: calc(-1 * var(--current-distance));
+  transition: all 0.5s;
+}
+
+@container style(--is-current-image: 0) {
+  .slide-image {
+    z-index: 1;
+  }
+}
+
+@container style(--is-current-image: -1) {
+  .slide-image {
+    left: calc(-20px - var(--current-distance) * 35px);
+    transform: scale(calc(1 - var(--current-distance) * 0.1));
+    filter: grayscale(1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+}
+
+@container style(--is-current-image: 1) {
+  .slide-image {
+    left: auto;
+    right: calc(-20px - var(--current-distance) * 35px);
+    transform: scale(calc(1 - var(--current-distance) * 0.1));
+    filter: grayscale(1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+}
+
+@container style(--is-current-control: 0) {
+  .control-btn {
+    cursor: default;
+    color: #ddd;
+    background-color: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+  }
+}
+
+@container style(--is-first-control: 0) {
+  .control-btn-prev {
+    opacity: 0.2;
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+@container style(--is-last-control: 0) {
+  .control-btn-next {
+    opacity: 0.2;
+    cursor: default;
+    pointer-events: none;
+  }
+}
