@@ -2,11 +2,30 @@
 
 # caches
 
-⇒ [CacheStorage](../caching/cache-storage-i.md) предназначенный для управления кеширования запросов
+⇒ [CacheStorage](../../caching/cache-storage-i.md) предназначенный для управления кеширования запросов
 
 # closed (readonly)
 
 ⇒ boolean - открыто ли окно
+
+```ts
+// Check that an opener exists and is not closed
+if (window.opener && !window.opener.closed) {
+  window.opener.location.href = "https://www.mozilla.org";
+}
+
+let popupWindow = null;
+
+function refreshPopupWindow() {
+  if (popupWindow && !popupWindow.closed) {
+    // popupWindow is open, refresh it
+    popupWindow.location.reload(true);
+  } else {
+    // Open a new popup window
+    popupWindow = window.open("popup.html", "dataWindow");
+  }
+}
+```
 
 # cookieStore
 

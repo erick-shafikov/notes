@@ -5,12 +5,14 @@
 отличие от cookie – не отправляют запрос на сервер
 сервер не может манипулировать через HTTP-заголовки
 
-setItem(key, value) – сохранить пару ключ/значение
-getItem(key) – получить данные по ключу key
-removeItem(key) – удалить данные с ключом key
-clear() – удалить все
-key(index) – получить ключ на заданной позиции
-length – количество элементов в хранилище
+```ts
+sessionStorage.setItem(key, value); // сохранить пару ключ/значение
+sessionStorage.getItem(key); // получить данные по ключу key
+sessionStorage.removeItem(key); // удалить данные с ключом key
+sessionStorage.clear(); // удалить все
+sessionStorage.key(index); // получить ключ на заданной позиции
+sessionStorage.length; // количество элементов в хранилище
+```
 
 ## Демо localStorage
 
@@ -25,7 +27,7 @@ length – количество элементов в хранилище
 localStorage.setItem("test", 1); //добавить item в LS
 alert(localStorage.getItem("test")); //1
 localStorage.test = 2; //можно добавлять свойства как у обычных объектов
-alert(localStoragel.test); //получить доступ - не рекомендуется
+alert(localStorage.test); //получить доступ - не рекомендуется
 delete localStorage.test; // получить доступа - не рекомендуется
 ```
 
