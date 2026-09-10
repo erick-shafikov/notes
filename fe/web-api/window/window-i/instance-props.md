@@ -49,7 +49,7 @@ function refreshPopupWindow() {
 
 # crypto
 
-⇒ [Crypto](../crypto-i.md) объект для работы с криптографией
+⇒ [Crypto](../../crypto-i.md) объект для работы с криптографией
 
 # customElements (readonly)
 

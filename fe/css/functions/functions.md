@@ -229,6 +229,81 @@ li:nth-of-type(3n + 1) {
 }
 ```
 
+# sibling-index() / sibling-count()
+
+`sibling-index()` — индекс элемента среди siblings (начиная с 1).  
+`sibling-count()` — общее количество siblings.
+
+Используются внутри `calc()` для автоматического вычисления значений на основе позиции элемента — без JS и inline-стилей.
+
+```scss
+// Staggered-анимация меню
+.nav-list {
+  li {
+    opacity: 0;
+    transition: opacity 250ms ease-out;
+    transition-delay: calc(sibling-index() * 250ms);
+  }
+}
+```
+
+```scss
+// С CSS-переменными (вынос duration и timing-function):
+.nav-list {
+  --td: 750ms;
+  --tf: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  li {
+    opacity: 0;
+    transition:
+      opacity var(--td) var(--tf),
+      translate var(--td) var(--tf);
+    /* делим на 3, чтобы суммарная задержка не превышала --td */
+    transition-delay: calc((sibling-index() - 1) * var(--td) / 3);
+  }
+}
+```
+
+```scss
+// Градиент цвета аватаров
+.avatars {
+  /* сдвигаем hue на 30° для каждого следующего элемента */
+  --hue: calc(196 + sibling-index() * 30);
+
+  li {
+    background-color: hsl(var(--hue, 40deg) 55% 45%);
+  }
+}
+```
+
+```scss
+// Перекрывающиеся аватары (overlap stack)
+.avatars {
+  li {
+    margin-inline-start: -1.6rem;
+    /* первый элемент сверху: чем меньше index, тем выше z-index */
+    z-index: calc(sibling-count() - sibling-index());
+  }
+}
+```
+
+```scss
+// С hover-эффектом (поднять аватар поверх всех):
+.avatars {
+  li {
+    margin-inline-start: -1.6rem;
+    z-index: calc(sibling-count() - sibling-index());
+    transition: scale 200ms ease-out;
+
+    &:hover {
+      /* sibling-count() + 1 гарантирует, что выше всех остальных */
+      z-index: calc(sibling-count() + 1);
+      scale: 1.15;
+    }
+  }
+}
+```
+
 # url()
 
 использование внешних ресурсов
