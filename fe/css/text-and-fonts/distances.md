@@ -83,3 +83,50 @@ const Comp = ({ text }) => <div className="container">{text}</div>;
   font-kerning: none;
 }
 ```
+
+# text-box-trim / text-box-edge
+
+Обрезает пустое пространство вокруг текста, которое шрифт добавляет сверху и снизу (half-leading). Позволяет выровнять текст точно по cap-height или alphabetic baseline без ручных отступов.
+
+Статус: Intent to Prototype in Gecko (2024), доступен в Chrome/Safari.
+
+```scss
+// text-box — сокращение для text-box-trim + text-box-edge
+button {
+  text-box-trim: both;          // обрезать сверху и снизу
+  text-box-edge: cap alphabetic; // сверху по заглавной букве, снизу по базовой линии
+}
+
+.heading {
+  // сокращённый синтаксис: text-box: <trim> <edge>
+  text-box: trim-both cap alphabetic;
+}
+```
+
+Значения `text-box-trim`:
+
+```scss
+.el {
+  text-box-trim: none;       // по умолчанию, без обрезки
+  text-box-trim: trim-start; // обрезать только сверху
+  text-box-trim: trim-end;   // обрезать только снизу
+  text-box-trim: both;       // обрезать с обеих сторон
+}
+```
+
+Значения `text-box-edge` (`<over> <under>`):
+
+```scss
+.el {
+  // over — верхняя граница
+  // cap        — высота заглавной буквы (самый частый выбор)
+  // ex         — высота строчной буквы (x-height)
+  // text       — ascender шрифта
+
+  // under — нижняя граница
+  // alphabetic — базовая линия (для латиницы/кириллицы)
+  // text       — descender шрифта
+
+  text-box-edge: cap alphabetic; // стандартный вариант для кнопок/заголовков
+}
+```
