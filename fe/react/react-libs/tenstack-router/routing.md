@@ -61,34 +61,34 @@ function PostComponent() {
 вариант 1
 
 routes/
-├─app.tsx ⇒ app здесь должен быть outlet компонент
-├─app.dashboard.tsx ⇒ app[dashboard]
-├─app.settings.tsx ⇒ app[settings]
+├─app.tsx ⇒ /app (layout, нужен Outlet)
+├─app.dashboard.tsx ⇒ /app/dashboard
+├─app.settings.tsx ⇒ /app/settings
 
 вариант 2
 
 routes/
 ├─ app/
-│ ├─route.tsx - здесь должен быть outlet компонент, это файл конфигурации
-│ ├─dashboard.tsx
-│ ├─settings.tsx
+│ ├─route.tsx ⇒ /app (layout, нужен Outlet)
+│ ├─dashboard.tsx ⇒ /app/dashboard
+│ ├─settings.tsx ⇒ /app/settings
 
 вариант 3
 
 routes/
-├─app.tsx - здесь должен быть outlet компонент, это файл конфигурации
+├─app.tsx ⇒ /app (layout, нужен Outlet)
 ├─ app/
-│ ├─dashboard.tsx ⇒ app[dashboard]
-│ ├─settings.tsx ⇒ app[settings]
+│ ├─dashboard.tsx ⇒ /app/dashboard
+│ ├─settings.tsx ⇒ /app/settings
 
 # маршруты \_layout
 
 отобразится лишь только в том случае если перейдем на \_pathlessLayout.a или \_pathlessLayout.b. \_pathlessLayout - будет оберткой. Если есть route будет внутри него
 
 routes/
-├─_pathlessLayout.tsx ⇒ index
-├─_pathlessLayout.a.tsx ⇒ PathlessLayout[A]
-├─_pathlessLayout.b.tsx ⇒ PathlessLayout[B]
+├─_pathlessLayout.tsx ⇒ (нет URL, только обёртка — нужен Outlet)
+├─_pathlessLayout.a.tsx ⇒ /a
+├─_pathlessLayout.b.tsx ⇒ /b
 
 - !!! нельзя \_$postId/
 - ├── $postId/ можно
@@ -98,37 +98,37 @@ routes/
 
 routes/
 ├─_pathlessLayout/
-│ ├─route.tsx
-│ ├─a.tsx
-│ ├─b.tsx
+│ ├─route.tsx ⇒ (нет URL, только обёртка — нужен Outlet)
+│ ├─a.tsx ⇒ /a
+│ ├─b.tsx ⇒ /b
 
 если вынести определенный файл posts\_ из layout
 
 routes/
-├─posts.tsx ⇒ Posts
-├─posts.$postId.tsx  ⇒ Posts[Post postId="123"]
-├─posts_.$postId.edit.tsx ⇒ PostEditor postId="123" вне Posts
+├─posts.tsx ⇒ /posts (layout)
+├─posts.$postId.tsx           ⇒ /posts/$postId (внутри layout posts.tsx)
+├─posts\_.$postId.edit.tsx     ⇒ /posts/$postId/edit (вне layout posts.tsx)
 
 # исключения из маршрутизации
 
 routes/
-├─posts.tsx
-├─-posts-table.tsx // 👈🏼 ignored
-├─-components/ // 👈🏼 ignored
-│ ├─header.tsx // 👈🏼 ignored
-│ ├─footer.tsx // 👈🏼 ignored
+├─posts.tsx ⇒ /posts
+├─-posts-table.tsx ⇒ ignored (нет маршрута)
+├─-components/ ⇒ ignored
+│ ├─header.tsx ⇒ ignored
+│ ├─footer.tsx ⇒ ignored
 
 # группировка
 
 routes/
-├─index.tsx
-├─(app)/
-│ ├─dashboard.tsx
-│ ├─settings.tsx
-│ ├─users.tsx
-├─(auth)/
-│ ├─login.tsx
-│ ├─register.tsx
+├─index.tsx ⇒ /
+├─(app)/ ⇒ (группировка, нет URL-сегмента)
+│ ├─dashboard.tsx ⇒ /dashboard
+│ ├─settings.tsx ⇒ /settings
+│ ├─users.tsx ⇒ /users
+├─(auth)/ ⇒ (группировка, нет URL-сегмента)
+│ ├─login.tsx ⇒ /login
+│ ├─register.tsx ⇒ /register
 
 \_\_root.tsx ⇒ Root
 index.tsx ⇒ exact Root[RootIndex] (/)
@@ -167,6 +167,40 @@ settings.tsx ⇒ Root[Settings] /settings
 
 - route.tsx ⇒ Root[Account] (/account)
 - overview.tsx ⇒ Root[Account[Overview]] (/account/overview)
+
+# index.tsx — точное совпадение
+
+`index.tsx` внутри директории или рядом с layout-файлом — это маршрут `/` относительно родителя (exact match, без trailing slash):
+
+routes/
+├─ posts.tsx ⇒ /posts (layout)
+├─ posts/
+│ ├─ index.tsx ⇒ /posts (exact, рендерится внутри posts.tsx)
+│ ├─ $postId.tsx ⇒ /posts/$postId
+
+То есть `/posts` рендерит `posts.tsx` → `posts/index.tsx`, а `/posts/123` рендерит `posts.tsx` → `posts/$postId.tsx`.
+
+# splat-маршруты
+
+`$.tsx` — ловит любой подпуть, которому не нашлось совпадения. Параметр доступен через `params['*']`:
+
+routes/
+├─ files/
+│ ├─ $.tsx ⇒ /files/anything/nested/here
+
+```tsx
+export const Route = createFileRoute("/files/$")({
+  component: FilesComponent,
+});
+
+function FilesComponent() {
+  const { "*": splat } = Route.useParams();
+  // /files/a/b/c → splat === 'a/b/c'
+  return <div>{splat}</div>;
+}
+```
+
+Используется для file-browser'ов, catch-all страниц, проксирования подпутей.
 
 # 404
 
