@@ -92,5 +92,5 @@ clf.fit(x_train, y_train)
 predict = clf.predict(x_test)
 
 Q = (predict != y_test).mean()
-acc = (predict == y_train).mean()  # показатель аккуратности модели
+acc = (predict == y_test).mean()  # показатель аккуратности модели
 ```
