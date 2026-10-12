@@ -12,15 +12,15 @@ AGG:
 - SUM
 - COUNT
 
-# OVER + PARTITION BY
-
 ```sql
+-- пример без оконной суммы
 SELECT
 transaction_id,
 payment_type,
 customer_id
 price_in_transaction,
 (
+  -- как последствие вложенный запрос
   SELECT SUM(price_in_transaction)
   FROM sales s2
   WHERE s2.customer_id=s1.customer_id
@@ -129,3 +129,28 @@ LEFT JOIN payment
 ON id=customer_id
 GROUP BY name, country) a
 ```
+
+```sql
+SELECT depname, empno, salary,
+-- отобразить номер строки в зависимости от департамента
+       row_number() OVER (PARTITION BY depname ORDER BY salary DESC)
+FROM empsalary;
+```
+
+```bash
+  depname  | empno | salary | row_number
+-----------+-------+--------+------
+ develop   |     8 |   6000 |          1
+ develop   |    10 |   5200 |          2
+ develop   |    11 |   5200 |          3
+ develop   |     9 |   4500 |          4
+ develop   |     7 |   4200 |          5
+ personnel |     2 |   3900 |          1
+ personnel |     5 |   3500 |          2
+ sales     |     1 |   5000 |          1
+ sales     |     4 |   4800 |          2
+ sales     |     3 |   4800 |          3
+(10 rows)
+```
+
+- !!! Оконные функции разрешается использовать в запросе только в списке SELECT и предложении ORDER BY
