@@ -69,46 +69,68 @@ V2 = [[D2, D2 * r2], [D2 * r2, D2]]
 # моделирование обучающей выборки
 N1 = 500
 N2 = 1000
-x1 = np.random.multivariate_normal(mean1, V1, N1).T
-x2 = np.random.multivariate_normal(mean2, V2, N2).T
+x1 = np.random.multivariate_normal(mean1, V1, N1)
+x2 = np.random.multivariate_normal(mean2, V2, N2)
 
-data_x = np.hstack([x1, x2]).T
-data_y = np.hstack([np.ones(N1) * -1, np.ones(N2)])
+data_x = np.vstack([x1, x2])
+# np.concatenate объединяет одномерные массивы меток вдоль единственной оси
+data_y = np.concatenate([np.full(N1, -1), np.full(N2, 1)])
 
 # вычисление оценок МО и ковариационных матриц
-mm1 = np.mean(x1.T, axis=0)
-mm2 = np.mean(x2.T, axis=0)
+mm1 = np.mean(x1, axis=0)
+mm2 = np.mean(x2, axis=0)
 
-a = (x1.T - mm1).T
-VV1 = np.array([[np.dot(a[0], a[0]) / N1, np.dot(a[0], a[1]) / N1],
-                [np.dot(a[1], a[0]) / N1, np.dot(a[1], a[1]) / N1]])
+a = x1 - mm1
+VV1 = np.array([[np.dot(a[:, 0], a[:, 0]) / N1, np.dot(a[:, 0], a[:, 1]) / N1],
+                [np.dot(a[:, 1], a[:, 0]) / N1, np.dot(a[:, 1], a[:, 1]) / N1]])
 
-a = (x2.T - mm2).T
-VV2 = np.array([[np.dot(a[0], a[0]) / N2, np.dot(a[0], a[1]) / N2],
-                [np.dot(a[1], a[0]) / N2, np.dot(a[1], a[1]) / N2]])
+a = x2 - mm2
+VV2 = np.array([[np.dot(a[:, 0], a[:, 0]) / N2, np.dot(a[:, 0], a[:, 1]) / N2],
+                [np.dot(a[:, 1], a[:, 0]) / N2, np.dot(a[:, 1], a[:, 1]) / N2]])
+
+# Библиотечный вариант той же оценки ковариации:
+# rowvar=False — строки являются объектами, ddof=0 — деление на N
+# VV1 = np.cov(x1, rowvar=False, ddof=0)
+# VV2 = np.cov(x2, rowvar=False, ddof=0)
 
 # для гауссовского байесовского классификатора
 Py1, L1 = 0.5, 1  # вероятности появления классов
 Py2, L2 = 1 - Py1, 1  # и величины штрафов неверной классификации
 
 # здесь продолжайте программу
-ax = lambda x, v, m, l, py: np.log(l * py) - 0.5 * (x - m) @ np.linalg.inv(v) @ (x - m).T - 0.5 * np.log(
-    np.linalg.det(v))
+def ax(x, v, m, loss_value, prior):
+    delta = x - m
+    logdet = np.log(np.linalg.det(v))
+    # Более устойчивый библиотечный вариант:
+    # _, logdet = np.linalg.slogdet(v)
+    v_inv = np.linalg.inv(v)
+    mahalanobis = np.sum((delta @ v_inv) * delta, axis=1)
+    # Более устойчивый вариант без явного вычисления обратной матрицы:
+    # solved = np.linalg.solve(v, delta.T).T
+    # mahalanobis = np.sum(delta * solved, axis=1)
+    return np.log(loss_value * prior) - 0.5 * mahalanobis - 0.5 * logdet
+
+
+score1 = ax(data_x, VV1, mm1, L1, Py1)
+score2 = ax(data_x, VV2, mm2, L2, Py2)
 
 predict = []
-for x in data_x:
-    predict.append(np.argmax([ax(x, VV1, mm1, L1, Py1), ax(x, VV2, mm2, L2, Py2)]) * 2 - 1)
+for value1, value2 in zip(score1, score2):
+    predict.append(np.argmax([value1, value2]) * 2 - 1)
 
 predict = np.array(predict)
 
-TP, TN, FP, FN = 0, 0, 0, 0
-
-length = len(data_y)
+# Короткий векторизованный вариант:
+# predict = np.where(score1 >= score2, -1, 1)
 
 TP = np.sum((predict == 1) & (data_y == 1))
 TN = np.sum((predict == -1) & (data_y == -1))
 FP = np.sum((predict == 1) & (data_y == -1))
 FN = np.sum((predict == -1) & (data_y == 1))
+
+# Альтернатива из sklearn:
+# from sklearn.metrics import confusion_matrix
+# TN, FP, FN, TP = confusion_matrix(data_y, predict, labels=[-1, 1]).ravel()
 ```
 
 - вычисление precision, recall
@@ -119,13 +141,16 @@ import numpy as np
 # логарифмическая функция потерь
 def loss(w, x, y):
     # здесь реализация функции потерь
+    # При больших значениях экспонента может переполниться;
+    # численно устойчивый вариант функции потерь строится через np.logaddexp.
     return np.log2(1 + np.exp(-w @ x * y))
 
 
 # производная логарифмической функции потерь по вектору w
 def df(w, x, y):
     # здесь реализация производной функции потерь
-    M = - (w @ x.T * y)
+    # Для устойчивого вычисления сигмоиды можно использовать scipy.special.expit.
+    M = - (w @ x * y)
     return - np.exp(M) * x * y / ((1 + np.exp(M)) * np.log(2))
 
 
@@ -146,30 +171,33 @@ data_y = [-1, -1, -1, -1, -1, 1, 1, -1, -1, 1, 1, -1, 1, 1, -1, 1, -1, -1, -1, 1
           1, 1, -1, 1, -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1, -1, 1, 1,
           -1, -1, -1, -1, 1]
 
-x_train = np.array([[1, x[0], x[1]] for x in data_x])
+data_x = np.asarray(data_x)
+x_train = np.column_stack([np.ones(len(data_x)), data_x])
 y_train = np.array(data_y)
 
 n_train = len(x_train)  # размер обучающей выборки
-w = [0.0, 0.0, 0.0]  # начальные весовые коэффициенты
+w = np.zeros(3)  # начальные весовые коэффициенты
 nt = np.array([0.5, 0.01, 0.01])  # шаг обучения для каждого параметра w0, w1, w2
-lm = 0.01  # значение параметра лямбда для вычисления скользящего экспоненциального среднего
 N = 500  # число итераций алгоритма SGD
 
 np.random.seed(0)  # генерация одинаковых последовательностей псевдослучайных чисел
 
 # здесь продолжайте программу
 for _ in range(N):
-    k = np.random.randint(0, n_train - 1)
+    k = np.random.randint(0, n_train)
     w -= nt * df(w, x_train[k], y_train[k])
 
+# Здесь метрики вычисляются на обучающей выборке. Для оценки качества модели
+# на новых данных выборку следует предварительно разделить на train и test.
 y_pred = np.sign(x_train @ w)
-y_train = np.array(y_train)
 
 TP = np.sum((y_pred == 1) & (y_train == 1))
 TN = np.sum((y_pred == -1) & (y_train == -1))
 FP = np.sum((y_pred == 1) & (y_train == -1))
 FN = np.sum((y_pred == -1) & (y_train == 1))
 
+# Если знаменатель равен нулю, потребуется отдельная проверка или функции
+# sklearn с параметром zero_division=0.
 precision = TP / (TP + FP)
 recall = TP / (TP + FN)
 
@@ -198,20 +226,18 @@ V2 = [[D2, D2 * r2], [D2 * r2, D2]]
 # моделирование обучающей выборки
 N1 = 2500
 N2 = 1500
-x1 = np.random.multivariate_normal(mean1, V1, N1).T
-x2 = np.random.multivariate_normal(mean2, V2, N2).T
+x1 = np.random.multivariate_normal(mean1, V1, N1)
+x2 = np.random.multivariate_normal(mean2, V2, N2)
 
-data_x = np.hstack([x1, x2]).T
-data_y = np.hstack([np.ones(N1) * -1, np.ones(N2)])
+data_x = np.vstack([x1, x2])
+data_y = np.concatenate([np.full(N1, -1), np.full(N2, 1)])
 
 x_train, x_test, y_train, y_test = train_test_split(data_x, data_y, random_state=123, test_size=0.4, shuffle=True)
 
 # здесь продолжайте программу
 clf = svm.SVC(kernel='linear')
 clf.fit(x_train, y_train)
-predict = clf.predict(x_test)
-
-w = [clf.intercept_[0], *clf.coef_[0]]
+y_pred = clf.predict(x_test)
 
 TP = np.sum((y_pred == 1) & (y_test == 1))
 TN = np.sum((y_pred == -1) & (y_test == -1))
@@ -221,8 +247,11 @@ FN = np.sum((y_pred == -1) & (y_test == 1))
 precision = TP / (TP + FP)
 recall = TP / (TP + FN)
 
-betta = 0.5 ** 2
+beta = 0.5
 
 F = 2 * precision * recall / (precision + recall)
-Fb = (1 + betta) * precision * recall / (betta * precision + recall)
+Fb = (1 + beta ** 2) * precision * recall / (beta ** 2 * precision + recall)
+
+# Готовые аналоги: sklearn.metrics.precision_score, recall_score,
+# f1_score и fbeta_score. Ручные формулы оставлены, чтобы показать их связь.
 ```

@@ -88,6 +88,36 @@ print(np.dot(a, b).shape)  # (3, 2, 5)
 print((a @ b).shape)       # (2, 3, 5)
 ```
 
+# np.logaddexp
+
+- вычисляет `log(exp(x1) + exp(x2))` численно устойчивым способом;
+- применяет broadcasting и работает поэлементно.
+
+```python
+np.logaddexp(x1, x2)
+```
+
+Прямое вычисление может переполниться, хотя итоговый логарифм представим:
+
+```python
+import numpy as np
+
+x1 = 1000.0
+x2 = 1000.0
+
+# np.log(np.exp(x1) + np.exp(x2))  # inf из-за переполнения exp
+np.logaddexp(x1, x2)               # 1000.693147...
+```
+
+Устойчивое вычисление логистической функции потерь
+`log(1 + exp(-margin))`:
+
+```python
+margin = np.array([1000.0, 0.0, -1000.0])
+loss = np.logaddexp(0, -margin)
+# [   0.            0.69314718 1000.        ]
+```
+
 # np.matmul и оператор `@`
 
 - матричное и пакетное матричное умножение;
@@ -320,4 +350,36 @@ b = np.array([1j])
 print(np.dot(a, b))   # -1+0j: 1j * 1j
 print(a @ b)          # -1+0j
 print(np.vdot(a, b))  #  1+0j: conj(1j) * 1j
+```
+
+# np.where
+
+- выбирает элементы из двух массивов по условию;
+- при одном аргументе возвращает индексы элементов, для которых условие истинно.
+
+```python
+np.where(condition, x, y)
+np.where(condition)
+```
+
+`x` выбирается там, где условие истинно, иначе выбирается `y`. Все три
+аргумента растягиваются по правилам broadcasting:
+
+```python
+import numpy as np
+
+scores = np.array([-2.0, 0.0, 3.5])
+labels = np.where(scores >= 0, 1, -1)
+
+print(labels)  # [-1  1  1]
+```
+
+Получение индексов:
+
+```python
+x = np.array([10, -5, 20, -1])
+indices = np.where(x > 0)
+
+print(indices)     # (array([0, 2]),)
+print(x[indices])  # [10 20]
 ```

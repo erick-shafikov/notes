@@ -41,6 +41,39 @@ print(a.size) #
 print(a.dtype) #
 ```
 
+# np.asarray
+
+Преобразует входные данные в `ndarray`.
+
+```python
+np.asarray(a, dtype=None, order=None)
+```
+
+- `a` — исходный массив, список или другая последовательность;
+- `dtype=None` — сохранить исходный тип данных, если это возможно;
+- `order=None` — не требовать конкретного расположения данных в памяти.
+
+```python
+import numpy as np
+
+data = [(1, 2), (3, 4)]
+x = np.asarray(data)
+
+print(x)
+# [[1 2]
+#  [3 4]]
+print(x.shape)  # (2, 2)
+```
+
+Если аргумент уже является подходящим `ndarray`, копия обычно не создаётся:
+
+```python
+a = np.array([1, 2, 3])
+b = np.asarray(a)
+
+print(a is b)  # True
+```
+
 # np.eye
 
 — создает единичную матрицу (1 на главной диагонали, 0 в остальных)
@@ -68,6 +101,30 @@ np.eye(3, dtype=int)
 # array([[1, 0, 0],
 #        [0, 1, 0],
 #        [0, 0, 1]])
+```
+
+# np.full
+
+Создаёт массив заданной формы и заполняет его одним значением.
+
+```python
+np.full(shape, fill_value, dtype=None, order="C")
+```
+
+- `shape` — форма результата;
+- `fill_value` — значение для заполнения;
+- `dtype=None` — тип определяется по `fill_value`;
+- `order="C"` — расположение элементов в памяти по строкам.
+
+```python
+import numpy as np
+
+labels = np.full(4, -1)
+print(labels)  # [-1 -1 -1 -1]
+
+matrix = np.full((2, 3), 7.0)
+# [[7. 7. 7.]
+#  [7. 7. 7.]]
 ```
 
 # np.linspace

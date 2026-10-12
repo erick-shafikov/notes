@@ -53,3 +53,76 @@ A_inv = np.linalg.inv(A)
 # проверка: A @ A_inv == I
 np.allclose(A @ A_inv, np.eye(2))  # True
 ```
+
+---
+
+# np.linalg.slogdet
+
+Вычисляет знак определителя и логарифм его абсолютного значения:
+
+```python
+sign, logabsdet = np.linalg.slogdet(A)
+```
+
+Результат связан с обычным определителем формулой:
+
+```python
+det_A = sign * np.exp(logabsdet)
+```
+
+`slogdet` устойчивее выражения `np.log(np.linalg.det(A))`: определитель очень
+большой матрицы может переполниться, а очень маленький — округлиться до нуля.
+
+```python
+import numpy as np
+
+A = np.array([
+    [2.0, 0.0],
+    [0.0, 3.0],
+])
+
+sign, logabsdet = np.linalg.slogdet(A)
+
+print(sign)       # 1.0
+print(logabsdet)  # log(6) = 1.791759...
+```
+
+Для положительно определённой ковариационной матрицы `sign` должен быть равен
+`1`. Для вырожденной матрицы возвращаются `sign == 0` и `logabsdet == -inf`.
+
+---
+
+# np.linalg.solve
+
+Решает систему линейных уравнений `A @ x = b` без явного вычисления обратной
+матрицы:
+
+```python
+x = np.linalg.solve(A, b)
+```
+
+- `A` — квадратная матрица коэффициентов формы `(n, n)`;
+- `b` — вектор `(n,)` или несколько правых частей формы `(n, k)`;
+- если `A` вырождена, возникает `LinAlgError`.
+
+```python
+import numpy as np
+
+A = np.array([
+    [3.0, 1.0],
+    [1.0, 2.0],
+])
+b = np.array([9.0, 8.0])
+
+x = np.linalg.solve(A, b)
+
+print(x)                    # [2. 3.]
+print(np.allclose(A @ x, b))  # True
+```
+
+Для решения системы предпочтительнее `solve`, а не `inv`:
+
+```python
+x = np.linalg.solve(A, b)   # предпочтительно
+x = np.linalg.inv(A) @ b    # лишнее вычисление обратной матрицы
+```
