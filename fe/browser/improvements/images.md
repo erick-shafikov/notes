@@ -96,3 +96,32 @@
   background-position: 40px 0px;
 }
 ```
+
+# Проблема определения размера контейнера под изображение
+
+Трюк через padding‑bottom (плохой вариант)
+
+```scss
+.img-container {
+  position: relative;
+  padding-bottom: 56.25%; /* соотношение сторон 16:9 */
+  height: 0;
+  overflow: hidden;
+}
+
+.img-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+```
+
+через aspect‑ratio: attr(width) / attr(height)
+
+```scss
+img {
+  aspect-ratio: attr(width) / attr(height);
+}
+```
