@@ -1,3 +1,5 @@
+Глиф — конкретное визуальное начертание символа в шрифте. Один символ (Unicode code point) может иметь несколько глифов: например, буква «а» в прямом и курсивном начертании — разные глифы. Шрифт — это набор глифов.
+
 # font
 
 font = font-style + font-variant + font-weight + font-stretch + font-size + line-height + font-family
@@ -228,7 +230,9 @@ span {
 ```scss
 // перечисление нескольких не через запятую
 .font-family {
-  font-family: Gill Sans Extrabold, sans-serif;
+  font-family:
+    Gill Sans Extrabold,
+    sans-serif;
   font-family: "Goudy Bookletter 1911", sans-serif;
 }
 ```
