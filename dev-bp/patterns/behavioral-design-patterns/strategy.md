@@ -1,13 +1,10 @@
-/* СТРАТЕГИЯ 
-    Шаблон «Стратегия» позволяет переключаться между алгоритмами или стратегиями в зависимости от ситуации.
-    Шаблон «Стратегия» позволяет при выполнении выбирать поведение алгоритма.
+# СТРАТЕГИЯ
 
-    
-Strategy Определяет несколько алгоритмов для работы с наборами объектов. 
-List.Add(ObjA); List.Add(ObjB); List.SortStrategy(Ascending); List.SortStrategy(Descending);
+Шаблон «Стратегия» позволяет переключаться между алгоритмами или стратегиями в зависимости от ситуации. Шаблон позволяет при выполнении выбирать поведение алгоритма.
 
-*/
+Strategy (Стратегия) - Определяет несколько алгоритмов для работы с наборами объектов. `List.Add(ObjA); List.Add(ObjB); List.SortStrategy(Ascending); List.SortStrategy(Descending);`
 
+```ts
 interface SortStrategy {
   sort(dataset: any[]): any[];
 }
@@ -15,7 +12,6 @@ interface SortStrategy {
 class BubbleSortStrategy implements SortStrategy {
   public sort(dataset: any[]): any[] {
     console.log("Sorting using bubble sort");
-
     // Do sorting
     return dataset;
   }
@@ -24,7 +20,6 @@ class BubbleSortStrategy implements SortStrategy {
 class QuickSortStrategy implements SortStrategy {
   public sort(dataset: any[]): any[] {
     console.log("Sorting using quick sort");
-
     // Do sorting
     return dataset;
   }
@@ -45,7 +40,8 @@ class Sorter {
 const dataset = [1, 5, 4, 3, 2, 8];
 
 const sorter1 = new Sorter(new BubbleSortStrategy());
-sorter1.sort(dataset); // Output : Пузырьковая сортировка
+sorter1.sort(dataset); // Output: Пузырьковая сортировка
 
 const sorter2 = new Sorter(new QuickSortStrategy());
-sorter2.sort(dataset); // Output : Быстрая сортировка
+sorter2.sort(dataset); // Output: Быстрая сортировка
+```
