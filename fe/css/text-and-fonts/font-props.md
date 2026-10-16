@@ -4,6 +4,111 @@
 
 font = font-style + font-variant + font-weight + font-stretch + font-size + line-height + font-family
 
+# font-family
+
+список из шрифтов, которые предустановлены либо определены [@font-face](#font-face)
+
+```scss
+ .font-family{
+  // оба определения валидные
+  font-family: Gill Sans Extrabold, sans-serif;
+  font-family: "Goudy Bookletter 1911"//если название шрифта состоит из нескольких слов, то нужно заключать в кавычки
+
+  /* Только общие семейства */
+  font-family: serif; //со штрихами
+  font-family: sans-serif; //гладкие
+  font-family: monospace; //одинаковая ширина
+  font-family: cursive; //рукопись
+  font-family: fantasy; //декор-ые
+  font-family: system-ui; //из системы
+  font-family: emoji; //
+  font-family: math; //
+  font-family: fangsong; //китайский
+}
+```
+
+```scss
+// перечисление нескольких не через запятую
+.font-family {
+  font-family:
+    Gill Sans Extrabold,
+    sans-serif;
+  font-family: "Goudy Bookletter 1911", sans-serif;
+}
+```
+
+Разновидности шрифтов по типам:
+
+- serif - с засечками
+- sans-serif - без засечек.
+- monospace - в которых все символы имеют одинаковую ширину, обычно используются в листингах кода.
+- cursive - имитирующие рукописный почерк, с плавными, соединенными штрихами.
+- fantasy - предназначенные для декоративных целей.
+
+# font-size
+
+размер шрифта, стандартное значение у тега html - 16px.
+
+Возможные значения:
+
+- 1mm (мм) = 3.8px (не используются)
+- 1cm (см) = 38px (не используются)
+- 1pt (типографский пункт) = 4/3 px (не используются)
+- 1pc (типографская пика) = 16px (не используются)
+- % - от родителя
+
+```scss
+.font-size {
+  /* значения в <абсолютных размерах> */
+  font-size: xx-small;
+  font-size: x-small;
+  font-size: small;
+  font-size: medium;
+  font-size: large;
+  font-size: x-large;
+  font-size: xx-large;
+  /* значения в <относительных размерах> */
+  font-size: larger;
+  font-size: smaller;
+  font-size: 12px;
+  font-size: 0.8em;
+  font-size: 80%;
+}
+```
+
+```scss
+body {
+  // Масштабирование с помощью font-size
+  font-size: 62.5%; /* font-size 1em = 10px on default browser settings */
+}
+
+span {
+  font-size: 1.6em; /* 1.6em = 16px */
+}
+```
+
+# font-stretch
+
+растягивает шрифт
+
+```scss
+.font-stretch {
+  font-stretch: normal;
+  font-stretch: ultra-condensed; //все значения от 62.5%
+  font-stretch: extra-condensed;
+  font-stretch: condensed;
+  font-stretch: semi-condensed;
+  font-stretch: semi-expanded;
+  font-stretch: expanded;
+  font-stretch: extra-expanded;
+  font-stretch: ultra-expanded; //до 200%
+
+  font-stretch: 50%;
+  font-stretch: 100%;
+  font-stretch: 200%;
+}
+```
+
 # font-style
 
 стиль начертания
@@ -62,95 +167,6 @@ font-variant-numeric: unset
 }
 ```
 
-# font-weight
-
-жирность
-
-```scss
-.font-weight {
-  /font-weight: normal;
-  font-weight: bold;
-
-  /* Relative to the parent */
-  font-weight: lighter;
-  font-weight: bolder;
-
-  font-weight: 100;
-  font-weight: 200;
-  font-weight: 300;
-  font-weight: 400;
-  font-weight: 500;
-  font-weight: 600;
-  font-weight: 700;
-  font-weight: 800;
-  font-weight: 900;
-}
-```
-
-# font-stretch
-
-растягивает шрифт
-
-```scss
-.font-stretch {
-  font-stretch: normal;
-  font-stretch: ultra-condensed; //все значения от 62.5%
-  font-stretch: extra-condensed;
-  font-stretch: condensed;
-  font-stretch: semi-condensed;
-  font-stretch: semi-expanded;
-  font-stretch: expanded;
-  font-stretch: extra-expanded;
-  font-stretch: ultra-expanded; //до 200%
-
-  font-stretch: 50%;
-  font-stretch: 100%;
-  font-stretch: 200%;
-}
-```
-
-# font-size
-
-размер шрифта, стандартное значение у тега html - 16px
-
-Возможные значения:
-
-- 1mm (мм) = 3.8px (не используются)
-- 1cm (см) = 38px (не используются)
-- 1pt (типографский пункт) = 4/3 px (не используются)
-- 1pc (типографская пика) = 16px (не используются)
-- % - от родителя
-
-```scss
-.font-size {
-  /* значения в <абсолютных размерах> */
-  font-size: xx-small;
-  font-size: x-small;
-  font-size: small;
-  font-size: medium;
-  font-size: large;
-  font-size: x-large;
-  font-size: xx-large;
-  /* значения в <относительных размерах> */
-  font-size: larger;
-  font-size: smaller;
-  font-size: 12px;
-  font-size: 0.8em;
-  font-size: 80%;
-}
-```
-
-```scss
-body {
-  // Масштабирование с помощью font-size
-  font-size: 62.5%; /* font-size 1em = 10px on default browser settings */
-}
-
-span {
-  font-size: 1.6em; /* 1.6em = 16px */
-}
-```
-
 ## @font-feature-values
 
 Применение для нескольких font-variant-alternates
@@ -175,6 +191,31 @@ span {
 /* Применение правила с единственным объявлением */
 .nice-look {
   font-variant-alternates: styleset(nice-style);
+}
+```
+
+# font-weight
+
+жирность
+
+```scss
+.font-weight {
+  /font-weight: normal;
+  font-weight: bold;
+
+  /* Relative to the parent */
+  font-weight: lighter;
+  font-weight: bolder;
+
+  font-weight: 100;
+  font-weight: 200;
+  font-weight: 300;
+  font-weight: 400;
+  font-weight: 500;
+  font-weight: 600;
+  font-weight: 700;
+  font-weight: 800;
+  font-weight: 900;
 }
 ```
 
@@ -203,44 +244,3 @@ span {
   <span style="border:1px solid red">Текст</span>
 </div>
 ```
-
-# font-family
-
-список из шрифтов, которые предустановлены либо определены [@font-face](#font-face)
-
-```scss
- .font-family{
-  // оба определения валидные
-  font-family: Gill Sans Extrabold, sans-serif;
-  font-family: "Goudy Bookletter 1911"//если название шрифта состоит из нескольких слов, то нужно заключать в кавычки
-
-  /* Только общие семейства */
-  font-family: serif; //со штрихами
-  font-family: sans-serif; //гладкие
-  font-family: monospace; //одинаковая ширина
-  font-family: cursive; //рукопись
-  font-family: fantasy; //декор-ые
-  font-family: system-ui; //из системы
-  font-family: emoji; //
-  font-family: math; //
-  font-family: fangsong; //китайский
-}
-```
-
-```scss
-// перечисление нескольких не через запятую
-.font-family {
-  font-family:
-    Gill Sans Extrabold,
-    sans-serif;
-  font-family: "Goudy Bookletter 1911", sans-serif;
-}
-```
-
-Разновидности шрифтов по типам:
-
-- serif - с засечками
-- sans-serif - без засечек.
-- monospace - в которых все символы имеют одинаковую ширину, обычно используются в листингах кода.
-- cursive - имитирующие рукописный почерк, с плавными, соединенными штрихами.
-- fantasy - предназначенные для декоративных целей.
