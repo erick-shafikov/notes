@@ -2,14 +2,14 @@
 
 позволяется сделать display none для компонента
 
-```jsx
+```tsx
 import { Activity, useState } from 'react';
 import TabButton from './TabButton.js';
 import Home from './Home.js';
 import Contact from './Contact.js';
 
-export default function App() {
-  const [activeTab, setActiveTab] = useState('contact');
+export default function App(): JSX.Element {
+  const [activeTab, setActiveTab] = useState<string>('contact');
 
   return (
     <>

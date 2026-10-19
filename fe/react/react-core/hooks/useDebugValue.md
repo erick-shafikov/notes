@@ -2,10 +2,10 @@
 
 useDebugValue(value, format?) – value будет отображено в консоли разработчика
 
-```jsx
+```tsx
 import { useSyncExternalStore, useDebugValue } from "react";
 
-export function useOnlineStatus() {
+export function useOnlineStatus(): boolean {
   const isOnline = useSyncExternalStore(
     subscribe,
     () => navigator.onLine,
@@ -15,7 +15,7 @@ export function useOnlineStatus() {
   return isOnline;
 }
 
-function subscribe(callback) {
+function subscribe(callback: () => void): () => void {
   window.addEventListener("online", callback);
   window.addEventListener("offline", callback);
   return () => {

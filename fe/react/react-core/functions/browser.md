@@ -4,29 +4,30 @@
 
 Полезно для компонентов, которым нужны браузерные API недоступные на сервере (timezone, геолокация, `localStorage` и т.п.).
 
-```jsx
+```tsx
 import { use } from 'react';
 import { browser } from 'react-dom';
 
-function Component() {
+function Component(): JSX.Element {
   use(browser());
   // не выполняется на сервере
+  return <div />;
 }
 ```
 
 ## Пример: часовой пояс
 
-```jsx
+```tsx
 import { Suspense, use } from 'react';
 import { browser } from 'react-dom';
 
-function TimeZone() {
+function TimeZone(): JSX.Element {
   use(browser());
   const timeZone = new Intl.DateTimeFormat().resolvedOptions().timeZone;
   return <p>{timeZone}</p>;
 }
 
-export default function App() {
+export default function App(): JSX.Element {
   return (
     <>
       <p>Your current time zone is:</p>
@@ -42,8 +43,12 @@ export default function App() {
 
 `use` можно вызывать после раннего `return` — это единственный хук с таким поведением:
 
-```jsx
-function TimeZone({ defaultValue }) {
+```tsx
+interface TimeZoneProps {
+  defaultValue?: string;
+}
+
+function TimeZone({ defaultValue }: TimeZoneProps): JSX.Element {
   if (defaultValue) {
     return <p>{defaultValue}</p>;
   }
@@ -56,8 +61,8 @@ function TimeZone({ defaultValue }) {
 
 ## В кастомных хуках
 
-```jsx
-function useBrowserQuery(query, options) {
+```tsx
+function useBrowserQuery<T>(query: string, options: { initialData?: T }) {
   if (options.initialData === undefined) {
     use(browser()); // SSR отключается только если нет initialData
   }

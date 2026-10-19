@@ -2,11 +2,11 @@
 
 позволяет узнать состояние формы без использование контекста
 
-```js
+```tsx
 import { useFormStatus } from "react-dom";
 import { useState } from "react";
 
-function SubmitButton() {
+function SubmitButton(): JSX.Element {
   const { pending, data } = useFormStatus();
 
   // Можно использовать data для дополнительных проверок
@@ -19,10 +19,10 @@ function SubmitButton() {
   );
 }
 
-function CommentForm() {
-  const [error, setError] = useState(null);
+function CommentForm(): JSX.Element {
+  const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(formData) {
+  async function handleSubmit(formData: FormData): Promise<void> {
     try {
       const response = await fetch("/api/comments", {
         method: "POST",
@@ -31,7 +31,7 @@ function CommentForm() {
       if (!response.ok) throw new Error("Ошибка сервера");
       setError(null); // Сбрасываем ошибку при успехе
     } catch (err) {
-      setError(err.message);
+      setError((err as Error).message);
     }
   }
 

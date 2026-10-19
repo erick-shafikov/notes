@@ -12,10 +12,10 @@ useEffect запускается дважды и если есть возвра�
 
 Выполняет туже роль, что и ComponentDidMount, ComponentDidUpdate. React запускает эффекты после каждого обновления страницы, включая первое
 
-```jsx
+```tsx
 import React, { useState, useEffect } from "react";
-function Example() {
-  const [count, setCount] = useState(0); // По принципу componentDidMount и componentDidUpdate:
+function Example(): JSX.Element {
+  const [count, setCount] = useState<number>(0); // По принципу componentDidMount и componentDidUpdate:
   useEffect(() => {
     // Обновляем заголовок документа, используя API браузера
     document.title = `Вы нажали ${count} раз`;
@@ -31,23 +31,28 @@ function Example() {
 
 Чтобы сделать что-то после рендера или монтирования нужно вернуть соответствующую функцию
 
-```jsx
+```tsx
 import React, { useState, useEffect } from "react";
-function FriendStatus(props) {
-  const [isOnline, setIsOnline] = useState(null);
+
+interface FriendStatusProps {
+  friend: { id: number };
+}
+
+function FriendStatus({ friend }: FriendStatusProps): JSX.Element {
+  const [isOnline, setIsOnline] = useState<boolean | null>(null);
   useEffect(() => {
-    function handleStatusChange(status) {
+    function handleStatusChange(status: { isOnline: boolean }) {
       setIsOnline(status.isOnline);
     }
-    ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange); // Указываем, как сбросить этот эффект:
+    ChatAPI.subscribeToFriendStatus(friend.id, handleStatusChange); // Указываем, как сбросить этот эффект:
     return function cleanup() {
-      ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
+      ChatAPI.unsubscribeFromFriendStatus(friend.id, handleStatusChange);
     };
   });
   if (isOnline === null) {
-    return "Загрузка...";
+    return <span>Загрузка...</span>;
   }
-  return isOnline ? "В сети" : "Не в сети";
+  return <span>{isOnline ? "В сети" : "Не в сети"}</span>;
 }
 ```
 
@@ -70,18 +75,18 @@ useEffect(() => {
 
 извлечение данных с игнорированием strict mode
 
-```jsx
+```tsx
 import { useState, useEffect } from 'react';
 import { fetchBio } from './api.js';
 
-export default function Page() {
-  const [person, setPerson] = useState('Alice');
-  const [bio, setBio] = useState(null);
+export default function Page(): JSX.Element {
+  const [person, setPerson] = useState<string>('Alice');
+  const [bio, setBio] = useState<string | null>(null);
 
   useEffect(() => {
     let ignore = false;
     setBio(null);
-    fetchBio(person).then(result => {
+    fetchBio(person).then((result: string) => {
       if (!ignore) {
         setBio(result);
       }
@@ -94,13 +99,13 @@ export default function Page() {
 
 вариант с async/await
 
-```jsx
+```tsx
 import { useState, useEffect } from "react";
 import { fetchBio } from "./api.js";
 
-export default function Page() {
-  const [person, setPerson] = useState("Alice");
-  const [bio, setBio] = useState(null);
+export default function Page(): JSX.Element {
+  const [person, setPerson] = useState<string>("Alice");
+  const [bio, setBio] = useState<string | null>(null);
   useEffect(() => {
     async function startFetching() {
       setBio(null);

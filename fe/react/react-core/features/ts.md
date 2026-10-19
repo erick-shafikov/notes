@@ -10,7 +10,7 @@ function Button(props: React.ComponentProps<"button">) {
 
 JSX.Element - Один результат JSX-выражения (то, что возвращает компонент)
 
-```jsx
+```tsx
 <div>Hello</div>
 ```
 

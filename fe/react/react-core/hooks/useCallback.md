@@ -1,17 +1,17 @@
-# useCallback
+﻿# useCallback
 
-Позволяет решить проблему ссылочного типа для функций, для объектов – useMemo(). Проблема – в данном компоненте, при изменении стиля, меняется рендер дочерних компонентов
+РџРѕР·РІРѕР»СЏРµС‚ СЂРµС€РёС‚СЊ РїСЂРѕР±Р»РµРјСѓ СЃСЃС‹Р»РѕС‡РЅРѕРіРѕ С‚РёРїР° РґР»СЏ С„СѓРЅРєС†РёР№, РґР»СЏ РѕР±СЉРµРєС‚РѕРІ вЂ“ useMemo(). РџСЂРѕР±Р»РµРјР° вЂ“ РІ РґР°РЅРЅРѕРј РєРѕРјРїРѕРЅРµРЅС‚Рµ, РїСЂРё РёР·РјРµРЅРµРЅРёРё СЃС‚РёР»СЏ, РјРµРЅСЏРµС‚СЃСЏ СЂРµРЅРґРµСЂ РґРѕС‡РµСЂРЅРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 
-```jsx
-function UseCallBackHook() {
-  const [colored, setColored] = useState(false);
-  const [count, setCount] = useState(42);
+```tsx
+function UseCallBackHook(): JSX.Element {
+  const [colored, setColored] = useState<boolean>(false);
+  const [count, setCount] = useState<number>(42);
   const styles = {
     color: colored ? "darkred" : "black",
   };
   const generateItemsFromAPI = useCallback(
-    (indexNumber) => {
-      //заполняем массив данными кол-во = indexNumber
+    (indexNumber: number): string[] => {
+      //Р·Р°РїРѕР»РЅСЏРµРј РјР°СЃСЃРёРІ РґР°РЅРЅС‹РјРё РєРѕР»-РІРѕ = indexNumber
       return new Array(count)
         .fill("")
         .map((_, i) => `element ${i + indexNumber}`);
@@ -28,16 +28,16 @@ function UseCallBackHook() {
       >
         Change
       </button>
-                 
+      В  В  В  В  В  В 
       <ItemsList getItems={generateItemsFromAPI} />
     </>
   );
 }
-//дочерний компонент
-const  ItemsList = memo(({ getItems }) {
-  const [items, setItems] = useState([]);
+//РґРѕС‡РµСЂРЅРёР№ РєРѕРјРїРѕРЅРµРЅС‚
+const ItemsList = memo(({ getItems }: { getItems: (i: number) => string[] }): JSX.Element => {
+  const [items, setItems] = useState<string[]>([]);
   useEffect(() => {
-    const newItems = getItems;
+    const newItems = getItems(0);
     setItems(newItems);
     console.log("render");
   }, [getItems]);
@@ -51,13 +51,13 @@ const  ItemsList = memo(({ getItems }) {
 })
 ```
 
-- useCallback имеет смысл, если мы его передаем в дочерний комопнент, если дочерний обернут в memo
-- если из пользовательского хука возвращаются функции, то их нужно обернуть в useCallback
+- useCallback РёРјРµРµС‚ СЃРјС‹СЃР», РµСЃР»Рё РјС‹ РµРіРѕ РїРµСЂРµРґР°РµРј РІ РґРѕС‡РµСЂРЅРёР№ РєРѕРјРѕРїРЅРµРЅС‚, РµСЃР»Рё РґРѕС‡РµСЂРЅРёР№ РѕР±РµСЂРЅСѓС‚ РІ memo
+- РµСЃР»Рё РёР· РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕРіРѕ С…СѓРєР° РІРѕР·РІСЂР°С‰Р°СЋС‚СЃСЏ С„СѓРЅРєС†РёРё, С‚Рѕ РёС… РЅСѓР¶РЅРѕ РѕР±РµСЂРЅСѓС‚СЊ РІ useCallback
 
-псевдокод useCallback
+РїСЃРµРІРґРѕРєРѕРґ useCallback
 
-```jsx
-let store;
+```tsx
+let store: { deps: unknown[]; callback: Function } | undefined;
 const useCallback = (callback, deps) => {
   if (equal(deps, store?.deps)) return store.callback;
 
@@ -70,10 +70,10 @@ const Component = () => {
 };
 ```
 
-## BP. useCallback как альтернатива ref
+## BP. useCallback РєР°Рє Р°Р»СЊС‚РµСЂРЅР°С‚РёРІР° ref
 
-```jsx
-const Comp = () => {
+```tsx
+const Comp = (): JSX.Element => {
   const setFocus = useCallback((element) => {
     element.focus();
   }, []);
@@ -82,7 +82,7 @@ const Comp = () => {
 };
 ```
 
-## BP. мемоизация списка инпутов
+## BP. РјРµРјРѕРёР·Р°С†РёСЏ СЃРїРёСЃРєР° РёРЅРїСѓС‚РѕРІ
 
 ```tsx
 import React, { FC, useState, memo, useCallback, useRef } from "react";
@@ -169,7 +169,7 @@ export const ExampleEventSwitch: FC = () => {
 };
 ```
 
-Вариант 2
+Р’Р°СЂРёР°РЅС‚ 2
 
 ```tsx
 import React, { FC, useState, memo, useMemo, useRef } from "react";

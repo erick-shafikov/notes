@@ -1,9 +1,9 @@
-# Поддержка таблиц стилей
+﻿# РџРѕРґРґРµСЂР¶РєР° С‚Р°Р±Р»РёС† СЃС‚РёР»РµР№
 
-Позволяет предотвратить повторную загрузку стилей
+РџРѕР·РІРѕР»СЏРµС‚ РїСЂРµРґРѕС‚РІСЂР°С‚РёС‚СЊ РїРѕРІС‚РѕСЂРЅСѓСЋ Р·Р°РіСЂСѓР·РєСѓ СЃС‚РёР»РµР№
 
-```js
-function ComponentOne() {
+```tsx
+function ComponentOne(): JSX.Element {
   return (
     <Suspense fallback="loading...">
       <link rel="stylesheet" href="foo" precedence="default" />
@@ -35,14 +35,14 @@ function ComponentTwo() {
 }
 
 h1{
-  font-family: 'Popins';  
+  font-family: 'Popins'; В 
 }
 ```
 
-```jsx
+```tsx
 import "./App.css";
 
-function App() {
+function App(): JSX.Element {
   return (
     <div>
       <h1>Hello</h1>
@@ -52,12 +52,12 @@ function App() {
 }
 ```
 
-Модули с уникальным префиксом
+РњРѕРґСѓР»Рё СЃ СѓРЅРёРєР°Р»СЊРЅС‹Рј РїСЂРµС„РёРєСЃРѕРј
 
-```jsx
+```tsx
 import styles from "./App.module.css";
 
-function App() {
+function App(): JSX.Element {
   return (
     <div>
       <h1>Hello</h1>

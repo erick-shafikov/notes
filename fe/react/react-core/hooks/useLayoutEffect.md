@@ -2,17 +2,22 @@
 
 useLayoutEffect(cb, [dep]) – срабатывает перед отрисовкой компонента, пример с tooltip когда он располагается в DOM, производятся вычисления и он отрисовывается там, где нужно (происходит после render стадии, до коммита). Блокирует перерисовку браузера
 
-```jsx
+```tsx
 import { useRef, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import TooltipContainer from "./TooltipContainer.js";
 
-export default function Tooltip({ children, targetRect }) {
-  const ref = useRef(null);
-  const [tooltipHeight, setTooltipHeight] = useState(0);
+interface TooltipProps {
+  children: React.ReactNode;
+  targetRect: DOMRect | null;
+}
+
+export default function Tooltip({ children, targetRect }: TooltipProps): React.ReactPortal {
+  const ref = useRef<HTMLDivElement>(null);
+  const [tooltipHeight, setTooltipHeight] = useState<number>(0);
 
   useLayoutEffect(() => {
-    const { height } = ref.current.getBoundingClientRect();
+    const { height } = ref.current!.getBoundingClientRect();
     setTooltipHeight(height);
     console.log("Measured tooltip height: " + height);
   }, []);

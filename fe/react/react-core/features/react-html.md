@@ -1,7 +1,11 @@
-# поддержка html тегов метаданных
+﻿# РїРѕРґРґРµСЂР¶РєР° html С‚РµРіРѕРІ РјРµС‚Р°РґР°РЅРЅС‹С…
 
-```js
-function BlogPost({ post }) {
+```tsx
+interface BlogPostProps {
+  post: { title: string; keywords: string };
+}
+
+function BlogPost({ post }: BlogPostProps): JSX.Element {
   return (
     <article>
       <h1>{post.title}</h1>
@@ -15,10 +19,10 @@ function BlogPost({ post }) {
 }
 ```
 
-# поддержка async scripts
+# РїРѕРґРґРµСЂР¶РєР° async scripts
 
-```js
-function MyComponent() {
+```tsx
+function MyComponent(): JSX.Element {
   return (
     <div>
       <script async={true} src="..." />
@@ -32,7 +36,7 @@ function App() {
     <html>
       <body>
         <MyComponent />
-        <MyComponent /> // не приведет к дублированию скрипта в DOM
+        <MyComponent /> // РЅРµ РїСЂРёРІРµРґРµС‚ Рє РґСѓР±Р»РёСЂРѕРІР°РЅРёСЋ СЃРєСЂРёРїС‚Р° РІ DOM
       </body>
     </html>
   );
@@ -42,20 +46,20 @@ function App() {
 # svg
 
 ```ts
-//для инициализации в TS
+//РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РІ TS
 declare module '*.svg' {
   import React from 'react';
   const SVG: React.VFC<React.SVGProps<SVGElement>>;
   export default SVG;
 }
 
-//в WP конфиге:
+//РІ WP РєРѕРЅС„РёРіРµ:
 module: {
   rules: [
     {
       test: /\.svg$/,
-      use: ['@svgr/webpack']
-    }
+В  В  В  use: ['@svgr/webpack']
+В  В  }
   ]
 },
 

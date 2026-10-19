@@ -4,11 +4,17 @@ useImperativeHandle(ref, createHandle, dependencies?) – позволяет д�
 
 Позволяет ограничить доступ к ссылке
 
-```jsx
+```tsx
 import { forwardRef, useRef, useImperativeHandle } from "react";
 
-const MyInput = forwardRef(function MyInput(props, ref) {
-  const inputRef = useRef(null);
+interface MyInputHandle {
+  focus: () => void;
+  scrollIntoView: () => void;
+}
+
+const MyInput = forwardRef<MyInputHandle, React.InputHTMLAttributes<HTMLInputElement>>(
+  function MyInput(props, ref) {
+  const inputRef = useRef<HTMLInputElement>(null);
 
   //у родительского компонента не будет ссылки непосредственно на ссылку элемента, а только на методы focus, scrollIntoView
   useImperativeHandle(
@@ -16,10 +22,10 @@ const MyInput = forwardRef(function MyInput(props, ref) {
     () => {
       return {
         focus() {
-          inputRef.current.focus();
+          inputRef.current?.focus();
         },
         scrollIntoView() {
-          inputRef.current.scrollIntoView();
+          inputRef.current?.scrollIntoView();
         },
       };
     },

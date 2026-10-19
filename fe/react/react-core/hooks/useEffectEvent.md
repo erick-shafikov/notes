@@ -30,12 +30,12 @@ function ChatRoom({ roomId, theme }) {
 
 ## Пример
 
-```jsx
+```tsx
 // пример без useEffectEvent но с useRef
-function MyUserInfo() {
-  const nameRef = useRef(userName);
-  const [userName, setUserName] = useState("Bob");
-  const [loginMessage, setLoginMessage] = useState("");
+function MyUserInfo(): JSX.Element {
+  const [userName, setUserName] = useState<string>("Bob");
+  const nameRef = useRef<string>(userName);
+  const [loginMessage, setLoginMessage] = useState<string>("");
 
   nameRef.current = userName;
 
@@ -64,11 +64,11 @@ function MyUserInfo() {
 }
 ```
 
-```jsx
+```tsx
 // пример с useEffectEvent
-function MyUserInfo() {
-  const [userName, setUserName] = useState("Bob");
-  const [loginMessage, setLoginMessage] = useState("");
+function MyUserInfo(): JSX.Element {
+  const [userName, setUserName] = useState<string>("Bob");
+  const [loginMessage, setLoginMessage] = useState<string>("");
 
   const getName = useEffectEvent(() => userName);
   const onTick = useEffectEvent((tick) =>

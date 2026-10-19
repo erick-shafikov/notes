@@ -4,9 +4,9 @@ useInsertionEffect позволяет вставлять элементы в DOM
 
 Пример, где в тег style добавляется дополнительный стиль
 
-```jsx
-let isInserted = new Set();
-function useCSS(rule) {
+```tsx
+let isInserted = new Set<string>();
+function useCSS(rule: string): string {
   useInsertionEffect(() => {
     // As explained earlier, we don't recommend runtime injection of <style> tags.
     // But if you have to do it, then it's important to do in useInsertionEffect.
@@ -18,7 +18,7 @@ function useCSS(rule) {
   return rule;
 }
 
-function Button() {
+function Button(): JSX.Element {
   const className = useCSS("...");
   return <div className={className} />;
 }

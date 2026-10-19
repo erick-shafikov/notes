@@ -1,11 +1,16 @@
-# useRef
+﻿# useRef
 
-ссылка на какие либо объекты
+СЃСЃС‹Р»РєР° РЅР° РєР°РєРёРµ Р»РёР±Рѕ РѕР±СЉРµРєС‚С‹
 
-- может передаваться в пропсах (R19)
+- РјРѕР¶РµС‚ РїРµСЂРµРґР°РІР°С‚СЊСЃСЏ РІ РїСЂРѕРїСЃР°С… (R19)
 
-```js
-function MyInput({ placeholder, ref }) {
+```tsx
+interface MyInputProps \{
+  placeholder: string;
+  ref: React.Ref<HTMLInputElement>;
+\}
+
+function MyInput(\{ placeholder, ref \}: MyInputProps): JSX.Element {
   return <input placeholder={placeholder} ref={ref} />;
 }
 
@@ -13,33 +18,32 @@ function MyInput({ placeholder, ref }) {
 <MyInput ref={ref} />;
 ```
 
-- поддерживается функция отчистки
+- РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ С„СѓРЅРєС†РёСЏ РѕС‚С‡РёСЃС‚РєРё
 
-```js
+```tsx
 <input
-  ref={(ref) => {
-    // ref создан
+  ref={(ref: HTMLInputElement | null) => {
+    // ref СЃРѕР·РґР°РЅ
 
-    // НОВОЕ: возврат функции очистки для сброса
-    // ссылка, когда элемент удаляется из DOM.
+    // РќРћР’РћР•: РІРѕР·РІСЂР°С‚ С„СѓРЅРєС†РёРё РѕС‡РёСЃС‚РєРё РґР»СЏ СЃР±СЂРѕСЃР°
+    // СЃСЃС‹Р»РєР°, РєРѕРіРґР° СЌР»РµРјРµРЅС‚ СѓРґР°Р»СЏРµС‚СЃСЏ РёР· DOM.
     return () => {
-      // очистка ref
+      // РѕС‡РёСЃС‚РєР° ref
     };
   }
 />
 ```
 
-## ref Другие применения. подсчет количества рендеров
+## ref Р”СЂСѓРіРёРµ РїСЂРёРјРµРЅРµРЅРёСЏ. РїРѕРґСЃС‡РµС‚ РєРѕР»РёС‡РµСЃС‚РІР° СЂРµРЅРґРµСЂРѕРІ
 
-```jsx
+```tsx
+const SomeComp = (): JSX.Element => {
 
-const SomeComp = () => {
+  const [value, setValue] = useState<string>("initial");
+const counter = useRef<number>(1); //РёР·РЅР°С‡Р°Р»СЊРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РєРѕР»РёС‡РµСЃС‚РІР° СЂРµРЅРґРµСЂРѕРІ, РІРѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ СЃРѕ СЃРІРѕР№СЃС‚РІРѕРј current, РєРѕС‚РѕСЂРѕРµ РёР·РјРµРЅСЏРµС‚СЃСЏ
 
-  const [value, setValue] = useState("initial");
-const counter = useRef(1); //изначальное состояние количества рендеров, возвращает объект со свойством current, которое изменяется
-
-  useEffect(()=>{//запускается так как меняется состояние компонента
-    counter.current ++ //увеличение при рендере, так как ниже в <input> идет ввод символов, который вызывает повторный рендер компонентов
+  useEffect(()=>{//Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ С‚Р°Рє РєР°Рє РјРµРЅСЏРµС‚СЃСЏ СЃРѕСЃС‚РѕСЏРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚Р°
+    counter.current ++ //СѓРІРµР»РёС‡РµРЅРёРµ РїСЂРё СЂРµРЅРґРµСЂРµ, С‚Р°Рє РєР°Рє РЅРёР¶Рµ РІ <input> РёРґРµС‚ РІРІРѕРґ СЃРёРјРІРѕР»РѕРІ, РєРѕС‚РѕСЂС‹Р№ РІС‹Р·С‹РІР°РµС‚ РїРѕРІС‚РѕСЂРЅС‹Р№ СЂРµРЅРґРµСЂ РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
   });
 
   return(
@@ -50,46 +54,46 @@ const counter = useRef(1); //изначальное состояние коли�
 
 ```
 
-## ref Другие применения. Получение DOM-элемента
+## ref Р”СЂСѓРіРёРµ РїСЂРёРјРµРЅРµРЅРёСЏ. РџРѕР»СѓС‡РµРЅРёРµ DOM-СЌР»РµРјРµРЅС‚Р°
 
-```jsx
-const SomeComp =() => {
+```tsx
+const SomeComp = (): JSX.Element => {
 
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
 
 
-  const focus = () = inputRef.current.focus();
+  const focus = () => inputRef.current.focus();
 
 
   useEffect(()=>{
-    inputRef.current.value;//в inputRef.current находится текущий DOM-элемент, у которого есть тег ref
+    inputRef.current.value;//РІ inputRef.current РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСѓС‰РёР№ DOM-СЌР»РµРјРµРЅС‚, Сѓ РєРѕС‚РѕСЂРѕРіРѕ РµСЃС‚СЊ С‚РµРі ref
     console.log(value);
   });
   return(
     <div>{current}</div>
     <input ref={inputRef} value={value}>
-    <button onClick={focus}>Фокус</button>
+    <button onClick={focus}>Р¤РѕРєСѓСЃ</button>
 
   )
 }
 
 ```
 
-## ref Другие применения. Получение предыдущего состояния
+## ref Р”СЂСѓРіРёРµ РїСЂРёРјРµРЅРµРЅРёСЏ. РџРѕР»СѓС‡РµРЅРёРµ РїСЂРµРґС‹РґСѓС‰РµРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ
 
-```js
+```tsx
 import { useEffect, useState, useRef } from "react";
-function UseRefHook() {
-  const [value, setValue] = useState("initial"); //в input будет меняться состояние
-  const renderCount = useRef(1); //количество рендеров
-  const prevValue = useRef(""); //хранения предыдущего состояния
+function UseRefHook(): JSX.Element {
+  const [value, setValue] = useState<string>("initial"); //РІ input Р±СѓРґРµС‚ РјРµРЅСЏС‚СЊСЃСЏ СЃРѕСЃС‚РѕСЏРЅРёРµ
+  const renderCount = useRef<number>(1); //РєРѕР»РёС‡РµСЃС‚РІРѕ СЂРµРЅРґРµСЂРѕРІ
+  const prevValue = useRef<string>(""); //С…СЂР°РЅРµРЅРёСЏ РїСЂРµРґС‹РґСѓС‰РµРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ
 
   useEffect(() => {
-    renderCount.current++; //счетчик количества рендеров
+    renderCount.current++; //СЃС‡РµС‚С‡РёРє РєРѕР»РёС‡РµСЃС‚РІР° СЂРµРЅРґРµСЂРѕРІ
   });
 
   useEffect(() => {
-    prevValue.current = value; //вызывать при изменения значения в input значения value
+    prevValue.current = value; //РІС‹Р·С‹РІР°С‚СЊ РїСЂРё РёР·РјРµРЅРµРЅРёСЏ Р·РЅР°С‡РµРЅРёСЏ РІ input Р·РЅР°С‡РµРЅРёСЏ value
   }, [value]);
 
   return (
@@ -101,23 +105,23 @@ function UseRefHook() {
         onChange={(e) => setValue(e.target.value)}
         value={value}
       ></input>
-              
+      В  В  В  В В 
     </div>
   );
 }
 export default UseRefHook;
 ```
 
-## Предотвращение рендеринга
+## РџСЂРµРґРѕС‚РІСЂР°С‰РµРЅРёРµ СЂРµРЅРґРµСЂРёРЅРіР°
 
-```js
+```tsx
 import { useState, useRef, useEffect } from "react";
 
-export default function useFetch(url) {
-  const isMounted = useRef(false);
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+export default function useFetch(url: string) {
+  const isMounted = useRef<boolean>(false);
+  const [data, setData] = useState<unknown>(null);
+  const [error, setError] = useState<unknown>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     isMounted.current = true;
@@ -146,15 +150,15 @@ export default function useFetch(url) {
   return { data, error, loading };
 }
 
-// второй хук ссылающийся на параметры
-export default function useFetchAll(urls) {
-  const prevUrls = useRef([]);
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+// РІС‚РѕСЂРѕР№ С…СѓРє СЃСЃС‹Р»Р°СЋС‰РёР№СЃСЏ РЅР° РїР°СЂР°РјРµС‚СЂС‹
+export default function useFetchAll(urls: string[]) {
+  const prevUrls = useRef<string[]>([]);
+  const [data, setData] = useState<unknown>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<unknown>(null);
 
   useEffect(() => {
-    // запуститься только если массивы с url равны
+    // Р·Р°РїСѓСЃС‚РёС‚СЊСЃСЏ С‚РѕР»СЊРєРѕ РµСЃР»Рё РјР°СЃСЃРёРІС‹ СЃ url СЂР°РІРЅС‹
     if (areEqual(prevUrls.current, urls)) return;
 
     prevUrls.current = urls;
@@ -178,7 +182,7 @@ export default function useFetchAll(urls) {
   return { data, loading, error };
 }
 
-// утилита по сравнению двух массивов
+// СѓС‚РёР»РёС‚Р° РїРѕ СЃСЂР°РІРЅРµРЅРёСЋ РґРІСѓС… РјР°СЃСЃРёРІРѕРІ
 function areEqual(array1, array2) {
   return (
     array1.length === array2.length &&
@@ -187,7 +191,7 @@ function areEqual(array1, array2) {
 }
 ```
 
-# bp. автофокус
+# bp. Р°РІС‚РѕС„РѕРєСѓСЃ
 
 ```tsx
 const Ref = () => <input ref={(node) => node && node.focus()} />;

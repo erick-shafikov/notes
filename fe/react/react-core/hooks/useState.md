@@ -1,58 +1,64 @@
-# useState
+﻿# useState
 
-Асинхронные хук
-нельзя вызывать в логических блоках
+РђСЃРёРЅС…СЂРѕРЅРЅС‹Рµ С…СѓРє
+РЅРµР»СЊР·СЏ РІС‹Р·С‹РІР°С‚СЊ РІ Р»РѕРіРёС‡РµСЃРєРёС… Р±Р»РѕРєР°С…
 
-```js
-function Example() {
-  // Объявляем новую переменную состояния "count"
-  const [count, setCount] = useState(0); // state: {count:0}
+```tsx
+function Example(): JSX.Element {
+  // РћР±СЉСЏРІР»СЏРµРј РЅРѕРІСѓСЋ РїРµСЂРµРјРµРЅРЅСѓСЋ СЃРѕСЃС‚РѕСЏРЅРёСЏ "count"
+  const [count, setCount] = useState<number>(0); // state: {count:0}
   return (
     <div>
-      <p>Вы нажали {count} раз</p>
-      <button onClick={() => setCount(count + 1)}>Нажми на меня</button>
+      <p>Р’С‹ РЅР°Р¶Р°Р»Рё {count} СЂР°Р·</p>
+      <button onClick={() => setCount(count + 1)}>РќР°Р¶РјРё РЅР° РјРµРЅСЏ</button>
     </div>
   );
 }
 ```
 
-useState возвращает массив с двумя элементами – текущее значение состояния и функцию для его изменения
-единственный аргумент – изначальное значение состояния
+useState РІРѕР·РІСЂР°С‰Р°РµС‚ РјР°СЃСЃРёРІ СЃ РґРІСѓРјСЏ СЌР»РµРјРµРЅС‚Р°РјРё вЂ“ С‚РµРєСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ Рё С„СѓРЅРєС†РёСЋ РґР»СЏ РµРіРѕ РёР·РјРµРЅРµРЅРёСЏ
+РµРґРёРЅСЃС‚РІРµРЅРЅС‹Р№ Р°СЂРіСѓРјРµРЅС‚ вЂ“ РёР·РЅР°С‡Р°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ
 
-- объявлять setState внутри условных блоков нельзя
-- если дебажить состояние после изменения, то оно будет предыдущее
+- РѕР±СЉСЏРІР»СЏС‚СЊ setState РІРЅСѓС‚СЂРё СѓСЃР»РѕРІРЅС‹С… Р±Р»РѕРєРѕРІ РЅРµР»СЊР·СЏ
+- РµСЃР»Рё РґРµР±Р°Р¶РёС‚СЊ СЃРѕСЃС‚РѕСЏРЅРёРµ РїРѕСЃР»Рµ РёР·РјРµРЅРµРЅРёСЏ, С‚Рѕ РѕРЅРѕ Р±СѓРґРµС‚ РїСЂРµРґС‹РґСѓС‰РµРµ
 
-```js
-function ExampleWithManyStates() {
-  // Объявляем несколько переменных состояния!
-  const [age, setAge] = useState(42);
-  const [fruit, setFruit] = useState("банан");
-  const [todos, setTodos] = useState([{ text: "Изучить хуки" }]); // ...
+```tsx
+function ExampleWithManyStates(): null {
+  // РћР±СЉСЏРІР»СЏРµРј РЅРµСЃРєРѕР»СЊРєРѕ РїРµСЂРµРјРµРЅРЅС‹С… СЃРѕСЃС‚РѕСЏРЅРёСЏ!
+  const [age, setAge] = useState<number>(42);
+  const [fruit, setFruit] = useState<string>("Р±Р°РЅР°РЅ");
+  const [todos, setTodos] = useState<{ text: string }[]>([{ text: "РР·СѓС‡РёС‚СЊ С…СѓРєРё" }]); // ...
+  return null;
 }
 ```
 
 ## prevValue
 
-Форма, которая динамически отображает изменения в двух полях
+Р¤РѕСЂРјР°, РєРѕС‚РѕСЂР°СЏ РґРёРЅР°РјРёС‡РµСЃРєРё РѕС‚РѕР±СЂР°Р¶Р°РµС‚ РёР·РјРµРЅРµРЅРёСЏ РІ РґРІСѓС… РїРѕР»СЏС…
 
-```jsx
-function App() {
-  let [fullName, setFullName] = useState({
-    //исходное состояние
+```tsx
+interface FullName {
+  fName: string;
+  lName: string;
+}
+
+function App(): null {
+  const [fullName, setFullName] = useState<FullName>({
+    //РёСЃС…РѕРґРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
     fName: "",
     lName: "",
   });
-  const changeHandler = (e) => {
-    const { value, name } = e.target; //деструктуризация объекта e.target, так как одинаковые обработчики события (changeHandler) относятся к двум полям формы, то target.name будет определять какое поле изменяется
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target; //РґРµСЃС‚СЂСѓРєС‚СѓСЂРёР·Р°С†РёСЏ РѕР±СЉРµРєС‚Р° e.target, С‚Р°Рє РєР°Рє РѕРґРёРЅР°РєРѕРІС‹Рµ РѕР±СЂР°Р±РѕС‚С‡РёРєРё СЃРѕР±С‹С‚РёСЏ (changeHandler) РѕС‚РЅРѕСЃСЏС‚СЃСЏ Рє РґРІСѓРј РїРѕР»СЏРј С„РѕСЂРјС‹, С‚Рѕ target.name Р±СѓРґРµС‚ РѕРїСЂРµРґРµР»СЏС‚СЊ РєР°РєРѕРµ РїРѕР»Рµ РёР·РјРµРЅСЏРµС‚СЃСЏ
 
     setFullName((prevValue) => {
-      //prevValue – это аргумент функции, который характеризует собой предыдущее состояние, ниже возвращаются в зависимости от ситуации два варианта объекта состояния
+      //prevValue вЂ“ СЌС‚Рѕ Р°СЂРіСѓРјРµРЅС‚ С„СѓРЅРєС†РёРё, РєРѕС‚РѕСЂС‹Р№ С…Р°СЂР°РєС‚РµСЂРёР·СѓРµС‚ СЃРѕР±РѕР№ РїСЂРµРґС‹РґСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ, РЅРёР¶Рµ РІРѕР·РІСЂР°С‰Р°СЋС‚СЃСЏ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЃРёС‚СѓР°С†РёРё РґРІР° РІР°СЂРёР°РЅС‚Р° РѕР±СЉРµРєС‚Р° СЃРѕСЃС‚РѕСЏРЅРёСЏ
       if (name === "fName") {
         return {
-          fName: value, //переписываем
-          lName: prevValue.lName, //сохраняем старое значение
+          fName: value, //РїРµСЂРµРїРёСЃС‹РІР°РµРј
+          lName: prevValue.lName, //СЃРѕС…СЂР°РЅСЏРµРј СЃС‚Р°СЂРѕРµ Р·РЅР°С‡РµРЅРёРµ
         };
-      } else if (name === "lName") {
+      } else {
         return {
           fName: prevValue.fName,
           lName: value,
@@ -60,50 +66,50 @@ function App() {
       }
     });
   };
+  return null;
 }
 ```
 
-альтернатива двум if
+Р°Р»СЊС‚РµСЂРЅР°С‚РёРІР° РґРІСѓРј if
 
-```jsx
-function App() {
-  let [fullName, setFullName] = useState({
-    //исходное состояние
+```tsx
+function App(): null {
+  const [fullName, setFullName] = useState<FullName>({
+    //РёСЃС…РѕРґРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
     fName: "",
     lName: "",
   });
-  const changeHandler = (e) => {
-    const { value, name } = e.target; //деструктуризация объекта e.target, так как одинаковые обработчики события (changeHandler) относятся к двум полям формы, то target.name будет определять какое поле изменяется
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target; //РґРµСЃС‚СЂСѓРєС‚СѓСЂРёР·Р°С†РёСЏ РѕР±СЉРµРєС‚Р° e.target, С‚Р°Рє РєР°Рє РѕРґРёРЅР°РєРѕРІС‹Рµ РѕР±СЂР°Р±РѕС‚С‡РёРєРё СЃРѕР±С‹С‚РёСЏ (changeHandler) РѕС‚РЅРѕСЃСЏС‚СЃСЏ Рє РґРІСѓРј РїРѕР»СЏРј С„РѕСЂРјС‹, С‚Рѕ target.name Р±СѓРґРµС‚ РѕРїСЂРµРґРµР»СЏС‚СЊ РєР°РєРѕРµ РїРѕР»Рµ РёР·РјРµРЅСЏРµС‚СЃСЏ
     setFullName((prevValue) => {
       return {
         ...prevValue,
         [name]: value,
       };
     });
-    //или
-    setContact((prevValue) => ({ ...prevValue, [name]: value }));
   };
+  return null;
 }
 ```
 
-Создание предыдущего состояния
+РЎРѕР·РґР°РЅРёРµ РїСЂРµРґС‹РґСѓС‰РµРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ
 
-```js
-// не ок
+```tsx
+// РЅРµ РѕРє
 const [todos, setTodos] = useState(createInitialTodos());
-// ок
+// РѕРє
 const [todos, setTodos] = useState(createInitialTodos);
 ```
 
 ## BP
 
-```js
+```tsx
 import React, { useState } from "react";
 import ToDoItem from "./ToDoItem";
-function App() {
-  const [inputText, setInputText] = useState("");
-  const [items, setItems] = useState([]);
-  function handleChange(event) {
+function App(): JSX.Element {
+  const [inputText, setInputText] = useState<string>("");
+  const [items, setItems] = useState<string[]>([]);
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const newValue = event.target.value;
     setInputText(newValue);
   }
@@ -113,7 +119,7 @@ function App() {
     });
     setInputText("");
   }
-  function deleteItem(id) {
+  function deleteItem(id: number) {
     setItems((prevItems) => {
       return prevItems.filter((item, index) => {
         return index !== id;
@@ -126,7 +132,7 @@ function App() {
         <h1>To-Do List</h1>
       </div>
       <div className="form">
-        <input onChange={handleChange} type="text" value={inputText} /> 
+        <input onChange={handleChange} type="text" value={inputText} />В 
         <button onClick={addItem}>
           <span>Add</span>
         </button>

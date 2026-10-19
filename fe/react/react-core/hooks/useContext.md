@@ -1,33 +1,33 @@
-# useContext
+﻿# useContext
 
-```js
-//компонент отвечающий за контекст
+```tsx
+//РєРѕРјРїРѕРЅРµРЅС‚ РѕС‚РІРµС‡Р°СЋС‰РёР№ Р·Р° РєРѕРЅС‚РµРєСЃС‚
 import { useContext, createContext } from "react";
 
-const AlertContext = createContext(null); //создаем объект контекста
+const AlertContext = createContext(null); //СЃРѕР·РґР°РµРј РѕР±СЉРµРєС‚ РєРѕРЅС‚РµРєСЃС‚Р°
 
-export const AlertProvider = ({ children }) => {
-  //обертка AlertProvider для всего приложения
-  const [alert, setAlert] = useState(false); //логика
+export const AlertProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
+  //РѕР±РµСЂС‚РєР° AlertProvider РґР»СЏ РІСЃРµРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ
+  const [alert, setAlert] = useState<boolean>(false); //Р»РѕРіРёРєР°
   const toggle = () => setAlert(!alert);
 
   return (
-    //c R19 можно просто <AlertContext ...>
+    //c R19 РјРѕР¶РЅРѕ РїСЂРѕСЃС‚Рѕ <AlertContext ...>
     <AlertContext.Provider value={{ visible: alert, toggle }}>
       {children}
     </AlertContext.Provider>
   );
 };
 
-export const useAlert = () => useContext(AlertContext); //функция для использования контекста в компонентах
+export const useAlert = () => useContext(AlertContext); //С„СѓРЅРєС†РёСЏ РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РєРѕРЅС‚РµРєСЃС‚Р° РІ РєРѕРјРїРѕРЅРµРЅС‚Р°С…
 ```
 
-```js
+```tsx
 import Alert from "./Alert";
 import { AlertProvider } from "./Alert/AlertContext";
 import Main from "./Main";
-//главное приложение ренедерит два компоненте
-function UseContextHook() {
+//РіР»Р°РІРЅРѕРµ РїСЂРёР»РѕР¶РµРЅРёРµ СЂРµРЅРµРґРµСЂРёС‚ РґРІР° РєРѕРјРїРѕРЅРµРЅС‚Рµ
+function UseContextHook(): JSX.Element {
   return (
     <AlertProvider>
       <div className="container pt-3">
@@ -40,12 +40,12 @@ function UseContextHook() {
 export default UseReducerHook;
 ```
 
-```js
-//компоненте Main
+```tsx
+//РєРѕРјРїРѕРЅРµРЅС‚Рµ Main
 import { useAlert } from "./Alert/AlertContext";
 
-export default function Main() {
-  const { toggle } = useAlert(); //достаем из импортированного функционала контекста функцию для переключения состояния
+export default function Main(): JSX.Element {
+  const { toggle } = useAlert(); //РґРѕСЃС‚Р°РµРј РёР· РёРјРїРѕСЂС‚РёСЂРѕРІР°РЅРЅРѕРіРѕ С„СѓРЅРєС†РёРѕРЅР°Р»Р° РєРѕРЅС‚РµРєСЃС‚Р° С„СѓРЅРєС†РёСЋ РґР»СЏ РїРµСЂРµРєР»СЋС‡РµРЅРёСЏ СЃРѕСЃС‚РѕСЏРЅРёСЏ
   return (
     <>
       <h1>Hello Context</h1>
@@ -57,12 +57,12 @@ export default function Main() {
 }
 ```
 
-```js
+```tsx
 import { useAlert } from "./Alert/AlertContext";
 
-//компоненте Alert
-export default function Alert() {
-  const alert = useAlert(); //достаем из импортированного функционала контекста переменную состояния и метод для переключения этого состояния
+//РєРѕРјРїРѕРЅРµРЅС‚Рµ Alert
+export default function Alert(): JSX.Element | null {
+  const alert = useAlert(); //РґРѕСЃС‚Р°РµРј РёР· РёРјРїРѕСЂС‚РёСЂРѕРІР°РЅРЅРѕРіРѕ С„СѓРЅРєС†РёРѕРЅР°Р»Р° РєРѕРЅС‚РµРєСЃС‚Р° РїРµСЂРµРјРµРЅРЅСѓСЋ СЃРѕСЃС‚РѕСЏРЅРёСЏ Рё РјРµС‚РѕРґ РґР»СЏ РїРµСЂРµРєР»СЋС‡РµРЅРёСЏ СЌС‚РѕРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ
   if (!alert.visible) {
     return null;
   }
@@ -74,43 +74,43 @@ export default function Alert() {
 }
 ```
 
-## Композиция против контекста
+## РљРѕРјРїРѕР·РёС†РёСЏ РїСЂРѕС‚РёРІ РєРѕРЅС‚РµРєСЃС‚Р°
 
-Избыточная передача пропсов
+РР·Р±С‹С‚РѕС‡РЅР°СЏ РїРµСЂРµРґР°С‡Р° РїСЂРѕРїСЃРѕРІ
 
-```jsx
+```tsx
 <Page user={user} avatarSize={avatarSize} />
-// ... который рендерит ...
+// ... РєРѕС‚РѕСЂС‹Р№ СЂРµРЅРґРµСЂРёС‚ ...
 <PageLayout user={user} avatarSize={avatarSize} />
-// ... который рендерит ...
+// ... РєРѕС‚РѕСЂС‹Р№ СЂРµРЅРґРµСЂРёС‚ ...
 <NavigationBar user={user} avatarSize={avatarSize} />
-// ... который рендерит ...
-<Link href={user.permalink}> //нужный пропс
-  <Avatar user={user} size={avatarSize} />
+// ... РєРѕС‚РѕСЂС‹Р№ СЂРµРЅРґРµСЂРёС‚ ...
+<Link href={user.permalink}> //РЅСѓР¶РЅС‹Р№ РїСЂРѕРїСЃ
+В  <Avatar user={user} size={avatarSize} />
 </Link>
-// Решение с помощью передачи компонента вниз
+// Р РµС€РµРЅРёРµ СЃ РїРѕРјРѕС‰СЊСЋ РїРµСЂРµРґР°С‡Рё РєРѕРјРїРѕРЅРµРЅС‚Р° РІРЅРёР·
 function Page(props) {
-    const user = props.user;
-    const userLink = (//определяем переменную userLink как компонент
-      <Link href={user.permalink}>
-        <Avatar user={user} size={props.avatarSize} />
-      </Link>
-    );
-    return <PageLayout userLink={userLink} />;
-  }// Теперь, это выглядит так:
-  <Page user={user} avatarSize={avatarSize}/>
-  // ... который рендерит ...
-  <PageLayout userLink={...} />
-  // ... который рендерит ...
-  <NavigationBar userLink={...} />
-  // ... который рендерит ...
-  {props.userLink}
+В  В  const user = props.user;
+В  В  const userLink = (//РѕРїСЂРµРґРµР»СЏРµРј РїРµСЂРµРјРµРЅРЅСѓСЋ userLink РєР°Рє РєРѕРјРїРѕРЅРµРЅС‚
+В  В  В  <Link href={user.permalink}>
+В  В  В  В  <Avatar user={user} size={props.avatarSize} />
+В  В  В  </Link>
+В  В  );
+В  В  return <PageLayout userLink={userLink} />;
+В  }// РўРµРїРµСЂСЊ, СЌС‚Рѕ РІС‹РіР»СЏРґРёС‚ С‚Р°Рє:
+В  <Page user={user} avatarSize={avatarSize}/>
+В  // ... РєРѕС‚РѕСЂС‹Р№ СЂРµРЅРґРµСЂРёС‚ ...
+В  <PageLayout userLink={...} />
+В  // ... РєРѕС‚РѕСЂС‹Р№ СЂРµРЅРґРµСЂРёС‚ ...
+В  <NavigationBar userLink={...} />
+В  // ... РєРѕС‚РѕСЂС‹Р№ СЂРµРЅРґРµСЂРёС‚ ...
+В  {props.userLink}
 
 ```
 
-решение с помощью инверсии управления
+СЂРµС€РµРЅРёРµ СЃ РїРѕРјРѕС‰СЊСЋ РёРЅРІРµСЂСЃРёРё СѓРїСЂР°РІР»РµРЅРёСЏ
 
-```jsx
+```tsx
 function Page(props) {
   const user = props.user;
   const content = <Feed user={user} />;
@@ -127,11 +127,11 @@ function Page(props) {
 
 # BPs:
 
-## BP. Множественный контекст
+## BP. РњРЅРѕР¶РµСЃС‚РІРµРЅРЅС‹Р№ РєРѕРЅС‚РµРєСЃС‚
 
-Можно создать reducer для состояния и создать два контекста, в один передавать состояния, в другой функцию reducer. Так как передать в value в Provider можно только один аргумент, если мы передадим объект, то этот объект будет вызывать новы рендер.
+РњРѕР¶РЅРѕ СЃРѕР·РґР°С‚СЊ reducer РґР»СЏ СЃРѕСЃС‚РѕСЏРЅРёСЏ Рё СЃРѕР·РґР°С‚СЊ РґРІР° РєРѕРЅС‚РµРєСЃС‚Р°, РІ РѕРґРёРЅ РїРµСЂРµРґР°РІР°С‚СЊ СЃРѕСЃС‚РѕСЏРЅРёСЏ, РІ РґСЂСѓРіРѕР№ С„СѓРЅРєС†РёСЋ reducer. РўР°Рє РєР°Рє РїРµСЂРµРґР°С‚СЊ РІ value РІ Provider РјРѕР¶РЅРѕ С‚РѕР»СЊРєРѕ РѕРґРёРЅ Р°СЂРіСѓРјРµРЅС‚, РµСЃР»Рё РјС‹ РїРµСЂРµРґР°РґРёРј РѕР±СЉРµРєС‚, С‚Рѕ СЌС‚РѕС‚ РѕР±СЉРµРєС‚ Р±СѓРґРµС‚ РІС‹Р·С‹РІР°С‚СЊ РЅРѕРІС‹ СЂРµРЅРґРµСЂ.
 
-```jsx
+```tsx
 import React, {
   useMemo,
   createContext,
@@ -141,13 +141,13 @@ import React, {
 } from "react";
 
 // ----------------------------------------------------------------------
-// создаем контекст для состояния
+// СЃРѕР·РґР°РµРј РєРѕРЅС‚РµРєСЃС‚ РґР»СЏ СЃРѕСЃС‚РѕСЏРЅРёСЏ
 const __Entity__CreateStateContext = createContext(null);
 
 if (process.env.NODE_ENV !== "production") {
   __Entity__CreateStateContext.displayName = "__Entity__CreateStateContext";
 }
-// создаем контекст для сеттеров состояния
+// СЃРѕР·РґР°РµРј РєРѕРЅС‚РµРєСЃС‚ РґР»СЏ СЃРµС‚С‚РµСЂРѕРІ СЃРѕСЃС‚РѕСЏРЅРёСЏ
 const __Entity__CreateActionsContext = createContext(null);
 
 if (process.env.NODE_ENV !== "production") {
@@ -159,11 +159,11 @@ if (process.env.NODE_ENV !== "production") {
 export const __Entity__CreateProvider = (props) => {
   const { children } = props;
 
-  //для примера два состояния
+  //РґР»СЏ РїСЂРёРјРµСЂР° РґРІР° СЃРѕСЃС‚РѕСЏРЅРёСЏ
   const [state_1, setState_1] = useState();
   const [state_2, setState_2] = useState();
 
-  //коллбеки на изменения состояния
+  //РєРѕР»Р»Р±РµРєРё РЅР° РёР·РјРµРЅРµРЅРёСЏ СЃРѕСЃС‚РѕСЏРЅРёСЏ
   const set__Entity__State_1 = useCallback((step) => {
     setState_1(step);
   }, []);
@@ -172,14 +172,14 @@ export const __Entity__CreateProvider = (props) => {
     setState_2(steps);
   }, []);
 
-  //мемоизированное состояние
+  //РјРµРјРѕРёР·РёСЂРѕРІР°РЅРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
   const state = useMemo(() => {
     return {
       __entity__State_1: state_1,
       __entity__State_2: state_2,
     };
   }, [state_1, state_2]);
-  //мемоизированные коллбеки
+  //РјРµРјРѕРёР·РёСЂРѕРІР°РЅРЅС‹Рµ РєРѕР»Р»Р±РµРєРё
   const actions = useMemo(() => {
     return {
       set__Entity__state_1,
@@ -197,7 +197,7 @@ export const __Entity__CreateProvider = (props) => {
 };
 
 // ----------------------------------------------------------------------
-// хук для получения
+// С…СѓРє РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ
 export const usePayoutsCreateStateContext = () => {
   const stateContext = useContext(__Entity__CreateStateContext);
 
@@ -223,20 +223,20 @@ export const usePayoutsCreateActionsContext = () => {
 };
 ```
 
-## Bp. асинхронная загрузка библиотек
+## Bp. Р°СЃРёРЅС…СЂРѕРЅРЅР°СЏ Р·Р°РіСЂСѓР·РєР° Р±РёР±Р»РёРѕС‚РµРє
 
 ```tsx
-type SpringType = typeof import("@react-spring/web"); //импорт типов
-type GestureType = typeof import("@use-gesture/react"); //импорт типов
+type SpringType = typeof import("@react-spring/web"); //РёРјРїРѕСЂС‚ С‚РёРїРѕРІ
+type GestureType = typeof import("@use-gesture/react"); //РёРјРїРѕСЂС‚ С‚РёРїРѕРІ
 interface AnimationContextPayload {
   Gesture?: GestureType;
   Spring?: SpringType;
   isLoaded?: boolean;
-} // Обе библиотеки зависят друг от друга
+} // РћР±Рµ Р±РёР±Р»РёРѕС‚РµРєРё Р·Р°РІРёСЃСЏС‚ РґСЂСѓРі РѕС‚ РґСЂСѓРіР°
 
-//проброс через контекст
+//РїСЂРѕР±СЂРѕСЃ С‡РµСЂРµР· РєРѕРЅС‚РµРєСЃС‚
 const AnimationContext = createContext<AnimationContextPayload>({});
-// Асинхронная загрузку компонентов
+// РђСЃРёРЅС…СЂРѕРЅРЅР°СЏ Р·Р°РіСЂСѓР·РєСѓ РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 const getAsyncAnimationModules = async () => {
   return Promise.all([
     import("@react-spring/web"),
@@ -280,7 +280,7 @@ export const AnimationProvider = ({ children }: { children: ReactNode }) => {
 };
 ```
 
-## bps. фабрика контекстов
+## bps. С„Р°Р±СЂРёРєР° РєРѕРЅС‚РµРєСЃС‚РѕРІ
 
 ```tsx
 import React from "react";

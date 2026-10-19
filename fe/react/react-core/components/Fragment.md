@@ -1,28 +1,28 @@
-# Fragment
+﻿# Fragment
 
-при нарушении семантической верстки из-за тэгов `<div>` могут возникать проблемы
+РїСЂРё РЅР°СЂСѓС€РµРЅРёРё СЃРµРјР°РЅС‚РёС‡РµСЃРєРѕР№ РІРµСЂСЃС‚РєРё РёР·-Р·Р° С‚СЌРіРѕРІ `<div>` РјРѕРіСѓС‚ РІРѕР·РЅРёРєР°С‚СЊ РїСЂРѕР±Р»РµРјС‹
 
-```js
+```tsx
 import React, { Fragment } from "react";
-function ListItem({ item }) {
+function ListItem({ item }: { item: { id: string; term: string; description: string } }): JSX.Element {
   return (
     <Fragment>
       <dt>{item.term}</dt>
-      <dd>{item.description}</dd> {" "}
+      <dd>{item.description}</dd>В {" "}
     </Fragment>
   );
 }
-function Glossary(props) {
+function Glossary({ items }: { items: { id: string; term: string; description: string }[] }): JSX.Element {
   return (
     <dl>
-      {props.items.map((item) => (
+      {items.map((item) => (
         <ListItem item={item} key={item.id} />
       ))}
     </dl>
   );
 }
 
-function ListItem({ item }) {
+function ListItem({ item }: { item: { id: string; term: string; description: string } }): JSX.Element {
   return (
     <>
       <dt>{item.term}</dt>
@@ -32,29 +32,34 @@ function ListItem({ item }) {
 }
 ```
 
-## Key для фрагмента
+## Key РґР»СЏ С„СЂР°РіРјРµРЅС‚Р°
 
 ```tsx
-<React.Fragment key="a"></React.Fragment> - можно добавить key
-<></> - нельзя добавить key
+<React.Fragment key="a"></React.Fragment> - РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ key
+<></> - РЅРµР»СЊР·СЏ РґРѕР±Р°РІРёС‚СЊ key
 ```
 
-## ref для фрагмента (React 19.3)
+## ref РґР»СЏ С„СЂР°РіРјРµРЅС‚Р° (React 19.3)
 
-`<Fragment ref={...}>` позволяет работать с группой DOM-узлов без обёртки `<div>`. `ref.current` — это `FragmentInstance`.
+`<Fragment ref={...}>` РїРѕР·РІРѕР»СЏРµС‚ СЂР°Р±РѕС‚Р°С‚СЊ СЃ РіСЂСѓРїРїРѕР№ DOM-СѓР·Р»РѕРІ Р±РµР· РѕР±С‘СЂС‚РєРё `<div>`. `ref.current` вЂ” СЌС‚Рѕ `FragmentInstance`.
 
-**Методы `FragmentInstance`:**
+**РњРµС‚РѕРґС‹ `FragmentInstance`:**
 
-- `addEventListener`, `removeEventListener`, `dispatchEvent` — управление событиями для детей первого уровня
-- `focus`, `focusLast`, `blur` — перемещение фокуса по вложенным детям (depth-first)
-- `observeUsing`, `unobserveUsing` — подключение `IntersectionObserver` или `ResizeObserver`
-- `getClientRects`, `getRootNode`, `compareDocumentPosition`, `scrollIntoView` — измерение и прокрутка
+- `addEventListener`, `removeEventListener`, `dispatchEvent` вЂ” СѓРїСЂР°РІР»РµРЅРёРµ СЃРѕР±С‹С‚РёСЏРјРё РґР»СЏ РґРµС‚РµР№ РїРµСЂРІРѕРіРѕ СѓСЂРѕРІРЅСЏ
+- `focus`, `focusLast`, `blur` вЂ” РїРµСЂРµРјРµС‰РµРЅРёРµ С„РѕРєСѓСЃР° РїРѕ РІР»РѕР¶РµРЅРЅС‹Рј РґРµС‚СЏРј (depth-first)
+- `observeUsing`, `unobserveUsing` вЂ” РїРѕРґРєР»СЋС‡РµРЅРёРµ `IntersectionObserver` РёР»Рё `ResizeObserver`
+- `getClientRects`, `getRootNode`, `compareDocumentPosition`, `scrollIntoView` вЂ” РёР·РјРµСЂРµРЅРёРµ Рё РїСЂРѕРєСЂСѓС‚РєР°
 
-```jsx
+```tsx
 import { Fragment, useRef, useLayoutEffect } from "react";
 
-export default function InView({ onChange, children }) {
-  const fragmentRef = useRef(null);
+interface InViewProps {
+  onChange: (visible: boolean) => void;
+  children: React.ReactNode;
+}
+
+export default function InView({ onChange, children }: InViewProps): JSX.Element {
+  const fragmentRef = useRef<any>(null);
 
   useLayoutEffect(() => {
     const visibleElements = new Set();

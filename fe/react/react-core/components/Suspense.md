@@ -5,11 +5,15 @@
 - не может определить момент когда считываются данные в эффекте и функции очистки эффекта
 - если в suspense-компонент вложены несколько компонентов, то fallback будет срабатывать для каждого
 
-```jsx
+```tsx
 import { Suspense } from "react";
 import Albums from "./Albums.js";
 
-export default function ArtistPage({ artist }) {
+interface ArtistPageProps {
+  artist: { name: string; id: string };
+}
+
+export default function ArtistPage({ artist }: ArtistPageProps): JSX.Element {
   return (
     <>
       <h1>{artist.name}</h1>
@@ -20,7 +24,7 @@ export default function ArtistPage({ artist }) {
   );
 }
 
-function Loading() {
+function Loading(): JSX.Element {
   return <h2>🌀 Loading...</h2>;
 }
 ```

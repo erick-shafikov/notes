@@ -2,14 +2,15 @@
 
 позволяется пред загрузить контент
 
-```js
+```tsx
 import { prefetchDNS, preconnect, preload, preinit } from "react-dom";
-function MyComponent() {
+function MyComponent(): JSX.Element {
   preinit("https://.../path/to/some/script.js", { as: "script" }); // загружает и выполняет этот скрипт с нетерпением
   preload("https://.../path/to/font.woff", { as: "font" }); // предварительно загружает этот шрифт
   preload("https://.../path/to/stylesheet.css", { as: "style" }); // предварительно загружает эту таблицу стилей
   prefetchDNS("https://..."); // когда вы можете ничего не запрашивать у этого хоста.
   preconnect("https://..."); // когда вы хотите что-то попросить, но не уверены, что именно.
+  return <div />;
 }
 ```
 

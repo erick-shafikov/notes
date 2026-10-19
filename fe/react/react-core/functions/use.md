@@ -2,16 +2,28 @@
 
 основная задача хука обрабатывать callback и в паре со Suspense регулировать отображение
 
-```js
+```tsx
 import { use } from "react";
 
-function Comments({ commentsPromise }) {
-  // `use` будет приостановлено до тех пор, пока обещание не разрешится.
-  const comments = use(commentsPromise);
-  return comments.map((comment) => <p key={comment.id}>{comment}</p>);
+interface Comment {
+  id: string;
 }
 
-function Page({ commentsPromise }) {
+interface CommentsProps {
+  commentsPromise: Promise<Comment[]>;
+}
+
+function Comments({ commentsPromise }: CommentsProps): JSX.Element {
+  // `use` будет приостановлено до тех пор, пока обещание не разрешится.
+  const comments = use(commentsPromise);
+  return <>{comments.map((comment) => <p key={comment.id}>{String(comment)}</p>)}</>;
+}
+
+interface PageProps {
+  commentsPromise: Promise<Comment[]>;
+}
+
+function Page({ commentsPromise }: PageProps): JSX.Element {
   // Когда `use` приостанавливается в Comments,
   // будет показана этот Suspense.
   return (
@@ -24,8 +36,13 @@ function Page({ commentsPromise }) {
 
 Может также читать контекст. Можно вызывать внутри блоков условий
 
-```js
-function Component({ condition, promise }) {
+```tsx
+interface ComponentProps {
+  condition: boolean;
+  promise: Promise<string>;
+}
+
+function Component({ condition, promise }: ComponentProps): JSX.Element {
   if (condition) {
     const data = use(promise);
     return <div>{data}</div>;

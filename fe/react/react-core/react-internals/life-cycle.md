@@ -40,13 +40,13 @@
 4. Обработка ошибок
    Следующие методы вызываются, если произошла ошибка в процессе рендеринга, методе жизненного цикла или конструкторе любого дочернего компонента.
 
-```js
-static getDerivedStateFromError(error) {
+```tsx
+static getDerivedStateFromError(error: Error): { hasError: boolean } {
 // Обновите состояние так, чтобы следующий рендер показал запасной интерфейс.
   return { hasError: true };
 }
 
-componentDidCatch()
+componentDidCatch(error: Error, info: React.ErrorInfo): void {}
 ```
 
 component.forceUpdate(callback) – для повторного рендеринга, если он зависит от каких либо других параметров пропустит shouldComponentUpdate()

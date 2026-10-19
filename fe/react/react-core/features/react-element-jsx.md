@@ -4,11 +4,11 @@
   {type: «html-tag», prop: any, children: ReactNode[]}, они иммутабельные.
 - Есть два типа элемента React DOM Element – то, что можно представить в виде html-тега и React Element Component – обертка для совокупности React DOM Element-ов, которые в свою очередь превращаются в DOM дерево в последствии рендера
 
-```jsx
+```tsx
 import React, { Component } from "react";
 import "./App.css";
 class App extends Component {
-  render() {
+  render(): JSX.Element {
     /*обычный метод рендеринга:
      return (
         <div className="App">
@@ -26,14 +26,14 @@ class App extends Component {
 export default App;
 ```
 
-```jsx
+```tsx
 //
 const element = <h1>Привет, мир!</h1>; //- элемент React
 
-const element = <h1 className="greeting"> Привет, мир! </h1>;
+const element2 = <h1 className="greeting"> Привет, мир! </h1>;
 
 // аналогично
-const element = React.createElement(
+const element3 = React.createElement(
   "h1",
   { className: "greeting" },
   "Привет, мир!"

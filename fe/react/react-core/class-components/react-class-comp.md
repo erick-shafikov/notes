@@ -1,10 +1,10 @@
-!!!жизненный цикл перенести в эту папку
+﻿!!!Р¶РёР·РЅРµРЅРЅС‹Р№ С†РёРєР» РїРµСЂРµРЅРµСЃС‚Рё РІ СЌС‚Сѓ РїР°РїРєСѓ
 
-# Композиция
+# РљРѕРјРїРѕР·РёС†РёСЏ
 
-проп children используется для компонентов, в которых содержимое неопределенно до рендеринга
+РїСЂРѕРї children РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ РєРѕРјРїРѕРЅРµРЅС‚РѕРІ, РІ РєРѕС‚РѕСЂС‹С… СЃРѕРґРµСЂР¶РёРјРѕРµ РЅРµРѕРїСЂРµРґРµР»РµРЅРЅРѕ РґРѕ СЂРµРЅРґРµСЂРёРЅРіР°
 
-```jsx
+```tsx
 function Dialog(props) {
   return (
     <>
@@ -27,16 +27,16 @@ class SignUpDialog extends React.Component {
     this.setState({ login: e.target.value });
   }
   handleSignUp() {
-    alert(`Добро пожаловать на борт, ${this.state.login}!`);
+    alert(`Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ РЅР° Р±РѕСЂС‚, ${this.state.login}!`);
   }
   render() {
     return (
       <Dialog
-        title="Программа исследования Марса"
-        message="Как к вам обращаться?"
+        title="РџСЂРѕРіСЂР°РјРјР° РёСЃСЃР»РµРґРѕРІР°РЅРёСЏ РњР°СЂСЃР°"
+        message="РљР°Рє Рє РІР°Рј РѕР±СЂР°С‰Р°С‚СЊСЃСЏ?"
       >
         <input value={this.state.login} onChange={this.handleChange} />
-        <button onClick={this.handleSignUp}>Кнопка</button>
+        <button onClick={this.handleSignUp}>РљРЅРѕРїРєР°</button>
       </Dialog>
     );
   }
@@ -45,9 +45,9 @@ class SignUpDialog extends React.Component {
 
 # conditional rendering
 
-Он будет рендерить либо <LoginButton />, либо <LogoutButton /> в зависимости от текущего состояния. А ещё он будет всегда рендерить <Greeting /> из предыдущего примера.
+РћРЅ Р±СѓРґРµС‚ СЂРµРЅРґРµСЂРёС‚СЊ Р»РёР±Рѕ <LoginButton />, Р»РёР±Рѕ <LogoutButton /> РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ С‚РµРєСѓС‰РµРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ. Рђ РµС‰С‘ РѕРЅ Р±СѓРґРµС‚ РІСЃРµРіРґР° СЂРµРЅРґРµСЂРёС‚СЊ <Greeting /> РёР· РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїСЂРёРјРµСЂР°.
 
-```jsx
+```tsx
 class LoginControl extends React.Component {
   constructor(props) {
     super(props);
@@ -81,15 +81,15 @@ class LoginControl extends React.Component {
 
 # context
 
-значение пропса theme должно быть передано вниз из T
+Р·РЅР°С‡РµРЅРёРµ РїСЂРѕРїСЃР° theme РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїРµСЂРµРґР°РЅРѕ РІРЅРёР· РёР· T
 
-```jsx
+```tsx
 class Example extends React.Component {
   render() {
     return <Toolbar theme="dark" />;
   }
 }
-//переедает проп theme в toolbar
+//РїРµСЂРµРµРґР°РµС‚ РїСЂРѕРї theme РІ toolbar
 
 function Toolbar(props) {
   return (
@@ -98,12 +98,12 @@ function Toolbar(props) {
     </div>
   );
 }
-//переедает проп theme в ThemeButton
+//РїРµСЂРµРµРґР°РµС‚ РїСЂРѕРї theme РІ ThemeButton
 class ThemedButton extends React.Component {
   render() {
     return <Button theme={this.props.theme} />;
   }
-} //переедает проп theme в Button
+} //РїРµСЂРµРµРґР°РµС‚ РїСЂРѕРї theme РІ Button
 class Button extends React.Component {
   render() {
     return <button>{this.props.theme}</button>;
@@ -111,15 +111,15 @@ class Button extends React.Component {
 }
 ```
 
-с использованием контекста
+СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РєРѕРЅС‚РµРєСЃС‚Р°
 
-```js
+```tsx
 const ThemeContext = React.createContext("light");
-//создаем контекст с помощью createContext
+//СЃРѕР·РґР°РµРј РєРѕРЅС‚РµРєСЃС‚ СЃ РїРѕРјРѕС‰СЊСЋ createContext
 class Example extends React.Component {
   render() {
     return (
-      //передаем пробрасываемое значение
+      //РїРµСЂРµРґР°РµРј РїСЂРѕР±СЂР°СЃС‹РІР°РµРјРѕРµ Р·РЅР°С‡РµРЅРёРµ
       <ThemeContext.Provider value="blue">
         <Toolbar />
       </ThemeContext.Provider>
@@ -141,20 +141,20 @@ class ThemedButton extends React.Component {
 }
 class Button extends React.Component {
   static contextType = ThemeContext;
-  //фиксируем местонахождение
+  //С„РёРєСЃРёСЂСѓРµРј РјРµСЃС‚РѕРЅР°С…РѕР¶РґРµРЅРёРµ
   render() {
-    return <button>{this.context}</button>; //используем
+    return <button>{this.context}</button>; //РёСЃРїРѕР»СЊР·СѓРµРј
   }
 }
 ```
 
-```jsx
-const ThemeContext1 = React.createContext({ color: "green" }); //(1.1)создаем объект ThemeContext
-const ThemeContext2 = React.createContext(); //создаем второй объект контекста (1.2)
+```tsx
+const ThemeContext1 = React.createContext({ color: "green" }); //(1.1)СЃРѕР·РґР°РµРј РѕР±СЉРµРєС‚ ThemeContext
+const ThemeContext2 = React.createContext(); //СЃРѕР·РґР°РµРј РІС‚РѕСЂРѕР№ РѕР±СЉРµРєС‚ РєРѕРЅС‚РµРєСЃС‚Р° (1.2)
 class Example extends React.Component {
   render() {
     return (
-      //отправляем первый (2.1)
+      //РѕС‚РїСЂР°РІР»СЏРµРј РїРµСЂРІС‹Р№ (2.1)
       <ThemeContext1.Provider value={{ color: "brown" }}>
         <Toolbar />
       </ThemeContext1.Provider>
@@ -172,8 +172,8 @@ function Toolbar() {
 class ThemedButton extends React.Component {
   static contextType = ThemeContext1;
   render() {
-    //отправляем второй (2.2)
-    //       context: {this.context.color}
+    //РѕС‚РїСЂР°РІР»СЏРµРј РІС‚РѕСЂРѕР№ (2.2)
+    // В  В  В  context: {this.context.color}
     return (
       <div
         _style={{
@@ -190,131 +190,131 @@ class ThemedButton extends React.Component {
   }
 }
 class Button extends React.Component {
-  static contextType = ThemeContext2; //(3) идет в паре с (4)
+  static contextType = ThemeContext2; //(3) РёРґРµС‚ РІ РїР°СЂРµ СЃ (4)
   render() {
     return (
       <button _style={{ backgroundColor: `${this.context}` }}>
         {this.context}
       </button>
-    ); //(5) достаем значение контекста
+    ); //(5) РґРѕСЃС‚Р°РµРј Р·РЅР°С‡РµРЅРёРµ РєРѕРЅС‚РµРєСЃС‚Р°
   }
 }
 ```
 
 # Events handler
 
-```jsx
-// HTML: <button onclick="activateLasers()"> Активировать лазеры </button>
-// JSX: <button onClick={activateLasers}> Активировать лазеры </button>
+```tsx
+// HTML: <button onclick="activateLasers()"> РђРєС‚РёРІРёСЂРѕРІР°С‚СЊ Р»Р°Р·РµСЂС‹ </button>
+// JSX: <button onClick={activateLasers}> РђРєС‚РёРІРёСЂРѕРІР°С‚СЊ Р»Р°Р·РµСЂС‹ </button>
 
-// Пример привязки события через конструктор в классовом компоненте
+// РџСЂРёРјРµСЂ РїСЂРёРІСЏР·РєРё СЃРѕР±С‹С‚РёСЏ С‡РµСЂРµР· РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РІ РєР»Р°СЃСЃРѕРІРѕРј РєРѕРјРїРѕРЅРµРЅС‚Рµ
 
 class Toggle extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isToggleOn: true };
-    this.handleClick = this.handleClick.bind(this); //необходимо для работы в колбэке
+    this.handleClick = this.handleClick.bind(this); //РЅРµРѕР±С…РѕРґРёРјРѕ РґР»СЏ СЂР°Р±РѕС‚С‹ РІ РєРѕР»Р±СЌРєРµ
   }
   handleClick() {
     this.setState((prevState) => ({
-      isToggleOn: !prevState.isToggle, //меняем на противоположное состояние
+      isToggleOn: !prevState.isToggle, //РјРµРЅСЏРµРј РЅР° РїСЂРѕС‚РёРІРѕРїРѕР»РѕР¶РЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
     }));
   }
   render() {
     return (
       <button onClick={this.handleClick}>
-        {/*приравнивание без аргументов*/}
+        {/*РїСЂРёСЂР°РІРЅРёРІР°РЅРёРµ Р±РµР· Р°СЂРіСѓРјРµРЅС‚РѕРІ*/}
         {this.state.isToggleOn ? "ON" : "OFF"}
-        {/*в зависимости от состояния отображать ON или OFF*/}
+        {/*РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЃРѕСЃС‚РѕСЏРЅРёСЏ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ ON РёР»Рё OFF*/}
       </button>
     );
   }
 }
 ```
 
-```jsx
+```tsx
 class LoggingButton extends React.Component {
-  // Такой синтаксис гарантирует, что `this` привязан к handleClick.
-  // Предупреждение: это экспериментальный синтаксис
+  // РўР°РєРѕР№ СЃРёРЅС‚Р°РєСЃРёСЃ РіР°СЂР°РЅС‚РёСЂСѓРµС‚, С‡С‚Рѕ `this` РїСЂРёРІСЏР·Р°РЅ Рє handleClick.
+  // РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ: СЌС‚Рѕ СЌРєСЃРїРµСЂРёРјРµРЅС‚Р°Р»СЊРЅС‹Р№ СЃРёРЅС‚Р°РєСЃРёСЃ
   handleClick = () => {
-    //меняем обычное поле на стрелочную функцию
-    console.log("значение this:", this);
+    //РјРµРЅСЏРµРј РѕР±С‹С‡РЅРѕРµ РїРѕР»Рµ РЅР° СЃС‚СЂРµР»РѕС‡РЅСѓСЋ С„СѓРЅРєС†РёСЋ
+    console.log("Р·РЅР°С‡РµРЅРёРµ this:", this);
   };
   render() {
-    return <button onClick={this.handleClick}>Нажми на меня</button>;
+    return <button onClick={this.handleClick}>РќР°Р¶РјРё РЅР° РјРµРЅСЏ</button>;
   }
 }
 
-// с помощью коллбека в обработчике события
+// СЃ РїРѕРјРѕС‰СЊСЋ РєРѕР»Р»Р±РµРєР° РІ РѕР±СЂР°Р±РѕС‚С‡РёРєРµ СЃРѕР±С‹С‚РёСЏ
 class LoggingButton extends React.Component {
   handleClick() {
-    console.log("значение this:", this);
+    console.log("Р·РЅР°С‡РµРЅРёРµ this:", this);
   }
   render() {
-    // Такой синтаксис гарантирует, что `this` привязан к handleClick.
-    return <button onClick={() => this.handleClick()}>Нажми на меня</button>;
+    // РўР°РєРѕР№ СЃРёРЅС‚Р°РєСЃРёСЃ РіР°СЂР°РЅС‚РёСЂСѓРµС‚, С‡С‚Рѕ `this` РїСЂРёРІСЏР·Р°РЅ Рє handleClick.
+    return <button onClick={() => this.handleClick()}>РќР°Р¶РјРё РЅР° РјРµРЅСЏ</button>;
   }
 }
 ```
 
-## Передача аргументов в обработчики событий
+## РџРµСЂРµРґР°С‡Р° Р°СЂРіСѓРјРµРЅС‚РѕРІ РІ РѕР±СЂР°Р±РѕС‚С‡РёРєРё СЃРѕР±С‹С‚РёР№
 
-```js
+```tsx
 
-<button onClick={(e) => this.deleteRow(id, e)}>Удалить строку</button>
-<button onClick={this.deleteRow.bind(this, id)}>Удалить строку</button>
+<button onClick={(e) => this.deleteRow(id, e)}>РЈРґР°Р»РёС‚СЊ СЃС‚СЂРѕРєСѓ</button>
+<button onClick={this.deleteRow.bind(this, id)}>РЈРґР°Р»РёС‚СЊ СЃС‚СЂРѕРєСѓ</button>
 ```
 
-В обоих случаях аргумент e, представляющий событие React, будет передан как второй аргумент после идентификатора. Используя стрелочную функцию, необходимо передавать аргумент явно, но с bind любые последующие аргументы передаются автоматически.
+Р’ РѕР±РѕРёС… СЃР»СѓС‡Р°СЏС… Р°СЂРіСѓРјРµРЅС‚ e, РїСЂРµРґСЃС‚Р°РІР»СЏСЋС‰РёР№ СЃРѕР±С‹С‚РёРµ React, Р±СѓРґРµС‚ РїРµСЂРµРґР°РЅ РєР°Рє РІС‚РѕСЂРѕР№ Р°СЂРіСѓРјРµРЅС‚ РїРѕСЃР»Рµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР°. РСЃРїРѕР»СЊР·СѓСЏ СЃС‚СЂРµР»РѕС‡РЅСѓСЋ С„СѓРЅРєС†РёСЋ, РЅРµРѕР±С…РѕРґРёРјРѕ РїРµСЂРµРґР°РІР°С‚СЊ Р°СЂРіСѓРјРµРЅС‚ СЏРІРЅРѕ, РЅРѕ СЃ bind Р»СЋР±С‹Рµ РїРѕСЃР»РµРґСѓСЋС‰РёРµ Р°СЂРіСѓРјРµРЅС‚С‹ РїРµСЂРµРґР°СЋС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.
 
-!!!в React нельзя предотвратить обработчик события по умолчанию, вернув false. Нужно явно вызвать preventDefault
+!!!РІ React РЅРµР»СЊР·СЏ РїСЂРµРґРѕС‚РІСЂР°С‚РёС‚СЊ РѕР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, РІРµСЂРЅСѓРІ false. РќСѓР¶РЅРѕ СЏРІРЅРѕ РІС‹Р·РІР°С‚СЊ preventDefault
 
 # forms
 
-!!!Обновление состояния форм только через setstate
-!!!сброс действия только через event.preventDefault()
+!!!РћР±РЅРѕРІР»РµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ С„РѕСЂРј С‚РѕР»СЊРєРѕ С‡РµСЂРµР· setstate
+!!!СЃР±СЂРѕСЃ РґРµР№СЃС‚РІРёСЏ С‚РѕР»СЊРєРѕ С‡РµСЂРµР· event.preventDefault()
 
-```js
+```tsx
 class NameForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "" }; //состояние
-    this.handleChange = this.handleChange.bind(this); //изменение состояния при вводе
-    this.handleSubmit = this.handleSubmit.bind(this); //изменение состояния при submit
+    this.state = { value: "" }; //СЃРѕСЃС‚РѕСЏРЅРёРµ
+    this.handleChange = this.handleChange.bind(this); //РёР·РјРµРЅРµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ РїСЂРё РІРІРѕРґРµ
+    this.handleSubmit = this.handleSubmit.bind(this); //РёР·РјРµРЅРµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ РїСЂРё submit
   }
   handleChange(event) {
-    this.setState({ value: event.target.value }); //перезапись состояния при каждом вводе
+    this.setState({ value: event.target.value }); //РїРµСЂРµР·Р°РїРёСЃСЊ СЃРѕСЃС‚РѕСЏРЅРёСЏ РїСЂРё РєР°Р¶РґРѕРј РІРІРѕРґРµ
   }
   handleSubmit(event) {
-    alert("Отправленное имя: " + this.state.value); //при submit ввывести значение поля
+    alert("РћС‚РїСЂР°РІР»РµРЅРЅРѕРµ РёРјСЏ: " + this.state.value); //РїСЂРё submit РІРІС‹РІРµСЃС‚Рё Р·РЅР°С‡РµРЅРёРµ РїРѕР»СЏ
     event.preventDefault();
   }
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
-          Имя:
+          РРјСЏ:
           <input
             type="text"
             value={this.state.value}
             onChange={this.handleChange}
           />
         </label>
-        <input type="submit" value="Отправить" />
+        <input type="submit" value="РћС‚РїСЂР°РІРёС‚СЊ" />
       </form>
     );
   }
 }
 ```
 
-Тег `<textarea>`
+РўРµРі `<textarea>`
 
-```js
+```tsx
 class EssayForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: "Будьте любезны, напишите сочинение о вашем любимом DOM-элементе.",
+      value: "Р‘СѓРґСЊС‚Рµ Р»СЋР±РµР·РЅС‹, РЅР°РїРёС€РёС‚Рµ СЃРѕС‡РёРЅРµРЅРёРµ Рѕ РІР°С€РµРј Р»СЋР±РёРјРѕРј DOM-СЌР»РµРјРµРЅС‚Рµ.",
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -323,30 +323,30 @@ class EssayForm extends React.Component {
     this.setState({ value: event.target.value });
   }
   handleSubmit(event) {
-    alert("Сочинение отправлено: " + this.state.value);
+    alert("РЎРѕС‡РёРЅРµРЅРёРµ РѕС‚РїСЂР°РІР»РµРЅРѕ: " + this.state.value);
     event.preventDefault();
   }
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
-          Сочинение:
+          РЎРѕС‡РёРЅРµРЅРёРµ:
           <textarea value={this.state.value} onChange={this.handleChange} />
         </label>
-        <input type="submit" value="Отправить" />
+        <input type="submit" value="РћС‚РїСЂР°РІРёС‚СЊ" />
       </form>
     );
   }
 }
 ```
 
-## Формы. `<select>`
+## Р¤РѕСЂРјС‹. `<select>`
 
-```js
+```tsx
 class FlavorForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "coconut" }; //выбран Кокос
+    this.state = { value: "coconut" }; //РІС‹Р±СЂР°РЅ РљРѕРєРѕСЃ
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -354,23 +354,23 @@ class FlavorForm extends React.Component {
     this.setState({ value: event.target.value });
   }
   handleSubmit(event) {
-    //при submit – alert выбранного пункта сохраненного в state
-    alert("Ваш любимый вкус: " + this.state.value);
+    //РїСЂРё submit вЂ“ alert РІС‹Р±СЂР°РЅРЅРѕРіРѕ РїСѓРЅРєС‚Р° СЃРѕС…СЂР°РЅРµРЅРЅРѕРіРѕ РІ state
+    alert("Р’Р°С€ Р»СЋР±РёРјС‹Р№ РІРєСѓСЃ: " + this.state.value);
     event.preventDefault();
   }
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
-          Выберите ваш любимый вкус:{" "}
+          Р’С‹Р±РµСЂРёС‚Рµ РІР°С€ Р»СЋР±РёРјС‹Р№ РІРєСѓСЃ:{" "}
           <select value={this.state.value} onChange={this.handleChange}>
-            <option value="grapefruit">Грейпфрут</option>
-            <option value="lime">Лайм</option>
-            <option value="coconut">Кокос</option>
-            <option value="mango">Манго</option>
+            <option value="grapefruit">Р“СЂРµР№РїС„СЂСѓС‚</option>
+            <option value="lime">Р›Р°Р№Рј</option>
+            <option value="coconut">РљРѕРєРѕСЃ</option>
+            <option value="mango">РњР°РЅРіРѕ</option>
           </select>
         </label>
-        <input type="submit" value="Отправить" />
+        <input type="submit" value="РћС‚РїСЂР°РІРёС‚СЊ" />
       </form>
     );
   }
@@ -379,28 +379,28 @@ class FlavorForm extends React.Component {
 
 # Lifecycle
 
-```jsx
+```tsx
 class Clock extends React.Component {
   constructor(props) {
     super(props);
     this.state = { date: new Date() };
-    //устанавливаем в state текущую дату(1)
+    //СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РІ state С‚РµРєСѓС‰СѓСЋ РґР°С‚Сѓ(1)
   }
   componentDidMount() {
     this.timerID = setInterval(() => this.tick(), 1000);
-  } //после отрисовки вызвать функцию tick(3)
+  } //РїРѕСЃР»Рµ РѕС‚СЂРёСЃРѕРІРєРё РІС‹Р·РІР°С‚СЊ С„СѓРЅРєС†РёСЋ tick(3)
   componentWillUnmount() {
     clearInterval(this.timerID);
-    //перед тем как удалить отрисованный компонент, при смене state, сбрасываем таймер (5)
+    //РїРµСЂРµРґ С‚РµРј РєР°Рє СѓРґР°Р»РёС‚СЊ РѕС‚СЂРёСЃРѕРІР°РЅРЅС‹Р№ РєРѕРјРїРѕРЅРµРЅС‚, РїСЂРё СЃРјРµРЅРµ state, СЃР±СЂР°СЃС‹РІР°РµРј С‚Р°Р№РјРµСЂ (5)
   }
   tick() {
     this.setState({ date: new Date() });
-  } //функция tick в свою очередь меняет state, значит нужно отрисовать компонент заново (4)
+  } //С„СѓРЅРєС†РёСЏ tick РІ СЃРІРѕСЋ РѕС‡РµСЂРµРґСЊ РјРµРЅСЏРµС‚ state, Р·РЅР°С‡РёС‚ РЅСѓР¶РЅРѕ РѕС‚СЂРёСЃРѕРІР°С‚СЊ РєРѕРјРїРѕРЅРµРЅС‚ Р·Р°РЅРѕРІРѕ (4)
   render() {
     return (
       <div>
-        <h1>Привет, мир!</h1>
-        <h2>Сейчас {this.state.date.toLocaleTimeString()}.</h2>
+        <h1>РџСЂРёРІРµС‚, РјРёСЂ!</h1>
+        <h2>РЎРµР№С‡Р°СЃ {this.state.date.toLocaleTimeString()}.</h2>
       </div>
     );
   }
@@ -409,15 +409,15 @@ class Clock extends React.Component {
 ReactDOM.render(
   <Clock />,
   document.getElementById("root")
-  //компонент отрисовывается, вызывая componentDidMount (2)
+  //РєРѕРјРїРѕРЅРµРЅС‚ РѕС‚СЂРёСЃРѕРІС‹РІР°РµС‚СЃСЏ, РІС‹Р·С‹РІР°СЏ componentDidMount (2)
 );
 ```
 
 # props
 
-Пропсы по умолчанию
+РџСЂРѕРїСЃС‹ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 
-```js
+```tsx
 class Welcome extends React.Component {
   render() {
     return <h1>Hello {this.props.name}</h1>;
@@ -428,19 +428,19 @@ Welcome.defaultProps = {
 };
 ```
 
-Если мы вызовем компонент `<Welcome />` без аргументов, то будет `<h1>Hello World<h2>`
+Р•СЃР»Рё РјС‹ РІС‹Р·РѕРІРµРј РєРѕРјРїРѕРЅРµРЅС‚ `<Welcome />` Р±РµР· Р°СЂРіСѓРјРµРЅС‚РѕРІ, С‚Рѕ Р±СѓРґРµС‚ `<h1>Hello World<h2>`
 
 ## render props
 
-Компонент с рендер-проп берёт функцию, которая возвращает React-элемент, и вызывает её вместо реализации собственного рендера.
+РљРѕРјРїРѕРЅРµРЅС‚ СЃ СЂРµРЅРґРµСЂ-РїСЂРѕРї Р±РµСЂС‘С‚ С„СѓРЅРєС†РёСЋ, РєРѕС‚РѕСЂР°СЏ РІРѕР·РІСЂР°С‰Р°РµС‚ React-СЌР»РµРјРµРЅС‚, Рё РІС‹Р·С‹РІР°РµС‚ РµС‘ РІРјРµСЃС‚Рѕ СЂРµР°Р»РёР·Р°С†РёРё СЃРѕР±СЃС‚РІРµРЅРЅРѕРіРѕ СЂРµРЅРґРµСЂР°.
 
-```jsx
-<DataProvider render={(data) => <h1>Привет, {data.target}</h1>} />
+```tsx
+<DataProvider render={(data) => <h1>РџСЂРёРІРµС‚, {data.target}</h1>} />
 ```
 
-приложение, которое отслеживает положение мыши
+РїСЂРёР»РѕР¶РµРЅРёРµ, РєРѕС‚РѕСЂРѕРµ РѕС‚СЃР»РµР¶РёРІР°РµС‚ РїРѕР»РѕР¶РµРЅРёРµ РјС‹С€Рё
 
-```jsx
+```tsx
 class MouseTracker extends React.Component {
   constructor(props) {
     super(props);
@@ -456,18 +456,18 @@ class MouseTracker extends React.Component {
   render() {
     return (
       <div _style={{ height: "100vh" }} onMouseMove={this.handleMouseMove}>
-        <h1>Перемещайте курсор мыши!</h1>
+        <h1>РџРµСЂРµРјРµС‰Р°Р№С‚Рµ РєСѓСЂСЃРѕСЂ РјС‹С€Рё!</h1>
         <p>
-          Текущее положение курсора мыши: ({this.state.x}, {this.state.y})
-        </p>     {" "}
+          РўРµРєСѓС‰РµРµ РїРѕР»РѕР¶РµРЅРёРµ РєСѓСЂСЃРѕСЂР° РјС‹С€Рё: ({this.state.x}, {this.state.y})
+        </p>В  В  В {" "}
       </div>
     );
   }
 }
 ```
 
-```js
-// Компонент <Mouse> инкапсулирует поведение, которое нам необходимо, но состояние не разделяется
+```tsx
+// РљРѕРјРїРѕРЅРµРЅС‚ <Mouse> РёРЅРєР°РїСЃСѓР»РёСЂСѓРµС‚ РїРѕРІРµРґРµРЅРёРµ, РєРѕС‚РѕСЂРѕРµ РЅР°Рј РЅРµРѕР±С…РѕРґРёРјРѕ, РЅРѕ СЃРѕСЃС‚РѕСЏРЅРёРµ РЅРµ СЂР°Р·РґРµР»СЏРµС‚СЃСЏ
 class Mouse extends React.Component {
   constructor(props) {
     super(props);
@@ -483,32 +483,32 @@ class Mouse extends React.Component {
   render() {
     return (
       <div _style={{ height: "100vh" }} onMouseMove={this.handleMouseMove}>
-        {/*но как можно отрендерить что-то, кроме <p>?*/}
+        {/*РЅРѕ РєР°Рє РјРѕР¶РЅРѕ РѕС‚СЂРµРЅРґРµСЂРёС‚СЊ С‡С‚Рѕ-С‚Рѕ, РєСЂРѕРјРµ <p>?*/}
         <p>
-          Текущее положение курсора мыши: ({this.state.x}, {this.state.y})
+          РўРµРєСѓС‰РµРµ РїРѕР»РѕР¶РµРЅРёРµ РєСѓСЂСЃРѕСЂР° РјС‹С€Рё: ({this.state.x}, {this.state.y})
         </p>
       </div>
     );
   }
 }
-//отделяем заголовок, а логику оставляем отдельно
+//РѕС‚РґРµР»СЏРµРј Р·Р°РіРѕР»РѕРІРѕРє, Р° Р»РѕРіРёРєСѓ РѕСЃС‚Р°РІР»СЏРµРј РѕС‚РґРµР»СЊРЅРѕ
 
 class MouseTracker extends React.Component {
   render() {
     return (
       <>
-        <h1>Перемещайте курсор мыши!</h1>
+        <h1>РџРµСЂРµРјРµС‰Р°Р№С‚Рµ РєСѓСЂСЃРѕСЂ РјС‹С€Рё!</h1>
         <Mouse />
-        {/*здесь будет только <p>*/}
+        {/*Р·РґРµСЃСЊ Р±СѓРґРµС‚ С‚РѕР»СЊРєРѕ <p>*/}
       </>
     );
   }
 }
 ```
 
-Для начала вы можете отрендерить `<Cat>` внутри метода render компонента `<Mouse>` следующим образом:
+Р”Р»СЏ РЅР°С‡Р°Р»Р° РІС‹ РјРѕР¶РµС‚Рµ РѕС‚СЂРµРЅРґРµСЂРёС‚СЊ `<Cat>` РІРЅСѓС‚СЂРё РјРµС‚РѕРґР° render РєРѕРјРїРѕРЅРµРЅС‚Р° `<Mouse>` СЃР»РµРґСѓСЋС‰РёРј РѕР±СЂР°Р·РѕРј:
 
-```jsx
+```tsx
 class Cat extends React.Component {
   render() {
     const mouse = this.props.mouse;
@@ -546,7 +546,7 @@ class MouseTracker extends React.Component {
   render() {
     return (
       <div>
-        <h1>Перемещайте курсор мыши!</h1>
+        <h1>РџРµСЂРµРјРµС‰Р°Р№С‚Рµ РєСѓСЂСЃРѕСЂ РјС‹С€Рё!</h1>
         <MouseWithCat />
       </div>
     );
@@ -554,9 +554,9 @@ class MouseTracker extends React.Component {
 }
 ```
 
-изображение кошки, которая двигается по экрану
+РёР·РѕР±СЂР°Р¶РµРЅРёРµ РєРѕС€РєРё, РєРѕС‚РѕСЂР°СЏ РґРІРёРіР°РµС‚СЃСЏ РїРѕ СЌРєСЂР°РЅСѓ
 
-```js
+```tsx
 class Cat extends React.Component {
   render() {
     const mouse = this.props.mouse;
@@ -583,8 +583,8 @@ class Mouse extends React.Component {
   render() {
     return (
       <div _style={{ height: "100vh" }} onMouseMove={this.handleMouseMove}>
-        {/*Вместо статического представления того, что рендерит <Mouse>, используем рендер-проп для динамического определения, что надо отрендерить*/}
-        {this.props.render(this.state)} {/*в рендер функцию отправляется аргумент this.state */}
+        {/*Р’РјРµСЃС‚Рѕ СЃС‚Р°С‚РёС‡РµСЃРєРѕРіРѕ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ С‚РѕРіРѕ, С‡С‚Рѕ СЂРµРЅРґРµСЂРёС‚ <Mouse>, РёСЃРїРѕР»СЊР·СѓРµРј СЂРµРЅРґРµСЂ-РїСЂРѕРї РґР»СЏ РґРёРЅР°РјРёС‡РµСЃРєРѕРіРѕ РѕРїСЂРµРґРµР»РµРЅРёСЏ, С‡С‚Рѕ РЅР°РґРѕ РѕС‚СЂРµРЅРґРµСЂРёС‚СЊ*/}
+        {this.props.render(this.state)}В {/*РІ СЂРµРЅРґРµСЂ С„СѓРЅРєС†РёСЋ РѕС‚РїСЂР°РІР»СЏРµС‚СЃСЏ Р°СЂРіСѓРјРµРЅС‚ this.state */}
       </div>
     );
   }
@@ -593,10 +593,10 @@ class MouseTracker extends React.Component {
   render() {
     return (
       <div>
-        <h1>Перемещайте курсор мыши!</h1>
+        <h1>РџРµСЂРµРјРµС‰Р°Р№С‚Рµ РєСѓСЂСЃРѕСЂ РјС‹С€Рё!</h1>
         <Mouse
           render={(mouse) => (
-            //проп рендер – это анонимная функция с аргументом mouse, здесь направится this.state в качестве mouse
+            //РїСЂРѕРї СЂРµРЅРґРµСЂ вЂ“ СЌС‚Рѕ Р°РЅРѕРЅРёРјРЅР°СЏ С„СѓРЅРєС†РёСЏ СЃ Р°СЂРіСѓРјРµРЅС‚РѕРј mouse, Р·РґРµСЃСЊ РЅР°РїСЂР°РІРёС‚СЃСЏ this.state РІ РєР°С‡РµСЃС‚РІРµ mouse
             <Cat mouse={mouse} />
           )}
         />
@@ -606,56 +606,56 @@ class MouseTracker extends React.Component {
 }
 ```
 
-Минус данного решения = каждый раз при создании компонента, нужно создавать промежуточный компонент – типа MouseWithCat
+РњРёРЅСѓСЃ РґР°РЅРЅРѕРіРѕ СЂРµС€РµРЅРёСЏ = РєР°Р¶РґС‹Р№ СЂР°Р· РїСЂРё СЃРѕР·РґР°РЅРёРё РєРѕРјРїРѕРЅРµРЅС‚Р°, РЅСѓР¶РЅРѕ СЃРѕР·РґР°РІР°С‚СЊ РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅС‹Р№ РєРѕРјРїРѕРЅРµРЅС‚ вЂ“ С‚РёРїР° MouseWithCat
 
-```jsx
-// Если вам действительно необходим HOC по некоторым причинам, вы можете просто создать обычный компонент с рендер-проп!
+```tsx
+// Р•СЃР»Рё РІР°Рј РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ РЅРµРѕР±С…РѕРґРёРј HOC РїРѕ РЅРµРєРѕС‚РѕСЂС‹Рј РїСЂРёС‡РёРЅР°Рј, РІС‹ РјРѕР¶РµС‚Рµ РїСЂРѕСЃС‚Рѕ СЃРѕР·РґР°С‚СЊ РѕР±С‹С‡РЅС‹Р№ РєРѕРјРїРѕРЅРµРЅС‚ СЃ СЂРµРЅРґРµСЂ-РїСЂРѕРї!
 function withMouse(Component) {
-  return class extends React.Component {
-    render() {
-      return (
-        <Mouse render={mouse => (
-          <Component {...this.props} mouse={mouse} />
+В  return class extends React.Component {
+В  В  render() {
+В  В  В  return (
+В  В  В  В  <Mouse render={mouse => (
+В  В  В  В  В  <Component {...this.props} mouse={mouse} />
 )}/>);}}}
 
-//Несмотря на то, что в вышеприведённых примерах мы используем render, мы можем также легко использовать проп children !
+//РќРµСЃРјРѕС‚СЂСЏ РЅР° С‚Рѕ, С‡С‚Рѕ РІ РІС‹С€РµРїСЂРёРІРµРґС‘РЅРЅС‹С… РїСЂРёРјРµСЂР°С… РјС‹ РёСЃРїРѕР»СЊР·СѓРµРј render, РјС‹ РјРѕР¶РµРј С‚Р°РєР¶Рµ Р»РµРіРєРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РїСЂРѕРї children !
 <Mouse children={mouse => (
-  <p>Текущее положение курсора мыши: {mouse.x}, {mouse.y}</p>
+В  <p>РўРµРєСѓС‰РµРµ РїРѕР»РѕР¶РµРЅРёРµ РєСѓСЂСЃРѕСЂР° РјС‹С€Рё: {mouse.x}, {mouse.y}</p>
 )}/>
 
-// children не обязательно именовать в списке «атрибутов» JSX-элемента. Вместо этого, его можно поместить его прямо внутрь элемента!
+// children РЅРµ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РёРјРµРЅРѕРІР°С‚СЊ РІ СЃРїРёСЃРєРµ В«Р°С‚СЂРёР±СѓС‚РѕРІВ» JSX-СЌР»РµРјРµРЅС‚Р°. Р’РјРµСЃС‚Рѕ СЌС‚РѕРіРѕ, РµРіРѕ РјРѕР¶РЅРѕ РїРѕРјРµСЃС‚РёС‚СЊ РµРіРѕ РїСЂСЏРјРѕ РІРЅСѓС‚СЂСЊ СЌР»РµРјРµРЅС‚Р°!
 <Mouse>
-  {mouse => (
-    <p>Текущее положение курсора мыши: {mouse.x}, {mouse.y}</p>
-  )}
+В  {mouse => (
+В  В  <p>РўРµРєСѓС‰РµРµ РїРѕР»РѕР¶РµРЅРёРµ РєСѓСЂСЃРѕСЂР° РјС‹С€Рё: {mouse.x}, {mouse.y}</p>
+В  )}
 </Mouse>
 
 ```
 
 # ref
 
-```jsx
+```tsx
 import React from "react";
 class CustomTextInput extends React.Component {
   constructor(props) {
     super(props);
-    this.textInput = React.createRef(); // создадим реф в поле `textInput` для хранения DOM-элемента
+    this.textInput = React.createRef(); // СЃРѕР·РґР°РґРёРј СЂРµС„ РІ РїРѕР»Рµ `textInput` РґР»СЏ С…СЂР°РЅРµРЅРёСЏ DOM-СЌР»РµРјРµРЅС‚Р°
     this.focusTextInput = this.focusTextInput.bind(this);
   }
   focusTextInput() {
-    // Установим фокус на текстовое поле с помощью чистого DOM API
-    // Примечание: обращаемся к "current", чтобы получить DOM-узел
+    // РЈСЃС‚Р°РЅРѕРІРёРј С„РѕРєСѓСЃ РЅР° С‚РµРєСЃС‚РѕРІРѕРµ РїРѕР»Рµ СЃ РїРѕРјРѕС‰СЊСЋ С‡РёСЃС‚РѕРіРѕ DOM API
+    // РџСЂРёРјРµС‡Р°РЅРёРµ: РѕР±СЂР°С‰Р°РµРјСЃСЏ Рє "current", С‡С‚РѕР±С‹ РїРѕР»СѓС‡РёС‚СЊ DOM-СѓР·РµР»
     this.textInput.current.focus();
   }
   render() {
-    // описываем, что мы хотим связать реф <input>
-    // с `textInput` созданным в конструкторе
+    // РѕРїРёСЃС‹РІР°РµРј, С‡С‚Рѕ РјС‹ С…РѕС‚РёРј СЃРІСЏР·Р°С‚СЊ СЂРµС„ <input>
+    // СЃ `textInput` СЃРѕР·РґР°РЅРЅС‹Рј РІ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂРµ
     return (
       <div>
-        <input type="text" ref={this.textInput} /> присваиваем реф для инпута
+        <input type="text" ref={this.textInput} /> РїСЂРёСЃРІР°РёРІР°РµРј СЂРµС„ РґР»СЏ РёРЅРїСѓС‚Р°
         <input
           type="button"
-          value="Фокус на текстовом поле"
+          value="Р¤РѕРєСѓСЃ РЅР° С‚РµРєСЃС‚РѕРІРѕРј РїРѕР»Рµ"
           onClick={this.focusTextInput}
         />
       </div>
@@ -666,26 +666,26 @@ class CustomTextInput extends React.Component {
 
 # state
 
-Неправильно
-this.state.comment = 'Привет';
-Правильно
-this.setState({comment: 'Привет'});
+РќРµРїСЂР°РІРёР»СЊРЅРѕ
+this.state.comment = 'РџСЂРёРІРµС‚';
+РџСЂР°РІРёР»СЊРЅРѕ
+this.setState({comment: 'РџСЂРёРІРµС‚'});
 
-!!!Конструктор — это единственное место, где вы можете присвоить значение this.state напрямую
-!!!При обновлении состояния компонент рендерится заново
-!!!Хранить состояние нужно на самом верху иерархии компонентов
+!!!РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ вЂ” СЌС‚Рѕ РµРґРёРЅСЃС‚РІРµРЅРЅРѕРµ РјРµСЃС‚Рѕ, РіРґРµ РІС‹ РјРѕР¶РµС‚Рµ РїСЂРёСЃРІРѕРёС‚СЊ Р·РЅР°С‡РµРЅРёРµ this.state РЅР°РїСЂСЏРјСѓСЋ
+!!!РџСЂРё РѕР±РЅРѕРІР»РµРЅРёРё СЃРѕСЃС‚РѕСЏРЅРёСЏ РєРѕРјРїРѕРЅРµРЅС‚ СЂРµРЅРґРµСЂРёС‚СЃСЏ Р·Р°РЅРѕРІРѕ
+!!!РҐСЂР°РЅРёС‚СЊ СЃРѕСЃС‚РѕСЏРЅРёРµ РЅСѓР¶РЅРѕ РЅР° СЃР°РјРѕРј РІРµСЂС…Сѓ РёРµСЂР°СЂС…РёРё РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
 
-```jsx
-// изменение состояния с помощью пропсов
-// Неправильно
+```tsx
+// РёР·РјРµРЅРµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ СЃ РїРѕРјРѕС‰СЊСЋ РїСЂРѕРїСЃРѕРІ
+// РќРµРїСЂР°РІРёР»СЊРЅРѕ
 this.setState({
   counter: this.state.counter + this.props.increment,
 });
-// Правильно
+// РџСЂР°РІРёР»СЊРЅРѕ
 this.setState((state, props) => ({
   counter: state.counter + props.increment,
 }));
-// Правильно
+// РџСЂР°РІРёР»СЊРЅРѕ
 this.setState(function (state, props) {
   return {
     counter: state.counter + props.increment,
@@ -693,17 +693,17 @@ this.setState(function (state, props) {
 });
 ```
 
-Компонент может передать своё состояние вниз по дереву в виде пропсов дочерних компонентов:
+РљРѕРјРїРѕРЅРµРЅС‚ РјРѕР¶РµС‚ РїРµСЂРµРґР°С‚СЊ СЃРІРѕС‘ СЃРѕСЃС‚РѕСЏРЅРёРµ РІРЅРёР· РїРѕ РґРµСЂРµРІСѓ РІ РІРёРґРµ РїСЂРѕРїСЃРѕРІ РґРѕС‡РµСЂРЅРёС… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ:
 
-```jsx
+```tsx
 class Clock extends React.Component {
-  //изменен из примера с часами
+  //РёР·РјРµРЅРµРЅ РёР· РїСЂРёРјРµСЂР° СЃ С‡Р°СЃР°РјРё
 
   render() {
     return (
       <div>
         <h1>Hello, world!</h1>
-        FormattedDate date={this.state.date} /> {/*передача текущего значения пропсов*/}
+        FormattedDate date={this.state.date} /> {/*РїРµСЂРµРґР°С‡Р° С‚РµРєСѓС‰РµРіРѕ Р·РЅР°С‡РµРЅРёСЏ РїСЂРѕРїСЃРѕРІ*/}
       </div>
     );
   }
@@ -711,29 +711,29 @@ class Clock extends React.Component {
 ReactDOM.render(<Clock />, document.getElementById("root"));
 ```
 
-## Подъем состояния
+## РџРѕРґСЉРµРј СЃРѕСЃС‚РѕСЏРЅРёСЏ
 
-```js
+```tsx
 class Calculator extends React.Component {
   constructor(props) {
     super(props);
-    this.handleCelsiusChange = this.handleCelsiusChange.bind(this); //обработчик для поля Цельсия, который меняет состояние
-    this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this); //обработчик для поля Фаренгейт
+    this.handleCelsiusChange = this.handleCelsiusChange.bind(this); //РѕР±СЂР°Р±РѕС‚С‡РёРє РґР»СЏ РїРѕР»СЏ Р¦РµР»СЊСЃРёСЏ, РєРѕС‚РѕСЂС‹Р№ РјРµРЅСЏРµС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ
+    this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this); //РѕР±СЂР°Р±РѕС‚С‡РёРє РґР»СЏ РїРѕР»СЏ Р¤Р°СЂРµРЅРіРµР№С‚
     this.state = { temperature: "", scale: "c" };
-  } //в состоянии поле текущей температуры и шкалы для указания того, что меняется}
+  } //РІ СЃРѕСЃС‚РѕСЏРЅРёРё РїРѕР»Рµ С‚РµРєСѓС‰РµР№ С‚РµРјРїРµСЂР°С‚СѓСЂС‹ Рё С€РєР°Р»С‹ РґР»СЏ СѓРєР°Р·Р°РЅРёСЏ С‚РѕРіРѕ, С‡С‚Рѕ РјРµРЅСЏРµС‚СЃСЏ}
 
   handleCelsiusChange(temperature) {
     this.setState({ scale: "c", temperature });
-  } //если ввод происходит здесь то состояние меняется на scale: ‘c’ и устанавливает текущее значение температуры в Цельсия
+  } //РµСЃР»Рё РІРІРѕРґ РїСЂРѕРёСЃС…РѕРґРёС‚ Р·РґРµСЃСЊ С‚Рѕ СЃРѕСЃС‚РѕСЏРЅРёРµ РјРµРЅСЏРµС‚СЃСЏ РЅР° scale: вЂcвЂ™ Рё СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ С‚РµРєСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ С‚РµРјРїРµСЂР°С‚СѓСЂС‹ РІ Р¦РµР»СЊСЃРёСЏ
   handleFahrenheitChange(temperature) {
     this.setState({ scale: "f", temperature });
   }
-  //если ввод происходит здесь то состояние меняется на scale: ‘f’ и устанавливает значение температуры в фаренгейтах
+  //РµСЃР»Рё РІРІРѕРґ РїСЂРѕРёСЃС…РѕРґРёС‚ Р·РґРµСЃСЊ С‚Рѕ СЃРѕСЃС‚РѕСЏРЅРёРµ РјРµРЅСЏРµС‚СЃСЏ РЅР° scale: вЂfвЂ™ Рё СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ Р·РЅР°С‡РµРЅРёРµ С‚РµРјРїРµСЂР°С‚СѓСЂС‹ РІ С„Р°СЂРµРЅРіРµР№С‚Р°С…
   render() {
-    const scale = this.state.scale; //присваиваем переменной scale значение из состояния
-    const temperature = this.state.temperature; //присваиваем переменной temperature значение из состояния
+    const scale = this.state.scale; //РїСЂРёСЃРІР°РёРІР°РµРј РїРµСЂРµРјРµРЅРЅРѕР№ scale Р·РЅР°С‡РµРЅРёРµ РёР· СЃРѕСЃС‚РѕСЏРЅРёСЏ
+    const temperature = this.state.temperature; //РїСЂРёСЃРІР°РёРІР°РµРј РїРµСЂРµРјРµРЅРЅРѕР№ temperature Р·РЅР°С‡РµРЅРёРµ РёР· СЃРѕСЃС‚РѕСЏРЅРёСЏ
     const celsius =
-      scale === "f" ? tryConvert(temperature, toCelsius) : temperature; //рендерится два компонента со значением scale === f и со значением scale === c, в зависимости от этого происходит конвертация
+      scale === "f" ? tryConvert(temperature, toCelsius) : temperature; //СЂРµРЅРґРµСЂРёС‚СЃСЏ РґРІР° РєРѕРјРїРѕРЅРµРЅС‚Р° СЃРѕ Р·РЅР°С‡РµРЅРёРµРј scale === f Рё СЃРѕ Р·РЅР°С‡РµРЅРёРµРј scale === c, РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЌС‚РѕРіРѕ РїСЂРѕРёСЃС…РѕРґРёС‚ РєРѕРЅРІРµСЂС‚Р°С†РёСЏ
     const fahrenheit =
       scale === "c" ? tryConvert(temperature, toFahrenheit) : temperature;
     return (
@@ -755,8 +755,8 @@ class Calculator extends React.Component {
   }
 }
 
-// <TemperatureInput scale="c“ temperature={celsius} onTemperatureChange={this.handleCelsiusChange}/>
-// <TemperatureInput scale="f“ temperature={fahrenheit} onTemperatureChange={this.handleFahrenheitChange}/>
+// <TemperatureInput scale="cвЂњ temperature={celsius} onTemperatureChange={this.handleCelsiusChange}/>
+// <TemperatureInput scale="fвЂњ temperature={fahrenheit} onTemperatureChange={this.handleFahrenheitChange}/>
 class TemperatureInput extends React.Component {
   constructor(props) {
     super(props);
@@ -770,7 +770,7 @@ class TemperatureInput extends React.Component {
     const scale = this.props.scale;
     return (
       <fieldset>
-        <legend>Введите градусы по шкале {scaleNames[scale]}:</legend>
+        <legend>Р’РІРµРґРёС‚Рµ РіСЂР°РґСѓСЃС‹ РїРѕ С€РєР°Р»Рµ {scaleNames[scale]}:</legend>
         <input value={temperature} onChange={this.handleChange} />
       </fieldset>
     );
@@ -784,29 +784,29 @@ function toFahrenheit(celsius) {
   return (celsius * 9) / 5 + 32;
 }
 function tryConvert(temperature, convert) {
-  //функция для обработки случая ввода не численных значений и округления результата
+  //С„СѓРЅРєС†РёСЏ РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё СЃР»СѓС‡Р°СЏ РІРІРѕРґР° РЅРµ С‡РёСЃР»РµРЅРЅС‹С… Р·РЅР°С‡РµРЅРёР№ Рё РѕРєСЂСѓРіР»РµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚Р°
   const input = parseFloat(temperature);
   if (Number.isNaN(input)) {
     return "";
   }
-  const output = convert(input); // задействуем коллбек
+  const output = convert(input); // Р·Р°РґРµР№СЃС‚РІСѓРµРј РєРѕР»Р»Р±РµРє
   const rounded = Math.round(output * 1000) / 1000;
   return rounded.toString();
 }
 function BoilingVerdict(props) {
-  //компонент для определения закипания
+  //РєРѕРјРїРѕРЅРµРЅС‚ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ Р·Р°РєРёРїР°РЅРёСЏ
   if (props.celsius >= 100) {
-    return <p>Вода закипит.</p>;
+    return <p>Р’РѕРґР° Р·Р°РєРёРїРёС‚.</p>;
   }
-  return <p>Вода не закипит.</p>;
+  return <p>Р’РѕРґР° РЅРµ Р·Р°РєРёРїРёС‚.</p>;
 }
 ```
 
 # Styling
 
-## Inline стили
+## Inline СЃС‚РёР»Рё
 
-```js
+```tsx
 class ToDoApp extends React.Component {
   render() {
     return (
@@ -825,27 +825,27 @@ class ToDoApp extends React.Component {
         <div>
           <Input onChange={this.handleChange} />
           <p>{this.state.error}</p>
-          <ToDoList value={this.state.display} /> 
-        </div> 
+          <ToDoList value={this.state.display} />В 
+        </div>В 
       </div>
     );
   }
 }
 ```
 
-## Объект стилей
+## РћР±СЉРµРєС‚ СЃС‚РёР»РµР№
 
-```jsx
+```tsx
 import React, { Component } from "react";
 import "./App.css";
 class App extends Component {
   render() {
     const divStyle = {
-      textAlign: "center", //можно и ‘text align’ : ‘center’ но в консоли вылезут ошибки по исправлению на camelCase
+      textAlign: "center", //РјРѕР¶РЅРѕ Рё вЂtext alignвЂ™ : вЂcenterвЂ™ РЅРѕ РІ РєРѕРЅСЃРѕР»Рё РІС‹Р»РµР·СѓС‚ РѕС€РёР±РєРё РїРѕ РёСЃРїСЂР°РІР»РµРЅРёСЋ РЅР° camelCase
     };
     return (
       <div _style={divStyle}>
-        <h1 _style={{ color: "blue", fontSize: "20px" }}>Hello</h1> 
+        <h1 _style={{ color: "blue", fontSize: "20px" }}>Hello</h1>В 
       </div>
     );
   }
@@ -853,10 +853,10 @@ class App extends Component {
 export default App;
 ```
 
-## Объект стилей в раздельных файлах
+## РћР±СЉРµРєС‚ СЃС‚РёР»РµР№ РІ СЂР°Р·РґРµР»СЊРЅС‹С… С„Р°Р№Р»Р°С…
 
-```js
-//styles.js
+```tsx
+//styles.ts
 const TodoComponent = {
   width: "300px",
   margin: "30px auto",
@@ -878,7 +878,7 @@ const ErrorMessage = {
 }
 
 const styles = {
-  //объединим в один объект для экспорта, в противном случае нужно будет все экспортировать отдельно
+  //РѕР±СЉРµРґРёРЅРёРј РІ РѕРґРёРЅ РѕР±СЉРµРєС‚ РґР»СЏ СЌРєСЃРїРѕСЂС‚Р°, РІ РїСЂРѕС‚РёРІРЅРѕРј СЃР»СѓС‡Р°Рµ РЅСѓР¶РЅРѕ Р±СѓРґРµС‚ РІСЃРµ СЌРєСЃРїРѕСЂС‚РёСЂРѕРІР°С‚СЊ РѕС‚РґРµР»СЊРЅРѕ
   TodoComponent: TodoComponent,
   Header: Header,
   ErrorMessage: ErrorMessage
@@ -887,7 +887,7 @@ const styles = {
 export styles
 ```
 
-```jsx
+```tsx
 // app.js;
 // Import the styles
 import { styles } from "./styles";
@@ -896,11 +896,11 @@ class ToDoApp extends React.Component {
   render() {
     return (
       <div _style={styles.TodoComponent}>
-        <h2 _style={styles.Header}>ToDo</h2> 
+        <h2 _style={styles.Header}>ToDo</h2>В 
         <div>
-          <Input onChange={this.handleChange} />   
+          <Input onChange={this.handleChange} />В  В 
           <p _style={styles.ErrorMessage}>{this.state.error}</p>
-          <ToDoList value={this.state.display} /> 
+          <ToDoList value={this.state.display} />В 
         </div>
       </div>
     );

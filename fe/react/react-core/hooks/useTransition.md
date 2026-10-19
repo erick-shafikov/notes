@@ -1,6 +1,6 @@
 ## useTransition
 
-```js
+```tsx
 const [isPending, startTransition] = useTransition();
 ```
 
@@ -9,18 +9,18 @@ const [isPending, startTransition] = useTransition();
 useTransition – позволяет обновить state без блокировки UI, устанавливает сеттеру состояния, преданный в callback, более низкий приоритет, при стадии рендера
 isPending – флаг, который показывает находится ли в ожидании переход, startTransition – запуск перехода по смене состояния
 
-```jsx
+```tsx
 import { useState, useTransition } from "react";
 import TabButton from "./TabButton.js";
 import AboutTab from "./AboutTab.js";
 import PostsTab from "./PostsTab.js";
 import ContactTab from "./ContactTab.js";
 
-export default function TabContainer() {
+export default function TabContainer(): JSX.Element {
   const [isPending, startTransition] = useTransition();
-  const [tab, setTab] = useState("about");
+  const [tab, setTab] = useState<string>("about");
 
-  function selectTab(nextTab) {
+  function selectTab(nextTab: string): void {
     startTransition(() => {
       setTab(nextTab);
     });
@@ -51,10 +51,10 @@ export default function TabContainer() {
 
 Могут быть использованы и асинхронные функции в качестве callback
 
-```js
-function UpdateName({}) {
-  const [name, setName] = useState("");
-  const [error, setError] = useState(null);
+```tsx
+function UpdateName(): JSX.Element {
+  const [name, setName] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = () => {

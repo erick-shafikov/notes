@@ -2,11 +2,11 @@
 
 useSyncExternalStore(cb, [dep])
 
-```jsx
+```tsx
 import { useSyncExternalStore } from "react";
 import { todosStore } from "./todoStore.js";
 
-export default function TodosApp() {
+export default function TodosApp(): JSX.Element {
   const todos = useSyncExternalStore(
     todosStore.subscribe,
     todosStore.getSnapshot
@@ -25,19 +25,19 @@ export default function TodosApp() {
 }
 ```
 
-```js
+```tsx
 import { useSyncExternalStore } from "react";
 
-export default function ChatIndicator() {
+export default function ChatIndicator(): JSX.Element {
   const isOnline = useSyncExternalStore(subscribe, getSnapshot);
   return <h1>{isOnline ? "✅ Online" : "❌ Disconnected"}</h1>;
 }
 
-function getSnapshot() {
+function getSnapshot(): boolean {
   return navigator.onLine;
 }
 
-function subscribe(callback) {
+function subscribe(callback: () => void): () => void {
   window.addEventListener("online", callback);
   window.addEventListener("offline", callback);
   return () => {

@@ -2,15 +2,19 @@
 
 Условный рендеринг
 
-```jsx
-function UserGreeting(props) {
+```tsx
+function UserGreeting(): JSX.Element {
   return <h1>Welcome back!</h1>;
 }
-function GuestGreeting(props) {
+function GuestGreeting(): JSX.Element {
   return <h1>Please sign up.</h1>;
 }
-function Greeting(props) {
-  const isLoggedIn = props.isLoggedIn;
+
+interface GreetingProps {
+  isLoggedIn: boolean;
+}
+
+function Greeting({ isLoggedIn }: GreetingProps): JSX.Element {
   if (isLoggedIn) {
     return <UserGreeting />;
   }

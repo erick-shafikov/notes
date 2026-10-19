@@ -13,14 +13,14 @@ const [state, formAction, isPending] = useActionState(fn, initialState, permalin
 
 Применение отображать результат отправки формы
 
-```jsx
+```tsx
 import { useActionState } from "react";
 
-async function increment(previousState, formData) {
+async function increment(previousState: number, formData: FormData): Promise<number> {
   return previousState + 1;
 }
 
-function StatefulForm({}) {
+function StatefulForm(): JSX.Element {
   const [state, formAction] = useActionState(increment, 0);
   return (
     <form>
@@ -33,11 +33,16 @@ function StatefulForm({}) {
 
 с асинхронным состоянием
 
-```js
-function ChangeName({ name, setName }) {
+```tsx
+interface ChangeNameProps {
+  name: string;
+  setName: (name: string) => void;
+}
+
+function ChangeName({ name, setName }: ChangeNameProps): JSX.Element {
   const [error, submitAction, isPending] = useActionState(
-    async (previousState, formData) => {
-      const error = await updateName(formData.get("name"));
+    async (previousState: string | null, formData: FormData): Promise<string | null> => {
+      const error = await updateName(formData.get("name") as string);
       if (error) {
         return error;
       }

@@ -2,7 +2,7 @@
 
 Позволяет вынести логику из UI компонента
 
-```js
+```tsx
 const [state, dispatch] = useReducer(reducer, initialArg, init?)
 //reducer - функция, которая показывает как будет меняться состояние
 //initialArg - изначальное состояние (если инициировать функцией, то будет вызывать перерендер)
@@ -15,10 +15,19 @@ const [state, dispatch] = useReducer(reducer, initialArg, init?)
 - При инициализации вызывается два раза в строгом режиме
 - нельзя мутировать состояние
 
-```jsx
+```tsx
 import { useReducer } from "react";
 
-function reducer(state, action) {
+interface State {
+  name: string;
+  age: number;
+}
+
+type Action =
+  | { type: "incremented_age" }
+  | { type: "changed_name"; nextName: string };
+
+function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "incremented_age": {
       return {
@@ -33,19 +42,18 @@ function reducer(state, action) {
       };
     }
   }
-  throw Error("Unknown action: " + action.type);
 }
 
-const initialState = { name: "Taylor", age: 42 };
+const initialState: State = { name: "Taylor", age: 42 };
 
-export default function Form() {
+export default function Form(): JSX.Element {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  function handleButtonClick() {
+  function handleButtonClick(): void {
     dispatch({ type: "incremented_age" });
   }
 
-  function handleInputChange(e) {
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>): void {
     dispatch({
       type: "changed_name",
       nextName: e.target.value,
@@ -66,8 +74,8 @@ export default function Form() {
 
 вычисление следующего состояния в текущем
 
-```js
-const action = { type: "incremented_age" };
+```tsx
+const action: Action = { type: "incremented_age" };
 dispatch(action);
 
 const nextState = reducer(state, action);
@@ -88,19 +96,27 @@ console.log(nextState); // { age: 43 }
 - Потеря чистоты: Вы не контролируете, что именно попадёт в начальное состояние при каждом новом его получении;
 - Скрытые баги: Возникают “плавающие” баги, которые сложно отследить — особенно в больших командах и при автоматизированных тестах.
 
-```js
-const getInitialFormState = () => ({
+```tsx
+interface FormState {
+  text: string;
+  error: string;
+  touched: boolean;
+}
+
+const getInitialFormState = (): FormState => ({
   text: "",
   error: "",
   touched: false,
 });
 
-const formReducer = (state, action) => {
+const formReducer = (state: FormState, action: Action): FormState => {
   // Логика редьюсера
+  return state;
 };
 
-const Component = () => {
+const Component = (): JSX.Element => {
   const [state, dispatch] = useReducer(formReducer, getInitialFormState());
   // Остальной код
+  return <div />;
 };
 ```

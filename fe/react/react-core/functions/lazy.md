@@ -2,7 +2,7 @@
 
 Будет работать только в паре с loader
 
-```jsx
+```tsx
 let routes = createRoutesFromElements(
   <Route path="/" element={<Layout />}>
     <Route path="a" lazy={() => import("./a")} />
@@ -10,11 +10,12 @@ let routes = createRoutesFromElements(
   </Route>
 );
 
-export async function loader({ request }) {
+export async function loader({ request }: { request: Request }) {
   let data = await fetchData(request);
   return json(data);
 }
-export function Component() {
+export function Component(): JSX.Element {
   let data = useLoaderData();
+  return <div />;
 }
 ```

@@ -10,15 +10,21 @@
 - если нужно передать компонент в качестве дочернего
 
 ```tsx
-function TodoList({ todos, tab, theme }) {
+interface TodoListProps {
+  todos: Todo[];
+  tab: string;
+  theme: string;
+}
+
+function TodoList({ todos, tab, theme }: TodoListProps): JSX.Element {
   const visibleTodos = useMemo(() => filterTodos(todos, tab), [todos, tab]);
   const children = useMemo(() => <List items={visibleTodos} />, [visibleTodos]);
   return <div className={theme}>{children}</div>;
 }
 ```
 
-```jsx
-function complexCompute(num) {
+```tsx
+function complexCompute(num: number): number {
   //функция дает задержку
   let i = 0;
   while (i < 1000000000) {
@@ -26,9 +32,9 @@ function complexCompute(num) {
   }
   return num * 2;
 }
-function UseMemoHook() {
-  const [number, setNumber] = useState(42);
-  const [colored, setColored] = useState(false); //функция, которая не имеет отношения к тяжелым вычислениям
+function UseMemoHook(): JSX.Element {
+  const [number, setNumber] = useState<number>(42);
+  const [colored, setColored] = useState<boolean>(false); //функция, которая не имеет отношения к тяжелым вычислениям
   const styles = {
     color: colored ? "darkred" : "black",
   };
@@ -83,8 +89,8 @@ function Dropdown({ allItems, text }) {
 
 ## Проблема ссылочного типа
 
-```jsx
-function complexCompute(num) {
+```tsx
+function complexCompute(num: number): number {
   //функция дает задержку
   let i = 0;
   while (i < 1000000000) {
@@ -92,9 +98,9 @@ function complexCompute(num) {
   }
   return num * 2;
 }
-function UseMemoHook() {
-  const [number, setNumber] = useState(42);
-  const [colored, setColored] = useState(false);
+function UseMemoHook(): JSX.Element {
+  const [number, setNumber] = useState<number>(42);
+  const [colored, setColored] = useState<boolean>(false);
   const styles = useMemo(
     () => ({
       color: colored ? "darkred" : "black", //решаем проблему лишнего лога и создания нового объекта

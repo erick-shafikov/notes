@@ -1,11 +1,11 @@
 flashSync позволяет немедленно обновить DOM
 
-```jsx
+```tsx
 import { useState, useEffect } from "react";
 import { flushSync } from "react-dom";
 
-export default function PrintApp() {
-  const [isPrinting, setIsPrinting] = useState(false);
+export default function PrintApp(): JSX.Element {
+  const [isPrinting, setIsPrinting] = useState<boolean>(false);
 
   useEffect(() => {
     // вызовется перед печатью и обновит состояние

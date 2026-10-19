@@ -4,15 +4,15 @@
 
 Для отладки компонентов
 
-```js
+```tsx
 function onRender(
-  id,
-  phase,
-  actualDuration,
-  baseDuration,
-  startTime,
-  commitTime
-) {
+  id: string,
+  phase: "mount" | "update",
+  actualDuration: number,
+  baseDuration: number,
+  startTime: number,
+  commitTime: number
+): void {
   // Aggregate or log render timings...
 }
 <Profiler id="App" onRender={onRender}>
