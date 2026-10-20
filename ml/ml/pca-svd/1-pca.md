@@ -142,10 +142,12 @@ X = np.random.multivariate_normal(mean, V, N)
 # X матрицу Грама для признаков (результирующий размер n_feature x n_feature)
 F = 1 / N * X.T @ X
 # вычислите собственные числа L и собственные векторы W
-L, W = np.linalg.eig(F)
-# сортировка собственных векторов
-W = sorted(zip(L, W.T), key=lambda lx: lx[0], reverse=True)
-W = np.array([w[1] for w in W])
+# eigh — для симметричных матриц: гарантирует вещественные результаты
+L, W = np.linalg.eigh(F)
+# сортировка: собственные векторы — столбцы W, W.T даёт их строками
+sorted_pairs = sorted(zip(L, W.T), key=lambda lx: lx[0], reverse=True)
+L_sorted = np.array([p[0] for p in sorted_pairs])  # eigenvalue в том же порядке, что и строки W
+W = np.array([p[1] for p in sorted_pairs])
 # вычисление X в пространстве всех векторов W (1000, 5) -> (1000, 5)
 G = X @ W.T
 
@@ -157,7 +159,7 @@ G_m = X @ W_m.T      # (1000, m) — проекции в сжатом прост
 print(f"Исходная размерность: {X.shape}")    # (1000, 5)
 print(f"После PCA (m={m}):    {G_m.shape}")  # (1000, 2)
 
-# доля объяснённой дисперсии
-explained = L[:m].sum() / L.sum()
+# доля объяснённой дисперсии — используем L_sorted, а не исходный L
+explained = L_sorted[:m].sum() / L_sorted.sum()
 print(f"Объяснённая дисперсия: {explained:.1%}")
 ```

@@ -61,18 +61,21 @@ for _ in range(100):
     i, j = np.random.randint(0, n_total), np.random.randint(0, n_features)
     table[i, j] = np.random.randint(1, 10)
 
-# здесь продолжайте программу
 N = len(table)
 F = 1 / N * table.T @ table
-L, W = np.linalg.eig(F)
+# eigh — для симметричных матриц: гарантирует вещественные результаты
+# возвращает L по возрастанию, W[:, i] — i-й собственный вектор
+L, W = np.linalg.eigh(F)
 
-WW = sorted(zip(L, W), key=lambda lx: lx[0], reverse=False)
+# W.T даёт собственные векторы как строки — правильно для zip
+WW = sorted(zip(L, W.T), key=lambda lx: lx[0], reverse=False)
+L_sorted = np.array([w[0] for w in WW])
 WW = np.array([w[1] for w in WW])
 
 # в новом базисе
 data_x = table @ WW.T
-# фильтрация по массиву L
-data_x = data_x[:, L >= 0.01]
+# фильтрация по отсортированным собственным значениям
+data_x = data_x[:, L_sorted >= 0.01]
 ```
 
 ```python
@@ -92,22 +95,24 @@ Y = coord_y
 X_train = X[::2]  # обучающая выборка (входы)
 Y_train = Y[::2]  # обучающая выборка (целевые значения)
 
-# здесь продолжайте программу
 N = len(X_train)
 F = 1 / N * X_train.T @ X_train
-L, W = np.linalg.eig(F)
+# eigh — для симметричных матриц; W[:, i] — i-й собственный вектор
+L, W = np.linalg.eigh(F)
 
-WW = sorted(zip(L, W), key=lambda lx: lx[0], reverse=False)
+# W.T даёт собственные векторы как строки — правильно для zip
+# reverse=True: первыми идут компоненты с наибольшей дисперсией
+WW = sorted(zip(L, W.T), key=lambda lx: lx[0], reverse=True)
 WW = np.array([w[1] for w in WW])
 
-# вычислите новые признаки G матрицы X в пространстве собственных векторов матрицы WW
+# новые признаки G: проекция X на главные компоненты
 G = X @ WW.T
-# Оставьте в матрице G только первые 7 признаков
+# оставляем 7 наиболее информативных компонент (с наибольшими eigenvalue)
 G = G[:, :7]
-# Сформируйте матрицу XX_train из образов с новыми признаками G командой:
+# обучающая выборка в новом пространстве
 XX_train = G[::2]
-# На основе выборки XX_train, Y_train вычислите вектор параметров w
+# вектор параметров через нормальное уравнение
 w = np.linalg.inv(XX_train.T @ XX_train) @ XX_train.T @ Y_train
-# Выполните восстановление функции func используя матрицу G и вектор параметров w
+# предсказание на всей выборке
 predict = G @ w
 ```
