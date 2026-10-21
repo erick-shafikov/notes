@@ -28,6 +28,15 @@ $$X \approx U_k \Sigma_k V_k^T$$
 
 Latent Semantic Analysis — применяется к матрице «документ × слово». Усечённый SVD сжимает её до $k$ латентных тем, при этом семантически близкие слова и документы оказываются рядом в новом пространстве.
 
+**TF-IDF** — способ превратить текст в числовой вектор, учитывая не только частоту слова в документе, но и его редкость во всей коллекции. Состоит из двух множителей:
+
+$$\text{TF-IDF}(t, d) = \underbrace{\frac{\text{count}(t,d)}{|d|}}_{\text{TF}} \cdot \underbrace{\log\frac{N}{df(t)}}_{\text{IDF}}$$
+
+- **TF** (Term Frequency) — как часто слово $t$ встречается в документе $d$
+- **IDF** (Inverse Document Frequency) — логарифм отношения числа всех документов $N$ к числу документов $df(t)$, содержащих слово $t$; штрафует слова, встречающиеся везде
+
+Слова «и», «в», «на» есть во всех документах → $df(t) \approx N$ → $\text{IDF} \approx 0$ → вес почти нулевой. Редкое тематическое слово «питон» → большой IDF → высокий вес в нужных документах. Результат — каждый документ превращается в вектор весов по всему словарю; семантически похожие документы имеют похожие векторы, что и эксплуатирует SVD.
+
 ```python
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -40,12 +49,18 @@ corpus = [
     "программирование на питоне популярно",
 ]
 
+# строит матрицу документ×слово с TF-IDF весами: частые во всём корпусе слова штрафуются
 tfidf = TfidfVectorizer()
-X = tfidf.fit_transform(corpus)  # (5, n_words), разреженная
+# X — разреженная матрица (n_docs, n_unique_words); fit запоминает словарь, transform строит матрицу
+X = tfidf.fit_transform(corpus)  # (5, n_words)
 
+# усечённый SVD — работает со sparse матрицами напрямую, в отличие от PCA
+# n_components=2: оставляем 2 латентные темы
 svd = TruncatedSVD(n_components=2, random_state=42)
-X_reduced = svd.fit_transform(X)  # (5, 2) — каждый документ в 2D
+# fit вычисляет U, Σ, V^T; transform проецирует X → U_k Σ_k
+X_reduced = svd.fit_transform(X)  # (5, 2) — каждый документ в 2D пространстве тем
 
+# доля дисперсии каждой из k компонент; сумма ≤ 1
 print("Объяснённая дисперсия:", svd.explained_variance_ratio_.round(3))
 print("Форма после сжатия:", X_reduced.shape)
 ```
@@ -61,7 +76,7 @@ $$R \approx U_k \Sigma_k V_k^T$$
 ```python
 import numpy as np
 
-# Матрица оценок (0 = нет оценки)
+# строки — пользователи, столбцы — фильмы; 0 означает «нет оценки»
 R = np.array([
     [5, 3, 0, 1],
     [4, 0, 4, 1],
@@ -69,14 +84,19 @@ R = np.array([
     [0, 0, 5, 4],
 ])
 
+# full_matrices=False — «тонкий» SVD: U (m×r), sigma (r,), Vt (r×n), r = min(m,n)
+# полный SVD дал бы квадратные U и V, но лишние столбцы не нужны
 U, sigma, Vt = np.linalg.svd(R, full_matrices=False)
 
+# оставляем k=2 наибольших сингулярных значения — 2 латентных фактора (жанра)
 k = 2
+# np.diag(sigma[:k]) переводит вектор k значений в диагональную матрицу (k×k)
+# U[:, :k] — профили пользователей (m×k), Vt[:k, :] — профили фильмов (k×n)
 R_approx = U[:, :k] @ np.diag(sigma[:k]) @ Vt[:k, :]
 
 print("Восстановленная матрица (предсказания):")
 print(R_approx.round(2))
-# Там где было 0 — теперь есть предсказание
+# там где было 0 — теперь есть предсказание на основе латентных факторов
 ```
 
 ## Сжатие изображений
@@ -88,19 +108,32 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_sample_image
 
+# load_sample_image — встроенный пример sklearn, RGB массив (H, W, 3) dtype=uint8
 img = load_sample_image("china.jpg")
-gray = img.mean(axis=2)  # (427, 640)
+# усредняем три канала в один: (427, 640, 3) → (427, 640) — оттенки серого
+gray = img.mean(axis=2)
 
+# full_matrices=False: U (427×427), sigma (427,), Vt (427×640)
 U, sigma, Vt = np.linalg.svd(gray, full_matrices=False)
 
 for k in [5, 20, 50]:
+    # восстанавливаем приближение ранга k: U_k @ diag(σ_k) @ V_k^T
     compressed = U[:, :k] @ np.diag(sigma[:k]) @ Vt[:k, :]
+    # число хранимых чисел: k столбцов U + k сингулярных значений + k строк Vt
     ratio = k * (gray.shape[0] + gray.shape[1] + 1) / gray.size
     print(f"k={k}: коэф. сжатия {ratio:.2%}")
 
 # k=5:  0.96%  (сильное сжатие, низкое качество)
 # k=20: 3.84%  (грубые контуры)
 # k=50: 9.61%  (читаемое изображение)
+
+# визуализация (см. matplotlib/1-basics.md → plt.imshow)
+fig, axes = plt.subplots(1, 4, figsize=(16, 4))
+axes[0].imshow(gray, cmap="gray"); axes[0].set_title("original")
+for ax, k in zip(axes[1:], [5, 20, 50]):
+    rec = U[:, :k] @ np.diag(sigma[:k]) @ Vt[:k, :]
+    ax.imshow(rec, cmap="gray"); ax.set_title(f"k={k}")
+plt.tight_layout(); plt.show()
 ```
 
 ## Регуляризация через псевдообратную
@@ -110,14 +143,3 @@ for k in [5, 20, 50]:
 $$w^* = X^+ y = V \Sigma^+ U^T y = \sum_{j=1}^{r} \frac{1}{\sigma_j} v_j (u_j^T y)$$
 
 Малые $\sigma_j$ дают большой вклад в $1/\sigma_j$ — решение нестабильно. Усечённый вариант (оставляем только $\sigma_j > \varepsilon$) эквивалентен регуляризации.
-
-## Сравнение с PCA
-
-| | PCA | SVD |
-|-|-----|-----|
-| Вход | центрированная $X$ | любая $X$ |
-| Что вычисляет | собственные векторы $X^T X$ | $U$, $\Sigma$, $V^T$ напрямую |
-| Применение | числовые признаки | тексты, изображения, разреженные матрицы |
-| Реализация | через SVD внутри | `TruncatedSVD`, `np.linalg.svd` |
-
-На практике PCA в sklearn реализован через SVD — это численно устойчивее, чем явное вычисление $X^T X$.
