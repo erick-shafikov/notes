@@ -24,116 +24,28 @@ $$X \approx U_k \Sigma_k V_k^T$$
 
 где $U_k \in \mathbb{R}^{m \times k}$, $\Sigma_k \in \mathbb{R}^{k \times k}$, $V_k \in \mathbb{R}^{n \times k}$. Это наилучшее приближение ранга $k$ в смысле нормы Фробениуса.
 
-## Снижение размерности (LSA)
+## Снижение размерности
 
-Latent Semantic Analysis — применяется к матрице «документ × слово». Усечённый SVD сжимает её до $k$ латентных тем, при этом семантически близкие слова и документы оказываются рядом в новом пространстве.
-
-**TF-IDF** — способ превратить текст в числовой вектор, учитывая не только частоту слова в документе, но и его редкость во всей коллекции. Состоит из двух множителей:
-
-$$\text{TF-IDF}(t, d) = \underbrace{\frac{\text{count}(t,d)}{|d|}}_{\text{TF}} \cdot \underbrace{\log\frac{N}{df(t)}}_{\text{IDF}}$$
-
-- **TF** (Term Frequency) — как часто слово $t$ встречается в документе $d$
-- **IDF** (Inverse Document Frequency) — логарифм отношения числа всех документов $N$ к числу документов $df(t)$, содержащих слово $t$; штрафует слова, встречающиеся везде
-
-Слова «и», «в», «на» есть во всех документах → $df(t) \approx N$ → $\text{IDF} \approx 0$ → вес почти нулевой. Редкое тематическое слово «питон» → большой IDF → высокий вес в нужных документах. Результат — каждый документ превращается в вектор весов по всему словарю; семантически похожие документы имеют похожие векторы, что и эксплуатирует SVD.
-
-```python
-from sklearn.decomposition import TruncatedSVD
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-corpus = [
-    "кот сидит на коврике",
-    "собака лежит на полу",
-    "кот и собака друзья",
-    "питон — язык программирования",
-    "программирование на питоне популярно",
-]
-
-# строит матрицу документ×слово с TF-IDF весами: частые во всём корпусе слова штрафуются
-tfidf = TfidfVectorizer()
-# X — разреженная матрица (n_docs, n_unique_words); fit запоминает словарь, transform строит матрицу
-X = tfidf.fit_transform(corpus)  # (5, n_words)
-
-# усечённый SVD — работает со sparse матрицами напрямую, в отличие от PCA
-# n_components=2: оставляем 2 латентные темы
-svd = TruncatedSVD(n_components=2, random_state=42)
-# fit вычисляет U, Σ, V^T; transform проецирует X → U_k Σ_k
-X_reduced = svd.fit_transform(X)  # (5, 2) — каждый документ в 2D пространстве тем
-
-# доля дисперсии каждой из k компонент; сумма ≤ 1
-print("Объяснённая дисперсия:", svd.explained_variance_ratio_.round(3))
-print("Форма после сжатия:", X_reduced.shape)
-```
-
-## Рекомендательные системы (матричная факторизация)
-
-Матрица оценок пользователей $R \in \mathbb{R}^{m \times n}$ (строки — пользователи, столбцы — фильмы) разреженная: большинство оценок отсутствует. SVD заполняет пропуски через латентные факторы:
-
-$$R \approx U_k \Sigma_k V_k^T$$
-
-Предсказание оценки пользователя $i$ для фильма $j$: строка $i$ из $U_k \Sigma_k$ умножается на столбец $j$ из $V_k^T$.
+Синтетические данные фактически двумерные ($l=100$, $n=5$, но скрытый ранг равен 2) — как если бы пять признаков порождались двумя латентными факторами плюс шум. Усечённый SVD с $k=2$ восстанавливает эту структуру.
 
 ```python
 import numpy as np
 
-# строки — пользователи, столбцы — фильмы; 0 означает «нет оценки»
-R = np.array([
-    [5, 3, 0, 1],
-    [4, 0, 4, 1],
-    [1, 1, 0, 5],
-    [0, 0, 5, 4],
-])
+np.random.seed(0)
+l, n = 100, 5
+# rank-2 матрица + небольшой шум: 5 признаков, но реально 2 измерения
+X = np.random.randn(l, 2) @ np.random.randn(2, n) + 0.05 * np.random.randn(l, n)
 
-# full_matrices=False — «тонкий» SVD: U (m×r), sigma (r,), Vt (r×n), r = min(m,n)
-# полный SVD дал бы квадратные U и V, но лишние столбцы не нужны
-U, sigma, Vt = np.linalg.svd(R, full_matrices=False)
+# full_matrices=False — «тонкий» SVD: U (l×r), sigma (r,), Vt (r×n), r = min(l,n)
+U, sigma, Vt = np.linalg.svd(X, full_matrices=False)
+print("Сингулярные значения:", sigma.round(2))
+# первые два значительно больше остальных — данные ~2-мерные
 
-# оставляем k=2 наибольших сингулярных значения — 2 латентных фактора (жанра)
 k = 2
-# np.diag(sigma[:k]) переводит вектор k значений в диагональную матрицу (k×k)
-# U[:, :k] — профили пользователей (m×k), Vt[:k, :] — профили фильмов (k×n)
-R_approx = U[:, :k] @ np.diag(sigma[:k]) @ Vt[:k, :]
-
-print("Восстановленная матрица (предсказания):")
-print(R_approx.round(2))
-# там где было 0 — теперь есть предсказание на основе латентных факторов
-```
-
-## Сжатие изображений
-
-Изображение в оттенках серого — матрица пикселей. Усечённый SVD хранит только $k$ компонент вместо всех пикселей:
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.datasets import load_sample_image
-
-# load_sample_image — встроенный пример sklearn, RGB массив (H, W, 3) dtype=uint8
-img = load_sample_image("china.jpg")
-# усредняем три канала в один: (427, 640, 3) → (427, 640) — оттенки серого
-gray = img.mean(axis=2)
-
-# full_matrices=False: U (427×427), sigma (427,), Vt (427×640)
-U, sigma, Vt = np.linalg.svd(gray, full_matrices=False)
-
-for k in [5, 20, 50]:
-    # восстанавливаем приближение ранга k: U_k @ diag(σ_k) @ V_k^T
-    compressed = U[:, :k] @ np.diag(sigma[:k]) @ Vt[:k, :]
-    # число хранимых чисел: k столбцов U + k сингулярных значений + k строк Vt
-    ratio = k * (gray.shape[0] + gray.shape[1] + 1) / gray.size
-    print(f"k={k}: коэф. сжатия {ratio:.2%}")
-
-# k=5:  0.96%  (сильное сжатие, низкое качество)
-# k=20: 3.84%  (грубые контуры)
-# k=50: 9.61%  (читаемое изображение)
-
-# визуализация (см. matplotlib/1-basics.md → plt.imshow)
-fig, axes = plt.subplots(1, 4, figsize=(16, 4))
-axes[0].imshow(gray, cmap="gray"); axes[0].set_title("original")
-for ax, k in zip(axes[1:], [5, 20, 50]):
-    rec = U[:, :k] @ np.diag(sigma[:k]) @ Vt[:k, :]
-    ax.imshow(rec, cmap="gray"); ax.set_title(f"k={k}")
-plt.tight_layout(); plt.show()
+X_k = U[:, :k] @ np.diag(sigma[:k]) @ Vt[:k, :]
+# относительная ошибка восстановления по норме Фробениуса
+err = np.linalg.norm(X - X_k, 'fro') / np.linalg.norm(X, 'fro')
+print(f"Относительная ошибка при k={k}: {err:.3f}")
 ```
 
 ## Регуляризация через псевдообратную
@@ -143,3 +55,35 @@ plt.tight_layout(); plt.show()
 $$w^* = X^+ y = V \Sigma^+ U^T y = \sum_{j=1}^{r} \frac{1}{\sigma_j} v_j (u_j^T y)$$
 
 Малые $\sigma_j$ дают большой вклад в $1/\sigma_j$ — решение нестабильно. Усечённый вариант (оставляем только $\sigma_j > \varepsilon$) эквивалентен регуляризации.
+
+```python
+import numpy as np
+
+
+def func(x):
+    return 0.5 * x + 0.2 * x ** 2 - 0.05 * x ** 3 + 0.2 * np.sin(4 * x) - 2.5
+
+
+np.random.seed(0)
+coord_x = np.arange(-4.0, 6.0, 0.1)
+coord_y = func(coord_x)
+
+K = 8  # полином степени K-1
+X = np.array([[x ** i for i in range(K)] for x in coord_x])
+X_train, y_train = X[::2], coord_y[::2]
+
+U, sigma, Vt = np.linalg.svd(X_train, full_matrices=False)
+print("Сингулярные значения:", sigma.round(2))
+
+# полная псевдообратная: w* = V Σ^{-1} U^T y
+w_full = Vt.T @ np.diag(1 / sigma) @ U.T @ y_train
+mse_full = np.mean((X @ w_full - coord_y) ** 2)
+print(f"MSE (полная псевдообратная): {mse_full:.4f}")
+
+# усечённая: отбрасываем σ_j < ε — стабилизирует при почти-нулевых сингулярных значениях
+eps = 1e-3
+sigma_inv = np.where(sigma > eps, 1 / sigma, 0.0)
+w_trunc = Vt.T @ np.diag(sigma_inv) @ U.T @ y_train
+mse_trunc = np.mean((X @ w_trunc - coord_y) ** 2)
+print(f"MSE (усечённая, eps={eps}):  {mse_trunc:.4f}")
+```

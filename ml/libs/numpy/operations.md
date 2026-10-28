@@ -383,3 +383,13 @@ indices = np.where(x > 0)
 print(indices)     # (array([0, 2]),)
 print(x[indices])  # [10 20]
 ```
+
+Поэлементная замена: малые сингулярные значения → 0 вместо 1/σ (SVD-регуляризация):
+
+```python
+sigma = np.array([5.0, 0.8, 0.0003])
+eps = 1e-2
+sigma_inv = np.where(sigma > eps, 1 / sigma, 0.0)
+
+print(sigma_inv)  # [0.2   1.25  0.   ]
+```
