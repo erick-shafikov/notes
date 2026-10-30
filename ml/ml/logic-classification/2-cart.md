@@ -63,6 +63,11 @@ plt.show()
 - пример для бинарной классификации
 
 ```python
+# Условие:
+# По заданной X,Y двух классов {0,1} обучить DecisionTreeClassifier с настройками из заготовки.
+# Метки обучающих объектов сохранить в predict, accuracy на этой же выборке — в Q. Вывод не
+# нужен.
+
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 

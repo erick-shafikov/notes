@@ -201,6 +201,11 @@ $$a(x) = \text{sgn}\!\left(\sum_{i=1}^l \lambda_i\, y_i\, \langle x,\, x_i\rangl
 - SVM для линейной модели w0 + w1 _ x1 + w2 _ x2 = y
 
 ```python
+# Условие:
+# Обучить svm.SVC(kernel="linear") именно на data_x,data_y. Получить
+# w=[intercept_[0],*coef_[0]], опорные векторы v_support и число ошибок Q по знаку w·[1,x1,x2]
+# на обучающей выборке. Сохранить все три результата; не печатать.
+
 import numpy as np
 from sklearn import svm
 
@@ -241,12 +246,17 @@ w = [w0, w12[0], w12[1]]
 
 # вместо ручного построения модели можно использовать clf.predict(x_train)
 Q = np.sum(np.sign(x_train @ w) != y_train)
-
 ```
 
 - для нескольких гиперплоскостей
 
 ```python
+# Условие:
+# По заданному разбиению трёх классов {0,1,2} обучить SVC с линейным ядром. Из coef_ и
+# intercept_ сформировать векторы коэффициентов трёх гиперплоскостей w1,w2,w3 со свободным
+# членом первым. Классы x_test предсказывать методом predict; число несовпадений с y_test
+# сохранить в Q. Не печатать.
+
 import numpy as np
 from sklearn import svm
 from sklearn.model_selection import train_test_split
@@ -281,12 +291,12 @@ x_train, x_test, y_train, y_test = train_test_split(data_x, data_y, random_state
 
 # здесь продолжайте программу
 clf = svm.SVC(kernel='linear')
-clf.fit(x_test, y_test)
+clf.fit(x_train, y_train)
 
 # формируем w для каждой (как и в предыдущих)
 w1, w2, w3 = [[clf.intercept_[i], *clf.coef_[i]] for i in range(3)]
 
-# Прогноз того или иного класса для образа выполняется по многоклассовой стратегии "один против остальных" (one-vs-rest).
+# SVC классифицирует по голосам попарных моделей (one-vs-one).
 # Поэтому прогнозы классов для выборки x_test следует делать с помощью метода predict объекта clf:
 predict = clf.predict(x_test)
 

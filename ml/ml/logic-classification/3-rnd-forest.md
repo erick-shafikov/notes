@@ -85,6 +85,11 @@ $$a(x) = \frac{1}{T}\sum_{t=1}^{T} a_t(x) \quad \text{(регрессия)}, \qq
 - задача по восстановлению с помощью bootstrap метода RandomForestRegressor
 
 ```python
+# Условие:
+# На сетке [-3,3] с шагом 0.1 приблизить f(x)=0.3*x+cos(2*x)+0.2*sin(7*x) с помощью
+# RandomForestRegressor. Число деревьев и max_depth взять из заготовки. Обучить на x,y,
+# предсказать всю x; сохранить pr_y и MSE в Q. Без вывода.
+
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 
@@ -104,6 +109,11 @@ Q = np.square(pr_y - y).mean()
 - задачи бинарной классификации
 
 ```python
+# Условие:
+# На заданном разбиении данных трёх классов {0,1,2} обучить RandomForestClassifier с настройками
+# заготовки. Предсказания тестовых объектов сохранить в predict, accuracy на тесте — в Q. Ничего
+# не печатать.
+
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -144,5 +154,4 @@ clf.fit(x_train, y_train)
 
 predict = clf.predict(x_test)
 Q = np.mean(predict == y_test)
-
 ```

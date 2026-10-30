@@ -90,6 +90,12 @@ L2 регуляризация уменьшает значения весов (д
 ## l2 + sgd
 
 ```python
+# Условие:
+# Приблизить f(x)=0.5*x+0.2*x**2-0.05*x**3+0.2*sin(4*x)-2.5 на [-4,6] полиномом с пятью
+# коэффициентами. Обучить мини-батчевым SGD с квадратичной потерей и L2-штрафом, не штрафуя w0.
+# Сохранить w, полный MSE в Q и скользящую оценку риска Qe. Параметры — из заготовки.
+# Дополнительно сравнить с обучением без регуляризации и построить графики.
+
 import numpy as np
 
 
@@ -131,20 +137,19 @@ Qe = loss(w, coord_x, coord_y).mean()  # начальное значение с�
 np.random.seed(0)  # генерация одинаковых последовательностей псевдослучайных чисел
 
 for _ in range(n_iter):
-    k = np.random.randint(0, sz - batch_size - 1)
+    k = np.random.randint(0, sz - batch_size + 1)
     batch = np.arange(k, k + batch_size)
     batch_x = coord_x[batch]
     batch_y = coord_y[batch]
 
-    Qe = lm * loss(w, batch_x, batch_y).mean() + (1 - lm) * Qe
 
     w1 = np.array(w)
     w1[0] = 0
 
     w -= eta * (dL(w, batch_x, batch_y).mean(axis=1) + lm_l2 * w1)
+    Qe = lm * loss(w, batch_x, batch_y).mean() + (1 - lm) * Qe
 
 Q = loss(w, coord_x, coord_y).mean()
-
 ```
 
 > **`w1[0] = 0`** — свободный член не регуляризуется, см. выше.

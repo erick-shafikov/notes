@@ -99,6 +99,12 @@ $p$ — «терпение» (patience): сколько итераций без 
 - переобучаемость модели
 
 ```python
+# Условие:
+# Аппроксимировать f(x)=0.5*x**2-0.1/exp(-x)+0.5*cos(2*x)-2 на [-5,5] моделью с признаками
+# [1,x,x**2,cos(2*x),sin(2*x)]. На каждом шаге SGD выбирать один случайный объект, обновлять
+# веса и Qe=lambda*L_k+(1-lambda)*Qe. Сохранить w, итоговый MSE в Q и последнее Qe. Параметры
+# цикла заданы в заготовке; вывод не нужен.
+
 import numpy as np
 
 
@@ -133,7 +139,7 @@ np.random.seed(0)  # генерация одинаковых последова�
 
 # Стохастический градиентный спуск
 for i in range(N):
-    k = np.random.randint(sz - 1)  # выбор случайного индекса
+    k = np.random.randint(sz)  # выбор случайного индекса
     x_k = coord_x[k]
     y_k = coord_y[k]
 
@@ -148,7 +154,6 @@ for i in range(N):
 
 # Финальная ошибка после всех итераций по всей выборке
 Q = np.mean(loss(coord_y, model(coord_x, w)))
-
 ```
 
 ## для бинарной классификации
@@ -161,7 +166,15 @@ $$\nabla_\omega L_i=-\frac{2e^{M_i}}{(1+e^{M_i})^2}\,y_i x_i.$$
 
 В функцию потерь передают вещественный отклик $\omega^T x_i$, а не его знак: $\operatorname{sign}$ нужен уже для получения метки класса.
 
+![Рисунок к задаче](images/task-f538f3020086cef7.png)
+
 ```python
+# Условие:
+# Обучить линейный бинарный классификатор на заданной выборке методом SGD, выбирая по одному
+# случайному объекту. Потеря log2(1+exp(-M)); Qe пересчитывать после обновления весов. Сохранить
+# w, долю отрицательных отступов в Q и последнюю оценку Qe; настройки — в заготовке. Без вывода.
+# Рисунок к условию: images/task-f538f3020086cef7.png
+
 import numpy as np
 
 
@@ -208,20 +221,31 @@ np.random.seed(0)  # генерация одинаковых последова�
 
 # здесь продолжайте программу
 for _ in range(N):
-    k = np.random.randint(0, n_train - 1)
+    k = np.random.randint(0, n_train)
 
     r_x = x_train[k]
     r_y = y_train[k]
 
-    Qe = lm * loss(w, r_x, r_y) + (1 - lm) * Qe
     w -= nt * df(w, r_x, r_y)
+    Qe = lm * loss(w, r_x, r_y) + (1 - lm) * Qe
 
 Q = (x_train @ w * y_train < 0).mean()
 ```
 
 - при выборке batch
 
+![Рисунок к задаче](images/task-1285345d4baffeba.png)
+
 ```python
+# Условие:
+# Задача на повторение / аналог предыдущей.
+#
+# Обучить линейный классификатор мини-батчевым SGD с потерей exp(-M). На итерации выбирать
+# непрерывный батч [k,k+batch_size), усреднять градиенты и после обновления весов пересчитывать
+# Qe. Результаты: w, доля ошибок Q и Qe. Использовать исходную выборку и параметры из заготовки;
+# ничего не печатать.
+# Рисунок к условию: images/task-1285345d4baffeba.png
+
 import numpy as np
 
 
@@ -274,17 +298,16 @@ np.random.seed(0)  # генерация одинаковых последова�
 
 # здесь продолжайте программу
 for _ in range(N):
-    k = np.random.randint(0, n_train - batch_size - 1)
+    k = np.random.randint(0, n_train - batch_size + 1)
     batch = range(k, k + batch_size)
     x_batch = x_train[batch]
     y_batch = y_train[batch]
 
-    Qe = lm * loss(w, x_batch.T, y_batch).mean() + (1 - lm) * Qe
 
     w -= nt * df(w, x_batch.T, y_batch).mean(1)
+    Qe = lm * loss(w, x_batch.T, y_batch).mean() + (1 - lm) * Qe
 
 Q = (x_train @ w * y_train < 0).mean()
-
 ```
 
 # Метод Ньютона-Рафсона

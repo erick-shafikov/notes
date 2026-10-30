@@ -50,6 +50,15 @@ $$f_\beta = \frac{(1 + \beta^2) \cdot p \cdot r}{\beta^2 \cdot p + r}$$
 - вычисление TP, TN, FP, FN
 
 ```python
+# Условие:
+# Задача на повторение / аналог предыдущей.
+#
+# Повторить гауссовскую байесовскую классификацию заданных двумерных данных с полными
+# ковариациями, используя
+# log(lambda_y*P_y)-0.5*(x-mu_y)^T*Sigma_y^(-1)*(x-mu_y)-0.5*log(det(Sigma_y)). Сохранить
+# predict в исходном порядке. Рассчитать TP,TN,FP,FN для класса +1 и сохранить в одноимённых
+# переменных, без вывода.
+
 # пример модели с двумя параметрами
 import numpy as np
 
@@ -136,6 +145,13 @@ FN = np.sum((predict == -1) & (data_y == 1))
 - вычисление precision, recall
 
 ```python
+# Условие:
+# Задача на повторение / аналог предыдущей.
+#
+# Повторение SGD: по одному случайному объекту обучить линейный классификатор с потерей
+# log2(1+exp(-M)). Использовать заданные данные и параметры. Сохранить веса в w, а precision и
+# recall по обучающей выборке — в одноимённые переменные. Не печатать.
+
 import numpy as np
 
 # логарифмическая функция потерь
@@ -200,12 +216,18 @@ FN = np.sum((y_pred == -1) & (y_train == 1))
 # sklearn с параметром zero_division=0.
 precision = TP / (TP + FP)
 recall = TP / (TP + FN)
-
 ```
 
 - вычисление F-меры
 
 ```python
+# Условие:
+# Задача на повторение / аналог предыдущей.
+#
+# Обучить линейный SVC с настройками заготовки, сохранить [intercept_[0],*coef_[0]] в w. На
+# тестовой выборке вычислить TP,TN,FP,FN,precision,recall, F1 и F-beta при beta=0.5. Сохранить
+# результаты в TP,TN,FP,FN,precision,recall,F,Fb. Ничего не печатать.
+
 import numpy as np
 from sklearn import svm
 from sklearn.model_selection import train_test_split
@@ -237,6 +259,7 @@ x_train, x_test, y_train, y_test = train_test_split(data_x, data_y, random_state
 # здесь продолжайте программу
 clf = svm.SVC(kernel='linear')
 clf.fit(x_train, y_train)
+w = [clf.intercept_[0], *clf.coef_[0]]
 y_pred = clf.predict(x_test)
 
 TP = np.sum((y_pred == 1) & (y_test == 1))

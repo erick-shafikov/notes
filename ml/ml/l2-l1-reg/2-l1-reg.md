@@ -7,6 +7,12 @@ L1 регуляризация приводит к разреженности в�
 ## l1 в бинарной классификации
 
 ```python
+# Условие:
+# По заданной выборке с четырьмя признаками обучить линейный бинарный классификатор
+# мини-батчевым SGD с логарифмической потерей log2(1+exp(-M)) и L1-штрафом. К градиенту добавить
+# lambda*sign([0,w1,w2,w3,w4]). Сохранить w, долю ошибок Q и Qe; параметры цикла из заготовки.
+# Самостоятельно сравнить коэффициенты с L2-регуляризацией.
+
 import numpy as np
 
 
@@ -54,80 +60,121 @@ Qe = loss(w, x_train.T, y_train).mean()  # начальное значение �
 np.random.seed(0)  # генерация одинаковых последовательностей псевдослучайных чисел
 
 for _ in range(N):
-    k = np.random.randint(0, n_train - batch_size - 1)
+    k = np.random.randint(0, n_train - batch_size + 1)
     batch = range(k, k + batch_size)
     x_batch = x_train[batch]
     y_batch = y_train[batch]
 
-    Qe = lm * loss(w, x_batch.T, y_batch).mean() + (1 - lm) * Qe
 
     w1 = np.array(w)
     w1[0] = 0
 
     # l1-reg
     w -= nt * (df(w, x_batch, y_batch).mean(axis=1) + lm_l1 * np.sign(w1))
+    Qe = lm * loss(w, x_batch.T, y_batch).mean() + (1 - lm) * Qe
 
 Q = (x_train @ w * y_train < 0).mean()
-
 ```
 
 ## l1 в построении модели
 
 ```python
 
+# Условие:
+# Аппроксимировать f(x)=-0.5*x**2+0.1*x**3+cos(3*x)+7 на [-4,6] полиномом с пятью
+# коэффициентами. Использовать мини-батчевый SGD, квадратичную потерю и L1-штраф без w0.
+# Сохранить w, полный MSE в Q и Qe. Начальные параметры — из заготовки. Самостоятельно сравнить
+# с отсутствием штрафа и с L2.
+
 import numpy as np
 
 
-# исходная функция, которую нужно аппроксимировать моделью a(x)
 def func(x):
+    """Исходная функция"""
     return -0.5 * x ** 2 + 0.1 * x ** 3 + np.cos(3 * x) + 7
 
 
-# модель
-def model(w, x):
-    xv = np.array([x ** n for n in range(len(w))])
-    return w.T @ xv
+def model(w, xv):
+    """Модель"""
+    return xv @ w
 
 
-# функция потерь
-def loss(w, x, y):
-    return (model(w, x) - y) ** 2
+class AlgorithmSGD:
+    """Алгоритм стохастического градиентного спуска SGD"""
+    def __init__(self, eta, lm=0.02, batch_size=20):
+        self.eta = eta  # шаг обучения для каждого параметра w
+        self.lm = lm  # значение параметра лямбда для вычисления скользящего экспоненциального среднего
+        self.batch_size = batch_size  # размер мини-батча
+        self._w0 = np.zeros(len(self.eta))  # начальные нулевые весовые коэффициенты
+
+    def _loss(self, w, xv, y):
+        """Квадратичная функция потерь"""
+        return (model(w, xv) - y) ** 2
+
+    def _dloss(self, w, xv, y):
+        """Производная функции потерь"""
+        return 2 * (model(w, xv) - y) * xv
+
+    def qual(self, w, x_train, y_train):
+        """Показатель качества"""
+        return np.mean([self._loss(w, xv, y) for xv, y in zip(x_train, y_train)])
+
+    def _dqual(self, w, x_train, y_train):
+        """Производная показателя качества"""
+        return np.mean([self._dloss(w, xv, y) for xv, y in zip(x_train, y_train)], axis=0)
 
 
-# производная функции потерь
-def dL(w, x, y):
-    xv = np.array([x ** n for n in range(len(w))])
-    return 2 * (model(w, x) - y) * xv
+    def run_algorithm(self, x_train, y_train, n=500):
+        """Выполнение алгоритма на заданной обучающей выборки"""
+        Qe = self.qual(self._w0, x_train, y_train)
+        w = self._w0.copy()
+        np.random.seed(0)
+        for _ in range(n):
+            k = np.random.randint(0, len(x_train) - self.batch_size + 1)
+            x_batch = x_train[k: k + self.batch_size]
+            y_batch = y_train[k: k + self.batch_size]
+            w -= self.eta * self._dqual(w, x_batch, y_batch)
+            Qe = self.lm * self.qual(w, x_batch, y_batch) + (1 - self.lm) * Qe
+        return w, Qe
 
 
-coord_x = np.arange(-4.0, 6.0, 0.1)
-coord_y = func(coord_x)
+class AlgorithmL1(AlgorithmSGD):
+    """Алгоритм стохастического градиентного спуска SGD с L1 регуляризацией"""
+    def __init__(self, eta, lm=0.02, batch_size=20, l1=2.0):
+        super().__init__(eta, lm, batch_size)
+        self.l1 = np.array([0] + [l1] * (len(self.eta) - 1))  # параметр лямбда для L1 регуляризации
 
-N = 5  # сложность модели (полином степени N-1)
-lm_l1 = 2.0  # коэффициент лямбда для L1-регуляризатора
-sz = len(coord_x)  # количество значений функций (точек)
-eta = np.array([0.1, 0.01, 0.001, 0.0001, 0.000002])  # шаг обучения для каждого параметра w0, w1, w2, w3, w4
-w = np.zeros(N)  # начальные нулевые значения параметров модели
-n_iter = 500  # число итераций алгоритма SGD
-lm = 0.02  # значение параметра лямбда для вычисления скользящего экспоненциального среднего
-batch_size = 20  # размер мини-батча (величина K = 20)
+    def _dqual(self, w, x_train, y_train):
+        """Производная показателя качества"""
+        return super()._dqual(w, x_train, y_train) + self.l1 * np.sign(w)
 
-Qe = loss(w, coord_x, coord_y).mean()  # начальное значение среднего эмпирического риска
-np.random.seed(0)  # генерация одинаковых последовательностей псевдослучайных чисел
 
-# здесь продолжайте программу
-for _ in range(n_iter):
-    k = np.random.randint(0, sz - batch_size - 1)
-    batch = range(k, k + batch_size)
-    x_batch = coord_x[batch]
-    y_batch = coord_y[batch]
+class AlgorithmL2(AlgorithmSGD):
+    """Алгоритм стохастического градиентного спуска SGD с L2 регуляризацией"""
+    def __init__(self, eta, lm=0.02, batch_size=20, l2=2.0):
+        super().__init__(eta, lm, batch_size)
+        self.l2 = np.array([0] + [l2] * (len(self.eta) - 1))  # параметр лямбда для L1 регуляризации
 
-    Qe = lm * loss(w, x_batch, y_batch).mean() + (1 - lm) * Qe
+    def _dqual(self, w, x_train, y_train):
+        """Производная показателя качества"""
+        return super()._dqual(w, x_train, y_train) + self.l2 * w
 
-    w1 = np.array(w)
-    w1[0] = 0
-    # l1-reg
-    w -= eta * (dL(w, x_batch, y_batch).mean(axis=1) + lm_l1 * np.sign(w1))
 
-Q = loss(w, coord_x, coord_y).mean()
+x_coord = np.arange(-4.0, 6.0, 0.1)
+y_coord = func(x_coord)
+
+eta = np.array([0.1, 0.01, 0.001, 0.0001, 0.000002])
+x_train = np.array([[x ** n for n in range(len(eta))] for x in x_coord])
+y_train = y_coord
+
+algorithm_L1 = AlgorithmL1(eta)
+algorithm_SGD = AlgorithmSGD(eta)
+algorithm_L2 = AlgorithmL2(eta)
+
+w_L1, Qe_L1 = algorithm_L1.run_algorithm(x_train, y_train)
+w_SGD, Qe_SGD = algorithm_SGD.run_algorithm(x_train, y_train)
+w_L2, Qe_L2 = algorithm_L2.run_algorithm(x_train, y_train)
+
+w, Qe = w_L1, Qe_L1
+Q = algorithm_L1.qual(w, x_train, y_train)
 ```

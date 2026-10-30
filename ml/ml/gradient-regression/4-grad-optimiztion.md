@@ -7,6 +7,12 @@
 Метод стохастического градиентного спуска с импульсом Нестерова Nesterov's accelerated gradient. Пересчет идет с “заглядыванием вперед”, где градиент вычисляется не в текущей точке, а в точке с учетом импульса: $∇L_i(ω - γ * v)$. Полная формула: $v_{n+1} = γ * v_n + η * ∇L_i(ω_n - γ * v_n)$, $ω_{n+1} = ω_n - v_{n+1}$. Смысл в том, что сначала делается шаг вперед по импульсу, затем считается градиент, за счет чего корректируется направление движения заранее. Это уменьшает переезды минимума и делает сходимость более стабильной по сравнению с обычным momentum. В некоторых реализациях перед градиентом добавляется множитель $(1 - γ)$: $v_{n+1} = γ * v_n + (1 - γ) * η * ∇L_i(ω_n - γ * v_n)$ — это EMA-вариант, который удерживает $v$ в стабильном масштабе при любом значении $γ$.
 
 ```python
+# Условие:
+# Приблизить f(x)=-0.7*x-0.2*x**2+0.05*x**3-0.2*cos(3*x)+2 на [-4,6] кубическим полиномом.
+# Использовать мини-батчевый SGD с импульсом Нестерова: градиент считать в w-gamma*v. После шага
+# пересчитывать Qe по риску батча. Сохранить w, полный MSE в Q и Qe; настройки и выбор
+# случайного k — из заготовки.
+
 import numpy as np
 from numpy.polynomial import Polynomial
 
@@ -44,17 +50,16 @@ y_train = np.array(coord_y)
 Qe = loss(x_train, y_train, w)  # начальное значение среднего эмпирического риска
 
 for _ in range(N):
-    k = np.random.randint(0, sz - batch_size - 1)
+    k = np.random.randint(0, sz - batch_size + 1)
     rng = range(k, k + batch_size)
     x_range = x_train[rng]
     y_range = y_train[rng]
     v = gamma * v + (1 - gamma) * eta * 2 * dqk(x_range, y_range, w, gamma, v) / batch_size
 
-    Qe = lm * loss(x_range, y_range, w) + (1 - lm) * Qe
     w -= v
+    Qe = lm * loss(x_range, y_range, w) + (1 - lm) * Qe
 
 Q = loss(x_train, y_train, w)
-
 ```
 
 # RMSProp (running mean square)
@@ -67,7 +72,16 @@ Q = loss(x_train, y_train, w)
 
 Смысл метода в том, что параметры с большими градиентами получают меньший шаг, а с маленькими — больший, что стабилизирует обучение и ускоряет сходимость.
 
+![Рисунок к задаче](images/task-f7da62054b80d181.png)
+
 ```python
+# Условие:
+# На заданной выборке обучить линейный бинарный классификатор мини-батчевым SGD с RMSProp и
+# потерей log2(1+exp(-M)). Накопитель квадратов градиента обновлять покомпонентно. Пересчитывать
+# Qe, сохранить w, долю отрицательных отступов Q и последнее Qe. Использовать параметры
+# заготовки, без вывода.
+# Рисунок к условию: images/task-f7da62054b80d181.png
+
 import numpy as np
 
 
@@ -118,21 +132,20 @@ Qe = loss(w, x_train.T, y_train).mean()  # начальное значение �
 np.random.seed(0)  # генерация одинаковых последовательностей псевдослучайных чисел
 
 for _ in range(N):
-    k = np.random.randint(0, n_train - batch_size - 1)
+    k = np.random.randint(0, n_train - batch_size + 1)
     batch = np.arange(k, k + batch_size)
     batch_x = x_train[batch]
     barch_y = y_train[batch]
 
     dQkw = df(w, batch_x, barch_y).mean(axis=1)
 
-    Qe = lm * loss(w, batch_x.T, barch_y).mean() + (1 - lm) * Qe
 
     G = alpha * G + (1 - alpha) * (dQkw * dQkw)
 
     w -= nt * dQkw / (np.sqrt(G) + eps)
+    Qe = lm * loss(w, batch_x.T, barch_y).mean() + (1 - lm) * Qe
 
 Q = (x_train @ w * y_train < 0).mean()
-
 ```
 
 # Adam (adaptive momentum)

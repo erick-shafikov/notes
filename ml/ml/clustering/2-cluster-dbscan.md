@@ -159,6 +159,11 @@ plt.show()
 - с помощью dbscan
 
 ```python
+# Условие:
+# Кластеризовать двумерную X через sklearn.DBSCAN(eps=55,min_samples=3) с евклидовой метрикой.
+# По меткам fit_predict выделить точки кластеров 0,1,2 в X1,X2,X3, а шум с меткой -1 — в Noise.
+# Самостоятельно повторить DBSCAN без sklearn и сравнить разбиение; не печатать.
+
 import numpy as np
 from sklearn.cluster import DBSCAN
 

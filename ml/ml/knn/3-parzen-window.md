@@ -61,6 +61,12 @@ $$\varphi_i \leftarrow \varphi_i + \eta \cdot \bigl[a(x_i;\, X^l) \neq y_i\bigr]
 ---
 
 ```python
+# Условие:
+# Классифицировать x_test трёх классов по сумме весов обучающих объектов каждого класса.
+# Расстояние — сумма абсолютных разностей признаков, ядро K(r)=exp(-r**2/2)/sqrt(2*pi), ширина
+# h=1. Для каждого объекта выбрать класс с максимальной суммой K(distance/h). Сохранить predict
+# и долю ошибок Q. Не печатать.
+
 import numpy as np
 from sklearn.model_selection import train_test_split
 
@@ -112,5 +118,4 @@ def ax(yi, xi):
 predict = [int(np.argmax([ax(0, x), ax(1, x), ax(2, x)])) for x in x_test]
 
 Q = (predict != y_test).mean()
-
 ```

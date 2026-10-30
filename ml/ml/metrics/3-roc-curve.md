@@ -68,6 +68,13 @@ $$\text{PR-AUC} = \int_0^1 \text{Precision}(r)\, dr$$
 - вычисления FPR TPR
 
 ```python
+# Условие:
+# Задача на повторение / аналог предыдущей.
+#
+# Обучить SVC(kernel="linear") на заданном разбиении, сохранить w=[intercept_[0],*coef_[0]]. Для
+# тестовых объектов при пороге t=2 вычислить FPR=FP/(FP+TN) и TPR=TP/(TP+FN). Записать в FPR и
+# TPR; ничего не печатать.
+
 import numpy as np
 from sklearn import svm
 from sklearn.model_selection import train_test_split
@@ -118,6 +125,13 @@ TPR = TP / (TP + FN)
 - данные для roc-кривой
 
 ```python
+# Условие:
+# Задача на повторение / аналог предыдущей.
+#
+# Обучить линейный SVC на исходной выборке. Для каждого t из np.arange(5.7,-7.8,-0.1) вычислить
+# FPR(t) и TPR(t) на тесте. Координаты ROC-кривой сохранить в списках FPR и TPR в порядке
+# порогов; вывод не нужен.
+
 import numpy as np
 from sklearn import svm
 from sklearn.model_selection import train_test_split

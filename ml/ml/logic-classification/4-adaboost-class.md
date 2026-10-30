@@ -160,6 +160,13 @@ print(f"Число ошибок на обучающей выборке: {N} пр
 - еще пример с бинарной классификацией
 
 ```python
+# Условие:
+# Реализовать AdaBoost из T=10 DecisionTreeClassifier(max_depth=3, criterion="gini") на заданном
+# train/test. Начальные веса объектов равны 1/l. На каждом шаге обучать с sample_weight, найти
+# взвешенную ошибку N, alpha=0.5*log((1-N)/N), умножить веса на exp(-alpha*y*b(x)) и
+# нормировать. На тесте предсказывать sign(sum(alpha_t*b_t(x))). Сохранить predict и число
+# ошибок Q; не печатать.
+
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -213,5 +220,4 @@ for n in range(1, T):
 
 predict = np.sign(predict)
 Q = np.sum(predict != y_test)
-
 ```

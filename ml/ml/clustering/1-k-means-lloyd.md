@@ -140,6 +140,12 @@ while n < 10:
 - алгоритм Ллойда в двумерном признаковом пространстве, с размеченными и неразмеченными данными
 
 ```python
+# Условие:
+# Начальные центры K кластеров вычислить по размеченной выборке T. Продолжить кластеризацию
+# неразмеченной data_x алгоритмом Ллойда, используя среднюю квадратичную разность координат. В X
+# сохранить кластеры, включающие точки T и data_x, в порядке центров ma. Внутри кластеров
+# порядок произвольный; без вывода.
+
 import numpy as np
 
 T = [[(365, 200), (390, 180), (350, 172), (400, 171)], [(77, 150), (100, 200), (50, 130)],
@@ -152,23 +158,15 @@ data_x = [(48, 118), (74, 96), (103, 82), (135, 76), (162, 79), (184, 97), (206,
           (326, 206), (339, 209), (370, 199), (380, 184), (380, 147), (343, 154), (329, 169), (332, 184), (345, 185),
           (363, 159), (361, 177), (344, 169), (311, 175), (351, 89), (134, 96)]
 
-K = 3  # число кластеров
+K = len(T)
+data_x = np.asarray(data_x, dtype=float)
+labelled = [np.asarray(points, dtype=float) for points in T]
+ma = np.array([points.mean(axis=0) for points in labelled])
 
-# здесь продолжайте программу
-ma = [np.mean(x, axis=0) for x in T]  # отбор центров из размеченных данных
-data_x += [coord_t for subT in T for coord_t in subT]  # объединение данных размеченных и нет
-ro = lambda x1, x2: np.mean(np.abs(x1 - x2))
-
-n = 0
-while n < 10:
-    X = [[] for i in range(K)]
-
-    for data_xi in data_x:
-        i = np.argmin([ro(m, data_xi) for m in ma])
-
-        X[i].append(data_xi)
-
-    ma = [np.mean(xx, axis=0) for xx in X]
-
-    n += 1
+for _ in range(10):
+    distances = ((data_x[:, None, :] - ma[None, :, :]) ** 2).mean(axis=2)
+    predict = distances.argmin(axis=1)
+    # Известные метки T фиксированы; центры учитывают обе части выборки.
+    X = [np.vstack([labelled[i], data_x[predict == i]]) for i in range(K)]
+    ma = np.array([points.mean(axis=0) for points in X])
 ```
