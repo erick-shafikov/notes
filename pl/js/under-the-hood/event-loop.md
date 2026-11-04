@@ -210,6 +210,173 @@ funcTwo(); //Promise, Last line, Timeout! если вызвать только f
 })();
 ```
 
+### requestAnimationFrame и requestIdleCallback
+
+Место в цикле: одна макрозадача → все микрозадачи → (если пора рисовать кадр, ~16.6ms при 60Hz) rAF-колбеки → style → layout → paint → (если до следующего кадра осталось время) rIC-колбеки
+
+- rAF — перед отрисовкой следующего кадра, не очередь задач
+- rIC — в простое, после отрисовки, только если очередь задач пуста
+- после каждого rAF/rIC колбека выполняются все микрозадачи
+
+```js
+// Порядок всех видов задач
+console.log(1);
+setTimeout(() => console.log("timeout"), 0);
+requestAnimationFrame(() => console.log("raf"));
+requestIdleCallback(() => console.log("idle"));
+Promise.resolve().then(() => console.log("promise"));
+queueMicrotask(() => console.log("microtask"));
+console.log(2);
+// 1 2 promise microtask | timeout raf idle
+// timeout vs raf - порядок НЕ гарантирован: зависит от того, в какой момент кадра запущен код
+// (если кадр вот-вот рисуется - raf может быть раньше timeout)
+// idle всегда последний - пока в очереди есть timeout, браузер не "простаивает"
+```
+
+```js
+// Микрозадачи выполняются между rAF колбеками
+requestAnimationFrame(() => {
+  console.log(1);
+  Promise.resolve().then(() => console.log(2));
+});
+requestAnimationFrame(() => {
+  console.log(3);
+});
+// 1 2 3 - после каждого колбека чекпоинт микрозадач, оба колбека в одном кадре
+```
+
+```js
+// rAF внутри rAF - выполнится в следующем кадре, а не в текущем
+requestAnimationFrame((t1) => {
+  console.log("frame 1");
+  requestAnimationFrame((t2) => {
+    console.log("frame 2", t2 - t1); // ~16.6
+  });
+});
+
+// все rAF одного кадра получают одинаковый timestamp
+requestAnimationFrame((t) => console.log(t));
+requestAnimationFrame((t) => console.log(t)); // то же самое число
+```
+
+```js
+// Классика: анимация не с той позиции
+// хотим: box прыгает в 1000px, затем плавно едет в 500px
+box.style.transform = "translateX(1000px)";
+box.style.transition = "transform 1s ease-in-out";
+box.style.transform = "translateX(500px)";
+// поедет 0 → 500: стили считаются только при рендере, промежуточное значение 1000 браузер не увидел
+
+// один rAF не поможет - колбек выполнится ДО расчёта стилей того же кадра
+box.style.transform = "translateX(1000px)";
+requestAnimationFrame(() => {
+  box.style.transition = "transform 1s ease-in-out";
+  box.style.transform = "translateX(500px)"; // всё ещё 0 → 500
+});
+
+// решение 1: двойной rAF - первый кадр отрисует 1000px, во втором ставим переход
+box.style.transform = "translateX(1000px)";
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    box.style.transition = "transform 1s ease-in-out";
+    box.style.transform = "translateX(500px)"; // 1000 → 500
+  });
+});
+
+// решение 2: принудительный reflow - браузер синхронно считает стили
+box.style.transform = "translateX(1000px)";
+getComputedStyle(box).transform; // или box.offsetWidth
+box.style.transition = "transform 1s ease-in-out";
+box.style.transform = "translateX(500px)"; // 1000 → 500
+```
+
+```js
+// Сколько раз выполнится за секунду?
+let timeouts = 0;
+let frames = 0;
+const start = performance.now();
+
+(function tick() {
+  timeouts++;
+  if (performance.now() - start < 1000) setTimeout(tick, 0);
+  else console.log("timeouts", timeouts); // ~200-250: после 5 вложенных вызовов задержка ≥ 4ms
+})();
+
+(function frame() {
+  frames++;
+  if (performance.now() - start < 1000) requestAnimationFrame(frame);
+  else console.log("frames", frames); // ~60 (частота экрана: 120 на 120Hz)
+})();
+// в фоновой вкладке rAF ставится на паузу (frames ≈ 0), setTimeout троттлится до ≥ 1000ms
+```
+
+```js
+// Анимация на setTimeout vs rAF
+// setTimeout(16) не синхронизирован с кадрами: часть кадров пропускается, часть рисует 2 шага - рывки
+let x = 0;
+function moveTimeout() {
+  x += 2;
+  box.style.transform = `translateX(${x}px)`;
+  if (x < 500) setTimeout(moveTimeout, 16);
+}
+
+// rAF: ровно 1 шаг на кадр, скорость считаем от времени, а не от количества кадров
+let startTime;
+function moveRaf(t) {
+  startTime ??= t;
+  const progress = Math.min((t - startTime) / 1000, 1); // 1s на всю анимацию
+  box.style.transform = `translateX(${progress * 500}px)`;
+  if (progress < 1) requestAnimationFrame(moveRaf);
+}
+requestAnimationFrame(moveRaf);
+```
+
+```js
+// Блокировка: rAF не выполнится, пока занят стек
+requestAnimationFrame(() => console.log("raf"));
+setTimeout(() => console.log("timeout"), 0);
+const end = Date.now() + 1000;
+while (Date.now() < end) {} // 1s синхронной работы - ни кадров, ни таймеров
+console.log("sync");
+// sync | timeout raf (или raf timeout) - через ~1s, кадры за это время пропущены
+```
+
+```js
+// rIC: дробление неважной работы (аналитика, предзагрузка) по свободному времени кадра
+const tasks = Array.from({ length: 1000 }, (_, i) => () => sendLog(i));
+
+function work(deadline) {
+  // timeRemaining() - сколько ms осталось до следующего кадра (максимум 50)
+  // didTimeout - true, если колбек вызван по истечении timeout, а не в простое
+  while ((deadline.timeRemaining() > 0 || deadline.didTimeout) && tasks.length) {
+    tasks.shift()();
+  }
+  if (tasks.length) requestIdleCallback(work, { timeout: 2000 });
+}
+requestIdleCallback(work, { timeout: 2000 });
+// без timeout при постоянной загрузке (анимации, тяжёлые таймеры) колбек может не вызваться никогда
+```
+
+```js
+// rIC и DOM: менять DOM в rIC не стоит - кадр уже отрисован, изменения вызовут
+// незапланированный layout и могут не уложиться в timeRemaining
+requestIdleCallback(() => {
+  const data = prepareData(); // подготовка - ок
+  requestAnimationFrame(() => render(data)); // DOM - в следующий кадр
+});
+```
+
+```js
+// Порядок нескольких rIC и вложенных
+requestIdleCallback(() => {
+  console.log("idle 1");
+  requestIdleCallback(() => console.log("idle 3")); // в следующем периоде простоя
+  Promise.resolve().then(() => console.log("micro"));
+});
+requestIdleCallback(() => console.log("idle 2"));
+// idle 1 micro idle 2 | idle 3
+```
+
 ## рекурсивные вставки в el
 
 ```js
