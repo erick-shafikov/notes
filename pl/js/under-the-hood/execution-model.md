@@ -2,6 +2,12 @@
 
 То что исполняет js-код, создает хост. Есть у окон, web, shared, service, делится на все связанные iframe и окна сайта. В node у каждого working threads.
 
+Создает агент алгоритм create an agent, делает шаги по созданию записи - создает `[[Signifier]]` - id, `[[CandidateExecution]]` - память (работа с буфером), `[[CanBlock]]` - блокировка другими агентами, привязывает новый event loop, возврат агента
+
+Типы агентов - Similar-origin window agent (страниц, iframe) объект Window , Dedicated worker agent (new Worker()) объект edicatedWorkerGlobalScope, Shared worker agent(new SharedWorker()) объект SharedWorkerGlobalScope, Service worker agent (Service Workers) объект ServiceWorkerGlobalScope, Worklet agent (CSS Paint, звук AudioWorklet) объект WorkletGlobalScope
+
+Созданный агент кладут в кластер - то, где агенты делят память. У Worker каждый раз содается новый агент, у Window распределяется по Site, не по origin. Для вывода в отдельный агент можно использовать `target="_blank"`
+
 Структура:
 
 ## set of execution contexts
@@ -167,9 +173,19 @@ next(); // 2 - n жив: на его окружение до сих пор сс�
 - `[[AgentSignifier]]` - id владельца совпадает с `[[Signifier]]` в Agent Record
 - `[[TemplateMap]]` - кеш теговых шаблонов
 - `[[LoadedModules]]` - кеш модулей
-- `[[HostDefined]]` - данные хоста
+- `[[HostDefined]]` - данные хоста в нем лежит environment settings object
 
 у одного агента может быть несколько RR из-за window.open() или vm.createContext()
+
+settings object состоит из:
+
+- realm execution context - кладет на пустой стек самый первый кадр, вызывает InitializeHostDefinedRealm функцию и кладет на стек новый контекст Function = null ScriptOrModule = null
+- module map
+- API base URL
+- origin и has cross-site ancestor
+- policy container - CSP, referrer policy
+- cross-origin isolated capability
+- time origin
 
 # Jobs
 
@@ -293,7 +309,7 @@ function demo() {
 ```js
 function makeAdder(x) {
   // EC makeAdder создан, adderEnv{x} создан
-  return function(y) {
+  return function (y) {
     return x + y; // находит x через [[OuterEnv]] → adderEnv
   };
   // EC makeAdder снят со стека, но adderEnv жив — fn держит [[Environment]] → adderEnv
@@ -302,7 +318,7 @@ function makeAdder(x) {
 const add5 = makeAdder(5); // adderEnv{x:5} жив
 const add10 = makeAdder(10); // adderEnv{x:10} — отдельный объект!
 
-add5(3);  // 8
+add5(3); // 8
 add10(3); // 13
 
 /*
@@ -315,9 +331,9 @@ add10(3); // 13
 # Общая схема
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│  Agent                                                       │
-│                                                              │
+┌─────────────────────────────────────────────────────────────┐
+│  Agent                                                      │
+│                                                             │
 │  ┌─────────────────────┐   ┌────────────────────────────┐   │
 │  │   Agent Record      │   │  execution context stack   │   │
 │  │  [[Signifier]]      │   │                            │   │
@@ -336,7 +352,7 @@ add10(3); // 13
 │                            │  │   EC (global)        │  │   │
 │                            │  └──────────────────────┘  │   │
 │                            └────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────┘
+└─────────────────────────────────────────────────────────────┘
 
 Realm Record
 ┌─────────────────────────────────────────────────────────────┐
