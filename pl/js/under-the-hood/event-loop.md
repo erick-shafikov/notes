@@ -477,7 +477,7 @@ setTimeout(function () {
 
 console.log(6);
 
-const fool2 = () => {
+const foo2 = () => {
   console.log("foo2");
 
   setTimeout(foo2);

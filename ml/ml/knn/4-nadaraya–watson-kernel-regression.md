@@ -16,7 +16,17 @@ $$a(x;\, X^l) = \frac{\displaystyle\sum_{i=1}^{l} y_i\, K\!\left(\frac{\rho(x,\,
 
 $$Q(a;\, X^l) = \sum_{i=1}^{l} \omega_i(x)\,(a - y_i)^2 \to \min_a, \qquad \omega_i(x) = K\!\left(\frac{\rho(x,\, x_i)}{h}\right)$$
 
-Приравнивая производную нулю: $\dfrac{\partial Q}{\partial a} = 2\sum_{i=1}^l \omega_i(x)(a - y_i) = 0$, откуда немедленно следует та же формула.
+Приравнивая производную нулю:
+
+$$\frac{\partial Q}{\partial a} = 2\sum_{i=1}^l \omega_i(x)(a - y_i) = 0$$
+
+Раскрываем скобки и выносим $a$:
+
+$$a \sum_{i=1}^l \omega_i(x) = \sum_{i=1}^l \omega_i(x)\, y_i$$
+
+$$a = \frac{\displaystyle\sum_{i=1}^l \omega_i(x)\, y_i}{\displaystyle\sum_{i=1}^l \omega_i(x)} = \frac{\displaystyle\sum_{i=1}^l y_i\, K\!\left(\frac{\rho(x,\, x_i)}{h}\right)}{\displaystyle\sum_{i=1}^l K\!\left(\frac{\rho(x,\, x_i)}{h}\right)}$$
+
+Это в точности формула Надарая-Ватсона.
 
 ![Ядровые веса и NW-сглаживание при разных h](images/nw-regression.png)
 
