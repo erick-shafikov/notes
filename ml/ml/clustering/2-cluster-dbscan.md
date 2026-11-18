@@ -101,7 +101,7 @@ def dbscan_naive(P, eps, m, distance):
     clusters = {NOISE: []}
 
     def region_query(p):
-        return [q for q in P if distance(p, q) < eps]
+        return [q for q in P if distance(p, q) <= eps]
 
     def expand_cluster(p, neighbours):
         if C not in clusters:
@@ -113,7 +113,7 @@ def dbscan_naive(P, eps, m, distance):
             if q not in visited_points:
                 visited_points.add(q)
                 neighbourz = region_query(q)
-                if len(neighbourz) > m:
+                if len(neighbourz) >= m:
                     neighbours.extend(neighbourz)
             if q not in clustered_points:
                 clustered_points.add(q)
