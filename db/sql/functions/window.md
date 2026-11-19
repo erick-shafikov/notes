@@ -41,6 +41,14 @@ COUNT(*) OVER (PARTITION BY payment_type)
 FROM sales s
 ```
 
+```sql
+-- с округлением
+SELECT *,
+ROUND(AVG(amount) OVER(),2)
+FROM payment
+ORDER BY 1
+```
+
 # OVER + ORDER BY
 
 вычисление скользящим итогом. ТО есть будут сложены все нарастающим итого
