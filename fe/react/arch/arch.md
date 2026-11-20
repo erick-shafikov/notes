@@ -33,12 +33,14 @@ app/
       ui/
         constants/<slug>-ui-constants.ts
         errors/<slug>-error-messages.ts
+        view-model/<entity>-view-model.ts
         view-model/<slug>-view-model.ts
-        hooks/use-<slug>-view-model.ts
+        hooks/use-<slug>-query.ts
       index.ts
   pages/
     <entity>-page/
       hooks/use-<entity>-payment.ts
+      <entity>-route.tsx
       <entity>-page.tsx
   shared/
     helpers/
@@ -77,8 +79,12 @@ features/<entity>/
   model/<slug>-constants.ts
   api/<slug>-gateway.ts
   api/<slug>-queries.ts
+  ui/view-model/<slug>-view-model.ts
+  ui/hooks/use-<slug>-query.ts
   index.ts
 ```
+
+Всё, что страница берёт из сущности, идёт через методы view-model среза: даже если сейчас это один метод, у страницы сразу есть одно место, куда добавляются новые.
 
 Когда добавлять остальное:
 
@@ -89,24 +95,19 @@ features/<entity>/
 | `model/<slug>-form-schema.ts` | у сущности появилась форма |
 | `model/<slug>-rules.ts` | появилось первое правило или инвариант, нужные больше чем в одном месте |
 | `ui/constants`, `ui/errors` | у статусов появились лейблы и цвета, у ошибок — тексты |
-| `ui/view-model` + `ui/hooks` | производной логики экрана больше, чем чтение полей (`data.title`) |
+| `ui/view-model/<entity>-view-model.ts` | у сущности появился второй срез, и ему нужны те же методы, что и первому |
 | `pages/<entity>-page/hooks` | на странице появился сценарий из нескольких фич |
 
-Пока view-model нет, производные значения считаются в `select` у `useQuery`, а хук фичи просто возвращает результат запроса:
+## Импорты
+
+Все импорты — через алиас `@/`, относительные пути (`./`, `../../`) не используются: файл можно перенести, не переписывая импорты, а по пути сразу видно, из какого слоя он импортирует.
 
 ```ts
-import { useQuery } from "@tanstack/react-query";
-import { EntityStatus } from "../../model/<slug>-constants";
-import { entityQueryOptions } from "../../api/<slug>-queries";
-
-export const useEntity = (id: string) =>
-  useQuery({
-    ...entityQueryOptions(id),
-    select: (entity) => ({ ...entity, isPaid: entity.status === EntityStatus.PAID }),
-  });
+import { EntityStatus } from "@/features/<entity>/model/<slug>-constants";
+import { entityQueryOptions } from "@/features/<entity>/api/<slug>-queries";
 ```
 
-Когда `select` разрастается или в нём появляются флаги, лейблы и ошибки, его содержимое переезжает в `buildEntityViewModel`.
+Импорт с полным путём до файла допустим только внутри своей фичи. Снаружи фичу импортируют через её `index.ts` (`@/features/<entity>`).
 
 # features
 
@@ -137,7 +138,7 @@ export type EntityStatus = (typeof EntityStatus)[keyof typeof EntityStatus];
 Доменный тип: то, с чем работает приложение, а не сырой ответ API.
 
 ```ts
-import type { EntityStatus } from "./<slug>-constants";
+import type { EntityStatus } from "@/features/<entity>/model/<slug>-constants";
 
 export type Entity = {
   id: string;
@@ -170,8 +171,8 @@ export type EntityFormValues = z.infer<typeof entityFormSchema>;
 Инварианты и вычисления над сущностью — чистые функции, тестируются без моков.
 
 ```ts
-import { EntityStatus } from "./<slug>-constants";
-import type { Entity } from "./<slug>-types";
+import { EntityStatus } from "@/features/<entity>/model/<slug>-constants";
+import type { Entity } from "@/features/<entity>/model/<slug>-types";
 
 export const isEntityPayable = (entity: Entity) =>
   entity.status === EntityStatus.ACTIVE && entity.amount > 0;
@@ -190,8 +191,8 @@ export const isEntityEditable = (entity: Entity) =>
 
 ```ts
 import { z } from "zod";
-import { EntityStatus } from "../model/<slug>-constants";
-import type { Entity } from "../model/<slug>-types";
+import { EntityStatus } from "@/features/<entity>/model/<slug>-constants";
+import type { Entity } from "@/features/<entity>/model/<slug>-types";
 
 export const entityDtoSchema = z.object({
   id: z.string(),
@@ -218,8 +219,8 @@ export const toEntity = (dto: EntityDto): Entity => ({
 
 ```ts
 import { apiClient } from "@/infrastructure/api/api-client";
-import { entityDtoSchema, toEntity } from "./<slug>-dto";
-import type { EntityFormValues } from "../model/<slug>-form-schema";
+import { entityDtoSchema, toEntity } from "@/features/<entity>/api/<slug>-dto";
+import type { EntityFormValues } from "@/features/<entity>/model/<slug>-form-schema";
 
 export const entityGateway = {
   async getById(id: string, signal?: AbortSignal) {
@@ -240,7 +241,7 @@ export const entityGateway = {
 
 ```ts
 import { queryOptions } from "@tanstack/react-query";
-import { entityGateway } from "./<slug>-gateway";
+import { entityGateway } from "@/features/<entity>/api/<slug>-gateway";
 
 export const entityKeys = {
   all: ["entity"] as const,
@@ -265,7 +266,7 @@ export const entityQueryOptions = (id: string) =>
 Динамичные лейблы, цвета, названия табов.
 
 ```ts
-import { EntityStatus } from "../../model/<slug>-constants";
+import { EntityStatus } from "@/features/<entity>/model/<slug>-constants";
 
 export const ENTITY_STATUS_VIEW: Record<
   EntityStatus,
@@ -295,75 +296,138 @@ export const getEntityErrorMessage = (code: ApiCode | undefined) =>
   (code && ENTITY_ERROR_MESSAGES[code]) ?? "Что-то пошло не так";
 ```
 
-#### `view-model/<slug>-view-model.ts`
+#### view-model
 
-View-model — готовое состояние экрана для компонентов. Это чистая функция: на входе данные запроса, статус и флаги, на выходе значения и флаги для UI. Заменяет класс `EntityRepresentation`: класс наследовал запросы и API, поэтому логика знала про TanStack и `fetch`. Функцию можно тестировать без React и без моков сети.
+View-model — обычный класс, который собирает в одном месте все методы, нужные странице для работы с сущностью: форматирование, статусы, тексты ошибок, проверки прав и правил. Компоненты не разбирают сущность сами и не импортируют по отдельности хелперы, правила и UI-константы — они вызывают методы view-model.
+
+Что внутри класса:
+
+- методы, которые принимают данные (сущность, ошибку) аргументами и возвращают готовые значения для UI;
+- константы фичи, привязанные к статическим полям (`static readonly STATUS_VIEW = ENTITY_STATUS_VIEW`), чтобы страница брала их из того же объекта;
+- конструктор — только если все методы завязаны на одни и те же параметры экрана, например `id` и feature-флаг. Данные запроса в конструктор не передаются.
+
+От старого класса `EntityRepresentation` остаётся идея «всё для страницы в одном объекте», но уходит наследование от запросов и API: из-за него логика знала про TanStack и `fetch`. Класс можно тестировать через `new` без React и без моков сети.
+
+View-model делится на два уровня:
+
+| Класс | Файл | Что внутри | Где используется |
+| --- | --- | --- | --- |
+| `EntityViewModel` | `view-model/<entity>-view-model.ts` | методы и константы, переиспользуемые всеми срезами сущности | только внутри фичи, как родитель view-model срезов |
+| `EntitySlugViewModel` | `view-model/<slug>-view-model.ts` | наследует `EntityViewModel` и добавляет методы, нужные только этому срезу | экземпляр создаёт роут страницы и передаёт вниз ссылкой |
+
+```text
+EntityViewModel          общие методы и константы сущности
+   ↑ extends
+EntitySlugViewModel      методы конкретной страницы
+   ↓ new (в роуте)
+pages/<entity>-page      viewModel пропсом → хуки страницы и фичи
+```
+
+В TS нет множественного наследования, поэтому у view-model среза один родитель — `EntityViewModel`. Всё остальное (`shared/helpers`, правила из `model`, UI-константы, тексты ошибок) не наследуется, а импортируется как переиспользуемые утилиты.
+
+Пока срез один, `EntityViewModel` не нужен: все методы живут в `EntitySlugViewModel`. Когда появляется второй срез и ему нужны те же методы, они переезжают в `EntityViewModel`.
+
+##### `view-model/<entity>-view-model.ts`
+
+Переиспользуемые методы и константы сущности для всех срезов. Конструктора нет: класс не знает ни про конкретную страницу, ни про запрос.
 
 ```ts
 import { formatAmount } from "@/shared/helpers/number-helpers";
 import { formatDate } from "@/shared/helpers/string-helpers";
 import { ApiError } from "@/infrastructure/api/api-client";
-import { isEntityEditable, isEntityPayable } from "../../model/<slug>-rules";
-import type { Entity } from "../../model/<slug>-types";
-import { ENTITY_STATUS_VIEW } from "../constants/<slug>-ui-constants";
-import { getEntityErrorMessage } from "../errors/<slug>-error-messages";
+import { isEntityPayable } from "@/features/<entity>/model/<slug>-rules";
+import type { Entity } from "@/features/<entity>/model/<slug>-types";
+import { ENTITY_STATUS_VIEW, ENTITY_TABS } from "@/features/<entity>/ui/constants/<slug>-ui-constants";
+import { getEntityErrorMessage } from "@/features/<entity>/ui/errors/<slug>-error-messages";
 
-type BuildEntityViewModelParams = {
-  entity: Entity | undefined;
-  isPending: boolean;
-  error: Error | null;
-  canEditFlag: boolean;
-};
+export class EntityViewModel {
+  static readonly STATUS_VIEW = ENTITY_STATUS_VIEW;
+  static readonly TABS = ENTITY_TABS;
 
-export const buildEntityViewModel = ({
-  entity,
-  isPending,
-  error,
-  canEditFlag,
-}: BuildEntityViewModelParams) => ({
-  isLoading: isPending,
-  errorMessage: error
-    ? getEntityErrorMessage(error instanceof ApiError ? error.code : undefined)
-    : null,
-  title: entity?.title ?? "",
-  amountText: entity ? formatAmount(entity.amount) : "",
-  createdAtText: entity ? formatDate(entity.createdAt) : "",
-  statusView: entity ? ENTITY_STATUS_VIEW[entity.status] : null,
-  isPayable: entity ? isEntityPayable(entity) : false,
-  isEditable: canEditFlag && entity ? isEntityEditable(entity) : false,
-});
+  getAmountText(entity: Entity) {
+    return formatAmount(entity.amount);
+  }
 
-export type EntityViewModel = ReturnType<typeof buildEntityViewModel>;
+  getCreatedAtText(entity: Entity) {
+    return formatDate(entity.createdAt);
+  }
+
+  getStatusView(entity: Entity) {
+    return EntityViewModel.STATUS_VIEW[entity.status];
+  }
+
+  getErrorMessage(error: Error) {
+    return getEntityErrorMessage(error instanceof ApiError ? error.code : undefined);
+  }
+
+  isPayable(entity: Entity) {
+    return isEntityPayable(entity);
+  }
+}
 ```
 
-#### `hooks/use-<slug>-view-model.ts`
+##### `view-model/<slug>-view-model.ts`
 
-Единственное место фичи, где встречаются TanStack Query и view-model: пара «запрос → логика».
+View-model конкретного среза (например, `order-details`), с которым работает страница. Наследует `EntityViewModel` и добавляет методы этой страницы. Здесь все методы завязаны на `id` и флаг редактирования, поэтому они приходят в конструктор.
+
+```ts
+import { isEntityEditable } from "@/features/<entity>/model/<slug>-rules";
+import type { Entity } from "@/features/<entity>/model/<slug>-types";
+import { EntityViewModel } from "@/features/<entity>/ui/view-model/<entity>-view-model";
+
+export class EntitySlugViewModel extends EntityViewModel {
+  constructor(
+    readonly id: string,
+    private readonly canEditFlag: boolean,
+  ) {
+    super();
+  }
+
+  getPageTitle(entity: Entity) {
+    return `${entity.title} — ${this.getStatusView(entity).label}`;
+  }
+
+  getEditUrl() {
+    return `/entities/${this.id}/edit`;
+  }
+
+  canEdit(entity: Entity) {
+    return this.canEditFlag && isEntityEditable(entity);
+  }
+
+  canPay(entity: Entity, isPaymentAvailable: boolean) {
+    return this.isPayable(entity) && isPaymentAvailable;
+  }
+}
+```
+
+Другой срез (например, `order-list`) так же наследует `EntityViewModel` и добавляет свои методы: пагинацию, выделение, пустое состояние.
+
+#### `hooks/use-<slug>-query.ts`
+
+Хуки фичи не создают view-model, а получают готовый экземпляр аргументом и берут из него то, что нужно для запроса (`id`).
 
 ```ts
 import { useQuery } from "@tanstack/react-query";
-import { entityQueryOptions } from "../../api/<slug>-queries";
-import { buildEntityViewModel } from "../view-model/<slug>-view-model";
+import { entityQueryOptions } from "@/features/<entity>/api/<slug>-queries";
+import type { EntitySlugViewModel } from "@/features/<entity>/ui/view-model/<slug>-view-model";
 
-export const useEntityViewModel = (id: string, canEditFlag: boolean) => {
-  const { data, isPending, error } = useQuery(entityQueryOptions(id));
-
-  return buildEntityViewModel({ entity: data, isPending, error, canEditFlag });
-};
+export const useEntitySlugQuery = (viewModel: EntitySlugViewModel) =>
+  useQuery(entityQueryOptions(viewModel.id));
 ```
 
 Переиспользуемый UI-сценарий фичи (компонент + свой хук, например модалка редактирования) тоже лежит в `ui/`, рядом с этими хуками.
 
 ### index.ts
 
-Публичный API фичи. Снаружи импортируют только отсюда, глубокие импорты (`@/features/entity/api/...`) запрещены линтером (`no-restricted-imports` или `eslint-plugin-boundaries`).
+Публичный API фичи. Снаружи импортируют только отсюда (`@/features/<entity>`), глубокие импорты из чужой фичи (`@/features/<entity>/api/...`) запрещены линтером (`no-restricted-imports` или `eslint-plugin-boundaries`). `EntityViewModel` наружу не экспортируется: страницы работают с view-model среза. `EntitySlugViewModel` экспортируется как значение, потому что экземпляр создаёт роут.
 
 ```ts
-export { EntityStatus } from "./model/<slug>-constants";
-export type { Entity } from "./model/<slug>-types";
-export { entityKeys, entityQueryOptions } from "./api/<slug>-queries";
-export { useEntityViewModel } from "./ui/hooks/use-<slug>-view-model";
-export type { EntityViewModel } from "./ui/view-model/<slug>-view-model";
+export { EntityStatus } from "@/features/<entity>/model/<slug>-constants";
+export type { Entity } from "@/features/<entity>/model/<slug>-types";
+export { entityKeys, entityQueryOptions } from "@/features/<entity>/api/<slug>-queries";
+export { useEntitySlugQuery } from "@/features/<entity>/ui/hooks/use-<slug>-query";
+export { EntitySlugViewModel } from "@/features/<entity>/ui/view-model/<slug>-view-model";
 ```
 
 # pages
@@ -372,22 +436,77 @@ export type { EntityViewModel } from "./ui/view-model/<slug>-view-model";
 
 ## pages/\<entity\>-page
 
+Экземпляр view-model создаётся один раз наверху — в роуте — и спускается вниз ссылкой:
+
+```text
+<entity>-route.tsx        useParams + флаги → new EntitySlugViewModel(id, canEdit)
+   ↓ viewModel (единственный пропс)
+<entity>-page.tsx         рендер, UI-состояние
+   ↓ viewModel (аргумент)
+hooks/use-<entity>-payment.ts, useEntitySlugQuery, ...
+```
+
+- страница получает view-model единственным пропсом;
+- хуки страницы и фичи не создают и не импортируют экземпляры view-model, а получают тот же экземпляр аргументом;
+- компоненты ниже получают либо готовые значения, либо тот же `viewModel`.
+
+### Где хранить экземпляр: `useMemo`, а не `useRef`
+
+View-model — набор чистых функций плюс неизменяемые `id` и флаг. Состояния у него нет, поэтому вопрос только в том, когда создавать новый экземпляр:
+
+- `useRef` для этого не подходит. Ref нужен для изменяемых значений, которые не участвуют в рендере, а view-model участвует в каждом рендере. Ref создаётся один раз и не узнаёт о смене `id` или флага: при переходе с `/entities/1` на `/entities/2` React переиспользует компонент роута, и в ref останется старый `id`.
+- `useMemo` по `[id, canEdit]` создаёт новый экземпляр ровно тогда, когда меняются параметры конструктора, и сохраняет ссылку между остальными рендерами. Стабильная ссылка важна для `memo`-компонентов и массивов зависимостей хуков ниже.
+- Если у класса нет параметров конструктора, React-хуки не нужны вовсе: экземпляр создаётся один раз на уровне модуля (`export const entityViewModel = new EntityViewModel()`).
+
+Создать экземпляр дорого не стоит, поэтому `useMemo` здесь нужен не ради производительности, а ради стабильной ссылки.
+
+### \<entity\>-route.tsx
+
+Единственное место, где читаются роут и флаги и создаётся view-model. Хуки вызываются до проверки `id`, потому что ранний `return` перед хуками нарушает правила хуков.
+
+```tsx
+import { useMemo } from "react";
+import { useParams } from "react-router-dom";
+import { EntitySlugViewModel } from "@/features/entity";
+import { useEntityFeatureFlags } from "@/infrastructure/feature-flags/hooks/use-entity-feature-flags";
+import { EntityPage } from "@/pages/<entity>-page/<entity>-page";
+
+export const EntityRoute = () => {
+  const { id } = useParams<{ id: string }>();
+  const { canEdit } = useEntityFeatureFlags();
+
+  const viewModel = useMemo(
+    () => (id ? new EntitySlugViewModel(id, canEdit) : null),
+    [id, canEdit],
+  );
+
+  if (!viewModel) {
+    return <NotFound />;
+  }
+
+  return <EntityPage viewModel={viewModel} />;
+};
+```
+
 ### hooks/use-\<entity\>-payment.ts
 
-Логика другой фичи в том же UI-пространстве: на странице сущности есть оплата этой сущности. Фичи не наследуют и не импортируют друг друга. Сценарий, который их связывает, собирается на странице композицией двух view-model.
+Логика другой фичи в том же UI-пространстве: на странице сущности есть оплата этой сущности. Фичи не наследуют и не импортируют друг друга. Сценарий, который их связывает, собирается на странице. Хук получает view-model аргументом от страницы.
 
 ```ts
-import { useEntityViewModel } from "@/features/entity";
-import { usePaymentViewModel } from "@/features/payment";
+import { useEntitySlugQuery, type EntitySlugViewModel } from "@/features/entity";
+import { usePaymentQuery } from "@/features/payment";
 
-export const useEntityPayment = (id: string, canEditFlag: boolean) => {
-  const entity = useEntityViewModel(id, canEditFlag);
-  const payment = usePaymentViewModel(id);
+export const useEntityPayment = (viewModel: EntitySlugViewModel) => {
+  const query = useEntitySlugQuery(viewModel);
+  const payment = usePaymentQuery(viewModel.id);
 
   return {
-    entity,
+    query,
     payment,
-    canPay: entity.isPayable && payment.isAvailable,
+    canPay:
+      query.data && payment.data
+        ? viewModel.canPay(query.data, payment.data.isAvailable)
+        : false,
   };
 };
 ```
@@ -396,64 +515,56 @@ export const useEntityPayment = (id: string, canEditFlag: boolean) => {
 
 ### \<entity\>-page.tsx
 
-- `EntityPage` читает роут и флаги и проверяет `id`: `useParams` возвращает `string | undefined`.
-- `EntityPageContent` получает готовые значения. UI-состояние (открыта ли модалка) остаётся в React. Производные значения считаются при рендере, а не копируются в `useState` через `useEffect`.
+Страница получает view-model единственным пропсом, передаёт его в свои хуки и передаёт данные запроса в методы view-model. UI-состояние (открыта ли модалка) остаётся в React. Производные значения считаются методами view-model при рендере, а не копируются в `useState` через `useEffect`.
 
 ```tsx
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { useEntityFeatureFlags } from "@/infrastructure/feature-flags/hooks/use-entity-feature-flags";
-import { useEntityPayment } from "./hooks/use-entity-payment";
+import type { EntitySlugViewModel } from "@/features/entity";
+import { useEntityPayment } from "@/pages/<entity>-page/hooks/use-<entity>-payment";
 
-type EntityPageContentProps = {
-  id: string;
-  canEditFlag: boolean;
+type EntityPageProps = {
+  viewModel: EntitySlugViewModel;
 };
 
-const EntityPageContent = ({ id, canEditFlag }: EntityPageContentProps) => {
+export const EntityPage = ({ viewModel }: EntityPageProps) => {
   const [isPayModalOpen, setPayModalOpen] = useState(false);
-  const { entity, payment, canPay } = useEntityPayment(id, canEditFlag);
+  const { query, payment, canPay } = useEntityPayment(viewModel);
 
-  if (entity.isLoading) {
+  if (query.isPending) {
     return <PageSkeleton />;
   }
 
-  if (entity.errorMessage) {
-    return <PageError message={entity.errorMessage} />;
+  if (query.isError) {
+    return <PageError message={viewModel.getErrorMessage(query.error)} />;
   }
 
+  const entity = query.data;
+
   return (
-    <PageLayout title={entity.title}>
-      <EntityStatusBadge view={entity.statusView} />
+    <PageLayout title={viewModel.getPageTitle(entity)}>
+      <EntityStatusBadge view={viewModel.getStatusView(entity)} />
       <EntityDetails
-        amount={entity.amountText}
-        createdAt={entity.createdAtText}
+        amount={viewModel.getAmountText(entity)}
+        createdAt={viewModel.getCreatedAtText(entity)}
       />
+      {viewModel.canEdit(entity) && <EditButton href={viewModel.getEditUrl()} />}
       <PayButton disabled={!canPay} onClick={() => setPayModalOpen(true)} />
       <PayModal
         open={isPayModalOpen}
-        payment={payment}
+        payment={payment.data}
         onClose={() => setPayModalOpen(false)}
       />
     </PageLayout>
   );
 };
-
-export const EntityPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const { canEdit } = useEntityFeatureFlags();
-
-  if (!id) {
-    return <NotFound />;
-  }
-
-  return <EntityPageContent id={id} canEditFlag={canEdit} />;
-};
 ```
 
 Где лежит логика сценариев:
 
-- логика одной страницы — в `pages/<entity>-page/hooks`;
+- создание view-model — в `pages/<entity>-page/<entity>-route.tsx`, один раз на страницу;
+- логика одной страницы — в `pages/<entity>-page/hooks`, хуки получают view-model аргументом;
+- методы сущности, общие для нескольких срезов, — в `EntityViewModel` (`features/<entity>/ui/view-model/<entity>-view-model.ts`);
+- методы конкретной страницы — в `EntitySlugViewModel` (`features/<entity>/ui/view-model/<slug>-view-model.ts`), который наследует `EntityViewModel`;
 - переиспользуемая UI-логика одной фичи (компонент + хук) — в `features/<entity>/ui`;
 - сценарий нескольких фич — на странице, при переиспользовании — в отдельной фиче-связке.
 
@@ -533,7 +644,7 @@ export const queryClient = new QueryClient({
 Общий клиент: базовый URL из env, проверка `response.ok`, типизированная ошибка, поддержка `signal`. Переключение API (окружение, провайдер) происходит здесь, в одном месте, а не в каждой фиче.
 
 ```ts
-import { ApiCode } from "./api-codes";
+import { ApiCode } from "@/infrastructure/api/api-codes";
 
 export class ApiError extends Error {
   constructor(
@@ -629,7 +740,7 @@ export const handlers = [
 
 ```ts
 import { setupWorker } from "msw/browser";
-import { handlers } from "./handlers";
+import { handlers } from "@/infrastructure/mocks/handlers";
 
 export const worker = setupWorker(...handlers);
 ```
