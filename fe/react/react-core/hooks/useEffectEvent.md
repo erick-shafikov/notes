@@ -118,3 +118,67 @@ function useInterval(onTick: (tick: number) => void, timeout: number = 1000) {
   }, []);
 }
 ```
+
+## Реализация на useRef (полифил)
+
+Идея: хранить последнюю версию функции в `ref`, а наружу отдавать стабильную обёртку, которая вызывает актуальную функцию через `ref.current`.
+
+```tsx
+import { useCallback, useLayoutEffect, useRef } from "react";
+
+function useEventPolyfill<Args extends unknown[], R>(
+  callback: (...args: Args) => R,
+): (...args: Args) => R {
+  const ref = useRef(callback);
+
+  useLayoutEffect(() => {
+    ref.current = callback;
+  });
+
+  return useCallback((...args: Args) => ref.current(...args), []);
+}
+```
+
+Почему так:
+
+- **`useLayoutEffect`, а не `ref.current = callback` прямо в рендере** — рендер может быть прерван и отброшен (concurrent-рендеринг), и тогда в `ref` попала бы функция со значениями, которых так и не было на экране. Обновление на коммите (layout effect срабатывает синхронно после коммита, до обычных `useEffect`) гарантирует, что эффекты увидят функцию из закоммиченного рендера. Настоящий React делает так же — подменяет реализацию на коммите.
+- **`useLayoutEffect` без массива зависимостей** — `ref` обновляется после каждого рендера.
+- **`useCallback(..., [])`** — обёртка имеет стабильную ссылку. Линтер не знает, что результат нашего хука стабилен, и потребует добавить его в зависимости эффекта; т.к. ссылка не меняется, эффект от этого не перезапускается.
+
+Без `useCallback` (минимальный вариант) — вызывать `ref.current()` прямо внутри эффекта:
+
+```tsx
+interface ChatRoomProps {
+  roomId: string;
+}
+
+function ChatRoom({ roomId }: ChatRoomProps): JSX.Element {
+  const theme = useContext(ThemeContext);
+
+  const onConnected = (): void => {
+    showNotification("Подключено", theme);
+  };
+
+  const onConnectedRef = useRef(onConnected);
+
+  useLayoutEffect(() => {
+    onConnectedRef.current = onConnected;
+  });
+
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.on("connected", () => onConnectedRef.current());
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId]);
+
+  return <h1>Комната {roomId}</h1>;
+}
+```
+
+Как устроено в самом React (упрощённо): в `memoizedState` хука лежит объект `{ impl }`, наружу возвращается `(...args) => ref.impl(...args)`, а `impl` подменяется на коммите.
+
+### Отличия полифила от настоящего useEffectEvent
+
+- Настоящую функцию можно вызывать **только из эффектов** — при вызове во время рендера React бросает ошибку. Полифил таких проверок не делает.
+- Документация не рекомендует передавать функцию из `useEffectEvent` в другие компоненты / хуки как пропс — у полифила то же ограничение по смыслу, хоть он его и не проверяет.
