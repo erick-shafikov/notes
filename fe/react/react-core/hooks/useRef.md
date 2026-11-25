@@ -1,16 +1,16 @@
 ﻿# useRef
 
-СЃСЃС‹Р»РєР° РЅР° РєР°РєРёРµ Р»РёР±Рѕ РѕР±СЉРµРєС‚С‹
+ссылка на какие либо объекты
 
-- РјРѕР¶РµС‚ РїРµСЂРµРґР°РІР°С‚СЊСЃСЏ РІ РїСЂРѕРїСЃР°С… (R19)
+- может передаваться в пропсах (R19)
 
 ```tsx
-interface MyInputProps \{
+interface MyInputProps {
   placeholder: string;
   ref: React.Ref<HTMLInputElement>;
-\}
+}
 
-function MyInput(\{ placeholder, ref \}: MyInputProps): JSX.Element {
+function MyInput({ placeholder, ref }: MyInputProps): JSX.Element {
   return <input placeholder={placeholder} ref={ref} />;
 }
 
@@ -18,32 +18,32 @@ function MyInput(\{ placeholder, ref \}: MyInputProps): JSX.Element {
 <MyInput ref={ref} />;
 ```
 
-- РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ С„СѓРЅРєС†РёСЏ РѕС‚С‡РёСЃС‚РєРё
+- поддерживается функция отчистки
 
 ```tsx
 <input
   ref={(ref: HTMLInputElement | null) => {
-    // ref СЃРѕР·РґР°РЅ
+    // ref создан
 
-    // РќРћР’РћР•: РІРѕР·РІСЂР°С‚ С„СѓРЅРєС†РёРё РѕС‡РёСЃС‚РєРё РґР»СЏ СЃР±СЂРѕСЃР°
-    // СЃСЃС‹Р»РєР°, РєРѕРіРґР° СЌР»РµРјРµРЅС‚ СѓРґР°Р»СЏРµС‚СЃСЏ РёР· DOM.
+    // НОВОЕ: возврат функции очистки для сброса
+    // ссылка, когда элемент удаляется из DOM.
     return () => {
-      // РѕС‡РёСЃС‚РєР° ref
+      // очистка ref
     };
   }
 />
 ```
 
-## ref Р”СЂСѓРіРёРµ РїСЂРёРјРµРЅРµРЅРёСЏ. РїРѕРґСЃС‡РµС‚ РєРѕР»РёС‡РµСЃС‚РІР° СЂРµРЅРґРµСЂРѕРІ
+## ref Другие применения. подсчет количества рендеров
 
 ```tsx
 const SomeComp = (): JSX.Element => {
 
   const [value, setValue] = useState<string>("initial");
-const counter = useRef<number>(1); //РёР·РЅР°С‡Р°Р»СЊРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РєРѕР»РёС‡РµСЃС‚РІР° СЂРµРЅРґРµСЂРѕРІ, РІРѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ СЃРѕ СЃРІРѕР№СЃС‚РІРѕРј current, РєРѕС‚РѕСЂРѕРµ РёР·РјРµРЅСЏРµС‚СЃСЏ
+const counter = useRef<number>(1); //изначальное состояние количества рендеров, возвращает объект со свойством current, которое изменяется
 
-  useEffect(()=>{//Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ С‚Р°Рє РєР°Рє РјРµРЅСЏРµС‚СЃСЏ СЃРѕСЃС‚РѕСЏРЅРёРµ РєРѕРјРїРѕРЅРµРЅС‚Р°
-    counter.current ++ //СѓРІРµР»РёС‡РµРЅРёРµ РїСЂРё СЂРµРЅРґРµСЂРµ, С‚Р°Рє РєР°Рє РЅРёР¶Рµ РІ <input> РёРґРµС‚ РІРІРѕРґ СЃРёРјРІРѕР»РѕРІ, РєРѕС‚РѕСЂС‹Р№ РІС‹Р·С‹РІР°РµС‚ РїРѕРІС‚РѕСЂРЅС‹Р№ СЂРµРЅРґРµСЂ РєРѕРјРїРѕРЅРµРЅС‚РѕРІ
+  useEffect(()=>{//запускается так как меняется состояние компонента
+    counter.current ++ //увеличение при рендере, так как ниже в <input> идет ввод символов, который вызывает повторный рендер компонентов
   });
 
   return(
@@ -54,46 +54,44 @@ const counter = useRef<number>(1); //РёР·РЅР°С‡Р°Р»СЊРЅРѕР
 
 ```
 
-## ref Р”СЂСѓРіРёРµ РїСЂРёРјРµРЅРµРЅРёСЏ. РџРѕР»СѓС‡РµРЅРёРµ DOM-СЌР»РµРјРµРЅС‚Р°
+## ref Другие применения. Получение DOM-элемента
 
 ```tsx
 const SomeComp = (): JSX.Element => {
-
   const inputRef = useRef<HTMLInputElement>(null);
-
 
   const focus = () => inputRef.current.focus();
 
-
-  useEffect(()=>{
-    inputRef.current.value;//РІ inputRef.current РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСѓС‰РёР№ DOM-СЌР»РµРјРµРЅС‚, Сѓ РєРѕС‚РѕСЂРѕРіРѕ РµСЃС‚СЊ С‚РµРі ref
+  useEffect(() => {
+    inputRef.current.value; //в inputRef.current находится текущий DOM-элемент, у которого есть тег ref
     console.log(value);
   });
-  return(
-    <div>{current}</div>
-    <input ref={inputRef} value={value}>
-    <button onClick={focus}>Р¤РѕРєСѓСЃ</button>
-
-  )
-}
-
+  return (
+    <>
+      <div>{current}</div>
+      <input ref={inputRef} value={value} />
+      <button onClick={focus}>Фокус</button>
+    </>
+  );
+};
 ```
 
-## ref Р”СЂСѓРіРёРµ РїСЂРёРјРµРЅРµРЅРёСЏ. РџРѕР»СѓС‡РµРЅРёРµ РїСЂРµРґС‹РґСѓС‰РµРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ
+## ref Другие применения. Получение предыдущего состояния
 
 ```tsx
 import { useEffect, useState, useRef } from "react";
+
 function UseRefHook(): JSX.Element {
-  const [value, setValue] = useState<string>("initial"); //РІ input Р±СѓРґРµС‚ РјРµРЅСЏС‚СЊСЃСЏ СЃРѕСЃС‚РѕСЏРЅРёРµ
-  const renderCount = useRef<number>(1); //РєРѕР»РёС‡РµСЃС‚РІРѕ СЂРµРЅРґРµСЂРѕРІ
-  const prevValue = useRef<string>(""); //С…СЂР°РЅРµРЅРёСЏ РїСЂРµРґС‹РґСѓС‰РµРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ
+  const [value, setValue] = useState<string>("initial"); //в input будет меняться состояние
+  const renderCount = useRef<number>(1); //количество рендеров
+  const prevValue = useRef<string>(""); //хранения предыдущего состояния
 
   useEffect(() => {
-    renderCount.current++; //СЃС‡РµС‚С‡РёРє РєРѕР»РёС‡РµСЃС‚РІР° СЂРµРЅРґРµСЂРѕРІ
+    renderCount.current++; //счетчик количества рендеров
   });
 
   useEffect(() => {
-    prevValue.current = value; //РІС‹Р·С‹РІР°С‚СЊ РїСЂРё РёР·РјРµРЅРµРЅРёСЏ Р·РЅР°С‡РµРЅРёСЏ РІ input Р·РЅР°С‡РµРЅРёСЏ value
+    prevValue.current = value; //вызывать при изменения значения в input значения value
   }, [value]);
 
   return (
@@ -105,14 +103,13 @@ function UseRefHook(): JSX.Element {
         onChange={(e) => setValue(e.target.value)}
         value={value}
       ></input>
-      В  В  В  В В 
+              
     </div>
   );
 }
-export default UseRefHook;
 ```
 
-## РџСЂРµРґРѕС‚РІСЂР°С‰РµРЅРёРµ СЂРµРЅРґРµСЂРёРЅРіР°
+## Предотвращение рендеринга
 
 ```tsx
 import { useState, useRef, useEffect } from "react";
@@ -150,7 +147,7 @@ export default function useFetch(url: string) {
   return { data, error, loading };
 }
 
-// РІС‚РѕСЂРѕР№ С…СѓРє СЃСЃС‹Р»Р°СЋС‰РёР№СЃСЏ РЅР° РїР°СЂР°РјРµС‚СЂС‹
+// второй хук ссылающийся на параметры
 export default function useFetchAll(urls: string[]) {
   const prevUrls = useRef<string[]>([]);
   const [data, setData] = useState<unknown>(null);
@@ -158,7 +155,7 @@ export default function useFetchAll(urls: string[]) {
   const [error, setError] = useState<unknown>(null);
 
   useEffect(() => {
-    // Р·Р°РїСѓСЃС‚РёС‚СЊСЃСЏ С‚РѕР»СЊРєРѕ РµСЃР»Рё РјР°СЃСЃРёРІС‹ СЃ url СЂР°РІРЅС‹
+    // запуститься только если массивы с url равны
     if (areEqual(prevUrls.current, urls)) return;
 
     prevUrls.current = urls;
@@ -167,7 +164,7 @@ export default function useFetchAll(urls: string[]) {
       fetch(process.env.REACT_APP_API_BASE_URL + url).then((response) => {
         if (response.ok) return response.json();
         throw response;
-      })
+      }),
     );
 
     Promise.all(promises)
@@ -182,7 +179,7 @@ export default function useFetchAll(urls: string[]) {
   return { data, loading, error };
 }
 
-// СѓС‚РёР»РёС‚Р° РїРѕ СЃСЂР°РІРЅРµРЅРёСЋ РґРІСѓС… РјР°СЃСЃРёРІРѕРІ
+// утилита по сравнению двух массивов
 function areEqual(array1, array2) {
   return (
     array1.length === array2.length &&
@@ -191,7 +188,7 @@ function areEqual(array1, array2) {
 }
 ```
 
-# bp. Р°РІС‚РѕС„РѕРєСѓСЃ
+# bp. автофокус
 
 ```tsx
 const Ref = () => <input ref={(node) => node && node.focus()} />;
@@ -205,4 +202,84 @@ const Component = () => {
 
   return <div ref={focus} />;
 };
+```
+
+## ref Другие применения. Промис, который разрешается снаружи (deferred)
+
+Задача: превратить API на колбэках или событиях (модалка, виджет, внешний скрипт) в функцию, которую можно `await`. Функция создаёт промис и кладёт его `resolve` в ref, а колбэк события позже вызывает этот `resolve` с результатом.
+
+- `resolve` — обычная функция: промис разрешится тем значением, с которым её вызвали, где бы и когда это ни случилось
+- колбэк конструктора `new Promise(...)` выполняется синхронно и сразу, промис остаётся в состоянии pending до вызова `resolve`
+- ref, а не `useState`: `resolve` не нужен для отрисовки, а колбэки, созданные на прошлом рендере, всё равно видят актуальный `ref.current`
+
+```tsx
+import { useRef, useState } from "react";
+
+type ConfirmResolver = (isConfirmed: boolean) => void;
+
+export const useConfirm = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const resolverRef = useRef<ConfirmResolver | null>(null);
+
+  const settle = (isConfirmed: boolean) => {
+    resolverRef.current?.(isConfirmed);
+    resolverRef.current = null;
+    setIsOpen(false);
+  };
+
+  const confirm = (): Promise<boolean> => {
+    settle(false);
+    setIsOpen(true);
+
+    return new Promise((resolve) => {
+      resolverRef.current = resolve;
+    });
+  };
+
+  const handleConfirm = () => settle(true);
+  const handleCancel = () => settle(false);
+
+  return { confirm, isOpen, handleConfirm, handleCancel };
+};
+
+const DeleteButton = ({ onDelete }: { onDelete: () => void }) => {
+  const { confirm, isOpen, handleConfirm, handleCancel } = useConfirm();
+
+  const handleClick = async () => {
+    const isConfirmed = await confirm();
+
+    if (isConfirmed) {
+      onDelete();
+    }
+  };
+
+  return (
+    <>
+      <button onClick={handleClick}>Удалить</button>
+      {isOpen && (
+        <div role="dialog">
+          <button onClick={handleConfirm}>Да</button>
+          <button onClick={handleCancel}>Нет</button>
+        </div>
+      )}
+    </>
+  );
+};
+```
+
+Правила:
+
+- разрешать промис только через одну функцию (`settle`): она вызывает `resolve` и обнуляет ref, поэтому повторный вызов ничего не делает
+- каждый промис должен быть когда-нибудь разрешён: на каждый исход (успех, отмена, ошибка, повторный вызов, размонтирование) нужна ветка, иначе `await` будет ждать вечно
+- повторный вызов, пока ждёт предыдущий: сначала завершить старый промис (`settle(false)`), потом положить новый `resolve`
+- отложенная проверка (`setTimeout`) сравнивает `resolverRef.current` с сохранённым `resolve`, чтобы не разрешить чужой, более новый промис
+- для ошибок можно хранить ещё и `reject`, но обычно проще разрешаться значением-результатом (`{ isCancelled: true }`), чтобы вызывающему не нужен был `try/catch`
+
+С ES2024 есть `Promise.withResolvers()`, который отдаёт `{ promise, resolve, reject }` без обёртки в конструктор:
+
+```ts
+const { promise, resolve } = Promise.withResolvers<boolean>();
+resolverRef.current = resolve;
+
+return promise;
 ```
