@@ -25,7 +25,6 @@ app/
         <slug>-constants.ts
         <slug>-types.ts
         <slug>-form-schema.ts
-        <slug>-rules.ts
       api/
         <slug>-dto.ts
         <slug>-gateway.ts
@@ -93,7 +92,6 @@ features/<entity>/
 | `model/<slug>-types.ts` | доменный тип отличается от типа, сгенерированного из OpenAPI |
 | `api/<slug>-dto.ts` | формат ответа отличается от доменного типа (snake_case, даты строками, вложенность) или ответ нужно валидировать в рантайме |
 | `model/<slug>-form-schema.ts` | у сущности появилась форма |
-| `model/<slug>-rules.ts` | появилось первое правило или инвариант, нужные больше чем в одном месте |
 | `ui/constants`, `ui/errors` | у статусов появились лейблы и цвета, у ошибок — тексты |
 | `ui/view-model/<entity>-view-model.ts` | у сущности появился второй срез, и ему нужны те же методы, что и первому |
 | `pages/<entity>-page/hooks` | на странице появился сценарий из нескольких фич |
@@ -164,21 +162,6 @@ export const entityFormSchema = z.object({
 });
 
 export type EntityFormValues = z.infer<typeof entityFormSchema>;
-```
-
-#### `<slug>-rules.ts`
-
-Инварианты и вычисления над сущностью — чистые функции, тестируются без моков.
-
-```ts
-import { EntityStatus } from "@/features/<entity>/model/<slug>-constants";
-import type { Entity } from "@/features/<entity>/model/<slug>-types";
-
-export const isEntityPayable = (entity: Entity) =>
-  entity.status === EntityStatus.ACTIVE && entity.amount > 0;
-
-export const isEntityEditable = (entity: Entity) =>
-  entity.status === EntityStatus.DRAFT;
 ```
 
 ### api
@@ -298,7 +281,7 @@ export const getEntityErrorMessage = (code: ApiCode | undefined) =>
 
 #### view-model
 
-View-model — обычный класс, который собирает в одном месте все методы, нужные странице для работы с сущностью: форматирование, статусы, тексты ошибок, проверки прав и правил. Компоненты не разбирают сущность сами и не импортируют по отдельности хелперы, правила и UI-константы — они вызывают методы view-model.
+View-model — обычный класс, который собирает в одном месте все методы, нужные странице для работы с сущностью: форматирование, статусы, тексты ошибок, проверки прав и правил. Компоненты не разбирают сущность сами и не импортируют по отдельности хелперы и UI-константы — они вызывают методы view-model.
 
 Что внутри класса:
 
@@ -306,7 +289,7 @@ View-model — обычный класс, который собирает в о�
 - константы фичи, привязанные к статическим полям (`static readonly STATUS_VIEW = ENTITY_STATUS_VIEW`), чтобы страница брала их из того же объекта;
 - конструктор — только если все методы завязаны на одни и те же параметры экрана, например `id` и feature-флаг. Данные запроса в конструктор не передаются.
 
-От старого класса `EntityRepresentation` остаётся идея «всё для страницы в одном объекте», но уходит наследование от запросов и API: из-за него логика знала про TanStack и `fetch`. Класс можно тестировать через `new` без React и без моков сети.
+Класс не наследуется от запросов и API и не знает про TanStack и `fetch`, поэтому его можно тестировать через `new` без React и без моков сети.
 
 View-model делится на два уровня:
 
@@ -323,7 +306,7 @@ EntitySlugViewModel      методы конкретной страницы
 pages/<entity>-page      viewModel пропсом → хуки страницы и фичи
 ```
 
-В TS нет множественного наследования, поэтому у view-model среза один родитель — `EntityViewModel`. Всё остальное (`shared/helpers`, правила из `model`, UI-константы, тексты ошибок) не наследуется, а импортируется как переиспользуемые утилиты.
+В TS нет множественного наследования, поэтому у view-model среза один родитель — `EntityViewModel`. Всё остальное (`shared/helpers`, константы из `model`, UI-константы, тексты ошибок) не наследуется, а импортируется как переиспользуемые утилиты.
 
 Пока срез один, `EntityViewModel` не нужен: все методы живут в `EntitySlugViewModel`. Когда появляется второй срез и ему нужны те же методы, они переезжают в `EntityViewModel`.
 
@@ -335,7 +318,7 @@ pages/<entity>-page      viewModel пропсом → хуки страницы 
 import { formatAmount } from "@/shared/helpers/number-helpers";
 import { formatDate } from "@/shared/helpers/string-helpers";
 import { ApiError } from "@/infrastructure/api/api-client";
-import { isEntityPayable } from "@/features/<entity>/model/<slug>-rules";
+import { EntityStatus } from "@/features/<entity>/model/<slug>-constants";
 import type { Entity } from "@/features/<entity>/model/<slug>-types";
 import { ENTITY_STATUS_VIEW, ENTITY_TABS } from "@/features/<entity>/ui/constants/<slug>-ui-constants";
 import { getEntityErrorMessage } from "@/features/<entity>/ui/errors/<slug>-error-messages";
@@ -361,7 +344,7 @@ export class EntityViewModel {
   }
 
   isPayable(entity: Entity) {
-    return isEntityPayable(entity);
+    return entity.status === EntityStatus.ACTIVE && entity.amount > 0;
   }
 }
 ```
@@ -371,7 +354,7 @@ export class EntityViewModel {
 View-model конкретного среза (например, `order-details`), с которым работает страница. Наследует `EntityViewModel` и добавляет методы этой страницы. Здесь все методы завязаны на `id` и флаг редактирования, поэтому они приходят в конструктор.
 
 ```ts
-import { isEntityEditable } from "@/features/<entity>/model/<slug>-rules";
+import { EntityStatus } from "@/features/<entity>/model/<slug>-constants";
 import type { Entity } from "@/features/<entity>/model/<slug>-types";
 import { EntityViewModel } from "@/features/<entity>/ui/view-model/<entity>-view-model";
 
@@ -392,7 +375,7 @@ export class EntitySlugViewModel extends EntityViewModel {
   }
 
   canEdit(entity: Entity) {
-    return this.canEditFlag && isEntityEditable(entity);
+    return this.canEditFlag && entity.status === EntityStatus.DRAFT;
   }
 
   canPay(entity: Entity, isPaymentAvailable: boolean) {
